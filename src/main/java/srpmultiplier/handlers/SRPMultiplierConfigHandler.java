@@ -18,6 +18,7 @@ public class SRPMultiplierConfigHandler {
 
 	public static class ServerConfig {
 
+		@Config.Comment("Set to false to fully disable dimension stat+drop multipliers")
 		@Config.Name("Parasite Stat+Drop Multiplier: Global switch")
 		public boolean doMultipliers = true;
 
@@ -53,6 +54,7 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Play Sounds")
 		public boolean playsounds = true;
 
+		@Config.Comment("Blood moons happen in Lost Cities dimension (requires this mod on client to see red moon), with increased parasite mob cap")
 		@Config.Name("Do Blood Moons in LC")
 		public boolean bloodmoonInLC = true;
 
@@ -124,9 +126,6 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Player Phases debug mode")
 		public boolean debugMode = false;
 	}
-
-	public static HashMap<Integer,Float> dimensionStatMultipliers = new HashMap<>();
-	public static HashMap<Integer,Float> dimensionDropMultipliers = new HashMap<>();
 
 	public static void setupDimensionMultiplierMap(HashMap<Integer,Float> map, String[] config) {
 		for (String line : config) {

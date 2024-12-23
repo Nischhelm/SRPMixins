@@ -7,6 +7,7 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import srpmultiplier.SRPMultiplier;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
 
 import java.util.UUID;
@@ -26,7 +27,7 @@ public abstract class DimensionStatMultiplier extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         if(SRPMultiplierConfigHandler.server.doMultipliers && !world.isRemote) {
-            float multiplier = SRPMultiplierConfigHandler.dimensionStatMultipliers.get(dimension);
+            float multiplier = SRPMultiplier.dimensionStatMultipliers.get(dimension);
 
             multiplier--;    //op2 uses x(1+multiplier), so need to -1
 

@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import srpmultiplier.SRPMultiplier;
 
 public class ParasiteDropChance {
 
@@ -29,7 +30,7 @@ public class ParasiteDropChance {
             if(!(victim instanceof EntityParasiteBase)) continue;
 
             int dim = victim.world.provider.getDimension();
-            float dropChance = SRPMultiplierConfigHandler.dimensionDropMultipliers.get(dim);
+            float dropChance = SRPMultiplier.dimensionDropMultipliers.get(dim);
             if (victim.getRNG().nextFloat() > dropChance)
                 drop.setItem(ItemStack.EMPTY);
         }
