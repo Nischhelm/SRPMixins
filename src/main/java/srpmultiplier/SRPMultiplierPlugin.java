@@ -1,19 +1,19 @@
 package srpmultiplier;
 
-import java.util.Map;
 import fermiumbooter.FermiumRegistryAPI;
-import net.minecraftforge.fml.common.Loader;
-import org.spongepowered.asm.launch.MixinBootstrap;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
+import org.spongepowered.asm.launch.MixinBootstrap;
+
+import java.util.Map;
 
 @IFMLLoadingPlugin.MCVersion("1.12.2")
 public class SRPMultiplierPlugin implements IFMLLoadingPlugin {
 
 	public SRPMultiplierPlugin() {
 		MixinBootstrap.init();
-		//False for Vanilla/Coremod mixins, true for regular mod mixins
+
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmultiplier.playerphases.json", true);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmultiplier.srparasites.json", true);
-		FermiumRegistryAPI.enqueueMixin(false, "mixins.srpmultiplier.vanilla.json", true);
 	}
 
 	@Override

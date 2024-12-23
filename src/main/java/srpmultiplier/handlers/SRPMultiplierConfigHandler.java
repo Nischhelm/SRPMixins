@@ -7,6 +7,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmultiplier.SRPMultiplier;
 
+import java.util.HashMap;
+
 @Config(modid = SRPMultiplier.MODID)
 public class SRPMultiplierConfigHandler {
 	
@@ -14,34 +16,34 @@ public class SRPMultiplierConfigHandler {
 	@Config.Name("Server Options")
 	public static final ServerConfig server = new ServerConfig();
 
-/*	@Config.Comment("Client-Side Options")
-	@Config.Name("Client Options")
-	public static final ClientConfig client = new ClientConfig();*/
-
 	public static class ServerConfig {
 
-		@Config.Name("Parasite Stat Multiplier: Global switch")
+		@Config.Name("Parasite Stat+Drop Multiplier: Global switch")
 		public boolean doMultipliers = true;
 
-		@Config.Name("Parasite Stat Multiplier Overworld ")
-		public float overworldMultiplier = 1.f;
+		@Config.Comment("Changes the global stat (dmg, health, armor, kb resistance) multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+		@Config.Name("Parasite Stat Multipliers")
+		public String[] dimensionStatMultipliers = {
+				"-1,2",
+				"0,1",
+				"1,2",
+				"3,4",
+				"111,4"
+		};
 
-		@Config.Name("Parasite Stat Multiplier Nether")
-		public float netherMultiplier = 2.f;
-
-		@Config.Name("Parasite Stat Multiplier End")
-		public float endMultiplier = 2.f;
-
-		@Config.Name("Parasite Stat Multiplier Lost Cities")
-		public float lcMultiplier = 4.f;
+		@Config.Comment("Decreases drop chance of SRP Items per dimension. Set to 1 for default behavior")
+		@Config.Name("Parasite Drop chance Multipliers")
+		public String[] dimensionDropMultipliers = {
+				"-1,0.5",
+				"0,0.25",
+				"1,0.5",
+				"3,1",
+				"111,1"
+		};
 
 		@Config.Comment("Disable Lures in LC and instead spawn a Dispatcher Nidus")
 		@Config.Name("Lures disabled in LC")
 		public boolean disableLuresInLC = true;
-
-		@Config.Comment("Enable Parasite Spawners")
-		@Config.Name("Parasite MobSpawners enabled")
-		public boolean enableSpawners = true;
 
 		@Config.Comment("Bloody Clock also displays progress to next phase in percent")
 		@Config.Name("Bloody Clock percentage")
@@ -51,9 +53,6 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Play Sounds")
 		public boolean playsounds = true;
 
-		@Config.Name("Strange Bones stack to 16")
-		public boolean strangeBonesStack = true;
-
 		@Config.Name("Do Blood Moons in LC")
 		public boolean bloodmoonInLC = true;
 
@@ -61,23 +60,8 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Bloodmoon Parasite Cap Multiplier")
 		public int bloodmoonInLCmobCapMultiplier = 4;
 
-		@Config.Comment("Allow Assimilated Endermen to tp Primitive and Adapted mobs as well")
-		@Config.Name("Assimilated Endermen tp more Mobs")
-		public boolean simmermenTpMoreMobs = true;
-
-		@Config.Comment("Phase from which Assimilated Endermen teleport primitive Parasites")
-		@Config.Name("Assimilated Endermen tp primitive Parasites phase")
-		public byte simmermenTpPrimPhase = 4;
-
-		@Config.Comment("Phase from which Assimilated Endermen teleport primitive Parasites")
-		@Config.Name("Assimilated Endermen tp adapted Parasites phase")
-		public byte simmermenTpAdaPhase = 5;
-
-		@Config.Comment("Phase from which Assimilated Endermen teleport primitive Parasites")
-		@Config.Name("Assimilated Endermen tp pure Parasites phase")
-		public byte simmermenTpPurePhase = 6;
-		@Config.Comment("Distance from which Assimilated Endermen search for mobs to tp")
-		@Config.Name("Assimilated Endermen tp radius")
+		@Config.Comment("Distance from which Assimilated and Feral Endermen search for mobs to tp, default 64 (performance)")
+		@Config.Name("Assimilated/Feral Endermen tp radius")
 		public double simmermenTpDistance = 40.0;
 
 		@Config.Comment("LC Portals are locked until reaching this phase. Disable with -1")
@@ -88,18 +72,6 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Nexus Mob Cap")
 		public int nexusCap = 15;
 
-		@Config.Comment("Stop mobs from spawning in lazy chunks by failing the spawn attempt. Slows spawning in low RD (<9)")
-		@Config.Name("No spawns in lazy chunks - slow")
-		public boolean noLazySpawnsSlow = true;
-
-		@Config.Comment("Stop mobs from spawning in lazy chunks by not considering lazy loaded chunks. Results in seemingly fast spawns at low RD (<9). Ignores the slow version if this is set to true")
-		@Config.Name("No spawns in lazy chunks - fast")
-		public boolean noLazySpawnsFast = false;
-
-		@Config.Comment("Make living+sentient armor also limit Fear and Viral lvls that are applied during an attack")
-		@Config.Name("Fix Sentient Armor Cure")
-		public boolean fixSentientArmorCuring = true;
-
 		@Config.Comment("Whitelist Deterrent and Nexus mobs to take dmg per second if world is in low evolution phase")
 		@Config.Name("Deterrents take damage from low phase whitelist ")
 		public String[] whiteListedDeterrents = {"srparasites:kyphosis","srparasites:sentry","srparasites:seizer","srparasites:dispatcherten","srparasites:beckon_si","srparasites:beckon_sii","srparasites:beckon_siii","srparasites:beckon_siv","srparasites:dispatcher_si","srparasites:dispatcher_sii","srparasites:dispatcher_siii","srparasites:dispatcher_siv"};
@@ -108,11 +80,11 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Deterrent whitelist is blacklist")
 		public boolean blackListDeterrents = false;
 
-		@Config.Comment("Only give one evolution phase point penalty when players sleep instead of a penalty per sleeping player")
+		@Config.Comment("Only give one penalty of evolution phase points when players sleep instead of a penalty per sleeping player (if player phases off)")
 		@Config.Name("Flat sleep point penalty")
 		public boolean flatSleepPenalty = true;
 
-		@Config.Comment("Make Assimilated Endermen be able to despawn if they got converted in the end")
+		@Config.Comment("Make Assimilated Endermen be able to despawn if they got converted in the end (performance)")
 		@Config.Name("End Simmermen despawn")
 		public boolean despawnEndSimmermen = true;
 
@@ -120,13 +92,13 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("End Simmermen Conversion Cap")
 		public int endSimmermenCap = 40;
 
-		@Config.Comment("Change Lure Point Reduction based on Phase")
-		@Config.Name("Phase dependent Lure Values")
-		public boolean variableLureValues = true;
+		@Config.Comment("Change Carcass Point Reduction based on Phase")
+		@Config.Name("Phase dependent Carcass Values")
+		public boolean variableCarcassValues = true;
 
-		@Config.Comment("Phase multiplier on lure values (0 to 8)")
-		@Config.Name("Lure Phase Multipliers")
-		public int[] lurePhaseMultis = {10,10,15,300,3000,50000,50000,100000,100000};
+		@Config.Comment("Phase multiplier on carcass values (0 to 10). Default values are balanced against Carcasses having values of 1,3,10,40,100,1000 for the 6 available Carcass variants in SRPSystems cfg.")
+		@Config.Name("Carcass Phase Multipliers")
+		public int[] carcassPhaseMultis = {40,40,80,1000,6000,50000,200000,200000,200000,400000,400000};
 
 		@Config.Comment("Do Phase+Point functionalities per player, allowing better Multiplayer")
 		@Config.Name("Use Player Phases")
@@ -135,14 +107,42 @@ public class SRPMultiplierConfigHandler {
 		@Config.Comment("Players can only get point penalty from adapted mobs despawning from this phase onwards")
 		@Config.Name("Adapted Despawn Penalty First Phase")
 		public int adaptedDespawnPenaltyPhase = 4;
+
+		@Config.Comment("Disables the automatic debug logging spam for Scent Entities")
+		@Config.Name("Disable Scent Debug")
+		public boolean disableScentDebug = true;
+
+		@Config.Comment("Makes Succors deal fixed damage instead of creating entities dmg x2")
+		@Config.Name("Fix Succor Damage")
+		public boolean fixSuccorDamage = true;
+
+		@Config.Comment("How much damage Succors should deal (x6 in Hard mode with x4 multiplier)")
+		@Config.Name("Fix Succor Damage - Dealt damage")
+		public float fixedSuccorDamage = 30;
+
+		@Config.Comment("Send logs when methods try to find a player to do player phase stuff with and not finding one")
+		@Config.Name("Player Phases debug mode")
+		public boolean debugMode = false;
 	}
 
-	/*public static class ClientConfig {
+	public static HashMap<Integer,Float> dimensionStatMultipliers = new HashMap<>();
+	public static HashMap<Integer,Float> dimensionDropMultipliers = new HashMap<>();
 
-		@Config.Comment("Example client side config option")
-		@Config.Name("Example Client Option")
-		public boolean exampleClientOption = true;
-	}*/
+	public static void setupDimensionMultiplierMap(HashMap<Integer,Float> map, String[] config) {
+		for (String line : config) {
+			String[] split = line.split(" *, *");
+			if (split.length >= 2) {
+				try {
+					int dim = Integer.parseInt(split[0]);
+					float multi = Float.parseFloat(split[1]);
+					if (!map.containsKey(dim))
+						map.put(dim, multi);
+				} catch (NumberFormatException e) {
+                    SRPMultiplier.LOGGER.warn(SRPMultiplier.NAME + " config could not parse dimension multiplier line {}", line);
+				}
+			}
+		}
+	}
 
 	@Mod.EventBusSubscriber(modid = SRPMultiplier.MODID)
 	private static class EventHandler{

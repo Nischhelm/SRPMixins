@@ -3,9 +3,9 @@ package srpmultiplier.mixin.features;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
+import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import net.minecraft.entity.monster.EntityMob;
 import org.spongepowered.asm.mixin.Unique;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
 
@@ -26,15 +26,7 @@ public abstract class DimensionStatMultiplier extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         if(SRPMultiplierConfigHandler.server.doMultipliers && !world.isRemote) {
-            float multiplier;
-            if (dimension == 0)
-                multiplier = SRPMultiplierConfigHandler.server.overworldMultiplier;
-            else if (dimension == -1)
-                multiplier = SRPMultiplierConfigHandler.server.netherMultiplier;
-            else if (dimension == 1)
-                multiplier = SRPMultiplierConfigHandler.server.endMultiplier;
-            else
-                multiplier = SRPMultiplierConfigHandler.server.lcMultiplier;
+            float multiplier = SRPMultiplierConfigHandler.dimensionStatMultipliers.get(dimension);
 
             multiplier--;    //op2 uses x(1+multiplier), so need to -1
 

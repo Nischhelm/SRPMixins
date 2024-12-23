@@ -11,28 +11,22 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
 public class PlayerPhases_AlertOnePlayer {
 
     public static void alertOnePlayer(World worldIn, UUID playerUUID, String message, int warning) {
-        List<EntityPlayer> playerEntityList = worldIn.playerEntities;
+        EntityPlayer player = worldIn.getPlayerEntityByUUID(playerUUID);
+        if(player!=null){
+            player.sendMessage(new TextComponentString(message));
+            SRPMain.network.sendTo(new SRPPacketMovingSound(warning),(EntityPlayerMP) player);
 
-        EntityPlayer nearestPlayer = null;
-
-        for (EntityPlayer player : playerEntityList) {
-            if (player.getUniqueID() == playerUUID) {
-                nearestPlayer = player;
-                player.sendMessage(new TextComponentString(message));
-                SRPMain.network.sendTo(new SRPPacketMovingSound(warning),(EntityPlayerMP) worldIn.getPlayerEntityByUUID(playerUUID));
-                break;
-            }
+            if (warning == -7 && message.equals("Phase decreased"))
+                for (Entity entity : worldIn.loadedEntityList)
+                    if (entity instanceof EntityParasiteBase && entity.getDistanceSq(player)<=256*256)
+                        ((EntityParasiteBase) entity).addPotionEffect(new PotionEffect(SRPPotions.RAGE_E, 2400, 1, false, false));
         }
-
-        if (nearestPlayer!= null && warning == -7 && message.equals("Phase decreased"))
-            for (Entity entity : worldIn.loadedEntityList)
-                if (entity instanceof EntityParasiteBase && entity.getDistanceSq(nearestPlayer)<=256*256)
-                    ((EntityParasiteBase) entity).addPotionEffect(new PotionEffect(SRPPotions.RAGE_E, 2400, 1, false, false));
     }
 }

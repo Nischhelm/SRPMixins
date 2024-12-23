@@ -1,6 +1,6 @@
 package srpmultiplier.mixin.playerphases;
 
-import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmultiplier.handlers.SRPMultiplierConfigHandler;
-import srpmultiplier.util.SRPWorldDataInterface;
+import srpmultiplier.util.SRPSaveDataInterface;
 
 @Mixin(SRPWorldEntitySpawner.class)
 public abstract class SRPWorldEntitySpawnerMixin {
@@ -23,7 +22,7 @@ public abstract class SRPWorldEntitySpawnerMixin {
 
     @Inject(
             method = "getSpawnListEntryForTypeAt",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     private static void saveBlockPosMixin(WorldServer worldServerIn, BlockPos pos, CallbackInfoReturnable<Biome.SpawnListEntry> cir){
@@ -32,13 +31,10 @@ public abstract class SRPWorldEntitySpawnerMixin {
 
     @Redirect(
             method="getSpawnListEntryForTypeAt",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPWorldData getPlayerDataMixin(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    private static SRPSaveData getPlayerDataMixin(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 }

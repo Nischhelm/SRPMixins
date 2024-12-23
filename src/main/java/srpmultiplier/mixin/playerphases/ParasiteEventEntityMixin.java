@@ -2,7 +2,10 @@ package srpmultiplier.mixin.playerphases;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
+import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -12,19 +15,16 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmultiplier.handlers.SRPMultiplierConfigHandler;
-import srpmultiplier.util.SRPWorldDataInterface;
+import srpmultiplier.util.SRPSaveDataInterface;
 
 @Mixin(ParasiteEventEntity.class)
 public abstract class ParasiteEventEntityMixin {
 
-    @Unique
-    private static BlockPos blockPos;
-    private static World world;
+    @Unique private static BlockPos blockPos;
 
     @Inject(
             method = "merge",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     private static void saveBlockPosMixin(EntityParasiteBase entityin, int code, String name, CallbackInfoReturnable<Boolean> cir){
@@ -33,14 +33,11 @@ public abstract class ParasiteEventEntityMixin {
 
     @Redirect(
             method="merge",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPWorldData getPlayerDataMixin(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    private static SRPSaveData getPlayerDataMixin(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
     @Inject(
@@ -50,18 +47,68 @@ public abstract class ParasiteEventEntityMixin {
     )
     private static void saveBlockPosMixin2(SRPWorldData data, World worldIn, EntityParasiteBase in, CallbackInfo ci){
         blockPos = in.getPosition();
-        world = worldIn;
     }
 
     @Redirect(
             method="spawnBeckonE",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static byte getPlayerDataMixin2(SRPWorldData instance){
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) instance).getByBlock(world,blockPos).getEvolutionPhase();
-        return instance.getEvolutionPhase();
+    private static SRPSaveData getPlayerDataMixin2(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
+    @Inject(
+            method = "hijackEntity",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    private static void saveBlockPosMixin(EntityLivingBase entityIn, String[] list, CallbackInfoReturnable<Boolean> cir){
+        blockPos = entityIn.getPosition();
+    }
+
+    @Redirect(
+            method="hijackEntity",
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap=false
+    )
+    private static SRPSaveData getPlayerDataMixin3(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
+    }
+
+    @Inject(
+            method = "convertEntity",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    private static void saveBlockPosMixin(EntityLivingBase entityIn, NBTTagCompound tags, boolean ignoreKey, String[] list, CallbackInfo ci){
+        blockPos = entityIn.getPosition();
+    }
+
+    @Redirect(
+            method="convertEntity",
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap=false
+    )
+    private static SRPSaveData getPlayerDataMixin4(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
+    }
+
+    @Inject(
+            method = "convertEntityFeral",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    private static void saveBlockPosMixin(EntityLivingBase entityIn, NBTTagCompound tags, boolean ignoreKey, String[] list, CallbackInfoReturnable<Boolean> cir){
+        blockPos = entityIn.getPosition();
+    }
+
+    @Redirect(
+            method="convertEntityFeral",
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap=false
+    )
+    private static SRPSaveData getPlayerDataMixin5(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
+    }
 }

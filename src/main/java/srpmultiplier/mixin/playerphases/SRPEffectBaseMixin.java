@@ -1,7 +1,7 @@
 package srpmultiplier.mixin.playerphases;
 
 import com.dhanantry.scapeandrunparasites.potion.SRPEffectBase;
-import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -11,8 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmultiplier.handlers.SRPMultiplierConfigHandler;
-import srpmultiplier.util.SRPWorldDataInterface;
+import srpmultiplier.util.SRPSaveDataInterface;
 
 @Mixin(SRPEffectBase.class)
 public abstract class SRPEffectBaseMixin {
@@ -22,7 +21,7 @@ public abstract class SRPEffectBaseMixin {
 
     @Inject(
             method = "effectCOTH",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     void saveBlockPosMixin(EntityLivingBase entity, int amplifier, CallbackInfo ci){
@@ -31,19 +30,16 @@ public abstract class SRPEffectBaseMixin {
 
     @Redirect(
             method="effectCOTH",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPWorldData getPlayerDataMixin(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    public SRPSaveData getPlayerDataMixin(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
     @Inject(
             method = "effectPrey",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     void saveBlockPosMixin2(EntityLivingBase entity, int amplifier, CallbackInfo ci){
@@ -52,14 +48,11 @@ public abstract class SRPEffectBaseMixin {
 
     @Redirect(
             method="effectPrey",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPWorldData getPlayerDataMixin2(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    public SRPSaveData getPlayerDataMixin2(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
 }

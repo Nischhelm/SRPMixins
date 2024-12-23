@@ -1,13 +1,13 @@
 package srpmultiplier.mixin.playerphases;
 
-import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
-import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
+import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.BlockEvent;
@@ -17,68 +17,53 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmultiplier.handlers.SRPMultiplierConfigHandler;
-import srpmultiplier.util.SRPWorldDataInterface;
+import srpmultiplier.util.SRPSaveDataInterface;
 
 @Mixin(SRPEventHandlerBus.class)
 public abstract class SRPEventHandlerBusMixin {
 
-    @Unique
-    EntityPlayer player;
-    @Unique
-    BlockPos blockPos;
-    @Unique
-    World world;
+    @Unique BlockPos blockPosCrop;
+    @Unique EntityPlayer playerHeal;
+    @Unique EntityPlayer playerFish;
+    @Unique BlockPos blockPosSpawn;
+    @Unique BlockPos blockPosLoot;
+    @Unique EntityPlayer playerWake;
+    @Unique BlockPos blockPosHeal;
 
     @Inject(
             method = "cropGrow",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;getEvolutionPhase(I)B"),
             remap = false
     )
     void saveBlockPosMixin(BlockEvent.CropGrowEvent.Pre event, CallbackInfo ci){
-        this.blockPos = event.getPos();
-        this.world = event.getWorld();
+        this.blockPosCrop = event.getPos();
     }
 
     @Redirect(
             method="cropGrow",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public byte getPlayerDataMixin(SRPWorldData instance){
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) instance).getByBlock(world,blockPos).getEvolutionPhase();
-        return instance.getEvolutionPhase();
+    public SRPSaveData getPlayerDataMixin(World world){
+        return SRPSaveDataInterface.get(world,null,blockPosCrop);
     }
 
     @Inject(
             method = "playerFishing",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     void savePlayerMixin2(ItemFishedEvent event, CallbackInfo ci){
-        this.player = event.getEntityPlayer();
+        this.playerFish = event.getEntityPlayer();
     }
 
     @Redirect(
             method="playerFishing",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPWorldData getPlayerDataMixin2(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByPlayer(world,player.getUniqueID());
-        return data;
-    }
-
-    @Inject(
-            method = "setNewParasiteTask",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
-            remap = false
-    )
-    void saveBlockPosMixin3(EntityParasiteBase entity, String mobname, boolean flagNC, SRPWorldData data, CallbackInfo ci){
-        this.blockPos = entity.getPosition();
+    public SRPSaveData getPlayerDataMixin2(World world){
+        return SRPSaveDataInterface.get(world,playerFish,null);
     }
 
     @Inject(
@@ -87,63 +72,84 @@ public abstract class SRPEventHandlerBusMixin {
             remap = false
     )
     void saveWorldMixin3(EntityJoinWorldEvent event, CallbackInfo ci){
-        this.world = event.getWorld();
+        this.blockPosSpawn = event.getEntity().getPosition();
+    }
+
+    @Redirect(
+            method="writeCOTHTag",
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap=false
+    )
+    public SRPSaveData getPlayerDataMixin7(World world){
+        return SRPSaveDataInterface.get(world,null,blockPosSpawn);
     }
 
     @Redirect(
             method="setNewParasiteTask",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public byte getPlayerDataMixin3(SRPWorldData data){
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos).getEvolutionPhase();
-        return data.getEvolutionPhase();
+    public SRPSaveData getPlayerDataMixin3(World world){
+        return SRPSaveDataInterface.get(world,null,blockPosSpawn);
     }
 
     @Inject(
             method = "setLoot",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     void saveBlockPosMixin4(LivingDropsEvent event, CallbackInfo ci){
-        this.blockPos = event.getEntity().getPosition();
-        this.world = event.getEntity().world;
+        this.blockPosLoot = event.getEntity().getPosition();
     }
 
     @Redirect(
             method="setLoot",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPWorldData getPlayerDataMixin4(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    public SRPSaveData getPlayerDataMixin4(World world){
+        return SRPSaveDataInterface.get(world,null,blockPosLoot);
     }
 
     @Inject(
             method = "playerUp",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     void savePlayerMixin5(PlayerWakeUpEvent event, CallbackInfo ci){
-        this.player = event.getEntityPlayer();
+        this.playerWake = event.getEntityPlayer();
     }
 
     @Redirect(
             method="playerUp",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPWorldData getPlayerDataMixin5(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByPlayer(world,player.getUniqueID());
-        return data;
+    public SRPSaveData getPlayerDataMixin5(World world){
+        return SRPSaveDataInterface.get(world,playerWake,null);
     }
 
+    @Inject(
+            method = "entityHeal",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    void savePlayerMixin6(LivingHealEvent event, CallbackInfo ci){
+        if(event.getEntityLiving() instanceof EntityPlayer) {
+            this.playerHeal = (EntityPlayer) event.getEntityLiving();
+            this.blockPosHeal = null;
+        } else {
+            this.playerHeal = null;
+            this.blockPosHeal = event.getEntityLiving().getPosition();
+        }
+    }
 
-
+    @Redirect(
+            method="entityHeal",
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap=false
+    )
+    public SRPSaveData getPlayerDataMixin6(World world){
+        return SRPSaveDataInterface.get(world,playerHeal,blockPosHeal);
+    }
 }

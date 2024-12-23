@@ -78,9 +78,7 @@ dependencies {
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
     implementation fg.deobf("curse.maven:lostcity-${lostcity_version}")
     implementation fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
-    implementation fg.deobf("curse.maven:bloodmoon-${rlmixins_version}")
-    implementation files("libs/SRParasites-1.12.2v1.9.11.jar")
-
+    implementation files("libs/SRParasites-1.12.2v1.9.21.jar")
 }
 
 mixin {

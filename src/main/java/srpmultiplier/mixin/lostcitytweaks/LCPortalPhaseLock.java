@@ -1,6 +1,6 @@
 package srpmultiplier.mixin.lostcitytweaks;
 
-import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import mcjty.lostcities.ForgeEventHandlers;
 import mcjty.lostcities.config.LostCityConfiguration;
 import mcjty.lostcities.varia.CustomTeleporter;
@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
-import srpmultiplier.util.SRPWorldDataInterface;
+import srpmultiplier.util.SRPSaveDataInterface;
 
 @Mixin(ForgeEventHandlers.class)
 public abstract class LCPortalPhaseLock {
@@ -34,11 +34,11 @@ public abstract class LCPortalPhaseLock {
             if (dimension == LostCityConfiguration.DIMENSION_ID) {
                 byte evoPhase;
                 World world = player.getEntityWorld();
-                SRPWorldData data = SRPWorldData.get(world);
+                SRPSaveData data = SRPSaveData.get(world);
                 if (SRPMultiplierConfigHandler.server.playerPhases)
-                    evoPhase = ((SRPWorldDataInterface) data).getByPlayer(world, player.getUniqueID()).getEvolutionPhase();
+                    evoPhase = ((SRPSaveDataInterface) data).getByPlayer(world, player.getUniqueID()).getEvolutionPhase(dimension);
                 else
-                    evoPhase = data.getEvolutionPhase();
+                    evoPhase = data.getEvolutionPhase(dimension);
 
                 if (evoPhase >= SRPMultiplierConfigHandler.server.portalLClockedPhase) {
                     CustomTeleporter.teleportToDimension(player, LostCityConfiguration.DIMENSION_ID, pos);

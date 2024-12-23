@@ -1,13 +1,13 @@
 package srpmultiplier.mixin.simenderman;
 
-import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnderman;
+import com.dhanantry.scapeandrunparasites.entity.monster.infected.head.EntityInfEndermanHead;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
 
-@Mixin(EntityInfEnderman.class)
-public abstract class SimEndermanTp {
+@Mixin(EntityInfEndermanHead.class)
+public abstract class SimEndermanHeadTp {
 
     @ModifyConstant(
             method = "teleportAllies",

@@ -1,7 +1,7 @@
 package srpmultiplier.mixin.playerphases;
 
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
-import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,8 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmultiplier.handlers.SRPMultiplierConfigHandler;
-import srpmultiplier.util.SRPWorldDataInterface;
+import srpmultiplier.util.SRPSaveDataInterface;
 
 import java.util.Random;
 
@@ -21,32 +20,28 @@ public abstract class ParasiteEventWorldMixin {
 
     @Unique
     private static BlockPos blockPos;
-    private static World world;
 
     @Inject(
             method = "placeHeartInWorld",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     private static void saveBlockPosMixin(World worldIn, BlockPos pos, CallbackInfoReturnable<Integer> cir){
         blockPos = pos;
-        world = worldIn;
     }
 
     @Redirect(
             method="placeHeartInWorld",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static byte getPlayerDataMixin(SRPWorldData instance){
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) instance).getByBlock(world,blockPos).getEvolutionPhase();
-        return instance.getEvolutionPhase();
+    private static SRPSaveData getPlayerDataMixin(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
     @Inject(
             method = "canInfestBlock",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     private static void saveBlockPosMixin2(World worldIn, BlockPos pos, Random rand, int stage, boolean fromVenkrol, CallbackInfo ci){
@@ -55,19 +50,16 @@ public abstract class ParasiteEventWorldMixin {
 
     @Redirect(
             method="canInfestBlock",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPWorldData getPlayerDataMixin2(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    private static SRPSaveData getPlayerDataMixin2(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
     @Inject(
             method = "spreadBiomeBlockStain",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     private static void saveBlockPosMixin3(World worldIn, BlockPos pos, Random rand, CallbackInfo ci){
@@ -76,19 +68,16 @@ public abstract class ParasiteEventWorldMixin {
 
     @Redirect(
             method="spreadBiomeBlockStain",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPWorldData getPlayerDataMixin3(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    private static SRPSaveData getPlayerDataMixin3(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
     @Inject(
             method = "spreadBiomeBlockTrunk",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     private static void saveBlockPosMixin4(World worldIn, BlockPos pos, Random rand, CallbackInfo ci){
@@ -97,34 +86,28 @@ public abstract class ParasiteEventWorldMixin {
 
     @Redirect(
             method="spreadBiomeBlockTrunk",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPWorldData getPlayerDataMixin4(World world){
-        SRPWorldData data = SRPWorldData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) data).getByBlock(world,blockPos);
-        return data;
+    private static SRPSaveData getPlayerDataMixin4(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 
     @Inject(
             method = "placeColonyInWorld",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
     private static void saveBlockPosMixin5(World worldIn, BlockPos pos, CallbackInfoReturnable<Integer> cir){
         blockPos = pos;
-        world = worldIn;
     }
 
     @Redirect(
             method="placeColonyInWorld",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPWorldData;getEvolutionPhase()B"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static byte getPlayerDataMixin5(SRPWorldData instance){
-        if(SRPMultiplierConfigHandler.server.playerPhases)
-            return ((SRPWorldDataInterface) instance).getByBlock(world,blockPos).getEvolutionPhase();
-        return instance.getEvolutionPhase();
+    private static SRPSaveData getPlayerDataMixin5(World world){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 }

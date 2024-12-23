@@ -2,7 +2,7 @@ package srpmultiplier.mixin.simenderman;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPInfected;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnderman;
-import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEndermanHead;
+import com.dhanantry.scapeandrunparasites.entity.monster.infected.head.EntityInfEndermanHead;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
