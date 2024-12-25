@@ -7,6 +7,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmultiplier.SRPMultiplier;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Config(modid = SRPMultiplier.MODID)
@@ -125,6 +126,38 @@ public class SRPMultiplierConfigHandler {
 		@Config.Comment("Send logs when methods try to find a player to do player phase stuff with and not finding one")
 		@Config.Name("Player Phases debug mode")
 		public boolean debugMode = false;
+
+		@Config.RequiresMcRestart
+		@Config.Comment("Blacklist of biomes and dimensions in which no parasites will spawn. Pattern: dimension id, biome registry name. Disable full mods by dimid, modid. Disable full dimensions by only naming dimid, no biomes for that dimension in any line")
+		@Config.Name("Parasite Spawning Biome Blacklist per dimension")
+		public String[] biomeBlacklist = {
+				"0, minecraft:mutated_forest",
+				"0, otg",
+				"270"
+		};
+
+		@Config.Comment("Use Biome Blacklist as Whitelist")
+		@Config.Name("Parasite Spawning Biome Blacklist per dimension is whitelist")
+		public boolean biomeBlacklistIsWhitelist = false;
+	}
+
+	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {
+		for (String line : config) {
+			String[] split = line.split(" *, *");
+			if (split.length >= 1) {
+				try {
+					int dim = Integer.parseInt(split[0]);
+					if (!map.containsKey(dim))
+						map.put(dim, new ArrayList<>());
+					if(split.length>=2) {
+						String biome = split[1];
+						map.get(dim).add(biome);
+					}
+				} catch (NumberFormatException e) {
+					SRPMultiplier.LOGGER.warn(SRPMultiplier.NAME + " config could not parse biome blacklist line {}", line);
+				}
+			}
+		}
 	}
 
 	public static void setupDimensionMultiplierMap(HashMap<Integer,Float> map, String[] config) {

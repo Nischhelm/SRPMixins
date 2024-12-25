@@ -11,17 +11,19 @@ import srpmultiplier.handlers.NexusSpawnSounds;
 import srpmultiplier.handlers.ParasiteDropChance;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Mod(modid = SRPMultiplier.MODID, version = SRPMultiplier.VERSION, name = SRPMultiplier.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMultiplier {
     public static final String MODID = "srpmultiplier";
-    public static final String VERSION = "2.0.1";
+    public static final String VERSION = "2.0.2";
     public static final String NAME = "SRPMultiplier";
     public static final Logger LOGGER = LogManager.getLogger();
 
     public static HashMap<Integer,Float> dimensionStatMultipliers = new HashMap<>();
     public static HashMap<Integer,Float> dimensionDropMultipliers = new HashMap<>();
+    public static HashMap<Integer, ArrayList<String>> biomeSpawningBlacklists = new HashMap<>();
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
@@ -29,6 +31,7 @@ public class SRPMultiplier {
         MinecraftForge.EVENT_BUS.register(ParasiteDropChance.class);
         SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionStatMultipliers, SRPMultiplierConfigHandler.server.dimensionStatMultipliers);
         SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMultiplierConfigHandler.server.dimensionDropMultipliers);
+        SRPMultiplierConfigHandler.setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMultiplierConfigHandler.server.biomeBlacklist);
     }
 
     @Mod.EventHandler
