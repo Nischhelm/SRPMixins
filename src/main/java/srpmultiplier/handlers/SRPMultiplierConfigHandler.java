@@ -132,13 +132,17 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Parasite Spawning Biome Blacklist per dimension")
 		public String[] biomeBlacklist = {
 				"0, minecraft:mutated_forest",
-				"0, otg",
-				"270"
+				"3, otg",
+				"271"
 		};
 
 		@Config.Comment("Use Biome Blacklist as Whitelist")
 		@Config.Name("Parasite Spawning Biome Blacklist per dimension is whitelist")
 		public boolean biomeBlacklistIsWhitelist = false;
+
+		@Config.Comment("Make SRP Blacklists/Whitelists use wildcards to dis/enable whole mods (*)")
+		@Config.Name("SRP Blacklists are Wildcard-able")
+		public boolean blacklistsWildcardable = true;
 	}
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {
