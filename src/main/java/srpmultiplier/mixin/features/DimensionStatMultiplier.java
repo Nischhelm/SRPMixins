@@ -27,18 +27,29 @@ public abstract class DimensionStatMultiplier extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         if(SRPMultiplierConfigHandler.server.doMultipliers && !world.isRemote) {
-            float multiplier = SRPMultiplier.dimensionStatMultipliers.get(dimension);
+            float hp_multiplier = SRPMultiplier.dimensionHealthMultipliers.getOrDefault(dimension,1F) -1F;
+            float dmg_multiplier = SRPMultiplier.dimensionDmgMultipliers.getOrDefault(dimension,1F) -1F;
+            float armor_multiplier = SRPMultiplier.dimensionArmorMultipliers.getOrDefault(dimension,1F) -1F;
+            float kbres_multiplier = SRPMultiplier.dimensionKBResMultipliers.getOrDefault(dimension,1F) -1F;
+            //multiplier--;    //op2 uses x(1+multiplier), so need to -1
 
-            multiplier--;    //op2 uses x(1+multiplier), so need to -1
-
-            if (Math.abs(multiplier) > 1e-3) {  //if its close to 0 (x1) we dont need to bother
-                AttributeModifier modifierHealth = new AttributeModifier(HEALTH_MODIFIER_UUID, "SRPMultiplier Health", multiplier, 2);
-                AttributeModifier modifierArmor = new AttributeModifier(ARMOR_MODIFIER_UUID, "SRPMultiplier Armor", multiplier, 2);
-                AttributeModifier modifierDamage = new AttributeModifier(DAMAGE_MODIFIER_UUID, "SRPMultiplier Damage", multiplier, 2);
-                AttributeModifier modifierKBResistance = new AttributeModifier(KBRES_MODIFIER_UUID, "SRPMultiplier KB Resistance", multiplier, 2);
+            if (Math.abs(hp_multiplier) > 1e-3) {  //if it's close to 0 (x1) we don't need to bother
+                AttributeModifier modifierHealth = new AttributeModifier(HEALTH_MODIFIER_UUID, "SRPMultiplier Health", hp_multiplier, 2);
                 this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(modifierHealth);
-                this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(modifierArmor);
+            }
+
+            if (Math.abs(dmg_multiplier) > 1e-3) {  //if it's close to 0 (x1) we don't need to bother
+                AttributeModifier modifierDamage = new AttributeModifier(DAMAGE_MODIFIER_UUID, "SRPMultiplier Damage", dmg_multiplier, 2);
                 this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(modifierDamage);
+            }
+
+            if (Math.abs(armor_multiplier) > 1e-3) {  //if it's close to 0 (x1) we don't need to bother
+                AttributeModifier modifierArmor = new AttributeModifier(ARMOR_MODIFIER_UUID, "SRPMultiplier Armor", armor_multiplier, 2);
+                this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(modifierArmor);
+            }
+
+            if (Math.abs(kbres_multiplier) > 1e-3) {  //if it's close to 0 (x1) we don't need to bother
+                AttributeModifier modifierKBResistance = new AttributeModifier(KBRES_MODIFIER_UUID, "SRPMultiplier KB Resistance", kbres_multiplier, 2);
                 this.getEntityAttribute(SharedMonsterAttributes.KNOCKBACK_RESISTANCE).applyModifier(modifierKBResistance);
             }
         }

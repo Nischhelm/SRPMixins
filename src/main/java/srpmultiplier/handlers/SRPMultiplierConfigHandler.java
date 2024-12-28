@@ -23,9 +23,39 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Parasite Stat+Drop Multiplier: Global switch")
 		public boolean doMultipliers = true;
 
-		@Config.Comment("Changes the global stat (dmg, health, armor, kb resistance) multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
-		@Config.Name("Parasite Stat Multipliers")
-		public String[] dimensionStatMultipliers = {
+		@Config.Comment("Changes the global health multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+		@Config.Name("Parasite Health Multipliers")
+		public String[] dimensionHealthMultipliers = {
+				"-1,2",
+				"0,1",
+				"1,2",
+				"3,4",
+				"111,4"
+		};
+
+		@Config.Comment("Changes the global damage multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+		@Config.Name("Parasite Dmg Multipliers")
+		public String[] dimensionDmgMultipliers = {
+				"-1,2",
+				"0,1",
+				"1,2",
+				"3,4",
+				"111,4"
+		};
+
+		@Config.Comment("Changes the global armor multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+		@Config.Name("Parasite Armor Multipliers")
+		public String[] dimensionArmorMultipliers = {
+				"-1,2",
+				"0,1",
+				"1,2",
+				"3,4",
+				"111,4"
+		};
+
+		@Config.Comment("Changes the global stat knockback resistance multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+		@Config.Name("Parasite KBRes Multipliers")
+		public String[] dimensionKBResMultipliers = {
 				"-1,2",
 				"0,1",
 				"1,2",

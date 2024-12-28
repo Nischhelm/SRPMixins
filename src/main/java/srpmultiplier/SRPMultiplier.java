@@ -17,11 +17,14 @@ import java.util.HashMap;
 @Mod(modid = SRPMultiplier.MODID, version = SRPMultiplier.VERSION, name = SRPMultiplier.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMultiplier {
     public static final String MODID = "srpmultiplier";
-    public static final String VERSION = "2.0.3";
+    public static final String VERSION = "2.0.4";
     public static final String NAME = "SRPMultiplier";
     public static final Logger LOGGER = LogManager.getLogger();
 
-    public static HashMap<Integer,Float> dimensionStatMultipliers = new HashMap<>();
+    public static HashMap<Integer,Float> dimensionHealthMultipliers = new HashMap<>();
+    public static HashMap<Integer,Float> dimensionDmgMultipliers = new HashMap<>();
+    public static HashMap<Integer,Float> dimensionArmorMultipliers = new HashMap<>();
+    public static HashMap<Integer,Float> dimensionKBResMultipliers = new HashMap<>();
     public static HashMap<Integer,Float> dimensionDropMultipliers = new HashMap<>();
     public static HashMap<Integer, ArrayList<String>> biomeSpawningBlacklists = new HashMap<>();
 
@@ -29,7 +32,10 @@ public class SRPMultiplier {
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(NexusSpawnSounds.class);
         MinecraftForge.EVENT_BUS.register(ParasiteDropChance.class);
-        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionStatMultipliers, SRPMultiplierConfigHandler.server.dimensionStatMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMultiplierConfigHandler.server.dimensionHealthMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDmgMultipliers, SRPMultiplierConfigHandler.server.dimensionDmgMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionArmorMultipliers, SRPMultiplierConfigHandler.server.dimensionArmorMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionKBResMultipliers, SRPMultiplierConfigHandler.server.dimensionKBResMultipliers);
         SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMultiplierConfigHandler.server.dimensionDropMultipliers);
         SRPMultiplierConfigHandler.setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMultiplierConfigHandler.server.biomeBlacklist);
     }
