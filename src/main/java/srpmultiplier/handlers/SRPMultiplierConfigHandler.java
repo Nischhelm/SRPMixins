@@ -173,6 +173,10 @@ public class SRPMultiplierConfigHandler {
 		@Config.Comment("Make SRP Blacklists/Whitelists use wildcards to dis/enable whole mods (*)")
 		@Config.Name("SRP Blacklists are Wildcard-able")
 		public boolean blacklistsWildcardable = true;
+
+		@Config.Comment("Make Carcasses reduce points while cooldown is active")
+		@Config.Name("Fix Carcasses not working during cooldown")
+		public boolean fixCarcassDuringCooldown = true;
 	}
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {

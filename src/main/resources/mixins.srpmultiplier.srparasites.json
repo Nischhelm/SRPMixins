@@ -13,6 +13,7 @@
     "features.DimensionStatMultiplier",
     "features.DisableScentDebug",
     "features.FlatSleepPenalty",
+    "features.LureCooldownBypass",
     "features.LureValuePerPhase",
     "features.ModifiedBloodyClock",
     "features.SuccorFix",
