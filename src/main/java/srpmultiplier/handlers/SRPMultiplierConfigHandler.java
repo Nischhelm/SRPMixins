@@ -107,7 +107,7 @@ public class SRPMultiplierConfigHandler {
 
 		@Config.Comment("Whitelist Deterrent and Nexus mobs to take dmg per second if world is in low evolution phase")
 		@Config.Name("Deterrents take damage from low phase whitelist ")
-		public String[] whiteListedDeterrents = {"srparasites:kyphosis","srparasites:sentry","srparasites:seizer","srparasites:dispatcherten","srparasites:beckon_si","srparasites:beckon_sii","srparasites:beckon_siii","srparasites:beckon_siv","srparasites:dispatcher_si","srparasites:dispatcher_sii","srparasites:dispatcher_siii","srparasites:dispatcher_siv"};
+		public String[] whiteListedDeterrents = {"srparasites:kyphosis", "srparasites:sentry", "srparasites:seizer", "srparasites:dispatcherten", "srparasites:beckon_si", "srparasites:beckon_sii", "srparasites:beckon_siii", "srparasites:beckon_siv", "srparasites:dispatcher_si", "srparasites:dispatcher_sii", "srparasites:dispatcher_siii", "srparasites:dispatcher_siv"};
 
 		@Config.Comment("Set to true to use Deterrent taking dmg whitelist as blacklist")
 		@Config.Name("Deterrent whitelist is blacklist")
@@ -131,7 +131,7 @@ public class SRPMultiplierConfigHandler {
 
 		@Config.Comment("Phase multiplier on carcass values (0 to 10). Default values are balanced against Carcasses having values of 1,3,10,40,100,1000 for the 6 available Carcass variants in SRPSystems cfg.")
 		@Config.Name("Carcass Phase Multipliers")
-		public int[] carcassPhaseMultis = {40,40,80,1000,6000,50000,200000,200000,200000,400000,400000};
+		public int[] carcassPhaseMultis = {40, 40, 80, 1000, 6000, 50000, 200000, 200000, 200000, 400000, 400000};
 
 		@Config.Comment("Do Phase+Point functionalities per player, allowing better Multiplayer")
 		@Config.Name("Use Player Phases")
@@ -178,27 +178,27 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Fix Carcasses not working during cooldown")
 		public boolean fixCarcassDuringCooldown = true;
 
-		@Config.Comment("")
+		@Config.Comment("Set to false to disable all fixes for parasite damages")
 		@Config.Name("Damage Fix: Global switch")
 		public boolean doDamageFixes = true;
 
-		@Config.Comment("")
+		@Config.Comment("Ancient Overlord homing missile base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
 		@Config.Name("Damage Fix: Overlord projectile base damage")
 		public float overlordProjectileDamage = 50;
 
-		@Config.Comment("")
+		@Config.Comment("Haunter homing missile base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
 		@Config.Name("Damage Fix: Haunter projectile base damage")
 		public float haunterProjectileDamage = 32;
 
-		@Config.Comment("")
+		@Config.Comment("Ancient Dreadnaught melee aura base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
 		@Config.Name("Damage Fix: Dreadnaught melee aura base damage")
 		public float dreadnaughtMeleeDamage = 32;
 
-		@Config.Comment("")
+		@Config.Comment("Bogle melee aura base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
 		@Config.Name("Damage Fix: Bogle melee aura base damage")
 		public float bogleMeleeDamage = 25;
 
-		@Config.Comment("")
+		@Config.Comment("Wraith melee aura base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
 		@Config.Name("Damage Fix: Wraith melee aura base damage")
 		public float wraithMeleeDamage = 25;
 	}
