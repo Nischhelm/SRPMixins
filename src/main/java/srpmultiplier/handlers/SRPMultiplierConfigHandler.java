@@ -177,6 +177,30 @@ public class SRPMultiplierConfigHandler {
 		@Config.Comment("Make Carcasses reduce points while cooldown is active")
 		@Config.Name("Fix Carcasses not working during cooldown")
 		public boolean fixCarcassDuringCooldown = true;
+
+		@Config.Comment("")
+		@Config.Name("Damage Fix: Global switch")
+		public boolean doDamageFixes = true;
+
+		@Config.Comment("")
+		@Config.Name("Damage Fix: Overlord projectile base damage")
+		public float overlordProjectileDamage = 50;
+
+		@Config.Comment("")
+		@Config.Name("Damage Fix: Haunter projectile base damage")
+		public float haunterProjectileDamage = 32;
+
+		@Config.Comment("")
+		@Config.Name("Damage Fix: Dreadnaught melee aura base damage")
+		public float dreadnaughtMeleeDamage = 32;
+
+		@Config.Comment("")
+		@Config.Name("Damage Fix: Bogle melee aura base damage")
+		public float bogleMeleeDamage = 25;
+
+		@Config.Comment("")
+		@Config.Name("Damage Fix: Wraith melee aura base damage")
+		public float wraithMeleeDamage = 25;
 	}
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {

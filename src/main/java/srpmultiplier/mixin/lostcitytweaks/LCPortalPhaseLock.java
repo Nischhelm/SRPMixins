@@ -35,10 +35,11 @@ public abstract class LCPortalPhaseLock {
                 byte evoPhase;
                 World world = player.getEntityWorld();
                 SRPSaveData data = SRPSaveData.get(world);
+                int dimensionPlayer = world.provider.getDimension();
                 if (SRPMultiplierConfigHandler.server.playerPhases)
-                    evoPhase = ((SRPSaveDataInterface) data).getByPlayer(world, player.getUniqueID()).getEvolutionPhase(dimension);
+                    evoPhase = ((SRPSaveDataInterface) data).getByPlayer(world, player.getUniqueID()).getEvolutionPhase(dimensionPlayer);
                 else
-                    evoPhase = data.getEvolutionPhase(dimension);
+                    evoPhase = data.getEvolutionPhase(dimensionPlayer);
 
                 if (evoPhase >= SRPMultiplierConfigHandler.server.portalLClockedPhase) {
                     CustomTeleporter.teleportToDimension(player, LostCityConfiguration.DIMENSION_ID, pos);
