@@ -23,10 +23,12 @@ public class SRPMultiplierConfigHandler {
 	public static final ServerConfig server = new ServerConfig();
 
 	public static class ServerConfig {
+		@Config.RequiresMcRestart
 		@Config.Comment("Turn to false to fix startup crashes if your modpack doesn't have bloodmoon mod")
 		@Config.Name("Compat: Modpack has Bloodmoon mod")
 		public boolean hasBloodmoon = false;
 
+		@Config.RequiresMcRestart
 		@Config.Comment("Turn to false to fix startup crashes if your modpack doesn't have lost cities mod")
 		@Config.Name("Compat: Modpack has LostCities mod")
 		public boolean hasLostCities = false;
@@ -281,7 +283,7 @@ public class SRPMultiplierConfigHandler {
 					configBooleanString = stream.filter(s -> s.trim().startsWith("B:")).collect(Collectors.joining());
 				}
 				catch(Exception ex) {
-					SRPMultiplier.LOGGER.log(Level.ERROR, "Failed to parse SRPMultiplier config: " + ex);
+					SRPMultiplier.LOGGER.log(Level.ERROR, "Failed to parse " + SRPMultiplier.NAME + " config: " + ex);
 				}
 			}
 		}
