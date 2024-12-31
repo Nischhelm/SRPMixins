@@ -201,7 +201,15 @@ public class SRPMultiplierConfigHandler {
 		@Config.Comment("Wraith melee aura base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
 		@Config.Name("Damage Fix: Wraith melee aura base damage")
 		public float wraithMeleeDamage = 25;
-	}
+
+		@Config.Comment("Make using Lures add their cooldown to current cooldown instead of setting it to a fixed value, possibly even reducing the cooldown by doing that")
+		@Config.Name("Lures stack cooldown")
+		public boolean lureCooldownStacking = true;
+
+		@Config.Comment("Limit point reduction from parasite kills to the min point value for each phase, stopping unintended phase decreases")
+		@Config.Name("Fix phase point reduction")
+		public boolean limitPointReduction = true;
+    }
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {
 		for (String line : config) {
