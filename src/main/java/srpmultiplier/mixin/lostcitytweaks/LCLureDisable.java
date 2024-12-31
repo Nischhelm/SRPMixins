@@ -16,7 +16,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
@@ -32,9 +31,6 @@ public abstract class LCLureDisable extends BlockBase {
     public LCLureDisable(Material material, String name, float hardness, boolean creative, boolean tickRandom, float resistance) {
         super(material, name, hardness, creative, tickRandom, resistance);
     }
-
-    @Unique
-    IBlockState state;
 
     @Inject(
             method="func_180639_a",

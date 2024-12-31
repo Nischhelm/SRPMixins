@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "srpmultiplier.mixin.lostcitytweaks",
+  "refmap": "mixins.srpmultiplier.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "LCLureDisable",
+    "LCPortalPhaseLock"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

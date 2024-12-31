@@ -5,10 +5,15 @@ import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.logging.log4j.Level;
 import srpmultiplier.SRPMultiplier;
 
+import java.io.File;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Config(modid = SRPMultiplier.MODID)
 public class SRPMultiplierConfigHandler {
@@ -18,6 +23,13 @@ public class SRPMultiplierConfigHandler {
 	public static final ServerConfig server = new ServerConfig();
 
 	public static class ServerConfig {
+		@Config.Comment("Turn to false to fix startup crashes if your modpack doesn't have bloodmoon mod")
+		@Config.Name("Compat: Modpack has Bloodmoon mod")
+		public boolean hasBloodmoon = false;
+
+		@Config.Comment("Turn to false to fix startup crashes if your modpack doesn't have lost cities mod")
+		@Config.Name("Compat: Modpack has LostCities mod")
+		public boolean hasLostCities = false;
 
 		@Config.Comment("Set to false to fully disable dimension stat+drop multipliers")
 		@Config.Name("Parasite Stat+Drop Multiplier: Global switch")
@@ -255,5 +267,25 @@ public class SRPMultiplierConfigHandler {
 				ConfigManager.sync(SRPMultiplier.MODID, Config.Type.INSTANCE);
 			}
 		}
+	}
+
+	//Courtesy of FonnyMunkey RLMixins
+	private static File configFile = null;
+	private static String configBooleanString = "";
+
+	public static boolean getBoolean(String name) {
+		if(configFile==null) {
+			configFile = new File("config", SRPMultiplier.MODID + ".cfg");
+			if(configFile.exists() && configFile.isFile()) {
+				try (Stream<String> stream = Files.lines(configFile.toPath())) {
+					configBooleanString = stream.filter(s -> s.trim().startsWith("B:")).collect(Collectors.joining());
+				}
+				catch(Exception ex) {
+					SRPMultiplier.LOGGER.log(Level.ERROR, "Failed to parse SRPMultiplier config: " + ex);
+				}
+			}
+		}
+		//If config is not generated or missing entries, don't enable injection on first run
+		return configBooleanString.contains("B:\"" + name + "\"=true");
 	}
 }

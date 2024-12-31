@@ -10,6 +10,7 @@ import org.apache.logging.log4j.Logger;
 import srpmultiplier.handlers.NexusSpawnSounds;
 import srpmultiplier.handlers.ParasiteDropChance;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
+import srpmultiplier.util.CompatUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +18,7 @@ import java.util.HashMap;
 @Mod(modid = SRPMultiplier.MODID, version = SRPMultiplier.VERSION, name = SRPMultiplier.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMultiplier {
     public static final String MODID = "srpmultiplier";
-    public static final String VERSION = "2.0.7";
+    public static final String VERSION = "2.0.8";
     public static final String NAME = "SRPMultiplier";
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -42,6 +43,7 @@ public class SRPMultiplier {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        SpawnerManager.getInstance().reload();
+        if(CompatUtil.isLycanitesMobsLoaded())
+            SpawnerManager.getInstance().reload();
     }
 }
