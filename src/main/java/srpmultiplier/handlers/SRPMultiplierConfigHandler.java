@@ -37,6 +37,7 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Parasite Stat+Drop Multiplier: Global switch")
 		public boolean doMultipliers = true;
 
+		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global health multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite Health Multipliers")
 		public String[] dimensionHealthMultipliers = {
@@ -47,6 +48,7 @@ public class SRPMultiplierConfigHandler {
 				"111,4"
 		};
 
+		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global damage multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite Dmg Multipliers")
 		public String[] dimensionDmgMultipliers = {
@@ -57,6 +59,7 @@ public class SRPMultiplierConfigHandler {
 				"111,4"
 		};
 
+		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global armor multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite Armor Multipliers")
 		public String[] dimensionArmorMultipliers = {
@@ -67,6 +70,7 @@ public class SRPMultiplierConfigHandler {
 				"111,4"
 		};
 
+		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global stat knockback resistance multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite KBRes Multipliers")
 		public String[] dimensionKBResMultipliers = {
@@ -77,6 +81,7 @@ public class SRPMultiplierConfigHandler {
 				"111,4"
 		};
 
+		@Config.RequiresMcRestart
 		@Config.Comment("Decreases drop chance of SRP Items per dimension. Set to 1 for default behavior")
 		@Config.Name("Parasite Drop chance Multipliers")
 		public String[] dimensionDropMultipliers = {
@@ -87,6 +92,7 @@ public class SRPMultiplierConfigHandler {
 				"111,1"
 		};
 
+		@Config.RequiresMcRestart
 		@Config.Comment("Increases parasite mob cap and per player cap by this multiplier per dimension")
 		@Config.Name("Parasite mob cap Multipliers")
 		public String[] dimensionMobCapMultipliers = {
