@@ -8,6 +8,7 @@
   "mixins": [
     "features.AdaptedPenaltyPhaseLock",
     "features.BiomeSpawningBlacklist",
+    "features.BiomeSpreadingPointsPhaseLock",
     "features.BlacklistWildcards",
     "features.DeterrentLowPhaseDamage",
     "features.DimensionStatMultiplier",
@@ -19,6 +20,10 @@
     "features.ModifiedBloodyClock",
     "features.PointReductionPhaseLimit",
     "features.SuccorFix",
+    "mobcapmulti.EntityParasiticScentMixin",
+    "mobcapmulti.SRPCommandEvolutionMixin",
+    "mobcapmulti.SRPCommandRootMixin",
+    "mobcapmulti.SRPSpawningDimensionHandlerMixin",
     "paradmgfix.BogleMeleeFix",
     "paradmgfix.DreadnaughtMeleeFix",
     "paradmgfix.OverlordHaunterRangedFix",

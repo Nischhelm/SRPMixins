@@ -33,7 +33,7 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Compat: Modpack has LostCities mod")
 		public boolean hasLostCities = false;
 
-		@Config.Comment("Set to false to fully disable dimension stat+drop multipliers")
+		@Config.Comment("Set to false to fully disable dimension stat+drop+mobcap multipliers")
 		@Config.Name("Parasite Stat+Drop Multiplier: Global switch")
 		public boolean doMultipliers = true;
 
@@ -87,6 +87,16 @@ public class SRPMultiplierConfigHandler {
 				"111,1"
 		};
 
+		@Config.Comment("Increases parasite mob cap and per player cap by this multiplier per dimension")
+		@Config.Name("Parasite mob cap Multipliers")
+		public String[] dimensionMobCapMultipliers = {
+				"-1,1",
+				"0,1",
+				"1,1",
+				"3,4",
+				"111,4"
+		};
+
 		@Config.Comment("Disable Lures in LC and instead spawn a Dispatcher Nidus")
 		@Config.Name("Lures disabled in LC")
 		public boolean disableLuresInLC = true;
@@ -105,7 +115,7 @@ public class SRPMultiplierConfigHandler {
 
 		@Config.Comment("Multiply Parasite Mob Cap by this much during Blood Moons (if using SRP custom spawner)")
 		@Config.Name("Bloodmoon Parasite Cap Multiplier")
-		public int bloodmoonInLCmobCapMultiplier = 4;
+		public float bloodmoonInLCmobCapMultiplier = 4;
 
 		@Config.Comment("Distance from which Assimilated and Feral Endermen search for mobs to tp, default 64 (performance)")
 		@Config.Name("Assimilated/Feral Endermen tp radius")
@@ -151,9 +161,13 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Use Player Phases")
 		public boolean playerPhases = true;
 
-		@Config.Comment("Players can only get point penalty from adapted mobs despawning from this phase onwards")
+		@Config.Comment("Players can only get point penalty from adapted mobs despawning from this phase onwards (disable with -1)")
 		@Config.Name("Adapted Despawn Penalty First Phase")
 		public int adaptedDespawnPenaltyPhase = 4;
+
+		@Config.Comment("Players can only get point penalty from parasitic biome spreading (disable with -1)")
+		@Config.Name("Biome Spreading Penalty First Phase")
+		public byte biomeSpreadingPenaltyPhase = 5;
 
 		@Config.Comment("Disables the automatic debug logging spam for Scent Entities")
 		@Config.Name("Disable Scent Debug")
@@ -223,6 +237,7 @@ public class SRPMultiplierConfigHandler {
 		@Config.Comment("Limit point reduction from parasite kills to the min point value for each phase, stopping unintended phase decreases")
 		@Config.Name("Fix phase point reduction")
 		public boolean limitPointReduction = true;
+
     }
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {

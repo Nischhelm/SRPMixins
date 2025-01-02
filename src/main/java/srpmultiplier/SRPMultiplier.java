@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Mod(modid = SRPMultiplier.MODID, version = SRPMultiplier.VERSION, name = SRPMultiplier.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMultiplier {
     public static final String MODID = "srpmultiplier";
-    public static final String VERSION = "2.0.8";
+    public static final String VERSION = "2.0.9";
     public static final String NAME = "SRPMultiplier";
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -27,6 +27,7 @@ public class SRPMultiplier {
     public static HashMap<Integer,Float> dimensionArmorMultipliers = new HashMap<>();
     public static HashMap<Integer,Float> dimensionKBResMultipliers = new HashMap<>();
     public static HashMap<Integer,Float> dimensionDropMultipliers = new HashMap<>();
+    public static HashMap<Integer,Float> dimensionMobCapMultipliers = new HashMap<>();
     public static HashMap<Integer, ArrayList<String>> biomeSpawningBlacklists = new HashMap<>();
 
     @Mod.EventHandler
@@ -38,6 +39,7 @@ public class SRPMultiplier {
         SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionArmorMultipliers, SRPMultiplierConfigHandler.server.dimensionArmorMultipliers);
         SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionKBResMultipliers, SRPMultiplierConfigHandler.server.dimensionKBResMultipliers);
         SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMultiplierConfigHandler.server.dimensionDropMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMultiplierConfigHandler.server.dimensionMobCapMultipliers);
         SRPMultiplierConfigHandler.setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMultiplierConfigHandler.server.biomeBlacklist);
     }
 
