@@ -39,6 +39,7 @@ public abstract class LCLureDisable extends BlockBase {
             cancellable = true
     )
     public void lureDisableMixin(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
+        if(!SRPConfigSystems.useEvolution) return;
         if(SRPMultiplierConfigHandler.server.disableLuresInLC && !worldIn.isRemote) {
             int dimension = playerIn.dimension;
             ItemStack head = new ItemStack(playerIn.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem());

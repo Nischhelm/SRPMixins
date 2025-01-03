@@ -1,5 +1,6 @@
 package srpmultiplier.mixin.lostcitytweaks;
 
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import mcjty.lostcities.ForgeEventHandlers;
 import mcjty.lostcities.config.LostCityConfiguration;
@@ -30,6 +31,7 @@ public abstract class LCPortalPhaseLock {
             remap = false
     )
     void lockPortalBehindPhase(EntityPlayer player, int dimension, BlockPos pos){
+        if(!SRPConfigSystems.useEvolution) return;
         if(SRPMultiplierConfigHandler.server.portalLClockedPhase > -1) {
             if (dimension == LostCityConfiguration.DIMENSION_ID) {
                 byte evoPhase;
@@ -59,6 +61,7 @@ public abstract class LCPortalPhaseLock {
             remap = false
     )
     void stopSleepingMixin(PlayerSleepInBedEvent event, CallbackInfo ci) {
+        if(!SRPConfigSystems.useEvolution) return;
         if (event.getResult() == Event.Result.DENY)
             event.setResult(EntityPlayer.SleepResult.OTHER_PROBLEM);
     }
