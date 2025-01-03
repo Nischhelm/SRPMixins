@@ -24,12 +24,12 @@ public class SRPMultiplierConfigHandler {
 
 	public static class ServerConfig {
 		@Config.RequiresMcRestart
-		@Config.Comment("Turn to false to fix startup crashes if your modpack doesn't have bloodmoon mod")
+		@Config.Comment("Enable BloodMoon tweaks (don't set this to true if your modpack doesn't have BloodMoon, otherwise it will crash)")
 		@Config.Name("Compat: Modpack has Bloodmoon mod")
 		public boolean hasBloodmoon = false;
 
 		@Config.RequiresMcRestart
-		@Config.Comment("Turn to false to fix startup crashes if your modpack doesn't have lost cities mod")
+		@Config.Comment("Enable LostCities tweaks (don't set this to true if your modpack doesn't have LostCities, otherwise it will crash)")
 		@Config.Name("Compat: Modpack has LostCities mod")
 		public boolean hasLostCities = false;
 
