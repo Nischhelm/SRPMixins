@@ -244,6 +244,9 @@ public class SRPMultiplierConfigHandler {
 		@Config.Name("Fix phase point reduction")
 		public boolean limitPointReduction = true;
 
+		@Config.Comment("Fix parasites getting hit by sentient weapons not doing the correct things")
+		@Config.Name("Fix parasite weapon damage")
+        public boolean fixParasiteDmg = true;
     }
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {

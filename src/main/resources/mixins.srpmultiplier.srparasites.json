@@ -18,6 +18,7 @@
     "features.LureCooldownStacking",
     "features.LureValuePerPhase",
     "features.ModifiedBloodyClock",
+    "features.ParasiteWeaponFix",
     "features.PointReductionPhaseLimit",
     "features.SuccorFix",
     "mobcapmulti.EntityParasiticScentMixin",
