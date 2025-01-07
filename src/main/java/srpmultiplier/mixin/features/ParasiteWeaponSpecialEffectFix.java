@@ -15,9 +15,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
 
 @Mixin(EntityParasiteBase.class)
-public abstract class ParasiteWeaponFix extends EntityMob {
+public abstract class ParasiteWeaponSpecialEffectFix extends EntityMob {
 
-    public ParasiteWeaponFix(World worldIn) {
+    public ParasiteWeaponSpecialEffectFix(World worldIn) {
         super(worldIn);
     }
 

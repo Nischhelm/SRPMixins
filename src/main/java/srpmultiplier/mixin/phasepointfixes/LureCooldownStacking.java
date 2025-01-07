@@ -1,4 +1,4 @@
-package srpmultiplier.mixin.features;
+package srpmultiplier.mixin.phasepointfixes;
 
 import com.dhanantry.scapeandrunparasites.block.BlockEvolutionLure;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;

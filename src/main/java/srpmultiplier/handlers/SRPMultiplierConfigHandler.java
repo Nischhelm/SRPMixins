@@ -247,6 +247,14 @@ public class SRPMultiplierConfigHandler {
 		@Config.Comment("Fix parasites getting hit by sentient weapons not doing the correct things")
 		@Config.Name("Fix parasite weapon damage")
         public boolean fixParasiteDmg = true;
+
+		@Config.Comment("Make living weapons evolving to sentient keep their NBT")
+		@Config.Name("Fix parasite weapon evolution NBT loss")
+		public boolean fixSentientEvolutionNBT = true;
+
+		@Config.Comment("Sentient weapons keep counting parasite kills(/HP) even though it doesn't do anything for them. Set to true to remove this Tooltip")
+		@Config.Name("Remove Parasite Kills tooltip from sentient weapons")
+		public boolean removeSentientSRPKillsTooltip = true;
     }
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {

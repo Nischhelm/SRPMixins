@@ -1,4 +1,4 @@
-package srpmultiplier.mixin.features;
+package srpmultiplier.mixin.phasepointfixes;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;

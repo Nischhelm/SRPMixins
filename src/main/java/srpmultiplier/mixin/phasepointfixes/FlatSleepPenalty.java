@@ -1,4 +1,4 @@
-package srpmultiplier.mixin.features;
+package srpmultiplier.mixin.phasepointfixes;
 
 import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
