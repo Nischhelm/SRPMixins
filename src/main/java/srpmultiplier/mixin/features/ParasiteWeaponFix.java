@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmultiplier.SRPMultiplier;
 import srpmultiplier.handlers.SRPMultiplierConfigHandler;
 
 @Mixin(EntityParasiteBase.class)
@@ -29,19 +28,13 @@ public abstract class ParasiteWeaponFix extends EntityMob {
             remap = false
     )
     private void fixParasiteWeaponDmg(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        SRPMultiplier.LOGGER.info("Test1");
         if (!SRPMultiplierConfigHandler.server.fixParasiteDmg) return;
-        SRPMultiplier.LOGGER.info("Test2");
         if (this.world.isRemote) return;
-        SRPMultiplier.LOGGER.info("Test3");
 
         if (source.getTrueSource() == null) return;
-        SRPMultiplier.LOGGER.info("Test4");
         if (!(source.getTrueSource() instanceof EntityPlayer)) return;
-        SRPMultiplier.LOGGER.info("Test5");
         ItemStack mainhand = ((EntityPlayer) source.getTrueSource()).getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
         if (mainhand.getItem() instanceof WeaponToolMeleeBase) {
-            SRPMultiplier.LOGGER.info("Test6");
             cir.setReturnValue(super.attackEntityFrom(source, amount));
         }
     }
