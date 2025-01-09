@@ -1,6 +1,7 @@
 package srpmultiplier.mixin.paradmgfix;
 
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityLencia;
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
@@ -23,6 +24,6 @@ public class BogleMeleeFix extends EntityMob {
     )
     void fixMeleeAuraDmg(CallbackInfo ci){
         if(SRPMultiplierConfigHandler.server.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.bogleMeleeDamage);
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.bogleMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

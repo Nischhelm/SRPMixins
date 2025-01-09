@@ -1,6 +1,7 @@
 package srpmultiplier.mixin.paradmgfix;
 
 import com.dhanantry.scapeandrunparasites.entity.monster.ancient.EntityOronco;
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
@@ -23,6 +24,6 @@ public class DreadnaughtMeleeFix extends EntityMob {
     )
     void fixMeleeAuraDmg(CallbackInfo ci){
         if(SRPMultiplierConfigHandler.server.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.dreadnaughtMeleeDamage);
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.dreadnaughtMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

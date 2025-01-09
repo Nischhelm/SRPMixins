@@ -7,7 +7,7 @@
   "minVersion": "0.8",
   "mixins": [
     "features.BiomeSpawningBlacklist",
-    "features.BiomeSpreadingPointsPhaseLock",
+    "phasepointfixes.BiomeSpreadingPointsPhaseLock",
     "features.BlacklistWildcards",
     "features.DeterrentLowPhaseDamage",
     "features.DimensionStatMultiplier",

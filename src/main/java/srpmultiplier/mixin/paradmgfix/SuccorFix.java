@@ -2,6 +2,7 @@ package srpmultiplier.mixin.paradmgfix;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityFlam;
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
@@ -26,7 +27,8 @@ public abstract class SuccorFix extends EntityMob {
     )
     private void fixSuccorDamageMixin(EntityParasiteBase in, CallbackInfo ci) {
         if (SRPMultiplierConfigHandler.server.fixSuccorDamage) {
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.fixedSuccorDamage);
+            float fixedDmg = SRPMultiplierConfigHandler.server.fixedSuccorDamage * SRPConfig.globalDamageMultiplier;
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(fixedDmg);
             ci.cancel();
         }
     }
