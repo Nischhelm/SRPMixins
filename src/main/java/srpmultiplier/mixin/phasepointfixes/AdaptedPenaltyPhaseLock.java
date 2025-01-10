@@ -17,7 +17,7 @@ public abstract class AdaptedPenaltyPhaseLock {
             remap=false
     )
     boolean phaseLockMixin(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
-        int startPhase = SRPMultiplierConfigHandler.server.adaptedDespawnPenaltyPhase;
+        int startPhase = SRPMultiplierConfigHandler.phasepoints.adaptedDespawnPenaltyPhase;
         if(startPhase>-1 && data.getEvolutionPhase(id)<startPhase)
             return false;
         return data.setTotalKills(id,in,plus,worldIn,canChangePhase);

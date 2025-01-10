@@ -17,7 +17,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
             remap=false
     )
     private static boolean phaseLockBlock(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
-        int startPhase = SRPMultiplierConfigHandler.server.biomeSpreadingPenaltyPhase;
+        int startPhase = SRPMultiplierConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
         if(startPhase>-1 && data.getEvolutionPhase(id)<startPhase)
             return false;
         return data.setTotalKills(id,in,plus,worldIn,canChangePhase);
@@ -29,7 +29,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
             remap=false
     )
     private static boolean phaseLockTrunk(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
-        int startPhase = SRPMultiplierConfigHandler.server.biomeSpreadingPenaltyPhase;
+        int startPhase = SRPMultiplierConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
         if(startPhase>-1 && data.getEvolutionPhase(id)<startPhase)
             return false;
         return data.setTotalKills(id,in,plus,worldIn,canChangePhase);
@@ -41,7 +41,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
             remap=false
     )
     private static boolean phaseLockStain(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
-        int startPhase = SRPMultiplierConfigHandler.server.biomeSpreadingPenaltyPhase;
+        int startPhase = SRPMultiplierConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
         if(startPhase>-1 && data.getEvolutionPhase(id)<startPhase)
             return false;
         return data.setTotalKills(id,in,plus,worldIn,canChangePhase);

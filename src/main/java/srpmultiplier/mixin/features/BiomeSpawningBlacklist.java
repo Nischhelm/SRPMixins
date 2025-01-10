@@ -36,7 +36,7 @@ public abstract class BiomeSpawningBlacklist {
                 biomeBlacklist.contains(currBiomeMod) ||
                 biomeBlacklist.isEmpty();
 
-        if(isInList != SRPMultiplierConfigHandler.server.biomeBlacklistIsWhitelist)
+        if(isInList != SRPMultiplierConfigHandler.various.biomeBlacklistIsWhitelist)
             cir.setReturnValue(null);
     }
 }

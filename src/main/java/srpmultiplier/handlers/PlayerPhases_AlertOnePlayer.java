@@ -11,8 +11,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.UUID;
 
 public class PlayerPhases_AlertOnePlayer {

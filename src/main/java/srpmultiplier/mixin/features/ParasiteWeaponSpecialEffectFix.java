@@ -28,7 +28,7 @@ public abstract class ParasiteWeaponSpecialEffectFix extends EntityMob {
             remap = false
     )
     private void fixParasiteWeaponDmg(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        if (!SRPMultiplierConfigHandler.server.fixParasiteDmg) return;
+        if (!SRPMultiplierConfigHandler.weapons.fixParasiteDmg) return;
         if (this.world.isRemote) return;
 
         if (source.getTrueSource() == null) return;

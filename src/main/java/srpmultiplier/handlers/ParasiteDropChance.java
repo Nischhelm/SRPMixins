@@ -4,7 +4,6 @@ import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolArmorBase;
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolMeleeBase;
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolRangeBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.Item;
@@ -18,7 +17,7 @@ public class ParasiteDropChance {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void reduceParasitePartsDropChance(LivingDropsEvent event) {
-        if (!SRPMultiplierConfigHandler.server.doMultipliers) return;
+        if (!SRPMultiplierConfigHandler.dimension.doMultipliers) return;
 
         EntityLivingBase victim = event.getEntityLiving();
         if(!(victim instanceof EntityParasiteBase)) return;

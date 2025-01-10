@@ -26,7 +26,7 @@ public abstract class DimensionStatMultiplier extends EntityMob {
 
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
-        if(SRPMultiplierConfigHandler.server.doMultipliers && !world.isRemote) {
+        if(SRPMultiplierConfigHandler.dimension.doMultipliers && !world.isRemote) {
             float hp_multiplier = SRPMultiplier.dimensionHealthMultipliers.getOrDefault(dimension,1F) -1F;
             float dmg_multiplier = SRPMultiplier.dimensionDmgMultipliers.getOrDefault(dimension,1F) -1F;
             float armor_multiplier = SRPMultiplier.dimensionArmorMultipliers.getOrDefault(dimension,1F) -1F;

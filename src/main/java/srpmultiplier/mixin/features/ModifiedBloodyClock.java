@@ -35,7 +35,7 @@ public abstract class ModifiedBloodyClock {
     public void saveWorldDataMixin(World worldIn, EntityPlayer playerIn, EnumHand handIn, CallbackInfoReturnable<ActionResult<ItemStack>> cir){
         if(!worldIn.isRemote) {
             saveData = SRPSaveData.get(worldIn);
-            if (SRPMultiplierConfigHandler.server.playerPhases)
+            if (SRPMultiplierConfigHandler.phasepoints.playerPhases)
                 saveData = ((SRPSaveDataInterface) saveData).getByPlayer(worldIn, playerIn.getUniqueID());
         }
     }
@@ -46,7 +46,7 @@ public abstract class ModifiedBloodyClock {
             remap = false
     )
     public void sendPhaseMessageToChatMixin(EntityPlayer player, ITextComponent iTextComponent, boolean b) {
-        if (SRPMultiplierConfigHandler.server.modifyBloodyClock) {
+        if (SRPMultiplierConfigHandler.phasepoints.modifyBloodyClock) {
             int dimension = player.getEntityWorld().provider.getDimension();
             byte evoPhase = saveData.getEvolutionPhase(dimension);
             int pointsNext = SRPCommandEvolution.getNeededPoints((byte) min(evoPhase + 1, 8));

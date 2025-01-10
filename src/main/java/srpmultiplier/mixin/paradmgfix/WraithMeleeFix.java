@@ -23,7 +23,7 @@ public class WraithMeleeFix extends EntityMob {
             remap = false
     )
     void fixMeleeAuraDmg(CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.wraithMeleeDamage * SRPConfig.globalDamageMultiplier);
+        if(SRPMultiplierConfigHandler.dmgfix.doDamageFixes)
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.dmgfix.wraithMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

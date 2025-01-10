@@ -19,7 +19,7 @@ public abstract class BlacklistWildcards {
     private static void wildcard(String name, String[] list, boolean inverted, CallbackInfoReturnable<Boolean> cir){
         //SRP checkName function returns true if name is in blacklist (or name is not in whitelist)
         //Name could be "isBlacklisted"/"isNotWhitelisted"
-        if(SRPMultiplierConfigHandler.server.blacklistsWildcardable && name.contains(":")) {
+        if(SRPMultiplierConfigHandler.various.blacklistsWildcardable && name.contains(":")) {
             String modName = name.split(":")[0] + ":*";
 
             for (String line : list) {

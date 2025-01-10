@@ -24,9 +24,10 @@ public abstract class NexusCap {
             remap = false
     )
     private static Event.Result nexusCapMixin(EntityLiving entity, World world, float x, float y, float z, boolean isSpawner){
+        @SuppressWarnings("deprecation")
         Event.Result canSpawn = ForgeEventFactory.canEntitySpawn(entity, world, x, y, z, false);
 
-        int nexusCap = SRPMultiplierConfigHandler.server.nexusCap;
+        int nexusCap = SRPMultiplierConfigHandler.deterrents.nexusCap;
         if(nexusCap > 0 && entity instanceof EntityPStationaryArchitect) {
             List<Entity> entityList = world.loadedEntityList;
             int nexusCounter = 0;

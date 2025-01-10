@@ -15,6 +15,6 @@ public abstract class SimEndermanTp {
             remap = false
     )
     double changeSimmermanTPDistance(double constant){
-        return SRPMultiplierConfigHandler.server.simmermenTpDistance;
+        return SRPMultiplierConfigHandler.simmermen.simmermenTpDistance;
     }
 }

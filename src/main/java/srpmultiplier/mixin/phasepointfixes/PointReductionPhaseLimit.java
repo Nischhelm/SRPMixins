@@ -24,7 +24,7 @@ public abstract class PointReductionPhaseLimit {
             remap = false
     )
     void limitPointReduction(int dim, int points, boolean isAdding, World worldIn, boolean canChangePhase, CallbackInfoReturnable<Boolean> cir) {
-        if(!SRPMultiplierConfigHandler.server.limitPointReduction) return;
+        if(!SRPMultiplierConfigHandler.phasepoints.limitPointReduction) return;
         if (points > 0) return;
         if (!isAdding) return;
         if(canChangePhase) return;

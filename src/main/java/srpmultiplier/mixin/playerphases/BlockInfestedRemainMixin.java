@@ -49,7 +49,7 @@ public abstract class BlockInfestedRemainMixin {
             remap = false
     )
     public double getRSChanceMixin(World world) {
-        if (SRPMultiplierConfigHandler.server.playerPhases) {
+        if (SRPMultiplierConfigHandler.phasepoints.playerPhases) {
             return getRSChance(world);
         } else
             return ParasiteEventEntity.getRSchance(world);

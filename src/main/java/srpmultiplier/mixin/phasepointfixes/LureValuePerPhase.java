@@ -18,20 +18,20 @@ public abstract class LureValuePerPhase {
     )
     public boolean lurePhaseMultiplierMixin(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
         int multi = 1;
-        if(SRPMultiplierConfigHandler.server.variableCarcassValues && SRPMultiplierConfigHandler.server.carcassPhaseMultis.length==11) {
+        if(SRPMultiplierConfigHandler.lures.variableCarcassValues && SRPMultiplierConfigHandler.lures.carcassPhaseMultis.length==11) {
             byte evoPhase = data.getEvolutionPhase(id);
             switch (evoPhase){
-                case 0: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[0]; break;
-                case 1: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[1]; break;
-                case 2: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[2]; break;
-                case 3: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[3]; break;
-                case 4: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[4]; break;
-                case 5: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[5]; break;
-                case 6: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[6]; break;
-                case 7: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[7]; break;
-                case 8: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[8]; break;
-                case 9: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[9]; break;
-                case 10: multi = SRPMultiplierConfigHandler.server.carcassPhaseMultis[10]; break;
+                case 0: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[0]; break;
+                case 1: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[1]; break;
+                case 2: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[2]; break;
+                case 3: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[3]; break;
+                case 4: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[4]; break;
+                case 5: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[5]; break;
+                case 6: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[6]; break;
+                case 7: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[7]; break;
+                case 8: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[8]; break;
+                case 9: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[9]; break;
+                case 10: multi = SRPMultiplierConfigHandler.lures.carcassPhaseMultis[10]; break;
             }
         }
         return data.setTotalKills(id, in*multi, plus, worldIn, canChangePhase);

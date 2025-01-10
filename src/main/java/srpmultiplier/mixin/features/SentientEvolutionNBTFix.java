@@ -30,7 +30,7 @@ public abstract class SentientEvolutionNBTFix {
             remap = false
     )
     private boolean writeNBTtoSentient(World world, Entity entity, @Local(argsOnly = true) ItemStack stack) {
-        if (SRPMultiplierConfigHandler.server.fixSentientEvolutionNBT) {
+        if (SRPMultiplierConfigHandler.weapons.fixSentientEvolutionNBT) {
             NBTTagCompound oldTags = stack.getTagCompound();
             ((EntityItem) entity).getItem().setTagCompound(oldTags);
         }
@@ -44,7 +44,7 @@ public abstract class SentientEvolutionNBTFix {
             remap = false
     )
     private void removeSentientTooltip(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn, CallbackInfo ci) {
-        if (!SRPMultiplierConfigHandler.server.removeSentientSRPKillsTooltip) return;
+        if (!SRPMultiplierConfigHandler.weapons.removeSentientSRPKillsTooltip) return;
         if (getNext() != null) return;
         ci.cancel();
     }

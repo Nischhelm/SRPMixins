@@ -23,7 +23,7 @@ public class DreadnaughtMeleeFix extends EntityMob {
             remap = false
     )
     void fixMeleeAuraDmg(CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.dreadnaughtMeleeDamage * SRPConfig.globalDamageMultiplier);
+        if(SRPMultiplierConfigHandler.dmgfix.doDamageFixes)
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.dmgfix.dreadnaughtMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

@@ -17,7 +17,7 @@ public abstract class LureCooldownStacking {
             remap = false
     )
     public void lureCooldownStackingMixin(SRPSaveData instance, int newCooldown, World world, int dim) {
-        if (SRPMultiplierConfigHandler.server.lureCooldownStacking) {
+        if (SRPMultiplierConfigHandler.lures.lureCooldownStacking) {
             int currentCooldown = instance.getCooldown(world, dim);
             instance.setCooldown(currentCooldown+newCooldown, world, dim);
         } else

@@ -26,7 +26,7 @@ public abstract class BloodmoonHandlerMixin {
             remap = false
     )
     private int allowLCdimensionMixin(WorldProvider instance){
-        if(SRPMultiplierConfigHandler.server.bloodmoonInLC){
+        if(SRPMultiplierConfigHandler.modcompat.bloodmoonInLC){
             if(instance.getDimension() == 111)
                 return 0;
         }
@@ -39,7 +39,7 @@ public abstract class BloodmoonHandlerMixin {
             remap=false
     )
     private void spawnParasitesMixin(TickEvent.WorldTickEvent event, CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.bloodmoonInLC){
+        if(SRPMultiplierConfigHandler.modcompat.bloodmoonInLC){
             if(!event.world.isRemote && SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner) {
                 WorldServer server = event.world.getMinecraftServer().getWorld(event.world.provider.getDimension());
                 SRPWorldEntitySpawner.findChunksForSpawning(server, true, false, server.getWorldInfo().getWorldTotalTime() % 400L == 0L);
@@ -56,7 +56,7 @@ public abstract class BloodmoonHandlerMixin {
             remap = false
     )
     private void saveWorldTimeMixin(TickEvent.WorldTickEvent event, CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.bloodmoonInLC)
+        if(SRPMultiplierConfigHandler.modcompat.bloodmoonInLC)
             this.time = (int)(event.world.getWorldTime() % 24000L);
     }
 
@@ -67,7 +67,7 @@ public abstract class BloodmoonHandlerMixin {
     )
     private boolean skipFirstBloodMoonTickInLCMixin(BloodmoonHandler instance){
         //This is needed so the blood moon message in else if(time==12000) is also sent in LC
-        if(SRPMultiplierConfigHandler.server.bloodmoonInLC)
+        if(SRPMultiplierConfigHandler.modcompat.bloodmoonInLC)
             if(time==12000)
                 return false;
         return instance.isBloodmoonActive();
@@ -82,7 +82,7 @@ public abstract class BloodmoonHandlerMixin {
             remap=false
     )
     private void updateBloodmoonMixin(CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.bloodmoonInLC){
+        if(SRPMultiplierConfigHandler.modcompat.bloodmoonInLC){
             PacketHandler.INSTANCE.sendToDimension(new MessageBloodmoonStatus(this.bloodMoon), 111);
         }
     }
@@ -93,7 +93,7 @@ public abstract class BloodmoonHandlerMixin {
             remap=false
     )
     private void setBloodmoonMixin(boolean bloodMoon, CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.bloodmoonInLC){
+        if(SRPMultiplierConfigHandler.modcompat.bloodmoonInLC){
             if (this.bloodMoon != bloodMoon) {
                 PacketHandler.INSTANCE.sendToDimension(new MessageBloodmoonStatus(bloodMoon), 111);
             }

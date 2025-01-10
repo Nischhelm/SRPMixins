@@ -22,7 +22,7 @@ public abstract class FlatSleepPenalty {
             remap = false
     )
     boolean flatSleepPenaltyMixin(SRPSaveData data, int id, int in, boolean plus, World world, boolean canChangePhase){
-        if(SRPMultiplierConfigHandler.server.flatSleepPenalty && !SRPMultiplierConfigHandler.server.playerPhases) {
+        if(SRPMultiplierConfigHandler.phasepoints.flatSleepPenalty && !SRPMultiplierConfigHandler.phasepoints.playerPhases) {
             int dimension = world.provider.getDimension();
             long currentWT = world.getWorldTime();
             if (!lastWake.containsKey(dimension)) {

@@ -25,9 +25,9 @@ public abstract class SRPSpawningDimensionHandlerMixin {
     private static void overwriteMobCapMultiplier(LivingSpawnEvent.CheckSpawn event, CallbackInfo ci) {
         if (!SRPMultiplier.dimensionMobCapMultipliers.containsKey(111)) return;
         int dimension = event.getWorld().provider.getDimension();
-        if (SRPMultiplierConfigHandler.server.bloodmoonInLC && BloodmoonHandler.INSTANCE.isBloodmoonActive() && dimension == 111) {
+        if (SRPMultiplierConfigHandler.modcompat.bloodmoonInLC && BloodmoonHandler.INSTANCE.isBloodmoonActive() && dimension == 111) {
             currentMulti = SRPMultiplier.dimensionMobCapMultipliers.get(111);
-            SRPMultiplier.dimensionMobCapMultipliers.put(111, currentMulti * SRPMultiplierConfigHandler.server.bloodmoonInLCmobCapMultiplier);
+            SRPMultiplier.dimensionMobCapMultipliers.put(111, currentMulti * SRPMultiplierConfigHandler.modcompat.bloodmoonInLCmobCapMultiplier);
         }
     }
 
@@ -40,7 +40,7 @@ public abstract class SRPSpawningDimensionHandlerMixin {
         if (currentMulti == null) return;
         if (!SRPMultiplier.dimensionMobCapMultipliers.containsKey(111)) return;
         int dimension = event.getWorld().provider.getDimension();
-        if (SRPMultiplierConfigHandler.server.bloodmoonInLC && BloodmoonHandler.INSTANCE.isBloodmoonActive() && dimension == 111) {
+        if (SRPMultiplierConfigHandler.modcompat.bloodmoonInLC && BloodmoonHandler.INSTANCE.isBloodmoonActive() && dimension == 111) {
             SRPMultiplier.dimensionMobCapMultipliers.put(111, currentMulti);
             currentMulti = null;
         }

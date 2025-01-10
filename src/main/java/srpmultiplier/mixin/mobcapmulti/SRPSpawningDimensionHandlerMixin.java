@@ -2,7 +2,6 @@ package srpmultiplier.mixin.mobcapmulti;
 
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
-import lumien.bloodmoon.server.BloodmoonHandler;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -34,7 +33,7 @@ public abstract class SRPSpawningDimensionHandlerMixin {
     )
     private static int increaseParasiteMobCap_checkNearby() {
         float dimensionMultiplier = SRPMultiplier.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMultiplierConfigHandler.server.doMultipliers && dimensionMultiplier != 1.0F)
+        if (SRPMultiplierConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
         return SRPConfig.worldMobCap;
     }
@@ -46,7 +45,7 @@ public abstract class SRPSpawningDimensionHandlerMixin {
     )
     private static int increaseParasiteMobCapPerPlayer_checkNearby() {
         float dimensionMultiplier = SRPMultiplier.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMultiplierConfigHandler.server.doMultipliers && dimensionMultiplier != 1.0F)
+        if (SRPMultiplierConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
         return SRPConfig.worldMobCapPlusPlayer;
     }

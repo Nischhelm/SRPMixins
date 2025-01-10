@@ -18,7 +18,7 @@ public interface SRPSaveDataInterface {
 
     static SRPSaveData get(World world, EntityPlayer player, BlockPos blockPos){
         SRPSaveData data = SRPSaveData.get(world);
-        if(SRPMultiplierConfigHandler.server.playerPhases) {
+        if(SRPMultiplierConfigHandler.phasepoints.playerPhases) {
             if(player != null)
                 return ((SRPSaveDataInterface) data).getByPlayer(world, player.getUniqueID());
             else if(blockPos != null)

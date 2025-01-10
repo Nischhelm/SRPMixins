@@ -32,18 +32,18 @@ public abstract class LCPortalPhaseLock {
     )
     void lockPortalBehindPhase(EntityPlayer player, int dimension, BlockPos pos){
         if(!SRPConfigSystems.useEvolution) return;
-        if(SRPMultiplierConfigHandler.server.portalLClockedPhase > -1) {
+        if(SRPMultiplierConfigHandler.modcompat.portalLClockedPhase > -1) {
             if (dimension == LostCityConfiguration.DIMENSION_ID) {
                 byte evoPhase;
                 World world = player.getEntityWorld();
                 SRPSaveData data = SRPSaveData.get(world);
                 int dimensionPlayer = world.provider.getDimension();
-                if (SRPMultiplierConfigHandler.server.playerPhases)
+                if (SRPMultiplierConfigHandler.phasepoints.playerPhases)
                     evoPhase = ((SRPSaveDataInterface) data).getByPlayer(world, player.getUniqueID()).getEvolutionPhase(dimensionPlayer);
                 else
                     evoPhase = data.getEvolutionPhase(dimensionPlayer);
 
-                if (evoPhase >= SRPMultiplierConfigHandler.server.portalLClockedPhase) {
+                if (evoPhase >= SRPMultiplierConfigHandler.modcompat.portalLClockedPhase) {
                     CustomTeleporter.teleportToDimension(player, LostCityConfiguration.DIMENSION_ID, pos);
                 } else {
                     player.sendStatusMessage(new TextComponentString(TextFormatting.RED + "Fear incapacitates you"), true);

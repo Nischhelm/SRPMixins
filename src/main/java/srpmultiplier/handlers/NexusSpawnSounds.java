@@ -12,7 +12,7 @@ public class NexusSpawnSounds {
 
     @SubscribeEvent(priority=EventPriority.LOWEST)
     public static void soundsOnSpecialSpawns(LivingSpawnEvent.SpecialSpawn event){
-        if(SRPMultiplierConfigHandler.server.playsounds) {
+        if(SRPMultiplierConfigHandler.deterrents.playsounds) {
             Entity e = event.getEntity();
             if (!event.isCanceled() & SRPConfigSystems.rsSounds) {
                 if (e instanceof EntityVenkrolSIV)

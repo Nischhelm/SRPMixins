@@ -26,12 +26,12 @@ public class OverlordHaunterRangedFix {
             remap = false
     )
     private void fixRangedDmg(World worldIn, EntityLivingBase ownerIn, Entity targetIn, float damage, CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.doDamageFixes) {
+        if(SRPMultiplierConfigHandler.dmgfix.doDamageFixes) {
             if (this.owner instanceof EntityTerla) {
-                this.damage = SRPMultiplierConfigHandler.server.overlordProjectileDamage * SRPConfig.globalDamageMultiplier;
+                this.damage = SRPMultiplierConfigHandler.dmgfix.overlordProjectileDamage * SRPConfig.globalDamageMultiplier;
             }
             if (this.owner instanceof EntityPheon) {
-                this.damage = SRPMultiplierConfigHandler.server.haunterProjectileDamage * SRPConfig.globalDamageMultiplier;
+                this.damage = SRPMultiplierConfigHandler.dmgfix.haunterProjectileDamage * SRPConfig.globalDamageMultiplier;
             }
             this.damage *= SRPMultiplier.dimensionDmgMultipliers.getOrDefault(this.owner.world.provider.getDimension(),1F);
         }

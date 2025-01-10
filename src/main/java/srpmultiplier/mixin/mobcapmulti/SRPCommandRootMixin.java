@@ -34,7 +34,7 @@ public abstract class SRPCommandRootMixin {
     )
     private int increaseParasiteMobCap() {
         float dimensionMultiplier = SRPMultiplier.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMultiplierConfigHandler.server.doMultipliers && dimensionMultiplier != 1.0F)
+        if (SRPMultiplierConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
         return SRPConfig.worldMobCap;
     }
@@ -46,7 +46,7 @@ public abstract class SRPCommandRootMixin {
     )
     private int increaseParasiteMobCapPerPlayer() {
         float dimensionMultiplier = SRPMultiplier.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMultiplierConfigHandler.server.doMultipliers && dimensionMultiplier != 1.0F)
+        if (SRPMultiplierConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
         return SRPConfig.worldMobCapPlusPlayer;
     }

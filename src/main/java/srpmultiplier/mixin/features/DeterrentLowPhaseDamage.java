@@ -23,8 +23,8 @@ public abstract class DeterrentLowPhaseDamage {
         ResourceLocation resourcelocation = EntityList.getKey(instance);
         String typeOfThis = resourcelocation == null ? "" : resourcelocation.toString();
 
-        boolean listContainsThis = Arrays.asList(SRPMultiplierConfigHandler.server.whiteListedDeterrents).contains(typeOfThis);
-        if(listContainsThis == SRPMultiplierConfigHandler.server.blackListDeterrents)
+        boolean listContainsThis = Arrays.asList(SRPMultiplierConfigHandler.deterrents.whiteListedDeterrents).contains(typeOfThis);
+        if(listContainsThis == SRPMultiplierConfigHandler.deterrents.blackListDeterrents)
             return false;
         return instance.attackEntityFrom(DamageSource.OUT_OF_WORLD, 1.0F);
     }

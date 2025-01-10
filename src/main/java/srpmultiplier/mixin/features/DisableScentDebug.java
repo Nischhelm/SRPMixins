@@ -24,7 +24,7 @@ public abstract class DisableScentDebug extends Entity {
             remap = false
     )
     private void disableScentDebugMixin(EntityPlayer player, CallbackInfo ci) {
-        if (SRPMultiplierConfigHandler.server.disableScentDebug) {
+        if (SRPMultiplierConfigHandler.various.disableScentDebug) {
             super.onCollideWithPlayer(player);
             ci.cancel();
         }

@@ -23,7 +23,7 @@ public class BogleMeleeFix extends EntityMob {
             remap = false
     )
     void fixMeleeAuraDmg(CallbackInfo ci){
-        if(SRPMultiplierConfigHandler.server.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.server.bogleMeleeDamage * SRPConfig.globalDamageMultiplier);
+        if(SRPMultiplierConfigHandler.dmgfix.doDamageFixes)
+            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMultiplierConfigHandler.dmgfix.bogleMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

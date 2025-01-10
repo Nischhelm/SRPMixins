@@ -18,7 +18,7 @@ import java.util.HashMap;
 @Mod(modid = SRPMultiplier.MODID, version = SRPMultiplier.VERSION, name = SRPMultiplier.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMultiplier {
     public static final String MODID = "srpmultiplier";
-    public static final String VERSION = "2.1.3";
+    public static final String VERSION = "2.1.4";
     public static final String NAME = "SRPMultiplier";
     public static final Logger LOGGER = LogManager.getLogger();
 
@@ -34,13 +34,13 @@ public class SRPMultiplier {
     public void preInit(FMLPreInitializationEvent event) {
         MinecraftForge.EVENT_BUS.register(NexusSpawnSounds.class);
         MinecraftForge.EVENT_BUS.register(ParasiteDropChance.class);
-        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMultiplierConfigHandler.server.dimensionHealthMultipliers);
-        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDmgMultipliers, SRPMultiplierConfigHandler.server.dimensionDmgMultipliers);
-        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionArmorMultipliers, SRPMultiplierConfigHandler.server.dimensionArmorMultipliers);
-        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionKBResMultipliers, SRPMultiplierConfigHandler.server.dimensionKBResMultipliers);
-        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMultiplierConfigHandler.server.dimensionDropMultipliers);
-        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMultiplierConfigHandler.server.dimensionMobCapMultipliers);
-        SRPMultiplierConfigHandler.setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMultiplierConfigHandler.server.biomeBlacklist);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMultiplierConfigHandler.dimension.dimensionHealthMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDmgMultipliers, SRPMultiplierConfigHandler.dimension.dimensionDmgMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionArmorMultipliers, SRPMultiplierConfigHandler.dimension.dimensionArmorMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionKBResMultipliers, SRPMultiplierConfigHandler.dimension.dimensionKBResMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMultiplierConfigHandler.dimension.dimensionDropMultipliers);
+        SRPMultiplierConfigHandler.setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMultiplierConfigHandler.dimension.dimensionMobCapMultipliers);
+        SRPMultiplierConfigHandler.setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMultiplierConfigHandler.various.biomeBlacklist);
     }
 
     @Mod.EventHandler

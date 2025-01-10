@@ -32,7 +32,7 @@ public abstract class LureCooldownBypass {
     )
     private int cancelIfMinus(SRPSaveData instance, World world, int dim) {
         int cd = instance.getCooldown(world, dim);
-        if (SRPMultiplierConfigHandler.server.fixCarcassDuringCooldown && cd != 0 && points < 0 && isAdding)
+        if (SRPMultiplierConfigHandler.lures.fixCarcassDuringCooldown && cd != 0 && points < 0 && isAdding)
             return 0;
         return cd;
     }

@@ -16,7 +16,7 @@ public abstract class ClientBloodmoonHandlerMixin {
             remap=false
     )
     private int bloodmoonInLCMixin(WorldProvider instance){
-        if(SRPMultiplierConfigHandler.server.bloodmoonInLC){
+        if(SRPMultiplierConfigHandler.modcompat.bloodmoonInLC){
             if(instance.getDimension() == 111) return 0;
         }
         return instance.getDimension();

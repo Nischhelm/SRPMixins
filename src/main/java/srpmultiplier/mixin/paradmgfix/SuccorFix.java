@@ -26,8 +26,8 @@ public abstract class SuccorFix extends EntityMob {
             remap = false
     )
     private void fixSuccorDamageMixin(EntityParasiteBase in, CallbackInfo ci) {
-        if (SRPMultiplierConfigHandler.server.fixSuccorDamage) {
-            float fixedDmg = SRPMultiplierConfigHandler.server.fixedSuccorDamage * SRPConfig.globalDamageMultiplier;
+        if (SRPMultiplierConfigHandler.dmgfix.fixSuccorDamage) {
+            float fixedDmg = SRPMultiplierConfigHandler.dmgfix.fixedSuccorDamage * SRPConfig.globalDamageMultiplier;
             this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(fixedDmg);
             ci.cancel();
         }

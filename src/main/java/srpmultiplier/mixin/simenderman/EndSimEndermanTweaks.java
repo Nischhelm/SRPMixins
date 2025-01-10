@@ -20,7 +20,7 @@ public abstract class EndSimEndermanTweaks {
             remap = false
     )
     private static void endSimmermenDespawnMixin(EntityPInfected parasite, boolean b){
-        if(SRPMultiplierConfigHandler.server.despawnEndSimmermen)
+        if(SRPMultiplierConfigHandler.simmermen.despawnEndSimmermen)
             if(parasite instanceof EntityInfEnderman || parasite instanceof EntityInfEndermanHead)
                 if(parasite.world.provider.getDimension()==1)
                     b = true;
@@ -33,7 +33,7 @@ public abstract class EndSimEndermanTweaks {
             remap = false
     )
     private static boolean simmermanCapMixin(World world, Entity entity){
-        if(SRPMultiplierConfigHandler.server.endSimmermenCap>-1)
+        if(SRPMultiplierConfigHandler.simmermen.endSimmermenCap>-1)
             if(entity instanceof EntityInfEnderman || entity instanceof EntityInfEndermanHead)
                 if(world.provider.getDimension()==1){
                     int simmermancount = 0;
@@ -41,7 +41,7 @@ public abstract class EndSimEndermanTweaks {
                         if(e instanceof EntityInfEnderman || e instanceof EntityInfEndermanHead)
                             ++simmermancount;
 
-                    if(simmermancount >= SRPMultiplierConfigHandler.server.endSimmermenCap)
+                    if(simmermancount >= SRPMultiplierConfigHandler.simmermen.endSimmermenCap)
                         return false;
                 }
 
