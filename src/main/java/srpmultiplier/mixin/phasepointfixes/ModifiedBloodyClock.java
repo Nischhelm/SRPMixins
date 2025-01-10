@@ -1,4 +1,4 @@
-package srpmultiplier.mixin.features;
+package srpmultiplier.mixin.phasepointfixes;
 
 import com.dhanantry.scapeandrunparasites.item.ItemEPClock;
 import com.dhanantry.scapeandrunparasites.network.SRPCommandEvolution;

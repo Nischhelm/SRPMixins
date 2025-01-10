@@ -1,4 +1,4 @@
-package srpmultiplier.mixin.features;
+package srpmultiplier.mixin.weaponfixes;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolMeleeBase;
@@ -35,6 +35,7 @@ public abstract class ParasiteWeaponSpecialEffectFix extends EntityMob {
         if (!(source.getTrueSource() instanceof EntityPlayer)) return;
         ItemStack mainhand = ((EntityPlayer) source.getTrueSource()).getItemStackFromSlot(EntityEquipmentSlot.MAINHAND);
         if (mainhand.getItem() instanceof WeaponToolMeleeBase) {
+            //SRP Code was missing a "return", that's the whole bug
             cir.setReturnValue(super.attackEntityFrom(source, amount));
         }
     }

@@ -1,4 +1,4 @@
-package srpmultiplier.mixin.phasepointfixes;
+package srpmultiplier.mixin.phasepointfixes.lures;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.world.World;

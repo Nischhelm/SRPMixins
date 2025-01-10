@@ -1,6 +1,5 @@
 package srpmultiplier;
 
-import com.lycanitesmobs.core.spawner.SpawnerManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -46,6 +45,6 @@ public class SRPMultiplier {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         if(CompatUtil.isLycanitesMobsLoaded())
-            SpawnerManager.getInstance().reload();
+            CompatUtil.reloadLycaniteSpawnerManager();
     }
 }

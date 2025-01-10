@@ -1,4 +1,4 @@
-package srpmultiplier.mixin.features;
+package srpmultiplier.mixin.weaponfixes;
 
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolMeleeBase;
 import com.llamalad7.mixinextras.sugar.Local;

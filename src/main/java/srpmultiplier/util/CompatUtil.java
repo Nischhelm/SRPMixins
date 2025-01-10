@@ -1,5 +1,6 @@
 package srpmultiplier.util;
 
+import com.lycanitesmobs.core.spawner.SpawnerManager;
 import net.minecraftforge.fml.common.Loader;
 
 public class CompatUtil {
@@ -10,5 +11,9 @@ public class CompatUtil {
     public static boolean isLycanitesMobsLoaded() {
         if(isLycanitesMobsLoaded == null) isLycanitesMobsLoaded = Loader.isModLoaded(LYCANITESMOBS_MODID);
         return isLycanitesMobsLoaded;
+    }
+
+    public static void reloadLycaniteSpawnerManager(){
+        SpawnerManager.getInstance().reload();
     }
 }
