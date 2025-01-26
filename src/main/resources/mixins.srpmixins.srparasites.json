@@ -8,9 +8,13 @@
   "mixins": [
     "clientpotioncancel.SeizerMixin",
     "clientpotioncancel.SRPPotionsMixin",
+    "cothtweaks.IncrementCothOnImmuneFix",
+    "cothtweaks.ConvertImmuneFix",
+    "deterrenttweaks.BeckonUpgradeDeny",
+    "deterrenttweaks.DeterrentLowPhaseDamage",
+    "deterrenttweaks.NexusCap",
     "features.BiomeSpawningBlacklist",
     "features.BlacklistWildcards",
-    "deterrenttweaks.DeterrentLowPhaseDamage",
     "features.DimensionStatMultiplier",
     "features.DisableScentDebug",
     "features.PotionAttributeFix",
@@ -47,8 +51,6 @@
     "simenderman.FeralEndermanTp",
     "simenderman.SimEndermanHeadTp",
     "simenderman.SimEndermanTp",
-    "deterrenttweaks.BeckonUpgradeDeny",
-    "deterrenttweaks.NexusCap",
     "weaponfixes.ParasiteWeaponSpecialEffectFix",
     "weaponfixes.SentientEvolutionNBTFix"
   ],

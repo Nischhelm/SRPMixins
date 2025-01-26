@@ -45,6 +45,7 @@ Originally intended for SRParasites to work better with RLCraft
 - Fixed Rage and Heightened Senses applying random UUID attribute modifiers which can accumulate modifiers on repeated restarts
 - Fixes potion effects being applied on client side making them never run out but also not do anything
 - Fixes SRP spamming debug logs when players touch a scent
+- Fixes COTH immune mobs getting converted/feralised anyway
 - Tweaks assimilated and feral enderman tp radius for performance
 - Nerf Assimilated Endermen in End dimension to stop the utter chaos
   - Added custom mob cap for Endermen turning to Assimilated Endermen in the End Dimension

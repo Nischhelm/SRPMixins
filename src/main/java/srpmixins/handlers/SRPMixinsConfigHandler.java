@@ -54,6 +54,10 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("Assimilated and Feral Endermen")
 	public static final SimmermanConfig simmermen = new SimmermanConfig();
 
+	@Config.Comment("Call of the Hive Options")
+	@Config.Name("COTH")
+	public static final CothConfig coth = new CothConfig();
+
 	public static class DeterrentConfig {
 		@Config.Comment("Custom Mob Cap for Nexus Parasites (Dispatcher+Beckon) using SRP Phase Custom Spawner. Nexus Parasites still count to the global SRP Mob Cap. Disable with -1")
 		@Config.Name("Nexus Mob Cap")
@@ -312,6 +316,20 @@ public class SRPMixinsConfigHandler {
 		@Config.Name("SRP Blacklists are Wildcard-able")
 		public boolean blacklistsWildcardable = false;
     }
+
+	public static class CothConfig {
+		@Config.Comment("Makes mobs getting converted to their assimilated version respect coth immunity")
+		@Config.Name("Stop assimilating COTH immune mobs")
+		public boolean stopCothImmuneAssim = true;
+
+		@Config.Comment("Makes mobs getting converted to their feral version respect coth immunity")
+		@Config.Name("Stop feralizing COTH immune mobs")
+		public boolean stopCothImmuneFeral = true;
+
+		@Config.Comment("Fixes the srpcothimmunity tag (basically counting coth lvls) getting incremented for coth immune mobs, making them not immune anymore")
+		@Config.Name("Fix srpcothimmunity tag")
+		public boolean fixSrpCothImmunity = true;
+	}
 
 	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {
 		for (String line : config) {
