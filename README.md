@@ -1,6 +1,6 @@
 # SRPMixins
 
-Tweaks SRParasites and fixes a lot of bugs
+Tweaks and Fixes for SRParasites
 
 Originally intended for SRParasites to work better with RLCraft
 
