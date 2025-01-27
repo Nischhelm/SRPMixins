@@ -117,6 +117,34 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         return instance;
     }
 
+    @Redirect(
+            method = "createData",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setEvolutionPhase(IBZLnet/minecraft/world/World;Z)Z"),
+            remap = false
+    )
+    private static boolean fixDefault_Gaining_Loss_noPlayerPhases(SRPSaveData instance, int dim, byte phase, boolean override, World world, boolean canChangePhase) {
+        //This would be overwritten later in createData for phase -2, so don't bother
+        if(phase != -2) {
+            //Set canGain
+            instance.setGaining(true, dim);
+            //is in blacklist
+            boolean dimIsInList = Arrays.stream(SRPConfigSystems.evolutionDimGain).anyMatch(v -> v == dim);
+            //if (found and blacklist) or (not found and whitelist)
+            if (SRPConfigSystems.evolutionDimGainInverted != dimIsInList)
+                instance.setGaining(false, dim);
+            //Set canLoss (should be cantLose)
+            instance.setLoss(false, dim);
+            //is in blacklist
+            dimIsInList = Arrays.stream(SRPConfigSystems.evolutionDimLoss).anyMatch(v -> v == dim);
+            //if (found and blacklist) or (not found and whitelist)
+            if (SRPConfigSystems.evolutionDimLossInverted != dimIsInList)
+                instance.setLoss(true, dim);
+        }
+
+        //Default behavior
+        return instance.setEvolutionPhase(dim, phase, override, world, canChangePhase);
+    }
+
     @Unique
     private static void addDim(SRPSaveData instance, int id) {
         if(((SRPSaveDataAccessor) instance).getDimEPid().contains(id)) return;

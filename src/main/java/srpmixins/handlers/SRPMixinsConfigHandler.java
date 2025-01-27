@@ -111,6 +111,10 @@ public class SRPMixinsConfigHandler {
 	}
 
 	public static class WeaponConfig {
+		@Config.Comment("Fully disable the sentient evolution mechanic where living weapons/armor/bow evolve to sentient after x kills")
+		@Config.Name("Disable Sentient Evolution Mechanic")
+		public boolean disableSentientEvolution = false;
+
 		@Config.Comment("Fix parasites getting hit by sentient weapons not doing the correct things")
 		@Config.Name("Fix parasite weapon damage")
 		public boolean fixParasiteDmg = true;
@@ -122,7 +126,11 @@ public class SRPMixinsConfigHandler {
 		@Config.Comment("Sentient weapons keep counting parasite kills(/HP) even though it doesn't do anything for them. Set to true to remove this Tooltip")
 		@Config.Name("Remove Parasite Kills tooltip from sentient weapons")
 		public boolean removeSentientSRPKillsTooltip = true;
-	}
+
+		@Config.Comment("Copy the same sentient evolution handling of living weapons to living armor and living bow")
+		@Config.Name("Sentient Armor+Bow Evolution")
+		public boolean addArmorBowEvolution = true;
+    }
 
 	public static class LureConfig {
 		@Config.Comment("Change Carcass Point Reduction based on Phase")
