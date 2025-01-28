@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.handlers.SRPMixinsConfigHandler;
 
+import java.io.PrintStream;
+
 @Mixin(EntityParasiticScent.class)
 public abstract class DisableScentDebug extends Entity {
 
@@ -32,13 +34,14 @@ public abstract class DisableScentDebug extends Entity {
         }
     }
 
-    @Inject(
+    @Redirect(
             method = "placeWaves",
             at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
-            remap = false,
-            cancellable = true
+            remap = false
     )
-    void disableScentDebugMixin(int minDist, int maxDist, CallbackInfoReturnable<Integer> cir){
-        cir.setReturnValue(0);
+    void disableScentDebugMixin(PrintStream instance, String x){
+        if (!SRPMixinsConfigHandler.various.disableScentDebug)
+            instance.println(x);
+        //no op if disabled
     }
 }

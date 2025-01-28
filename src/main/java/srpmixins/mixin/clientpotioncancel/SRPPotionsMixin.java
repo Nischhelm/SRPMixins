@@ -10,6 +10,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.io.PrintStream;
+
 @Mixin(SRPPotions.class)
 public class SRPPotionsMixin {
     @Inject(
@@ -31,5 +33,14 @@ public class SRPPotionsMixin {
     private static void cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
         if(!instance.world.isRemote)
             instance.addPotionEffect(potionEffect);
+    }
+
+    @Redirect(
+            method = "applyStackPotion",
+            at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
+            remap = false
+    )
+    private static void cancelDebugMsg(PrintStream instance, String x){
+        //no op, dont send debug msg
     }
 }
