@@ -18,7 +18,7 @@ public class SimDragonEProjFix {
             remap = false
     )
     double fixProjDmg(@Local(argsOnly = true) RayTraceResult result){
-        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes) {
+        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes && result.entityHit != null) {
             int dimension = result.entityHit.dimension;
             return SRPAttributes.INFDRAGONE_RANGED_ATTACK_DAMAGE * SRPMixins.dimensionDmgMultipliers.getOrDefault(dimension,1F);
         }

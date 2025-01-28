@@ -16,6 +16,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.handlers.SRPMixinsConfigHandler;
 
 import javax.annotation.Nonnull;
@@ -64,8 +67,12 @@ public class SentientArmorEvolution extends ItemArmor {
         }
     }
 
-    @Override
-    public void addInformation(@Nonnull ItemStack stack, World worldIn, @Nonnull List<String> tooltip, @Nonnull ITooltipFlag flagIn) {
+    @Inject(
+            method = "func_77624_a",
+            at = @At(value = "HEAD"),
+            remap = false
+    )
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn, CallbackInfo ci) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         if (SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
         NBTTagCompound compound = stack.getTagCompound();

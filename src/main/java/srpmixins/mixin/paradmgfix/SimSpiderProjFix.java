@@ -18,7 +18,7 @@ public class SimSpiderProjFix {
             remap = false
     )
     float fixProjDmg(@Local(argsOnly = true) RayTraceResult result){
-        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes) {
+        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes && result.entityHit != null) {
             int dimension = result.entityHit.dimension;
             return SRPAttributes.DORPA_RANGED_DAMAGE * SRPMixins.dimensionDmgMultipliers.getOrDefault(dimension,1F);
         }

@@ -7,7 +7,9 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.handlers.SRPMixinsConfigHandler;
 
 @Mixin(EntityParasiticScent.class)
@@ -28,5 +30,15 @@ public abstract class DisableScentDebug extends Entity {
             super.onCollideWithPlayer(player);
             ci.cancel();
         }
+    }
+
+    @Inject(
+            method = "placeWaves",
+            at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
+            remap = false,
+            cancellable = true
+    )
+    void disableScentDebugMixin(int minDist, int maxDist, CallbackInfoReturnable<Integer> cir){
+        cir.setReturnValue(0);
     }
 }
