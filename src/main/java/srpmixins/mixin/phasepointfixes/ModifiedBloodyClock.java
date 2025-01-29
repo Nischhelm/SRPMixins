@@ -8,7 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -53,7 +53,7 @@ public abstract class ModifiedBloodyClock {
             int pointsThis = SRPCommandEvolution.getNeededPoints(evoPhase);
             int perc = (int) round((100. * ((double) saveData.getTotalKills(dimension) - pointsThis)) / ((double) pointsNext - pointsThis));
             if (pointsNext == pointsThis) perc = 0;
-            player.sendStatusMessage(new TextComponentString("Current Phase: "+Integer.toString(evoPhase)).appendText(" (" + perc + "%)"), true);
+            player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.currentphase",Integer.toString(evoPhase),perc), true);
         } else
             player.sendStatusMessage(iTextComponent, b);
     }

@@ -13,7 +13,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -44,7 +44,7 @@ public abstract class LCLureDisable extends BlockBase {
             int dimension = playerIn.dimension;
             ItemStack head = new ItemStack(playerIn.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem());
             if (head.getItem() == Items.AIR & dimension == 111 & SRPConfigSystems.useEvolution) {
-                playerIn.sendStatusMessage(new TextComponentString("The hive whispers to you"), true);
+                playerIn.sendStatusMessage(new TextComponentTranslation("srpmixins.msg.hivewhispers"), true);
                 worldIn.setBlockState(pos, SRPBlocks.dodN.getDefaultState());
                 cir.setReturnValue(super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ));
             }

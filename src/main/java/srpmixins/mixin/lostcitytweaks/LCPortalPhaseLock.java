@@ -9,7 +9,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
@@ -46,7 +47,7 @@ public abstract class LCPortalPhaseLock {
                 if (evoPhase >= SRPMixinsConfigHandler.modcompat.portalLClockedPhase) {
                     CustomTeleporter.teleportToDimension(player, LostCityConfiguration.DIMENSION_ID, pos);
                 } else {
-                    player.sendStatusMessage(new TextComponentString(TextFormatting.RED + "Fear incapacitates you"), true);
+                    player.sendStatusMessage(new TextComponentTranslation("srpmixins.msg.fearincapacitates").setStyle(new Style().setColor(TextFormatting.RED)), true);
                     Potion fearEffect = Potion.getPotionFromResourceLocation("lycanitesmobs:fear");
                     if(fearEffect != null)
                         player.addPotionEffect(new PotionEffect(fearEffect, 100, 0));

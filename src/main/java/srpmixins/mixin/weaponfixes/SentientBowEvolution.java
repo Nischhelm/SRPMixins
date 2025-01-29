@@ -13,8 +13,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.handlers.SRPMixinsConfigHandler;
 
 import javax.annotation.Nonnull;
@@ -53,8 +58,13 @@ public class SentientBowEvolution extends ItemBow {
         return this == SRPItems.weapon_bow ? SRPItems.weapon_bow_sentient : null;
     }
 
-    @Override
-    public void addInformation(@Nonnull ItemStack stack, World worldIn, @Nonnull List<String> tooltip, @Nonnull ITooltipFlag flagIn) {
+    @Inject(
+            method = "func_77624_a",
+            at = @At(value = "HEAD"),
+            remap = false
+    )
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn, CallbackInfo ci) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         if (SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
         NBTTagCompound compound = stack.getTagCompound();

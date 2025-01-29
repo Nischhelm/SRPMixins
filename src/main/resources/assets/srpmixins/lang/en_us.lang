@@ -1,0 +1,3 @@
+srpmixins.msg.fearincapacitates=Fear incapacitates you
+srpmixins.msg.hivewhispers=The hive whispers to you
+srpmixins.bloodyclock.currentphase=Current Phase: %s (%s%%)

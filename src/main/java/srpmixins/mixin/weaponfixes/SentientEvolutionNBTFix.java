@@ -9,6 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -62,6 +64,7 @@ public abstract class SentientEvolutionNBTFix {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;func_77978_p()Lnet/minecraft/nbt/NBTTagCompound;"),
             remap = false
     )
+    @SideOnly(Side.CLIENT)
     private NBTTagCompound removeSentientTooltip(ItemStack instance) {
         if (SRPMixinsConfigHandler.weapons.disableSentientEvolution) return null;
         if (SRPMixinsConfigHandler.weapons.removeSentientSRPKillsTooltip && getNext() == null)
