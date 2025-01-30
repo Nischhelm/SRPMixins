@@ -13,7 +13,8 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 	public SRPMixinsPlugin() {
 		MixinBootstrap.init();
 
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.playerphases.json", true);
+		if(SRPMixinsConfigHandler.getBoolean("Use Player Phases"))
+			FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.playerphases.json", true);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srparasites.json", true);
 		if(SRPMixinsConfigHandler.getBoolean("Compat: Modpack has LostCities mod")) {
 			FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.lostcities.json", true);

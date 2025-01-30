@@ -1,7 +1,9 @@
 package srpmixins.mixin.phasepointfixes;
 
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -13,14 +15,15 @@ public abstract class BiomeSpreadingPointsPhaseLock {
 
     @Redirect(
             method="canInfestBlock",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
+            at=@At(value= "FIELD",target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;valueBlock:I"),
             remap=false
     )
-    private static boolean phaseLockBlock(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
+    private static int phaseLockBlock(@Local(argsOnly = true) World world){
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
-        if(startPhase>-1 && data.getEvolutionPhase(id)<startPhase)
-            return false;
-        return data.setTotalKills(id,in,plus,worldIn,canChangePhase);
+        SRPSaveData data = SRPSaveData.get(world);
+        if(startPhase>-1 && data.getEvolutionPhase(world.provider.getDimension())<startPhase)
+            return 0;
+        return SRPConfigSystems.valueBlock;
     }
 
     @Redirect(
