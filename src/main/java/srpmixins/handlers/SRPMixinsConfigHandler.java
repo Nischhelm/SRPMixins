@@ -85,6 +85,10 @@ public class SRPMixinsConfigHandler {
 		@Config.Name("Bloody Clock percentage")
 		public boolean modifyBloodyClock = true;
 
+		@Config.Comment("If Bloody CLock percentage is true, also show point cooldown when using the clock")
+		@Config.Name("Bloody Clock shows cooldown")
+		public boolean bloodyClockShowsCooldown = true;
+
 		@Config.Comment("Only give one penalty of evolution phase points when players sleep instead of a penalty per sleeping player (if player phases off)")
 		@Config.Name("Flat sleep point penalty")
 		public boolean flatSleepPenalty = true;
@@ -152,6 +156,10 @@ public class SRPMixinsConfigHandler {
 		@Config.Comment("Only allow carcasses built from 5 lures of the same type. Without this fix, only the level of the center lure matters")
 		@Config.Name("Force carcass all same lure type")
 		public boolean forceCarcassSameLureVariant = true;
+
+		@Config.Comment("When using faint lures, SRP also calls setCooldown for lures 9 and 10 (they forgot to set a break;). To fix this, we just set them to 0 here (can also be fixed by setting them to 0 in SRP configs)")
+		@Config.Name("Overwrite lure cooldowns nine and ten with 0")
+		public boolean fixCooldownOverflow = true;
 	}
 
 	public static class DimensionConfig {

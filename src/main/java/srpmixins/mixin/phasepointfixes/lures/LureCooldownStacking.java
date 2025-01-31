@@ -1,6 +1,7 @@
 package srpmixins.mixin.phasepointfixes.lures;
 
 import com.dhanantry.scapeandrunparasites.block.BlockEvolutionLure;
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,5 +23,29 @@ public abstract class LureCooldownStacking {
             instance.setCooldown(currentCooldown+newCooldown, world, dim);
         } else
             instance.setCooldown(newCooldown, world, dim);
+    }
+
+    @Redirect(
+            method = "func_180639_a",
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueNine:I"),
+            remap = false
+    )
+    public int disableLureNineCooldown(){
+        if(SRPMixinsConfigHandler.lures.fixCooldownOverflow)
+            return 0;
+        else
+            return SRPConfigSystems.luredValueNine;
+    }
+
+    @Redirect(
+            method = "func_180639_a",
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueTen:I"),
+            remap = false
+    )
+    public int disableLureTenCooldown(){
+        if(SRPMixinsConfigHandler.lures.fixCooldownOverflow)
+            return 0;
+        else
+            return SRPConfigSystems.luredValueTen;
     }
 }

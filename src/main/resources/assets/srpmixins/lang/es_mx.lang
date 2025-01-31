@@ -1,3 +1,4 @@
 srpmixins.msg.fearincapacitates=El terror te incapacita
 srpmixins.msg.hivewhispers=La colmena te susurra al oído
 srpmixins.bloodyclock.currentphase=Fase actual: %s (%s%%)
+srpmixins.bloodyclock.phaseandcooldown=Fase actual: %s (%s%%, Tiempo de espera %s)

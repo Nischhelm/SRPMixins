@@ -3,6 +3,7 @@ package srpmixins.mixin.phasepointfixes;
 import com.dhanantry.scapeandrunparasites.item.ItemEPClock;
 import com.dhanantry.scapeandrunparasites.network.SRPCommandEvolution;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -53,7 +54,21 @@ public abstract class ModifiedBloodyClock {
             int pointsThis = SRPCommandEvolution.getNeededPoints(evoPhase);
             int perc = (int) round((100. * ((double) saveData.getTotalKills(dimension) - pointsThis)) / ((double) pointsNext - pointsThis));
             if (pointsNext == pointsThis) perc = 0;
-            player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.currentphase",Integer.toString(evoPhase),perc), true);
+            int cooldown = saveData.getCooldown(player.getEntityWorld(), dimension);
+            if (SRPMixinsConfigHandler.phasepoints.bloodyClockShowsCooldown && cooldown > 0) {
+                int hours = cooldown / 3600;    cooldown -= 3600 * hours;
+                int minutes = (cooldown) / 60;  cooldown -= 60 * minutes;
+                int seconds = cooldown;
+
+                String cooldownMsg = "";
+                if (hours > 0) cooldownMsg = I18n.format("socketed.bloodyclock.hours", hours, minutes, seconds);
+                else if (minutes > 0) cooldownMsg = I18n.format("socketed.bloodyclock.minutes", minutes, seconds);
+                else cooldownMsg = I18n.format("socketed.bloodyclock.seconds", seconds);
+
+                player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseandcooldown", Integer.toString(evoPhase), perc, cooldownMsg), true);
+            } else {
+                player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.currentphase", Integer.toString(evoPhase), perc), true);
+            }
         } else
             player.sendStatusMessage(iTextComponent, b);
     }
