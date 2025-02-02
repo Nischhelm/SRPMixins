@@ -95,6 +95,7 @@ public class SRPMixinsConfigHandler {
 
 		@Config.Comment("Do Phase+Point functionalities per player, allowing better Multiplayer")
 		@Config.Name("Use Player Phases")
+		@Config.RequiresMcRestart
 		public boolean playerPhases = true;
 
 		@Config.Comment("Players can only get point penalty from adapted mobs despawning from this phase onwards (disable with -1)")

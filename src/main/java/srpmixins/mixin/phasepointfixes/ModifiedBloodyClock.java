@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -60,10 +61,10 @@ public abstract class ModifiedBloodyClock {
                 int minutes = (cooldown) / 60;  cooldown -= 60 * minutes;
                 int seconds = cooldown;
 
-                String cooldownMsg = "";
-                if (hours > 0) cooldownMsg = I18n.format("socketed.bloodyclock.hours", hours, minutes, seconds);
-                else if (minutes > 0) cooldownMsg = I18n.format("socketed.bloodyclock.minutes", minutes, seconds);
-                else cooldownMsg = I18n.format("socketed.bloodyclock.seconds", seconds);
+                ITextComponent cooldownMsg;
+                if (hours > 0) cooldownMsg = new TextComponentTranslation("socketed.bloodyclock.hours", hours, minutes, seconds);
+                else if (minutes > 0) cooldownMsg = new TextComponentTranslation("socketed.bloodyclock.minutes", minutes, seconds);
+                else cooldownMsg = new TextComponentTranslation("socketed.bloodyclock.seconds", seconds);
 
                 player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseandcooldown", Integer.toString(evoPhase), perc, cooldownMsg), true);
             } else {
