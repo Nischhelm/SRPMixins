@@ -32,6 +32,7 @@ public class SentientBowEvolution extends ItemBow {
     public void onUpdate(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull Entity entityIn, int itemSlot, boolean isSelected) {
         super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
         if (SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
+        if(!SRPMixinsConfigHandler.weapons.addArmorBowEvolution) return;
         if (!worldIn.isRemote && entityIn.ticksExisted % 80 == 0) {
             NBTTagCompound compound = stack.getTagCompound();
             if (compound != null && this == SRPItems.weapon_bow) {
@@ -67,6 +68,7 @@ public class SentientBowEvolution extends ItemBow {
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn, CallbackInfo ci) {
         super.addInformation(stack, worldIn, tooltip, flagIn);
         if (SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
+        if(!SRPMixinsConfigHandler.weapons.addArmorBowEvolution) return;
         NBTTagCompound compound = stack.getTagCompound();
         if (compound != null && (this == SRPItems.weapon_bow || !SRPMixinsConfigHandler.weapons.removeSentientSRPKillsTooltip)) {
             tooltip.add(TextFormatting.BLUE + "---> " + compound.getInteger("srpkills"));
