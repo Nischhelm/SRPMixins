@@ -332,7 +332,11 @@ public class SRPMixinsConfigHandler {
 		@Config.Comment("Make SRP Blacklists/Whitelists use wildcards to dis/enable whole mods (*). WARNING: this forces you to change all current SRP config lists that use full mod names without wildcards")
 		@Config.Name("SRP Blacklists are Wildcard-able")
 		public boolean blacklistsWildcardable = false;
-    }
+
+		@Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
+		@Config.Name("Fix Parasitic Biome spreading limit")
+		public boolean fixBiomeSpreadingLimit = true;
+	}
 
 	public static class CothConfig {
 		@Config.Comment("Makes mobs getting converted to their assimilated version respect coth immunity")

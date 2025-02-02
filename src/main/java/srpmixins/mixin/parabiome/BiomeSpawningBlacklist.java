@@ -1,4 +1,4 @@
-package srpmixins.mixin.features;
+package srpmixins.mixin.parabiome;
 
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
 import net.minecraft.util.ResourceLocation;
