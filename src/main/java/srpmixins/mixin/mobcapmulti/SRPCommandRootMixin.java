@@ -20,8 +20,7 @@ public abstract class SRPCommandRootMixin {
 
     @Inject(
             method = "execute",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false)
     )
     private void saveDimension(MinecraftServer server, ICommandSender sender, String[] argString, CallbackInfo ci) {
         dimension = sender.getEntityWorld().provider.getDimension();
@@ -29,8 +28,7 @@ public abstract class SRPCommandRootMixin {
 
     @Redirect(
             method = "execute",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I", remap = false),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I", remap = false)
     )
     private int increaseParasiteMobCap() {
         float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
@@ -41,8 +39,7 @@ public abstract class SRPCommandRootMixin {
 
     @Redirect(
             method = "execute",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false)
     )
     private int increaseParasiteMobCapPerPlayer() {
         float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);

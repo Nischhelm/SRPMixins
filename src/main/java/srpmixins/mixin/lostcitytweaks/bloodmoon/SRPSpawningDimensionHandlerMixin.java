@@ -1,7 +1,7 @@
 package srpmixins.mixin.lostcitytweaks.bloodmoon;
 
-import lumien.bloodmoon.server.BloodmoonHandler;
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
+import lumien.bloodmoon.server.BloodmoonHandler;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;

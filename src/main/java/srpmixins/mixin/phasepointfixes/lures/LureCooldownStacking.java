@@ -26,8 +26,7 @@ public abstract class LureCooldownStacking {
 
     @Redirect(
             method = "onBlockActivated",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueNine:I"),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueNine:I", remap = false)
     )
     public int disableLureNineCooldown(){
         if(SRPMixinsConfigHandler.lures.fixCooldownOverflow)
@@ -38,8 +37,7 @@ public abstract class LureCooldownStacking {
 
     @Redirect(
             method = "onBlockActivated",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueTen:I"),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueTen:I", remap = false)
     )
     public int disableLureTenCooldown(){
         if(SRPMixinsConfigHandler.lures.fixCooldownOverflow)
