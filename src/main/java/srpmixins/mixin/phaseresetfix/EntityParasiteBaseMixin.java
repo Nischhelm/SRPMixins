@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import srpmixins.SRPMixins;
 
 @Mixin(EntityParasiteBase.class)
 public abstract class EntityParasiteBaseMixin extends EntityLiving {
@@ -16,8 +17,7 @@ public abstract class EntityParasiteBaseMixin extends EntityLiving {
 
     @Redirect(
             method = "onInitialSpawn",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z"),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z", remap = false)
     )
     public boolean skipIfClient(){
         return !this.world.isRemote && SRPConfigSystems.useEvolution;

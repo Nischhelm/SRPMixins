@@ -4,11 +4,13 @@ import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.util.SRPSaveDataInterface;
 
 @Mixin(ParasiteEventWorld.class)
 public abstract class BiomeSpreadingPointsPhaseLock {
@@ -18,9 +20,10 @@ public abstract class BiomeSpreadingPointsPhaseLock {
             at=@At(value= "FIELD",target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;valueBlock:I"),
             remap=false
     )
-    private static int phaseLockBlock(@Local(argsOnly = true) World world){
+    //done like this to not conflict with SRPCortesia
+    private static int phaseLockBlock(@Local(argsOnly = true) World world, @Local(argsOnly = true) BlockPos blockPos){
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
-        SRPSaveData data = SRPSaveData.get(world);
+        SRPSaveData data = SRPSaveDataInterface.get(world, null, blockPos);
         if(startPhase>-1 && data.getEvolutionPhase(world.provider.getDimension())<startPhase)
             return 0;
         return SRPConfigSystems.valueBlock;

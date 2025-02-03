@@ -14,10 +14,9 @@ public abstract class LureCooldownStacking {
 
     @Redirect(
             method = "onBlockActivated",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setCooldown(ILnet/minecraft/world/World;I)V"),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setCooldown(ILnet/minecraft/world/World;I)V", remap = false)
     )
-    public void lureCooldownStackingMixin(SRPSaveData instance, int newCooldown, World world, int dim) {
+    public void lureCooldownStacking(SRPSaveData instance, int newCooldown, World world, int dim) {
         if (SRPMixinsConfigHandler.lures.lureCooldownStacking) {
             int currentCooldown = instance.getCooldown(world, dim);
             instance.setCooldown(currentCooldown+newCooldown, world, dim);

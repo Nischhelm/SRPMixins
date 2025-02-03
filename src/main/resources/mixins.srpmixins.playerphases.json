@@ -17,6 +17,7 @@
     "EntityParasiteBaseMixin",
     "EntityParasiticScentMixin",
     "EntityPStationaryMixin",
+    "ItemEPClockMixin",
     "ParasiteEventEntityMixin",
     "ParasiteEventWorldMixin",
     "SRPCommandEvolutionMixin",

@@ -14,8 +14,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 public class BogleProjFix {
     @Redirect(
             method = "onImpact",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;LENCIA_ATTACK_DAMAGE:D"),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;LENCIA_ATTACK_DAMAGE:D", remap = false)
     )
     double fixProjDmg(@Local(argsOnly = true) RayTraceResult result){
         if(SRPMixinsConfigHandler.dmgfix.doDamageFixes && result.entityHit != null) {

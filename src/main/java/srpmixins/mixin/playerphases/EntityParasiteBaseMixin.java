@@ -17,8 +17,7 @@ public abstract class EntityParasiteBaseMixin extends Entity {
 
     @Redirect(
             method="onKillEntity",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
     public SRPSaveData getPlayerDataMixin(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
@@ -26,8 +25,7 @@ public abstract class EntityParasiteBaseMixin extends Entity {
 
     @Redirect(
             method="onDeath",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
     public SRPSaveData getPlayerDataMixin2(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
@@ -44,8 +42,7 @@ public abstract class EntityParasiteBaseMixin extends Entity {
 
     @Redirect(
             method="onInitialSpawn",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
     public SRPSaveData getPlayerDataMixin4(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());

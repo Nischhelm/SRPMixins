@@ -20,7 +20,7 @@ public abstract class SRPCommandRootMixin {
 
     @Inject(
             method = "execute",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false),
             remap = false
     )
     private void saveDimension(MinecraftServer server, ICommandSender sender, String[] argString, CallbackInfo ci) {
@@ -29,7 +29,7 @@ public abstract class SRPCommandRootMixin {
 
     @Redirect(
             method = "execute",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I", remap = false),
             remap = false
     )
     private int increaseParasiteMobCap() {
@@ -41,7 +41,7 @@ public abstract class SRPCommandRootMixin {
 
     @Redirect(
             method = "execute",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false),
             remap = false
     )
     private int increaseParasiteMobCapPerPlayer() {

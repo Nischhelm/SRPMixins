@@ -15,8 +15,7 @@ import srpmixins.util.SRPSaveDataInterface;
 public abstract class SRPCommandEvolutionMixin {
     @Redirect(
             method="execute",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
     public SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) ICommandSender sender){
         return SRPSaveDataInterface.get(world,(EntityPlayer) sender.getCommandSenderEntity(),null);

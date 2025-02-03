@@ -19,14 +19,18 @@ public abstract class AdaptedPenaltyPhaseLock extends Entity {
     }
 
     @Redirect(
-            method="despawnEntity",
-            at=@At(value= "FIELD",target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;valueEvolutionDespawn:I"),
-            remap = false
+            method = "despawnEntity",
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;valueEvolutionDespawn:I", remap = false)
     )
-    private int phaseLockMixin(@Local SRPSaveData data){
+    private int phaseLockMixin(@Local SRPSaveData data) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.adaptedDespawnPenaltyPhase;
-        if(startPhase>-1 && data.getEvolutionPhase(this.world.provider.getDimension())<startPhase)
+        if (startPhase > -1 && data.getEvolutionPhase(this.world.provider.getDimension()) < startPhase)
             return 0;
+
+        //Fix for fast penalty points from adapteds despawning instantly after spawn
+        if(this.ticksExisted < 5) return 0;
+
+        //Default behavior
         return SRPConfigSystems.valueEvolutionDespawn;
     }
 }

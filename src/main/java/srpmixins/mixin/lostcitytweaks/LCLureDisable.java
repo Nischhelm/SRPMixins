@@ -19,20 +19,14 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 
 @Mixin(BlockEvolutionLure.class)
 public abstract class LCLureDisable extends BlockBase {
-
     public LCLureDisable(Material material, String name, float hardness, boolean creative, boolean tickRandom) {
         super(material, name, hardness, creative, tickRandom);
     }
 
-    public LCLureDisable(Material material, String name, float hardness, boolean creative, boolean tickRandom, float resistance) {
-        super(material, name, hardness, creative, tickRandom, resistance);
-    }
-
     @Inject(
             method="onBlockActivated",
-            at= @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure;checkBlocks(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure$EnumType;)Z"),
-            cancellable = true,
-            remap = false
+            at= @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure;checkBlocks(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure$EnumType;)Z", remap = false),
+            cancellable = true
     )
     public void lureDisableMixin(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
         if(!SRPMixinsConfigHandler.modcompat.disableLuresInLC) return;

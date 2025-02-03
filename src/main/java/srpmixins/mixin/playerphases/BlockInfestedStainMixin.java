@@ -15,7 +15,7 @@ public abstract class BlockInfestedStainMixin {
     @Redirect(
             method="removedByPlayer",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            remap = false
     )
     public SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) EntityPlayer player){
         return SRPSaveDataInterface.get(world,player,null);

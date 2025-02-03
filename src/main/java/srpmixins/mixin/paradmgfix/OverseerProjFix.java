@@ -14,8 +14,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 public class OverseerProjFix {
     @Redirect(
             method = "onImpact",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;ALAFHA_ATTACK_DAMAGE:F"),
-            remap = false
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;ALAFHA_ATTACK_DAMAGE:F", remap = false)
     )
     float fixProjDmg(@Local(argsOnly = true) RayTraceResult result){
         if(SRPMixinsConfigHandler.dmgfix.doDamageFixes && result.entityHit!=null) {
