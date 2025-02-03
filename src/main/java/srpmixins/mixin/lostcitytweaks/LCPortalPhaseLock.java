@@ -32,7 +32,6 @@ public abstract class LCPortalPhaseLock {
         if (!SRPConfigSystems.useEvolution) return;
         if (SRPMixinsConfigHandler.modcompat.portalLClockedPhase > -1) {
             byte evoPhase = SRPSaveDataInterface.get(player.getEntityWorld(), player, null).getEvolutionPhase(player.dimension);
-            player.sendMessage(new TextComponentString("Current phase according to lcphaselock is "+evoPhase));
 
             if (evoPhase < SRPMixinsConfigHandler.modcompat.portalLClockedPhase) {
                 player.sendStatusMessage(new TextComponentTranslation("srpmixins.msg.fearincapacitates").setStyle(new Style().setColor(TextFormatting.RED)), true);
