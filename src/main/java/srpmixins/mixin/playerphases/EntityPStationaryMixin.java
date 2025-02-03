@@ -19,23 +19,12 @@ public abstract class EntityPStationaryMixin extends Entity {
         super(worldIn);
     }
 
-    @Unique BlockPos blockPos;
-
-    @Inject(
-            method = "func_70636_d",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
-    )
-    void saveBlockPosMixin(CallbackInfo ci){
-        this.blockPos = this.getPosition();
-    }
-
     @Redirect(
             method="func_70636_d",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
     public SRPSaveData getPlayerDataMixin(World world){
-        return SRPSaveDataInterface.get(world,null,blockPos);
+        return SRPSaveDataInterface.get(world,null,this.getPosition());
     }
 }

@@ -12,9 +12,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(EntityAINexusGrow.class)
 public abstract class EntityAINexusGrowMixin {
 
-    @Shadow(remap = false)
-    @Final
-    private EntityPStationaryArchitect parent;
+    @Shadow(remap = false) @Final private EntityPStationaryArchitect parent;
 
     @Redirect(
             method = "checkPhase",

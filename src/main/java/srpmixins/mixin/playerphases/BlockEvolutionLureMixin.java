@@ -2,6 +2,7 @@ package srpmixins.mixin.playerphases;
 
 import com.dhanantry.scapeandrunparasites.block.BlockEvolutionLure;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumFacing;
@@ -18,25 +19,12 @@ import srpmixins.util.SRPSaveDataInterface;
 
 @Mixin(BlockEvolutionLure.class)
 public abstract class BlockEvolutionLureMixin {
-
-    @Unique
-    EntityPlayer player;
-
-    @Inject(
-            method = "func_180639_a",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
-    )
-    void mixin(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
-        this.player = playerIn;
-    }
-
     @Redirect(
             method="func_180639_a",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPSaveData getPlayerDataMixin(World world){
+    public SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) EntityPlayer player){
         return SRPSaveDataInterface.get(world,player,null);
     }
 }

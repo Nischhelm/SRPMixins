@@ -16,7 +16,7 @@ public abstract class SRPEventHandlerBusMixin {
             remap = false,
             cancellable = true
     )
-    void fixPhaseResetMixin(PlayerInteractEvent.EntityInteractSpecific event, CallbackInfo ci){
+    public void fixPhaseResetMixin(PlayerInteractEvent.EntityInteractSpecific event, CallbackInfo ci){
         ci.cancel();
     }
 }

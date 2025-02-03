@@ -2,6 +2,7 @@ package srpmixins.mixin.lostcitytweaks.bloodmoon;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
+import com.llamalad7.mixinextras.sugar.Local;
 import lumien.bloodmoon.network.PacketHandler;
 import lumien.bloodmoon.network.messages.MessageBloodmoonStatus;
 import lumien.bloodmoon.server.BloodmoonHandler;
@@ -10,7 +11,6 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -47,34 +47,20 @@ public abstract class BloodmoonHandlerMixin {
         }
     }
 
-    @Unique
-    public int time = 0;
-
-    @Inject(
-            method="endWorldTick",
-            at=@At(value="HEAD"),
-            remap = false
-    )
-    private void saveWorldTimeMixin(TickEvent.WorldTickEvent event, CallbackInfo ci){
-        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC)
-            this.time = (int)(event.world.getWorldTime() % 24000L);
-    }
-
     @Redirect(
             method="endWorldTick",
             at=@At(value="INVOKE",target="Llumien/bloodmoon/server/BloodmoonHandler;isBloodmoonActive()Z"),
             remap = false
     )
-    private boolean skipFirstBloodMoonTickInLCMixin(BloodmoonHandler instance){
+    private boolean skipFirstBloodMoonTickInLCMixin(BloodmoonHandler instance, @Local int time) {
         //This is needed so the blood moon message in else if(time==12000) is also sent in LC
-        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC)
-            if(time==12000)
+        if (SRPMixinsConfigHandler.modcompat.bloodmoonInLC)
+            if (time == 12000)
                 return false;
         return instance.isBloodmoonActive();
     }
 
-    @Shadow(remap = false)
-    boolean bloodMoon;
+    @Shadow(remap = false) boolean bloodMoon;
 
     @Inject(
             method="updateClients",

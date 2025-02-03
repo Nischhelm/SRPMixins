@@ -4,41 +4,26 @@ import com.dhanantry.scapeandrunparasites.block.BlockInfestedRemain;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
-import net.minecraft.block.state.IBlockState;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.handlers.SRPMixinsConfigHandler;
 import srpmixins.util.SRPSaveDataInterface;
 
-import java.util.Random;
-
 @Mixin(BlockInfestedRemain.class)
 public abstract class BlockInfestedRemainMixin {
-
-    @Unique BlockPos blockPos;
     @Unique private static SRPSaveData saveData;
-
-    @Inject(
-            method = "func_180650_b",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
-    )
-    void getBlockPosMixin(World worldIn, BlockPos pos, IBlockState state, Random rand, CallbackInfo ci) {
-        this.blockPos = pos;
-    }
 
     @Redirect(
             method = "func_180650_b",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin(World world) {
+    public SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) BlockPos blockPos) {
         saveData = SRPSaveDataInterface.get(world,null,blockPos);
         return saveData;
     }
