@@ -29,8 +29,7 @@ public abstract class EndSimEndermanTweaks {
 
     @Redirect(
             method = "convertEntity",
-            at = @At(value="INVOKE",target = "Lnet/minecraft/world/World;func_72838_d(Lnet/minecraft/entity/Entity;)Z"),
-            remap = false
+            at = @At(value="INVOKE",target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z")
     )
     private static boolean simmermanCapMixin(World world, Entity entity){
         if(SRPMixinsConfigHandler.simmermen.endSimmermenCap>-1)

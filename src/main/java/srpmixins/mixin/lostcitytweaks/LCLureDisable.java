@@ -3,13 +3,9 @@ package srpmixins.mixin.lostcitytweaks;
 import com.dhanantry.scapeandrunparasites.block.BlockBase;
 import com.dhanantry.scapeandrunparasites.block.BlockEvolutionLure;
 import com.dhanantry.scapeandrunparasites.init.SRPBlocks;
-import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -33,21 +29,18 @@ public abstract class LCLureDisable extends BlockBase {
     }
 
     @Inject(
-            method="func_180639_a",
-            at=@At(value="HEAD"),
-            remap=false,
-            cancellable = true
+            method="onBlockActivated",
+            at= @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure;checkBlocks(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure$EnumType;)Z"),
+            cancellable = true,
+            remap = false
     )
     public void lureDisableMixin(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
-        if(!SRPConfigSystems.useEvolution) return;
-        if(SRPMixinsConfigHandler.modcompat.disableLuresInLC && !worldIn.isRemote) {
-            int dimension = playerIn.dimension;
-            ItemStack head = new ItemStack(playerIn.getItemStackFromSlot(EntityEquipmentSlot.MAINHAND).getItem());
-            if (head.getItem() == Items.AIR & dimension == 111 & SRPConfigSystems.useEvolution) {
-                playerIn.sendStatusMessage(new TextComponentTranslation("srpmixins.msg.hivewhispers"), true);
-                worldIn.setBlockState(pos, SRPBlocks.dodN.getDefaultState());
-                cir.setReturnValue(super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ));
-            }
+        if(!SRPMixinsConfigHandler.modcompat.disableLuresInLC) return;
+
+        if (playerIn.dimension == 111) {
+            playerIn.sendStatusMessage(new TextComponentTranslation("srpmixins.msg.hivewhispers"), true);
+            worldIn.setBlockState(pos, SRPBlocks.dodN.getDefaultState());
+            cir.setReturnValue(super.onBlockActivated(worldIn, pos, state, playerIn, hand, facing, hitX, hitY, hitZ));
         }
     }
 }

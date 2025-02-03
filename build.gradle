@@ -1,86 +1,38 @@
-buildscript {
-    repositories {
-        maven {
-            url = 'https://maven.minecraftforge.net/'
-        }
-        maven {
-            url = 'https://repo.spongepowered.org/maven'
-        }
-        mavenCentral()
-    }
-    dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
-        classpath group: 'org.spongepowered', name: 'mixingradle', version: '0.7.+'
-    }
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'net.minecraftforge.gradle' version "${forge_gradle_version}"
+    id 'org.spongepowered.mixin' version "${mixin_gradle_version}"
 }
-apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'org.spongepowered.mixin'
 
-version = "${mod_version}"
-group = "${mod_id}"
-archivesBaseName = "${mod_name}"
+version = mod_version
+group = mod_id
+base.archivesName = mod_name
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8)
 
 minecraft {
     mappings channel: mappings_channel, version: mappings_version
-
-    runs {
-        client {
-            args "--username=InDev"
-
-            jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
-            jvmArg "-Dmixin.hotSwap=true"
-            jvmArg "-Dmixin.checks.interfaces=true"
-
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-
-        server {
-
-            jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
-            jvmArg "-Dmixin.hotSwap=true"
-            jvmArg "-Dmixin.checks.interfaces=true"
-
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'debug'
-        }
-    }
 }
 
-sourceSets.main.resources { srcDir 'src/generated/resources' }
-
 repositories {
-    maven {
-        url = "https://www.cursemaven.com"
-    }
-    maven {
-        url = 'https://repo.spongepowered.org/maven'
-    }
-    flatDir {
-        dirs 'libs\\'
-    }
+    flatDir { dirs 'libs' }
+    maven { url = 'https://www.cursemaven.com' }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation "org.spongepowered:mixin:0.8.5"
-    annotationProcessor "org.spongepowered:mixin:0.8.5:processor"
+    implementation "org.spongepowered:mixin:${mixin_version}"
+    annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
     implementation "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
     implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
-
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
     implementation fg.deobf("curse.maven:lostcity-${lostcity_version}")
     implementation fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
-    implementation files("libs/SRParasites-1.12.2v1.9.21.jar")
+    implementation fg.deobf("libs:SRParasites:${srparasites_version}") // Third party distro disabled
 }
 
 mixin {
@@ -88,13 +40,19 @@ mixin {
 }
 
 processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", minecraft_version
+    var replaceProperties = [
+            'mod_id': mod_id,
+            'mod_name': mod_name,
+            'version': mod_version,
+            'mcversion': minecraft_version,
+            'mod_description': mod_description,
+            'mod_author': mod_author
+    ]
+
+    inputs.properties replaceProperties
 
     filesMatching('mcmod.info') {
-        expand 'mod_id': mod_id, 'mod_name': mod_name, 'version': project.version,
-                'mcversion': minecraft_version, 'mod_description': mod_description,
-                'mod_author': mod_author
+        expand replaceProperties
     }
 }
 

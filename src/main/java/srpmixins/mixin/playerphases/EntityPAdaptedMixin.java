@@ -16,9 +16,9 @@ public abstract class EntityPAdaptedMixin extends Entity {
     }
 
     @Redirect(
-            method="func_70623_bb",
+            method="despawnEntity",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            remap = false
     )
     public SRPSaveData getPlayerDataMixin(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());

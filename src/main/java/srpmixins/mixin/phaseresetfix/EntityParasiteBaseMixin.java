@@ -15,7 +15,7 @@ public abstract class EntityParasiteBaseMixin extends EntityLiving {
     }
 
     @Redirect(
-            method = "func_180482_a",
+            method = "onInitialSpawn",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z"),
             remap = false
     )

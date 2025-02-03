@@ -30,9 +30,8 @@ public abstract class ModifiedBloodyClock {
     @Unique
     private SRPSaveData saveData;
 
-    @Inject(method="func_77659_a",
-            at = @At(value="HEAD"),
-            remap = false
+    @Inject(method="onItemRightClick",
+            at = @At(value="HEAD")
     )
     public void saveWorldDataMixin(World worldIn, EntityPlayer playerIn, EnumHand handIn, CallbackInfoReturnable<ActionResult<ItemStack>> cir){
         if(!worldIn.isRemote) {
@@ -43,9 +42,8 @@ public abstract class ModifiedBloodyClock {
     }
 
     @Redirect(
-            method = "func_77659_a",
-            at = @At(value="INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;func_146105_b(Lnet/minecraft/util/text/ITextComponent;Z)V"),
-            remap = false
+            method = "onItemRightClick",
+            at = @At(value="INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;sendStatusMessage(Lnet/minecraft/util/text/ITextComponent;Z)V")
     )
     public void sendPhaseMessageToChatMixin(EntityPlayer player, ITextComponent iTextComponent, boolean b) {
         if (SRPMixinsConfigHandler.phasepoints.modifyBloodyClock) {

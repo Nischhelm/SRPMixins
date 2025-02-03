@@ -60,9 +60,8 @@ public class SentientBowEvolution extends ItemBow {
     }
 
     @Inject(
-            method = "func_77624_a",
-            at = @At(value = "HEAD"),
-            remap = false
+            method = "addInformation",
+            at = @At(value = "HEAD")
     )
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn, CallbackInfo ci) {

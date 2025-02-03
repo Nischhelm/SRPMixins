@@ -18,9 +18,8 @@ public class DreadnaughtMeleeFix extends EntityMob {
     }
 
     @Inject(
-            method = "func_110147_ax",
-            at = @At(value = "TAIL"),
-            remap = false
+            method = "applyEntityAttributes",
+            at = @At(value = "TAIL")
     )
     void fixMeleeAuraDmg(CallbackInfo ci){
         if(SRPMixinsConfigHandler.dmgfix.doDamageFixes)

@@ -20,9 +20,9 @@ import srpmixins.util.SRPSaveDataInterface;
 @Mixin(BlockEvolutionLure.class)
 public abstract class BlockEvolutionLureMixin {
     @Redirect(
-            method="func_180639_a",
+            method="onBlockActivated",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            remap = false
     )
     public SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) EntityPlayer player){
         return SRPSaveDataInterface.get(world,player,null);

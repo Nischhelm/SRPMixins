@@ -11,8 +11,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 public class IncrementCothOnImmuneFix {
     @Redirect(
             method = "effectCOTH",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;func_74768_a(Ljava/lang/String;I)V"),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;setInteger(Ljava/lang/String;I)V")
     )
     void dontIncrementImmune(NBTTagCompound instance, String s, int i) {
         if (i == 1 && SRPMixinsConfigHandler.coth.fixSrpCothImmunity) {

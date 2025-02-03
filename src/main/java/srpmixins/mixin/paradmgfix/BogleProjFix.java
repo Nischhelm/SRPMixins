@@ -13,7 +13,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 @Mixin(EntityProjectileLenciaBall.class)
 public class BogleProjFix {
     @Redirect(
-            method = "func_70227_a",
+            method = "onImpact",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;LENCIA_ATTACK_DAMAGE:D"),
             remap = false
     )

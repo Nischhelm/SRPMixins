@@ -11,13 +11,11 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 
 import java.util.Arrays;
 
-
 @Mixin(EntityPStationary.class)
 public abstract class DeterrentLowPhaseDamage {
     @Redirect(
-            method = "func_70636_d",
-            at = @At(value="INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPStationary;func_70097_a(Lnet/minecraft/util/DamageSource;F)Z"),
-            remap = false
+            method = "onLivingUpdate",
+            at = @At(value="INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPStationary;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z")
     )
     boolean onlyDamageWhitelistedDeterrents(EntityPStationary instance, DamageSource source, float amount){
         ResourceLocation resourcelocation = EntityList.getKey(instance);

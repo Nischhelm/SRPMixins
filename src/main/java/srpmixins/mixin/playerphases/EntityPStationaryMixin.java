@@ -20,9 +20,9 @@ public abstract class EntityPStationaryMixin extends Entity {
     }
 
     @Redirect(
-            method="func_70636_d",
+            method="onLivingUpdate",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            remap = false
     )
     public SRPSaveData getPlayerDataMixin(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());

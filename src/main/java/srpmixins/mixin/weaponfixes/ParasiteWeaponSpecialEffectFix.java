@@ -22,10 +22,9 @@ public abstract class ParasiteWeaponSpecialEffectFix extends EntityMob {
     }
 
     @Inject(
-            method = "func_70097_a",
+            method = "attackEntityFrom",
             at = @At(value = "HEAD"),
-            cancellable = true,
-            remap = false
+            cancellable = true
     )
     private void fixParasiteWeaponDmg(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         if (!SRPMixinsConfigHandler.weapons.fixParasiteDmg) return;

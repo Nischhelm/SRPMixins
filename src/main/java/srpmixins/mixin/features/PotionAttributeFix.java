@@ -1,13 +1,14 @@
 package srpmixins.mixin.features;
 
 import com.dhanantry.scapeandrunparasites.init.SRPPotions;
-import net.minecraft.entity.SharedMonsterAttributes;
+import com.dhanantry.scapeandrunparasites.potion.SRPEffectBase;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.potion.Potion;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import srpmixins.SRPMixins;
 
 @Mixin(SRPPotions.class)
 public class PotionAttributeFix {
@@ -17,17 +18,28 @@ public class PotionAttributeFix {
 
     @Redirect(
             method = "<clinit>",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;func_111184_a(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;"),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 0)
     )
-    //SRP using UUID.randomUUID() fucks shit up massively in the background
     private static Potion fixedUUIDsForPotionAttributes(Potion instance, IAttribute iAttribute, String uuid, double amount, int operation) {
-        if (iAttribute == SharedMonsterAttributes.ATTACK_DAMAGE)
-            return instance.registerPotionAttributeModifier(iAttribute, atkDmgUUID, amount, operation);
-        if (iAttribute == SharedMonsterAttributes.MOVEMENT_SPEED)
-            return instance.registerPotionAttributeModifier(iAttribute, movSpeedUUID, amount, operation);
-        if (iAttribute == SharedMonsterAttributes.FOLLOW_RANGE)
-            return instance.registerPotionAttributeModifier(iAttribute, followRangeUUID, amount, operation);
-        return instance.registerPotionAttributeModifier(iAttribute, uuid, amount, operation);
+        SRPMixins.LOGGER.info("SRPMixins atk attr mixin {}", iAttribute.getName());
+        return instance.registerPotionAttributeModifier(iAttribute, atkDmgUUID, amount, operation);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 0)
+    )
+    private static Potion fixedUUIDsForPotionAttributes(SRPEffectBase instance, IAttribute iAttribute, String uuid, double amount, int operation) {
+        SRPMixins.LOGGER.info("SRPMixins atk speed mixin {}", iAttribute.getName());
+        return instance.registerPotionAttributeModifier(iAttribute, movSpeedUUID, amount, operation);
+    }
+
+    @Redirect(
+            method = "<clinit>",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 1)
+    )
+    private static Potion fixedUUIDsForPotionAttributes3(SRPEffectBase instance, IAttribute iAttribute, String uuid, double amount, int operation) {
+        SRPMixins.LOGGER.info("SRPMixins followrange mixin {}", iAttribute.getName());
+        return instance.registerPotionAttributeModifier(iAttribute, followRangeUUID, amount, operation);
     }
 }

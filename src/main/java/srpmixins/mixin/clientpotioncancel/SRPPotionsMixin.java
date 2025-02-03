@@ -27,8 +27,7 @@ public class SRPPotionsMixin {
 
     @Redirect(
             method = "applySense",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;func_70690_d(Lnet/minecraft/potion/PotionEffect;)V"),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;addPotionEffect(Lnet/minecraft/potion/PotionEffect;)V")
     )
     private static void cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
         if(!instance.world.isRemote)

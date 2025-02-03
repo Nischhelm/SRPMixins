@@ -13,7 +13,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 @Mixin(EntityProjectileElviaBall.class)
 public class WraithProjFix {
     @Redirect(
-            method = "func_70227_a",
+            method = "onImpact",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;ELVIA_ATTACK_DAMAGE:D"),
             remap = false
     )

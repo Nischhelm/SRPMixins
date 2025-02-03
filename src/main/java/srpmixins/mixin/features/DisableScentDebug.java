@@ -22,10 +22,9 @@ public abstract class DisableScentDebug extends Entity {
     }
 
     @Inject(
-            method = "func_70100_b_",
+            method = "onCollideWithPlayer",
             at = @At(value = "HEAD"),
-            cancellable = true,
-            remap = false
+            cancellable = true
     )
     private void disableScentDebugMixin(EntityPlayer player, CallbackInfo ci) {
         if (SRPMixinsConfigHandler.various.disableScentDebug) {

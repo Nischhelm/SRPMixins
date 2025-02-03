@@ -19,9 +19,9 @@ public abstract class AdaptedPenaltyPhaseLock extends Entity {
     }
 
     @Redirect(
-            method="func_70623_bb",
+            method="despawnEntity",
             at=@At(value= "FIELD",target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;valueEvolutionDespawn:I"),
-            remap=false
+            remap = false
     )
     private int phaseLockMixin(@Local SRPSaveData data){
         int startPhase = SRPMixinsConfigHandler.phasepoints.adaptedDespawnPenaltyPhase;

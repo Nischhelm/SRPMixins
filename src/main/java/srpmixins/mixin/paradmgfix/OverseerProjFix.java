@@ -13,7 +13,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 @Mixin(EntityProjectileAlafhaBall.class)
 public class OverseerProjFix {
     @Redirect(
-            method = "func_70227_a",
+            method = "onImpact",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;ALAFHA_ATTACK_DAMAGE:F"),
             remap = false
     )

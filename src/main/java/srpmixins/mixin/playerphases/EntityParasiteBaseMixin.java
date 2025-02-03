@@ -16,18 +16,18 @@ public abstract class EntityParasiteBaseMixin extends Entity {
     }
 
     @Redirect(
-            method="func_70074_a",
+            method="onKillEntity",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            remap = false
     )
     public SRPSaveData getPlayerDataMixin(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
     }
 
     @Redirect(
-            method="func_70645_a",
+            method="onDeath",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            remap = false
     )
     public SRPSaveData getPlayerDataMixin2(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
@@ -43,9 +43,9 @@ public abstract class EntityParasiteBaseMixin extends Entity {
     }
 
     @Redirect(
-            method="func_180482_a",
+            method="onInitialSpawn",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            remap = false
     )
     public SRPSaveData getPlayerDataMixin4(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());

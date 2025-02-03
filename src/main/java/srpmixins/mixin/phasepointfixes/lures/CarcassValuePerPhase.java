@@ -12,9 +12,9 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 public abstract class CarcassValuePerPhase {
 
     @Redirect(
-            method="func_180639_a",
+            method="onBlockActivated",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
-            remap=false
+            remap = false
     )
     public boolean lurePhaseMultiplierMixin(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
         int multi = 1;

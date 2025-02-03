@@ -19,7 +19,7 @@ public abstract class SRPCommandEvolutionMixin {
     @Unique private static int dimension;
 
     @Inject(
-            method = "func_184881_a",
+            method = "execute",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
             remap = false
     )
@@ -28,7 +28,7 @@ public abstract class SRPCommandEvolutionMixin {
     }
 
     @Redirect(
-            method = "func_184881_a",
+            method = "execute",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
             remap = false
     )
@@ -40,7 +40,7 @@ public abstract class SRPCommandEvolutionMixin {
     }
 
     @Redirect(
-            method = "func_184881_a",
+            method = "execute",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
             remap = false
     )

@@ -13,7 +13,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 @Mixin(EntityProjectileAngedball.class)
 public class VigilanteProjFix {
     @Redirect(
-            method = "func_70227_a",
+            method = "onImpact",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;ANGED_RANGED_ATTACK_DAMAGE:D"),
             remap = false
     )

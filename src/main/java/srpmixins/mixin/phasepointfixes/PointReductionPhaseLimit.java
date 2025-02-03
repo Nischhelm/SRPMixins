@@ -20,10 +20,9 @@ public abstract class PointReductionPhaseLimit {
 
     @Inject(
             method = "setTotalKills",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;func_76185_a()V"),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;markDirty()V")
     )
-    void limitPointReduction(int dim, int points, boolean isAdding, World worldIn, boolean canChangePhase, CallbackInfoReturnable<Boolean> cir) {
+    public void limitPointReduction(int dim, int points, boolean isAdding, World worldIn, boolean canChangePhase, CallbackInfoReturnable<Boolean> cir) {
         if(!SRPMixinsConfigHandler.phasepoints.limitPointReduction) return;
         if (points > 0) return;
         if (!isAdding) return;
@@ -39,33 +38,19 @@ public abstract class PointReductionPhaseLimit {
     @Unique
     public int getPhaseMinPoints(byte evolutionPhase) {
         switch (evolutionPhase) {
-            case -2:
-                return -10000;
-            case -1:
-                return -10;
-            case 0:
-                return 0;
-            case 1:
-                return SRPConfigSystems.phaseKillsOne;
-            case 2:
-                return SRPConfigSystems.phaseKillsTwo;
-            case 3:
-                return SRPConfigSystems.phaseKillsThree;
-            case 4:
-                return SRPConfigSystems.phaseKillsFour;
-            case 5:
-                return SRPConfigSystems.phaseKillsFive;
-            case 6:
-                return SRPConfigSystems.phaseKillsSix;
-            case 7:
-                return SRPConfigSystems.phaseKillsSeven;
-            case 8:
-                return SRPConfigSystems.phaseKillsEight;
-            case 9:
-                return SRPConfigSystems.phaseKillsNine;
-            case 10:
-                return SRPConfigSystems.phaseKillsTen;
+            case -2: return -10000;
+            case -1: return -10;
+            case 1: return SRPConfigSystems.phaseKillsOne;
+            case 2: return SRPConfigSystems.phaseKillsTwo;
+            case 3: return SRPConfigSystems.phaseKillsThree;
+            case 4: return SRPConfigSystems.phaseKillsFour;
+            case 5: return SRPConfigSystems.phaseKillsFive;
+            case 6: return SRPConfigSystems.phaseKillsSix;
+            case 7: return SRPConfigSystems.phaseKillsSeven;
+            case 8: return SRPConfigSystems.phaseKillsEight;
+            case 9: return SRPConfigSystems.phaseKillsNine;
+            case 10: return SRPConfigSystems.phaseKillsTen;
+            case 0: default: return 0;
         }
-        return 0;
     }
 }

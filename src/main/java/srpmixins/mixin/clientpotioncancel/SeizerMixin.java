@@ -10,9 +10,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(EntityNak.class)
 public class SeizerMixin {
     @Redirect(
-            method = "func_70636_d",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;func_70690_d(Lnet/minecraft/potion/PotionEffect;)V"),
-            remap = false
+            method = "onLivingUpdate",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;addPotionEffect(Lnet/minecraft/potion/PotionEffect;)V")
     )
     private void cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
         if(!instance.world.isRemote)

@@ -13,7 +13,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 public abstract class LureCooldownStacking {
 
     @Redirect(
-            method = "func_180639_a",
+            method = "onBlockActivated",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setCooldown(ILnet/minecraft/world/World;I)V"),
             remap = false
     )
@@ -26,7 +26,7 @@ public abstract class LureCooldownStacking {
     }
 
     @Redirect(
-            method = "func_180639_a",
+            method = "onBlockActivated",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueNine:I"),
             remap = false
     )
@@ -38,7 +38,7 @@ public abstract class LureCooldownStacking {
     }
 
     @Redirect(
-            method = "func_180639_a",
+            method = "onBlockActivated",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;luredValueTen:I"),
             remap = false
     )

@@ -25,9 +25,8 @@ public abstract class SentientEvolutionNBTFix {
     @Shadow(remap = false) public abstract Item getNext();
 
     @Inject(
-            method = "func_77644_a",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;func_77978_p()Lnet/minecraft/nbt/NBTTagCompound;"),
-            remap = false,
+            method = "hitEntity",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;"),
             cancellable = true
     )
     private void disableIncrementSRPKills(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker, CallbackInfoReturnable<Boolean> cir, @Local boolean flag){
@@ -36,9 +35,8 @@ public abstract class SentientEvolutionNBTFix {
     }
 
     @Inject(
-            method = "func_77663_a",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;func_77978_p()Lnet/minecraft/nbt/NBTTagCompound;"),
-            remap = false,
+            method = "onUpdate",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;"),
             cancellable = true
     )
     private void disableEvolve(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected, CallbackInfo ci, @Local boolean flag){
@@ -47,9 +45,8 @@ public abstract class SentientEvolutionNBTFix {
     }
 
     @Redirect(
-            method = "func_77663_a",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;func_72838_d(Lnet/minecraft/entity/Entity;)Z"),
-            remap = false
+            method = "onUpdate",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z")
     )
     private boolean writeNBTtoSentient(World world, Entity entity, @Local(argsOnly = true) ItemStack stack) {
         if (SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT) {
@@ -60,9 +57,8 @@ public abstract class SentientEvolutionNBTFix {
     }
 
     @Redirect(
-            method = "func_77624_a",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;func_77978_p()Lnet/minecraft/nbt/NBTTagCompound;"),
-            remap = false
+            method = "addInformation",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;")
     )
     @SideOnly(Side.CLIENT)
     private NBTTagCompound removeSentientTooltip(ItemStack instance) {

@@ -23,9 +23,8 @@ public class IncrementSRPKillsMixin extends EntityMob {
     }
 
     @Inject(
-            method = "func_70645_a",
-            at = @At(value = "TAIL"),
-            remap = false
+            method = "onDeath",
+            at = @At(value = "TAIL")
     )
     private void incrementSRPKills(DamageSource source, CallbackInfo ci){
         if(this.world.isRemote) return;

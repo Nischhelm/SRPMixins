@@ -13,7 +13,7 @@ import srpmixins.handlers.SRPMixinsConfigHandler;
 @Mixin(EntityProjectileWebball.class)
 public class SimSpiderProjFix {
     @Redirect(
-            method = "func_70227_a",
+            method = "onImpact",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;DORPA_RANGED_DAMAGE:F"),
             remap = false
     )
