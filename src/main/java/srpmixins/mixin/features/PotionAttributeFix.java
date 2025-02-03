@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.SRPMixins;
 
 @Mixin(SRPPotions.class)
 public class PotionAttributeFix {
@@ -21,7 +20,6 @@ public class PotionAttributeFix {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 0)
     )
     private static Potion fixedUUIDsForPotionAttributes(Potion instance, IAttribute iAttribute, String uuid, double amount, int operation) {
-        SRPMixins.LOGGER.info("SRPMixins atk attr mixin {}", iAttribute.getName());
         return instance.registerPotionAttributeModifier(iAttribute, atkDmgUUID, amount, operation);
     }
 
@@ -30,7 +28,6 @@ public class PotionAttributeFix {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 0)
     )
     private static Potion fixedUUIDsForPotionAttributes(SRPEffectBase instance, IAttribute iAttribute, String uuid, double amount, int operation) {
-        SRPMixins.LOGGER.info("SRPMixins atk speed mixin {}", iAttribute.getName());
         return instance.registerPotionAttributeModifier(iAttribute, movSpeedUUID, amount, operation);
     }
 
@@ -39,7 +36,6 @@ public class PotionAttributeFix {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 1)
     )
     private static Potion fixedUUIDsForPotionAttributes3(SRPEffectBase instance, IAttribute iAttribute, String uuid, double amount, int operation) {
-        SRPMixins.LOGGER.info("SRPMixins followrange mixin {}", iAttribute.getName());
         return instance.registerPotionAttributeModifier(iAttribute, followRangeUUID, amount, operation);
     }
 }
