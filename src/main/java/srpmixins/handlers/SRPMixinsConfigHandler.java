@@ -108,7 +108,11 @@ public class SRPMixinsConfigHandler {
 
 		@Config.Comment("Send logs when methods try to find a player to do player phase stuff with and not finding one")
 		@Config.Name("Player Phases debug mode")
-		public boolean debugMode = false;
+		public boolean playerPhaseDebugMode = false;
+
+		@Config.Comment("Send logs when phase would get accidentally reset (gets prevented by SRPMixins, but should still be fixed directly)")
+		@Config.Name("Phases reset debug mode")
+		public boolean phaseResetDebugMode = true;
 
 		@Config.Comment("Limit point reduction from parasite kills to the min point value for each phase, stopping unintended phase decreases")
 		@Config.Name("Fix phase point reduction")

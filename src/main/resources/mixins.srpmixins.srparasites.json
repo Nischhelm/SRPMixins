@@ -48,6 +48,7 @@
     "phaseresetfix.EntityAINexusGrowMixin",
     "phaseresetfix.EntityParasiteBaseMixin",
     "phaseresetfix.SRPEventHandlerBusMixin",
+    "phaseresetfix.SRPSaveDataMixin",
     "simenderman.EndSimEndermanTweaks",
     "simenderman.FeralEndermanTp",
     "simenderman.SimEndermanHeadTp",

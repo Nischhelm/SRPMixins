@@ -11,22 +11,18 @@ import net.minecraft.world.storage.MapStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.SRPMixins;
 import srpmixins.handlers.PlayerPhases_AlertOnePlayer;
 import srpmixins.handlers.SRPMixinsConfigHandler;
 import srpmixins.util.SRPSaveDataInterface;
 
-import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.UUID;
 
 @Mixin(SRPSaveData.class)
 public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
-
     @ModifyArg(
             method = "<init>()V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/storage/WorldSavedData;<init>(Ljava/lang/String;)V"),
@@ -34,32 +30,6 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     )
     private static String changeDataName(String name){
         return name+uuidtmp;
-    }
-
-    @Inject(
-            method = "createData",
-            at = @At(value = "HEAD"),
-            remap = false
-    )
-    private static void getServerWorldData(World world, MapStorage storage, CallbackInfoReturnable<SRPSaveData> cir) {
-        if(!SRPMixinsConfigHandler.phasepoints.debugMode) return;
-        SRPMixins.LOGGER.info("Creating new SRPSaveData for dim{}", world.provider.getDimension());
-        if(world.isRemote) {
-            try {
-                throw (new Exception("This Method called me"));
-            } catch(Exception e){
-                e.printStackTrace(System.out);
-            }
-        }
-    }
-
-    @Redirect(
-            method = "get",
-            at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
-            remap = false
-    )
-    private static void disableSRPDebugMessage(PrintStream instance, String s) {
-        //no op
     }
 
     @Unique private static String uuidtmp = "";
@@ -169,7 +139,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             ((SRPSaveDataInterface) instancePlayer).setUUID(playerUUID);
             return instancePlayer;
         }
-        if(SRPMixinsConfigHandler.phasepoints.debugMode)
+        if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode)
             SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByPlayer didnt find player");
         return SRPSaveData.get(world);
     }
@@ -186,11 +156,11 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
 
                 if (player != null)
                     return getByPlayer(world, player.getUniqueID());
-                else if(SRPMixinsConfigHandler.phasepoints.debugMode)
+                else if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode)
                     SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByBlock didnt find player {}", blockPos);
-            } else if(SRPMixinsConfigHandler.phasepoints.debugMode)
+            } else if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode)
                 SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByBlock didnt find blockpos");
-            if(SRPMixinsConfigHandler.phasepoints.debugMode) {
+            if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode) {
                 try {
                     throw (new Exception("SRPMixins Debug Mode - Stack Trace"));
                 } catch (Exception e) {
