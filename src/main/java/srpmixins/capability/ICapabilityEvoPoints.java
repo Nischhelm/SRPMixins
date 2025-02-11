@@ -4,6 +4,8 @@ public interface ICapabilityEvoPoints {
     //Only for NBT storage
     void setEvoPointsFromNBT(int points);
     int getEvoPoints();
+    void setEvoPointsBufferFromNBT(int pointsBuffer);
+    int getEvoPointsBuffer();
     void setEvoPhaseFromNBT(byte phase);
     byte getEvoPhase();
     void setCooldownUntilFromNBT(long cooldownUntilWorldTime);

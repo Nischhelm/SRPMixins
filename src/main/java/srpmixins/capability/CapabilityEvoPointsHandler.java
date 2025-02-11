@@ -84,6 +84,7 @@ public class CapabilityEvoPointsHandler {
         public NBTBase writeNBT(Capability<ICapabilityEvoPoints> capability, ICapabilityEvoPoints instance, EnumFacing side) {
             NBTTagCompound nbt = new NBTTagCompound();
             nbt.setInteger("evoPoints", instance.getEvoPoints());
+            nbt.setInteger("evoPointsBuffer", instance.getEvoPointsBuffer());
             nbt.setByte("evoPhase", instance.getEvoPhase());
             nbt.setLong("cooldownUntil", instance.getCooldownUntil());
             return nbt;
@@ -93,6 +94,7 @@ public class CapabilityEvoPointsHandler {
         public void readNBT(Capability<ICapabilityEvoPoints> capability, ICapabilityEvoPoints instance, EnumFacing side, NBTBase nbt) {
             NBTTagCompound tags = (NBTTagCompound) nbt;
             instance.setEvoPointsFromNBT(tags.getInteger("evoPoints"));
+            instance.setEvoPointsBufferFromNBT(tags.getInteger("evoPointsBuffer"));
             instance.setEvoPhaseFromNBT(tags.getByte("evoPhase"));
             instance.setCooldownUntilFromNBT(tags.getLong("cooldownUntil"));
         }

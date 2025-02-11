@@ -22,11 +22,19 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
     private byte evoPhase = 0;
     private long cooldownUntil = 0;
 
+    private Integer currPhaseMin = null;
+    private Integer nextPhaseMin = null;
+    private boolean isOutsideCurrRange(int points){
+        return (currPhaseMin != null && points < currPhaseMin) || (nextPhaseMin != null && points >= nextPhaseMin);
+    }
+
     //buffers in both directions +-, balanced against min possible reduction with carcasses (yep, carcasses use luredValueXCool for whatever reason)
     private static final int evoPointsBufferOverflow = SRPMixinsConfigProvider.getLurePhaseMultiplier((byte) 0) * SRPConfigSystems.luredValueOneCool;
     private static boolean recursionStarted = false;
 
-    public CapabilityEvoPoints(){ this(null, (byte) -9);}
+    public CapabilityEvoPoints(){
+        this(null, (byte) -9);
+    }
 
     public CapabilityEvoPoints(Chunk chunk, byte startPhase){
         this.chunk = chunk;
@@ -68,9 +76,12 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
 
         //only buffer for genuine point additions via setTotalKills, not for updateNearby
         boolean bufferDidOverFlow = false;
-        if(!recursionStarted){
+        if(!recursionStarted) {
             this.evoPointsBuffer += addedPoints;
-            if(Math.abs(this.evoPointsBuffer) > evoPointsBufferOverflow) {
+
+            //Also overflow if we would change phase of current chunk with it
+            boolean wouldChangePhase = isOutsideCurrRange(this.evoPoints + this.evoPointsBuffer);
+            if(Math.abs(this.evoPointsBuffer) >= evoPointsBufferOverflow || wouldChangePhase) {
                 //Buffer Overflow adds all stored points in buffer to current points
                 this.evoPoints += this.evoPointsBuffer;
                 addedPoints = this.evoPointsBuffer; //just for later checks
@@ -94,11 +105,9 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
 
             //Check if phase got changed. Don't reduce further than phase 0 or increase above phase 10
             if (canChangePhase && !(addedPoints < 0 && this.evoPhase <= 0) && !(addedPoints > 0 && this.evoPhase >= 10)) {
-                int currPhaseMin = SRPConfigProvider.getPhaseMinPoints(this.evoPhase);
-                int nextPhaseMin = SRPConfigProvider.getPhaseMinPoints((byte) (this.evoPhase + 1));
                 //checking this before going through the whole list is just for performance
                 //Phase can also reduce multiple phases at once, so we can't just -- or ++
-                if (this.evoPoints < currPhaseMin || this.evoPoints >= nextPhaseMin) {
+                if (isOutsideCurrRange(this.evoPoints)) {
                     byte newPhase = -1;
                     //newPhase is always one lower than the phase belonging to current phasePointMin
                     //so when the comparison fails we're already at the correct phase
@@ -123,6 +132,11 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
     @Override
     public void setEvoPhase(byte phase) {
         this.evoPhase = phase;
+        currPhaseMin = SRPConfigProvider.getPhaseMinPoints(this.evoPhase);
+        nextPhaseMin = SRPConfigProvider.getPhaseMinPoints((byte) (this.evoPhase + 1));
+        if(this.evoPhase < 0) currPhaseMin = null;
+        if(this.evoPhase == -2) nextPhaseMin = null;
+        if(this.evoPhase == 10) nextPhaseMin = SRPConfigSystems.phaseTenTotalPoints+1;
 
         // Cooldown, only for the current chunk
         int phaseCooldownSeconds = SRPConfigProvider.phaseCooldowns.get(MathHelper.clamp(this.evoPhase,0,10));
@@ -177,6 +191,16 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
     @Override
     public int getEvoPoints() {
         return evoPoints;
+    }
+
+    @Override
+    public void setEvoPointsBufferFromNBT(int pointsBuffer) {
+        this.evoPointsBuffer = pointsBuffer;
+    }
+
+    @Override
+    public int getEvoPointsBuffer() {
+        return evoPointsBuffer;
     }
 
     @Override
@@ -248,9 +272,11 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         return true;
     }
 
+    //Only used by SRP command getphase and by modified bloody clock
+    //Technically slightly inaccurate since buffer overflow will update nearby chunks, but it's fine
     @Override
     public int getTotalKills(int id) {
-        return this.evoPoints;
+        return this.evoPoints + this.evoPointsBuffer;
     }
 
     //This whole thing is only called for SRPCommand setphase and will only update current chunk

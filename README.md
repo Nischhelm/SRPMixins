@@ -17,8 +17,9 @@ Originally intended for SRParasites to work better with RLCraft
 - Fixed Multiplayer Sleeping Penalty being counted per sleeping player
 - Bloody Clock also shows the progress to next phase in %
 - Each player can have their own phases, making late joins in multiplayer less bad
+- As another option, phase mechanics can be applied to chunks instead of whole dimensions, making the infestation grow only where players stay for a while. Custom starting phases can be set per biome.
 - Added phase limit from which on Adapted mobs despawning gives a point penalty
-- Adds a minimum phase for parasitic biome spreading gives a point penalty
+- Adds a minimum phase for parasitic biome spreading giving point penalty
 
 ### Damage tweaks/fixes
 - Fixed Wraith/Bogle/Dreadnaught/Overlord/Haunter dmgs not being properly declared/used
