@@ -6,7 +6,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(SRPSaveData.class)
 public abstract class CarcassCooldownBypass {
@@ -17,8 +17,10 @@ public abstract class CarcassCooldownBypass {
     )
     private int cancelIfMinus(SRPSaveData instance, World world, int dim, @Local(argsOnly = true, ordinal = 1) int points, @Local(argsOnly = true, ordinal = 0) boolean isAdding) {
         int cd = instance.getCooldown(world, dim);
-        if (SRPMixinsConfigHandler.lures.fixCarcassDuringCooldown && cd != 0 && points < 0 && isAdding)
-            return 0;
+        if(SRPMixinsConfigHandler.phasepoints.chunkPhases) return cd; //Chunk Phases handles it internally in CapabilityEvoPoints
+
+        if (SRPMixinsConfigHandler.lures.fixCarcassDuringCooldown && cd != 0 && points < 0 && isAdding) return 0;
+        //Default behavior
         return cd;
     }
 }

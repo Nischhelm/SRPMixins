@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(WeaponToolMeleeBase.class)
 public abstract class SentientEvolutionNBTFix {

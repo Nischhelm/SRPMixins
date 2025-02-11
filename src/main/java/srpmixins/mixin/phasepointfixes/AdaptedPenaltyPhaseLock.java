@@ -9,7 +9,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityPAdapted.class)
 public abstract class AdaptedPenaltyPhaseLock extends Entity {

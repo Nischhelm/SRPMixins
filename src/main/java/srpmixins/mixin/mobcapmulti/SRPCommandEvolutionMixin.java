@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(SRPCommandEvolution.class)
 public abstract class SRPCommandEvolutionMixin {
@@ -31,7 +31,7 @@ public abstract class SRPCommandEvolutionMixin {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I", remap = false)
     )
     private int increaseParasiteMobCap() {
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
         return SRPConfig.worldMobCap;
@@ -42,7 +42,7 @@ public abstract class SRPCommandEvolutionMixin {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false)
     )
     private int increaseParasiteMobCapPerPlayer() {
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
         return SRPConfig.worldMobCapPlusPlayer;

@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public abstract class BiomeSpawningBlacklist {
     )
     private static void blacklistDimensions(WorldServer worldServerIn, BlockPos pos, CallbackInfoReturnable<Biome.SpawnListEntry> cir){
         int dim = worldServerIn.provider.getDimension();
-        ArrayList<String> biomeBlacklist = SRPMixins.biomeSpawningBlacklists.get(dim);
+        ArrayList<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(dim);
         if(biomeBlacklist == null) return;
 
         ResourceLocation biome = worldServerIn.getBiome(pos).getRegistryName();

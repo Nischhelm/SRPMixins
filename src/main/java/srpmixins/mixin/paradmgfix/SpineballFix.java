@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(EntityProjectileSpineball.class)
 public class SpineballFix {
@@ -25,7 +25,7 @@ public class SpineballFix {
         //Used by Prim Yelloweye, Ada Yelloweye, Herd, Vermin, Sentry
         if(SRPMixinsConfigHandler.dmgfix.doDamageFixes) {
             int dimension = world.provider.getDimension();
-            this.damage = projDamage * SRPMixins.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+            this.damage = projDamage * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
         }
     }
 }

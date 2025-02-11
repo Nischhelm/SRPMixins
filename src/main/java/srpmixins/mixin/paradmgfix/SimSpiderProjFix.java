@@ -7,8 +7,8 @@ import net.minecraft.util.math.RayTraceResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(EntityProjectileWebball.class)
 public class SimSpiderProjFix {
@@ -19,7 +19,7 @@ public class SimSpiderProjFix {
     float fixProjDmg(@Local(argsOnly = true) RayTraceResult result){
         if(SRPMixinsConfigHandler.dmgfix.doDamageFixes && result.entityHit != null) {
             int dimension = result.entityHit.dimension;
-            return SRPAttributes.DORPA_RANGED_DAMAGE * SRPMixins.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+            return SRPAttributes.DORPA_RANGED_DAMAGE * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
         }
         return SRPAttributes.DORPA_RANGED_DAMAGE;
     }

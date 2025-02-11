@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 import javax.annotation.Nullable;
 
@@ -27,7 +27,7 @@ public class BombFix {
             if(tntPlacedBy == null) return in;
             if(tntPlacedBy instanceof EntityJinjo) return in;
             int dimension = tntPlacedBy.dimension;
-            return in * SRPMixins.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+            return in * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
         }
         return in;
     }

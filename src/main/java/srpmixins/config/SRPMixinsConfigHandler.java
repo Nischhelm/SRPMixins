@@ -1,17 +1,14 @@
-package srpmixins.handlers;
+package srpmixins.config;
 
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import org.apache.logging.log4j.Level;
 import srpmixins.SRPMixins;
 
 import java.io.File;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -117,7 +114,22 @@ public class SRPMixinsConfigHandler {
 		@Config.Comment("Limit point reduction from parasite kills to the min point value for each phase, stopping unintended phase decreases")
 		@Config.Name("Fix phase point reduction")
 		public boolean limitPointReduction = true;
-	}
+
+		@Config.Comment("Do Evolution mechanic by chunk. World areas that are inhabited longer will have higher phases. Can't be used together with player phases.")
+		@Config.Name("Use Chunk Phases")
+		@Config.RequiresMcRestart
+		public boolean chunkPhases = false;
+
+		@Config.Comment("If using chunk phases, how many chunks around the current chunk should get updated when points or lure cooldown of a chunk change? It's a radius, so it will update a square of (2 x radius + 1)² chunks. Default 3, so 7x7 chunks")
+		@Config.Name("Chunk Phases: Chunk update radius")
+		public int chunkRadius = 3;
+
+		@Config.Comment("If using chunk phases, set the starting phase per biome id. All unset biomes will use the dimension default set in SRPSystems.cfg. Pattern: biomeId, startPhase")
+		@Config.Name("Chunk Phases: Custom Biome Start Phases")
+		public String[] biomeStartPhases = {
+				"minecraft:mutated_forest, -2"
+		};
+    }
 
 	public static class WeaponConfig {
 		@Config.Comment("Fully disable the sentient evolution mechanic where living weapons/armor/bow evolve to sentient after x kills")
@@ -148,7 +160,19 @@ public class SRPMixinsConfigHandler {
 
 		@Config.Comment("Phase multiplier on carcass values (0 to 10). Default values are balanced against Carcasses having values of 1,3,10,40,100,1000 for the 6 available Carcass variants in SRPSystems cfg.")
 		@Config.Name("Carcass Phase Multipliers")
-		public int[] carcassPhaseMultis = {40, 40, 80, 1000, 6000, 50000, 200000, 200000, 200000, 400000, 400000};
+		public int[] carcassPhaseMultis = {
+				40,
+				40,
+				80,
+				1000,
+				6000,
+				50000,
+				200000,
+				200000,
+				200000,
+				400000,
+				400000
+		};
 
 		@Config.Comment("Make Carcasses reduce points while cooldown is active")
 		@Config.Name("Fix Carcasses not working during cooldown")
@@ -172,7 +196,6 @@ public class SRPMixinsConfigHandler {
 		@Config.Name("Parasite Stat+Drop Multiplier: Global switch")
 		public boolean doMultipliers = true;
 
-		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global health multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite Health Multipliers")
 		public String[] dimensionHealthMultipliers = {
@@ -183,7 +206,6 @@ public class SRPMixinsConfigHandler {
 				"111,4"
 		};
 
-		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global damage multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite Dmg Multipliers")
 		public String[] dimensionDmgMultipliers = {
@@ -194,7 +216,6 @@ public class SRPMixinsConfigHandler {
 				"111,4"
 		};
 
-		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global armor multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite Armor Multipliers")
 		public String[] dimensionArmorMultipliers = {
@@ -205,7 +226,6 @@ public class SRPMixinsConfigHandler {
 				"111,4"
 		};
 
-		@Config.RequiresMcRestart
 		@Config.Comment("Changes the global stat knockback resistance multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
 		@Config.Name("Parasite KBRes Multipliers")
 		public String[] dimensionKBResMultipliers = {
@@ -216,7 +236,6 @@ public class SRPMixinsConfigHandler {
 				"111,4"
 		};
 
-		@Config.RequiresMcRestart
 		@Config.Comment("Decreases drop chance of SRP Items per dimension. Set to 1 for default behavior")
 		@Config.Name("Parasite Drop chance Multipliers")
 		public String[] dimensionDropMultipliers = {
@@ -227,7 +246,6 @@ public class SRPMixinsConfigHandler {
 				"111,1"
 		};
 
-		@Config.RequiresMcRestart
 		@Config.Comment("Increases parasite mob cap and per player cap by this multiplier per dimension")
 		@Config.Name("Parasite mob cap Multipliers")
 		public String[] dimensionMobCapMultipliers = {
@@ -320,7 +338,6 @@ public class SRPMixinsConfigHandler {
 		@Config.Name("Disable Scent Debug")
 		public boolean disableScentDebug = true;
 
-		@Config.RequiresMcRestart
 		@Config.Comment("Blacklist of biomes and dimensions in which no parasites will spawn. Pattern: dimension id, biome registry name. Disable full mods by dimid, modid. Disable full dimensions by only naming dimid, no biomes for that dimension in any line")
 		@Config.Name("Parasite Spawning Biome Blacklist per dimension")
 		public String[] biomeBlacklist = {
@@ -356,41 +373,6 @@ public class SRPMixinsConfigHandler {
 		public boolean fixSrpCothImmunity = true;
 	}
 
-	public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {
-		for (String line : config) {
-			String[] split = line.split(" *, *");
-			if (split.length >= 1) {
-				try {
-					int dim = Integer.parseInt(split[0]);
-					if (!map.containsKey(dim))
-						map.put(dim, new ArrayList<>());
-					if(split.length>=2) {
-						String biome = split[1];
-						map.get(dim).add(biome);
-					}
-				} catch (NumberFormatException e) {
-					SRPMixins.LOGGER.warn(SRPMixins.NAME + " config could not parse biome blacklist line {}", line);
-				}
-			}
-		}
-	}
-
-	public static void setupDimensionMultiplierMap(HashMap<Integer,Float> map, String[] config) {
-		for (String line : config) {
-			String[] split = line.split(" *, *");
-			if (split.length >= 2) {
-				try {
-					int dim = Integer.parseInt(split[0]);
-					float multi = Float.parseFloat(split[1]);
-					if (!map.containsKey(dim))
-						map.put(dim, multi);
-				} catch (NumberFormatException e) {
-                    SRPMixins.LOGGER.warn(SRPMixins.NAME + " config could not parse dimension multiplier line {}", line);
-				}
-			}
-		}
-	}
-
 	@Mod.EventBusSubscriber(modid = SRPMixins.MODID)
 	private static class EventHandler{
 
@@ -398,11 +380,12 @@ public class SRPMixinsConfigHandler {
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if(event.getModID().equals(SRPMixins.MODID)) {
 				ConfigManager.sync(SRPMixins.MODID, Config.Type.INSTANCE);
+				SRPMixinsConfigProvider.reset();
 			}
 		}
 	}
 
-	//Courtesy of FonnyMunkey RLMixins
+	//Courtesy of fonnymunkey RLMixins
 	private static File configFile = null;
 	private static String configBooleanString = "";
 
@@ -414,7 +397,7 @@ public class SRPMixinsConfigHandler {
 					configBooleanString = stream.filter(s -> s.trim().startsWith("B:")).collect(Collectors.joining());
 				}
 				catch(Exception ex) {
-					SRPMixins.LOGGER.log(Level.ERROR, "Failed to parse " + SRPMixins.NAME + " config: " + ex);
+					SRPMixins.LOGGER.error("Failed to parse " + SRPMixins.NAME + " config: " + ex);
 				}
 			}
 		}

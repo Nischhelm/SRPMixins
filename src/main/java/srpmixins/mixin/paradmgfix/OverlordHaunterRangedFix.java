@@ -12,8 +12,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(EntityProjectileHomming.class)
 public class OverlordHaunterRangedFix {
@@ -33,7 +33,7 @@ public class OverlordHaunterRangedFix {
             if (this.owner instanceof EntityPheon) {
                 this.damage = SRPMixinsConfigHandler.dmgfix.haunterProjectileDamage * SRPConfig.globalDamageMultiplier;
             }
-            this.damage *= SRPMixins.dimensionDmgMultipliers.getOrDefault(this.owner.world.provider.getDimension(),1F);
+            this.damage *= SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(this.owner.world.provider.getDimension(),1F);
         }
     }
 }

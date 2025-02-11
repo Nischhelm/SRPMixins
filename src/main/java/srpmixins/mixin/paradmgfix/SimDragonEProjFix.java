@@ -7,8 +7,8 @@ import net.minecraft.util.math.RayTraceResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(EntityProjectileDragonE.class)
 public class SimDragonEProjFix {
@@ -19,7 +19,7 @@ public class SimDragonEProjFix {
     double fixProjDmg(@Local(argsOnly = true) RayTraceResult result){
         if(SRPMixinsConfigHandler.dmgfix.doDamageFixes && result.entityHit != null) {
             int dimension = result.entityHit.dimension;
-            return SRPAttributes.INFDRAGONE_RANGED_ATTACK_DAMAGE * SRPMixins.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+            return SRPAttributes.INFDRAGONE_RANGED_ATTACK_DAMAGE * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
         }
         return SRPAttributes.INFDRAGONE_RANGED_ATTACK_DAMAGE;
     }

@@ -7,8 +7,8 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 import java.util.UUID;
 
@@ -27,10 +27,10 @@ public abstract class DimensionStatMultiplier extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         if(SRPMixinsConfigHandler.dimension.doMultipliers && !world.isRemote) {
-            float hp_multiplier = SRPMixins.dimensionHealthMultipliers.getOrDefault(dimension,1F) -1F;
-            float dmg_multiplier = SRPMixins.dimensionDmgMultipliers.getOrDefault(dimension,1F) -1F;
-            float armor_multiplier = SRPMixins.dimensionArmorMultipliers.getOrDefault(dimension,1F) -1F;
-            float kbres_multiplier = SRPMixins.dimensionKBResMultipliers.getOrDefault(dimension,1F) -1F;
+            float hp_multiplier = SRPMixinsConfigProvider.dimensionHealthMultipliers.getOrDefault(dimension,1F) -1F;
+            float dmg_multiplier = SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F) -1F;
+            float armor_multiplier = SRPMixinsConfigProvider.dimensionArmorMultipliers.getOrDefault(dimension,1F) -1F;
+            float kbres_multiplier = SRPMixinsConfigProvider.dimensionKBResMultipliers.getOrDefault(dimension,1F) -1F;
             //multiplier--;    //op2 uses x(1+multiplier), so need to -1
 
             if (Math.abs(hp_multiplier) > 1e-3) {  //if it's close to 0 (x1) we don't need to bother

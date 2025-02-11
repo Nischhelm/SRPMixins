@@ -1,56 +1,57 @@
 package srpmixins.mixin.phasepointfixes;
 
-import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPConfigProvider;
 
 @Mixin(SRPSaveData.class)
 public abstract class PointReductionPhaseLimit {
-
     @Shadow(remap = false) public abstract byte getEvolutionPhase(int id);
-    @Shadow(remap = false) public abstract int getTotalKills(int id);
-    @Shadow(remap = false) public abstract boolean setTotalKills(int id, int in, boolean plus, World worldIn, boolean canChangePhase);
+    @Shadow(remap = false) protected abstract boolean checkKills(int id, int in, World worldIn, boolean canChangePhase);
 
-    @Inject(
+    @Redirect(
             method = "setTotalKills",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;markDirty()V")
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;checkKills(IILnet/minecraft/world/World;Z)Z"),
+            remap = false
     )
-    public void limitPointReduction(int dim, int points, boolean isAdding, World worldIn, boolean canChangePhase, CallbackInfoReturnable<Boolean> cir) {
-        if(!SRPMixinsConfigHandler.phasepoints.limitPointReduction) return;
-        if (points > 0) return;
-        if (!isAdding) return;
-        if(canChangePhase) return;
-        byte evolutionPhase = this.getEvolutionPhase(dim);
-        int pointsMin = getPhaseMinPoints(evolutionPhase);
-        int pointsCurr = this.getTotalKills(dim);
-        if (pointsCurr < pointsMin) {
-            this.setTotalKills(dim,pointsMin,false,worldIn,false);
-        }
+    private boolean limitPointReduction(SRPSaveData instance, int dim, int points, World worldIn, boolean canChangePhase, @Local(argsOnly = true, ordinal = 0) boolean isAdding) {
+        //Default behavior if config disabled, increasing points, setting points, reducing points with carcasses
+        if (!SRPMixinsConfigHandler.phasepoints.limitPointReduction || points > 0 || !isAdding || canChangePhase)
+            return checkKills(dim, points, worldIn, canChangePhase);
+        return checkKills(dim, getLimitedPoints(dim, points), worldIn, false);
+    }
+
+    @ModifyArgs(
+            method = "setTotalKills",
+            at = @At(value = "INVOKE", target = "Ljava/util/ArrayList;set(ILjava/lang/Object;)Ljava/lang/Object;"),
+            remap = false
+    )
+    private void limitPointReduction(Args args,
+                                     @Local(argsOnly = true, ordinal = 0) int dim,
+                                     @Local(argsOnly = true, ordinal = 1) int points,
+                                     @Local(argsOnly = true, ordinal = 0) boolean isAdding,
+                                     @Local(argsOnly = true, ordinal = 1) boolean canChangePhase
+    ){
+        //Default behavior if config disabled, increasing points, setting points, reducing points with carcasses
+        if (!SRPMixinsConfigHandler.phasepoints.limitPointReduction || points > 0 || !isAdding || canChangePhase)
+            return;
+        args.set(1, getLimitedPoints(dim, args.get(1)));
     }
 
     @Unique
-    public int getPhaseMinPoints(byte evolutionPhase) {
-        switch (evolutionPhase) {
-            case -2: return -10000;
-            case -1: return -10;
-            case 1: return SRPConfigSystems.phaseKillsOne;
-            case 2: return SRPConfigSystems.phaseKillsTwo;
-            case 3: return SRPConfigSystems.phaseKillsThree;
-            case 4: return SRPConfigSystems.phaseKillsFour;
-            case 5: return SRPConfigSystems.phaseKillsFive;
-            case 6: return SRPConfigSystems.phaseKillsSix;
-            case 7: return SRPConfigSystems.phaseKillsSeven;
-            case 8: return SRPConfigSystems.phaseKillsEight;
-            case 9: return SRPConfigSystems.phaseKillsNine;
-            case 10: return SRPConfigSystems.phaseKillsTen;
-            case 0: default: return 0;
-        }
+    private int getLimitedPoints(int dim, int currPoints){
+        byte evolutionPhase = this.getEvolutionPhase(dim);
+        int pointsMin = SRPConfigProvider.getPhaseMinPoints(evolutionPhase);
+        //Limit to at least pointsMin
+        return Math.max(currPoints, pointsMin);
     }
 }

@@ -11,18 +11,44 @@ import net.minecraft.world.storage.MapStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.SRPMixins;
-import srpmixins.handlers.PlayerPhases_AlertOnePlayer;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.util.PlayerPhases_AlertOnePlayer;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.util.SRPSaveDataInterface;
 
-import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Mixin(SRPSaveData.class)
 public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
+    @Inject(
+            method = "checkKills",
+            at = @At("HEAD"),
+            remap = false
+    )
+    private void testMixin(int id, int in, World worldIn, boolean canChangePhase, CallbackInfoReturnable<Boolean> cir){
+        if(SRPMixinsConfigHandler.phasepoints.chunkPhases)
+            SRPMixins.LOGGER.info("CheckKills called, shouldn't happen");
+    }
+
+    @Inject(
+            method = "checkPhase",
+            at = @At("HEAD"),
+            remap = false
+    )
+    private void testMixin(int id, byte in, World worldIn, CallbackInfo ci){
+        if(SRPMixinsConfigHandler.phasepoints.chunkPhases)
+            SRPMixins.LOGGER.info("CheckPhase called, shouldn't happen");
+    }
+
+
     @ModifyArg(
             method = "<init>()V",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/storage/WorldSavedData;<init>(Ljava/lang/String;)V"),
@@ -47,39 +73,30 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         uuidtmp = "";
         storage.setData("srparasites_global_data" + playerUUID, instance);
 
-        String[] configSplit;
-        for (String line : SRPConfigSystems.evolutionParasiteLock) {
-            if (line != null) {
-                configSplit = line.split(";");
-                int id = Integer.parseInt(configSplit[2]);
-                instance.getLockedList().add(id);
-            }
-        }
+        instance.getLockedList().addAll(SRPConfigProvider.lockedParasites);
 
-        for (String line : SRPConfigSystems.evolutionDimStart) {
-            configSplit = line.split(";");
-            int dim = Integer.parseInt(configSplit[0]);
+        for (Map.Entry<Integer, List<Integer>> entry : SRPConfigProvider.evolutionStartPerDimension.entrySet()) {
+            int dim = entry.getKey();
+            int phase = entry.getValue().get(0);
+            int points =  entry.getValue().get(1);
+
             addDim(instance, dim);
-
-            int phase = Integer.parseInt(configSplit[1]);
-            int points = Integer.parseInt(configSplit[2]);
             instance.setEvolutionPhase(dim, (byte) phase, true, world, true);
-            if (phase == -1) {
-                instance.setTotalKills(dim, -points, false, world, true);
-            } else if (phase == -2) {
+            if (phase == -2) {
                 instance.setGaining(false, dim);
                 instance.setLoss(true, dim);
-            } else {
+            } else if (phase == -1)
+                instance.setTotalKills(dim, -points, false, world, true);
+            else
                 instance.setTotalKills(dim, points, false, world, true);
-            }
         }
 
         for (int dim : ((SRPSaveDataAccessor) instance).getDimEPid()) {
-            boolean dimIsInList = Arrays.stream(SRPConfigSystems.evolutionDimGain).anyMatch(v -> v == dim);
+            boolean dimIsInList = SRPConfigProvider.dimensionCanGainPointsBlacklist.contains(dim);
             if (!SRPConfigSystems.evolutionDimGainInverted == dimIsInList)
                 instance.setGaining(false, dim);
 
-            dimIsInList = Arrays.stream(SRPConfigSystems.evolutionDimLoss).anyMatch(v -> v == dim);
+            dimIsInList = SRPConfigProvider.dimensionCantLosePointsBlacklist.contains(dim);
             if (!SRPConfigSystems.evolutionDimLossInverted == dimIsInList)
                 instance.setLoss(true, dim);
         }
@@ -98,14 +115,14 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             //Set canGain
             instance.setGaining(true, dim);
             //is in blacklist
-            boolean dimIsInList = Arrays.stream(SRPConfigSystems.evolutionDimGain).anyMatch(v -> v == dim);
+            boolean dimIsInList = SRPConfigProvider.dimensionCanGainPointsBlacklist.contains(dim);
             //if (found and blacklist) or (not found and whitelist)
             if (SRPConfigSystems.evolutionDimGainInverted != dimIsInList)
                 instance.setGaining(false, dim);
             //Set canLoss (should be cantLose)
             instance.setLoss(false, dim);
             //is in blacklist
-            dimIsInList = Arrays.stream(SRPConfigSystems.evolutionDimLoss).anyMatch(v -> v == dim);
+            dimIsInList = SRPConfigProvider.dimensionCantLosePointsBlacklist.contains(dim);
             //if (found and blacklist) or (not found and whitelist)
             if (SRPConfigSystems.evolutionDimLossInverted != dimIsInList)
                 instance.setLoss(true, dim);
@@ -219,10 +236,9 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     void sendParaUnlockMessageToOnePlayer(String message, World world){
         if(SRPMixinsConfigHandler.phasepoints.playerPhases) {
             EntityPlayer player = world.getPlayerEntityByUUID(playerUUID);
-            if(player!=null)
+            if(player != null)
                 player.sendMessage(new TextComponentString(message));
-        } else {
+        } else
             ParasiteEventEntity.alertAllPlayerSer(message, world);
-        }
     }
 }

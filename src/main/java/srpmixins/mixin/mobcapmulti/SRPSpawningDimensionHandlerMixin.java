@@ -9,8 +9,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(SRPSpawning.DimensionHandler.class)
 public abstract class SRPSpawningDimensionHandlerMixin {
@@ -32,7 +32,7 @@ public abstract class SRPSpawningDimensionHandlerMixin {
             remap = false
     )
     private static int increaseParasiteMobCap_checkNearby() {
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
         return SRPConfig.worldMobCap;
@@ -44,7 +44,7 @@ public abstract class SRPSpawningDimensionHandlerMixin {
             remap = false
     )
     private static int increaseParasiteMobCapPerPlayer_checkNearby() {
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
         return SRPConfig.worldMobCapPlusPlayer;

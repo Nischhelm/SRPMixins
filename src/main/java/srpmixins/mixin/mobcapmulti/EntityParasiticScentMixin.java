@@ -7,8 +7,8 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.SRPMixins;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(EntityParasiticScent.class)
 public abstract class EntityParasiticScentMixin extends Entity {
@@ -24,7 +24,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
     )
     private int increaseParasiteMobCap_checkNearby() {
         int dimension = this.world.provider.getDimension();
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
         return SRPConfig.worldMobCap;
@@ -37,7 +37,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
     )
     private int increaseParasiteMobCapPerPlayer_checkNearby() {
         int dimension = this.world.provider.getDimension();
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
         return SRPConfig.worldMobCapPlusPlayer;
@@ -50,7 +50,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
     )
     private int increaseParasiteMobCap_placeWaves() {
         int dimension = this.world.provider.getDimension();
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
         return SRPConfig.worldMobCap;
@@ -63,7 +63,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
     )
     private int increaseParasiteMobCapPerPlayer_placeWaves() {
         int dimension = this.world.provider.getDimension();
-        float dimensionMultiplier = SRPMixins.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
             return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
         return SRPConfig.worldMobCapPlusPlayer;

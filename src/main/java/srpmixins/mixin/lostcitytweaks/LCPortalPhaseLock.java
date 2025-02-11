@@ -16,7 +16,7 @@ import net.minecraftforge.event.entity.player.PlayerSleepInBedEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.util.SRPSaveDataInterface;
 
 @Mixin(ForgeEventHandlers.class)

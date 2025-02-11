@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
 
 import static java.lang.Math.min;
 import static java.lang.Math.round;
@@ -26,6 +26,13 @@ public abstract class ModifiedBloodyClock {
         if (SRPMixinsConfigHandler.phasepoints.modifyBloodyClock) {
             int dimension = worldIn.provider.getDimension();
             byte evoPhase = saveData.getEvolutionPhase(dimension);
+            if(evoPhase == -2) {
+                player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseminustwo"), true);
+                return;
+            } else if(evoPhase == -1){
+                player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseminusone"), true);
+                return;
+            }
 
             int pointsNext = SRPCommandEvolution.getNeededPoints((byte) min(evoPhase + 1, 10));
             int pointsThis = SRPCommandEvolution.getNeededPoints(evoPhase);
@@ -40,9 +47,9 @@ public abstract class ModifiedBloodyClock {
                 int seconds = cooldown;
 
                 ITextComponent cooldownMsg;
-                if (hours > 0) cooldownMsg = new TextComponentTranslation("socketed.bloodyclock.hours", hours, minutes, seconds);
-                else if (minutes > 0) cooldownMsg = new TextComponentTranslation("socketed.bloodyclock.minutes", minutes, seconds);
-                else cooldownMsg = new TextComponentTranslation("socketed.bloodyclock.seconds", seconds);
+                if (hours > 0) cooldownMsg = new TextComponentTranslation("srpmixins.bloodyclock.hours", hours, minutes, seconds);
+                else if (minutes > 0) cooldownMsg = new TextComponentTranslation("srpmixins.bloodyclock.minutes", minutes, seconds);
+                else cooldownMsg = new TextComponentTranslation("srpmixins.bloodyclock.seconds", seconds);
 
                 player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseandcooldown", Integer.toString(evoPhase), perc, cooldownMsg), true);
             } else {

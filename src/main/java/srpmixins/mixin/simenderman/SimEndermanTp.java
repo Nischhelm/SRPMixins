@@ -4,7 +4,7 @@ import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnder
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.Constant;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
-import srpmixins.handlers.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityInfEnderman.class)
 public abstract class SimEndermanTp {
