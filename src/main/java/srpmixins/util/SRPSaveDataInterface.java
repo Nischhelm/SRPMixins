@@ -8,6 +8,7 @@ import net.minecraft.world.chunk.Chunk;
 import srpmixins.capability.CapabilityEvoPointsHandler;
 import srpmixins.capability.ICapabilityEvoPoints;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 import javax.annotation.Nullable;
 import java.util.UUID;
@@ -27,6 +28,9 @@ public interface SRPSaveDataInterface {
             else if(blockPos != null) return ((SRPSaveDataInterface) data).getByBlock(world, blockPos);
         }
         else if(SRPMixinsConfigHandler.phasepoints.chunkPhases) {
+            int dimension = world.provider.getDimension();
+            boolean isInList = SRPMixinsConfigProvider.chunkPhasesDimensionBlacklist.contains(dimension);
+            if(isInList != SRPMixinsConfigHandler.phasepoints.chunkPhasesDimensionBlacklistIsWhitelist) return data;
             if(blockPos == null && player != null) blockPos = player.getPosition();
             if(blockPos == null) return data;
             Chunk chunk = world.getChunk(blockPos);

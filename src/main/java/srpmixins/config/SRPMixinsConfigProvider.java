@@ -4,17 +4,19 @@ import srpmixins.SRPMixins;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class SRPMixinsConfigProvider {
-    public static HashMap<Integer,Float> dimensionHealthMultipliers = new HashMap<>();
-    public static HashMap<Integer,Float> dimensionDmgMultipliers = new HashMap<>();
-    public static HashMap<Integer,Float> dimensionArmorMultipliers = new HashMap<>();
-    public static HashMap<Integer,Float> dimensionKBResMultipliers = new HashMap<>();
-    public static HashMap<Integer,Float> dimensionDropMultipliers = new HashMap<>();
-    public static HashMap<Integer,Float> dimensionMobCapMultipliers = new HashMap<>();
-    public static HashMap<Integer, ArrayList<String>> biomeSpawningBlacklists = new HashMap<>();
+    public static Map<Integer,Float> dimensionHealthMultipliers = new HashMap<>();
+    public static Map<Integer,Float> dimensionDmgMultipliers = new HashMap<>();
+    public static Map<Integer,Float> dimensionArmorMultipliers = new HashMap<>();
+    public static Map<Integer,Float> dimensionKBResMultipliers = new HashMap<>();
+    public static Map<Integer,Float> dimensionDropMultipliers = new HashMap<>();
+    public static Map<Integer,Float> dimensionMobCapMultipliers = new HashMap<>();
+    public static Map<Integer, ArrayList<String>> biomeSpawningBlacklists = new HashMap<>();
     public static final Map<String, Byte> biomeStartPhases = new HashMap<>();
+    public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
     public static void init(){
         setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMixinsConfigHandler.dimension.dimensionHealthMultipliers);
@@ -31,6 +33,9 @@ public class SRPMixinsConfigProvider {
             byte startPhase = Byte.parseByte(split[1].trim());
             biomeStartPhases.put(biomeId, startPhase);
         }
+
+        for(int dimId : SRPMixinsConfigHandler.phasepoints.chunkPhasesDimensionBlacklist)
+            chunkPhasesDimensionBlacklist.add(dimId);
     }
 
     public static void reset(){
@@ -42,6 +47,7 @@ public class SRPMixinsConfigProvider {
         dimensionMobCapMultipliers.clear();
         biomeSpawningBlacklists.clear();
         biomeStartPhases.clear();
+        chunkPhasesDimensionBlacklist.clear();
     }
 
     public static int getLurePhaseMultiplier(byte phase){
@@ -51,7 +57,7 @@ public class SRPMixinsConfigProvider {
         return SRPMixinsConfigHandler.lures.carcassPhaseMultis[phase];
     }
 
-    public static void setupBiomeBlacklistMap(HashMap<Integer, ArrayList<String>> map, String[] config) {
+    public static void setupBiomeBlacklistMap(Map<Integer, ArrayList<String>> map, String[] config) {
         for (String line : config) {
             String[] split = line.split(" *, *");
             if (split.length >= 1) {
@@ -70,7 +76,7 @@ public class SRPMixinsConfigProvider {
         }
     }
 
-    public static void setupDimensionMultiplierMap(HashMap<Integer,Float> map, String[] config) {
+    public static void setupDimensionMultiplierMap(Map<Integer,Float> map, String[] config) {
         for (String line : config) {
             String[] split = line.split(" *, *");
             if (split.length >= 2) {

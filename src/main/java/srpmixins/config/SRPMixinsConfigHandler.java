@@ -129,7 +129,19 @@ public class SRPMixinsConfigHandler {
 		public String[] biomeStartPhases = {
 				"minecraft:mutated_forest, -2"
 		};
-    }
+
+		@Config.Comment("If using chunk phases, use regular dimension-wide phases for these dimensions to save performance")
+		@Config.Name("Chunk Phases: Dimension blacklist")
+		public int[] chunkPhasesDimensionBlacklist = {
+				-1,
+				1,
+				111
+		};
+
+		@Config.Comment("If using chunk phases, turn the dimension blacklist for chunk phases into a whitelist")
+		@Config.Name("Chunk Phases: Dimension blacklist is whitelist")
+		public boolean chunkPhasesDimensionBlacklistIsWhitelist = false;
+	}
 
 	public static class WeaponConfig {
 		@Config.Comment("Fully disable the sentient evolution mechanic where living weapons/armor/bow evolve to sentient after x kills")
