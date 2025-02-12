@@ -132,7 +132,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             ((SRPSaveDataInterface) instancePlayer).setUUID(playerUUID);
             return instancePlayer;
         }
-        if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode)
+        if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
             SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByPlayer didnt find player");
         return SRPSaveData.get(world);
     }
@@ -149,11 +149,11 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
 
                 if (player != null)
                     return getByPlayer(world, player.getUniqueID());
-                else if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode)
+                else if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
                     SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByBlock didnt find player {}", blockPos);
-            } else if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode)
+            } else if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
                 SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByBlock didnt find blockpos");
-            if(SRPMixinsConfigHandler.phasepoints.playerPhaseDebugMode) {
+            if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode) {
                 try {
                     throw (new Exception("SRPMixins Debug Mode - Stack Trace"));
                 } catch (Exception e) {
@@ -198,7 +198,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             remap = false
     )
     void sendWarningToOnePlayer(World worldIn, String message, int warning){
-        if(SRPMixinsConfigHandler.phasepoints.playerPhases && this.playerUUID!=null)
+        if(SRPMixinsConfigHandler.playerphases.enabled && this.playerUUID!=null)
             PlayerPhases_AlertOnePlayer.alertOnePlayer(worldIn,this.playerUUID, message, warning);
         else
             ParasiteEventEntity.alertAllPlayerDim(worldIn, message, warning);
@@ -210,7 +210,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             remap = false
     )
     void sendParaUnlockMessageToOnePlayer(String message, World world){
-        if(SRPMixinsConfigHandler.phasepoints.playerPhases) {
+        if(SRPMixinsConfigHandler.playerphases.enabled) {
             EntityPlayer player = world.getPlayerEntityByUUID(playerUUID);
             if(player != null)
                 player.sendMessage(new TextComponentString(message));

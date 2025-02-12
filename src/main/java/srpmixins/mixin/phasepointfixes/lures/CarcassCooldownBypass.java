@@ -17,7 +17,7 @@ public abstract class CarcassCooldownBypass {
     )
     private int cancelIfMinus(SRPSaveData instance, World world, int dim, @Local(argsOnly = true, ordinal = 1) int points, @Local(argsOnly = true, ordinal = 0) boolean isAdding) {
         int cd = instance.getCooldown(world, dim);
-        if(SRPMixinsConfigHandler.phasepoints.chunkPhases) return cd; //Chunk Phases handles it internally in CapabilityEvoPoints
+        if(SRPMixinsConfigHandler.chunkphases.enabled) return cd; //Chunk Phases handles it internally in CapabilityEvoPoints
 
         if (SRPMixinsConfigHandler.lures.fixCarcassDuringCooldown && cd != 0 && points < 0 && isAdding) return 0;
         //Default behavior

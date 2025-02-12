@@ -1,0 +1,69 @@
+package srpmixins.config.folders;
+
+import net.minecraftforge.common.config.Config;
+
+public class DimensionConfig {
+    @Config.Comment("Set to false to fully disable dimension stat+drop+mobcap multipliers")
+    @Config.Name("Parasite Stat+Drop Multiplier: Global switch")
+    public boolean doMultipliers = true;
+
+    @Config.Comment("Changes the global health multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+    @Config.Name("Parasite Health Multipliers")
+    public String[] dimensionHealthMultipliers = {
+            "-1,2",
+            "0,1",
+            "1,2",
+            "3,4",
+            "111,4"
+    };
+
+    @Config.Comment("Changes the global damage multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+    @Config.Name("Parasite Dmg Multipliers")
+    public String[] dimensionDmgMultipliers = {
+            "-1,2",
+            "0,1",
+            "1,2",
+            "3,4",
+            "111,4"
+    };
+
+    @Config.Comment("Changes the global armor multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+    @Config.Name("Parasite Armor Multipliers")
+    public String[] dimensionArmorMultipliers = {
+            "-1,2",
+            "0,1",
+            "1,2",
+            "3,4",
+            "111,4"
+    };
+
+    @Config.Comment("Changes the global stat knockback resistance multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")
+    @Config.Name("Parasite KBRes Multipliers")
+    public String[] dimensionKBResMultipliers = {
+            "-1,2",
+            "0,1",
+            "1,2",
+            "3,4",
+            "111,4"
+    };
+
+    @Config.Comment("Decreases drop chance of SRP Items per dimension. Set to 1 for default behavior")
+    @Config.Name("Parasite Drop chance Multipliers")
+    public String[] dimensionDropMultipliers = {
+            "-1,0.5",
+            "0,0.25",
+            "1,0.5",
+            "3,1",
+            "111,1"
+    };
+
+    @Config.Comment("Increases parasite mob cap and per player cap by this multiplier per dimension")
+    @Config.Name("Parasite mob cap Multipliers")
+    public String[] dimensionMobCapMultipliers = {
+            "-1,1",
+            "0,1",
+            "1,1",
+            "3,4",
+            "111,4"
+    };
+}

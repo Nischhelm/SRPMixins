@@ -27,14 +27,14 @@ public class SRPMixinsConfigProvider {
         setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMixinsConfigHandler.dimension.dimensionMobCapMultipliers);
         setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMixinsConfigHandler.various.biomeBlacklist);
 
-        for (String s : SRPMixinsConfigHandler.phasepoints.biomeStartPhases) {
+        for (String s : SRPMixinsConfigHandler.chunkphases.chunkPhasesBiomeStartPhases) {
             String[] split = s.split(",");
             String biomeId = split[0].trim();
             byte startPhase = Byte.parseByte(split[1].trim());
             biomeStartPhases.put(biomeId, startPhase);
         }
 
-        for(int dimId : SRPMixinsConfigHandler.phasepoints.chunkPhasesDimensionBlacklist)
+        for(int dimId : SRPMixinsConfigHandler.chunkphases.chunkPhasesDimensionBlacklist)
             chunkPhasesDimensionBlacklist.add(dimId);
     }
 

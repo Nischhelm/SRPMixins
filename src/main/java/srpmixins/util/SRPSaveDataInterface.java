@@ -23,14 +23,14 @@ public interface SRPSaveDataInterface {
 
     static SRPSaveData get(World world, @Nullable EntityPlayer player, @Nullable BlockPos blockPos){
         SRPSaveData data = SRPSaveData.get(world);
-        if(SRPMixinsConfigHandler.phasepoints.playerPhases) {
+        if(SRPMixinsConfigHandler.playerphases.enabled) {
             if(player != null) return ((SRPSaveDataInterface) data).getByPlayer(world, player.getUniqueID());
             else if(blockPos != null) return ((SRPSaveDataInterface) data).getByBlock(world, blockPos);
         }
-        else if(SRPMixinsConfigHandler.phasepoints.chunkPhases) {
+        else if(SRPMixinsConfigHandler.chunkphases.enabled) {
             int dimension = world.provider.getDimension();
             boolean isInList = SRPMixinsConfigProvider.chunkPhasesDimensionBlacklist.contains(dimension);
-            if(isInList != SRPMixinsConfigHandler.phasepoints.chunkPhasesDimensionBlacklistIsWhitelist) return data;
+            if(isInList != SRPMixinsConfigHandler.chunkphases.chunkPhasesDimensionBlacklistIsWhitelist) return data;
             if(blockPos == null && player != null) blockPos = player.getPosition();
             if(blockPos == null) return data;
             Chunk chunk = world.getChunk(blockPos);
