@@ -19,7 +19,7 @@ public class SRPMixinsConfigProvider {
     public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
     //Deliberately copied/initialised here to stop ppl from changing it in game
-    public static int chunkPhasesSpacing = SRPMixinsConfigHandler.chunkphases.chunkPhasesSpacing;
+    public static int chunkPhasesSpacing = SRPMixinsConfigHandler.chunkphases.chunkSpacing;
     public static int chunkPhasesHalfSpacing = chunkPhasesSpacing >> 1; //Spacing divided by two and truncated (so it's different for odd vs even spacing)
     public static boolean chunkPhasesSpacingIsOdd = (chunkPhasesSpacing & 1) == 1;
 
@@ -32,14 +32,14 @@ public class SRPMixinsConfigProvider {
         setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMixinsConfigHandler.dimension.dimensionMobCapMultipliers);
         setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMixinsConfigHandler.various.biomeBlacklist);
 
-        for (String s : SRPMixinsConfigHandler.chunkphases.chunkPhasesBiomeStartPhases) {
+        for (String s : SRPMixinsConfigHandler.chunkphases.biomeStartPhases) {
             String[] split = s.split(",");
             String biomeId = split[0].trim();
             byte startPhase = Byte.parseByte(split[1].trim());
             biomeStartPhases.put(biomeId, startPhase);
         }
 
-        for(int dimId : SRPMixinsConfigHandler.chunkphases.chunkPhasesDimensionBlacklist)
+        for(int dimId : SRPMixinsConfigHandler.chunkphases.dimensionBlacklist)
             chunkPhasesDimensionBlacklist.add(dimId);
     }
 

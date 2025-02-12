@@ -50,7 +50,7 @@ public class ChunkPhasesUtil {
         //Dimension has chunk phases enabled
         int dimension = world.provider.getDimension();
         boolean isInList = SRPMixinsConfigProvider.chunkPhasesDimensionBlacklist.contains(dimension);
-        if(isInList != SRPMixinsConfigHandler.chunkphases.chunkPhasesDimensionBlacklistIsWhitelist) return defaultData;
+        if(isInList != SRPMixinsConfigHandler.chunkphases.dimensionBlacklistIsWhitelist) return defaultData;
 
         //Get region center chunk
         ChunkPos regionPos = ChunkPhasesUtil.blockPosToRegionChunkPos(blockPos);

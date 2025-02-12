@@ -46,7 +46,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         if(recursionStarted) return;
         recursionStarted = true;
 
-        int chunkRadius = SRPMixinsConfigHandler.chunkphases.chunkPhasesRegionRadius;
+        int chunkRadius = SRPMixinsConfigHandler.chunkphases.regionUpdateRadius;
         int chunkSpacing = SRPMixinsConfigProvider.chunkPhasesSpacing;
         for (int i = -chunkRadius; i <= chunkRadius; i++) {
             for (int j = -chunkRadius; j <= chunkRadius; j++) {
