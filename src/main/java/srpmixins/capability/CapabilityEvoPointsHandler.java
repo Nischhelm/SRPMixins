@@ -43,12 +43,12 @@ public class CapabilityEvoPointsHandler {
             if (chunk.hasCapability(CAP_EVOPOINTS, null)) return;
 
             ChunkPos chunkPos = chunk.getPos();
-            if (!ChunkPhasesUtil.chunkIsRegionCenter(chunkPos)) return;
+            if (!ChunkPhasesUtil.chunkPosIsRegionCenter(chunkPos)) return;
             
-            //Set starting phase for biome at NW corner block of chunk
+            //Set starting phase for biome at center block of region
             byte startPhase = -9;
             if(!SRPMixinsConfigProvider.biomeStartPhases.isEmpty()) {
-                BlockPos regionCenter = ChunkPhasesUtil.getCenterBlockFromChunkPos(chunkPos);
+                BlockPos regionCenter = ChunkPhasesUtil.getRegionChunkCenterBlock(chunkPos);
                 ResourceLocation biomeId = chunk.getBiome(regionCenter, chunk.getWorld().provider.getBiomeProvider()).getRegistryName();
                 if (biomeId != null) startPhase = SRPMixinsConfigProvider.biomeStartPhases.getOrDefault(biomeId.toString(), (byte) -9);
             }

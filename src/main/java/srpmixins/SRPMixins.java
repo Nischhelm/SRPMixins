@@ -17,7 +17,7 @@ import srpmixins.config.SRPMixinsConfigProvider;
 @Mod(modid = SRPMixins.MODID, version = SRPMixins.VERSION, name = SRPMixins.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.4.0";
+    public static final String VERSION = "2.4.1";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
 
