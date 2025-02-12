@@ -10,6 +10,7 @@ public class ChunkPhaseConfig {
 
     @Config.Comment("If using chunk phases, how many regions around the current region should get updated when points or lure cooldown of a chunk change? It's a radius, so it will update a square of (2 x radius + 1)² regions. Default 3, so 7x7 regions")
     @Config.Name("Chunk Phases: Region update radius")
+    @Config.RangeInt(min = 0)
     public int chunkPhasesRegionRadius = 3;
 
     @Config.Comment("If using chunk phases, set the starting phase per biome id. All unset biomes will use the dimension default set in SRPSystems.cfg. Pattern: biomeId, startPhase")
@@ -30,7 +31,8 @@ public class ChunkPhaseConfig {
     @Config.Name("Chunk Phases: Dimension blacklist is whitelist")
     public boolean chunkPhasesDimensionBlacklistIsWhitelist = false;
 
-    @Config.Comment("If using chunk phases, a chunk region that gets points will be a square of this many chunks squared")
+    @Config.Comment("If using chunk phases, a chunk region that gets points will be a square of this many chunks squared. WARNING: never change this in an existing world")
     @Config.Name("Chunk Phases: Chunk spacing")
+    @Config.RangeInt(min = 1)
     public int chunkPhasesSpacing = 4;
 }

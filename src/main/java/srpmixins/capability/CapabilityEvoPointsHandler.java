@@ -4,6 +4,8 @@ import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraftforge.common.capabilities.Capability;
@@ -15,6 +17,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.util.ChunkPhasesUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -39,10 +42,14 @@ public class CapabilityEvoPointsHandler {
             if (world == null || world.isRemote) return;
             if (chunk.hasCapability(CAP_EVOPOINTS, null)) return;
 
+            ChunkPos chunkPos = chunk.getPos();
+            if (!ChunkPhasesUtil.chunkIsRegionCenter(chunkPos)) return;
+            
             //Set starting phase for biome at NW corner block of chunk
             byte startPhase = -9;
             if(!SRPMixinsConfigProvider.biomeStartPhases.isEmpty()) {
-                ResourceLocation biomeId = chunk.getBiome(chunk.getPos().getBlock(0, 0, 0), chunk.getWorld().provider.getBiomeProvider()).getRegistryName();
+                BlockPos regionCenter = ChunkPhasesUtil.getCenterBlockFromChunkPos(chunkPos);
+                ResourceLocation biomeId = chunk.getBiome(regionCenter, chunk.getWorld().provider.getBiomeProvider()).getRegistryName();
                 if (biomeId != null) startPhase = SRPMixinsConfigProvider.biomeStartPhases.getOrDefault(biomeId.toString(), (byte) -9);
             }
 

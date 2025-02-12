@@ -3,6 +3,7 @@ package srpmixins.util;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import srpmixins.capability.CapabilityEvoPointsHandler;
@@ -28,14 +29,13 @@ public interface SRPSaveDataInterface {
             else if(blockPos != null) return ((SRPSaveDataInterface) data).getByBlock(world, blockPos);
         }
         else if(SRPMixinsConfigHandler.chunkphases.enabled) {
-            int dimension = world.provider.getDimension();
-            boolean isInList = SRPMixinsConfigProvider.chunkPhasesDimensionBlacklist.contains(dimension);
-            if(isInList != SRPMixinsConfigHandler.chunkphases.chunkPhasesDimensionBlacklistIsWhitelist) return data;
-            if(blockPos == null && player != null) blockPos = player.getPosition();
-            if(blockPos == null) return data;
-            Chunk chunk = world.getChunk(blockPos);
-            ICapabilityEvoPoints chunkCap = chunk.getCapability(CapabilityEvoPointsHandler.CAP_EVOPOINTS, null);
-            if(chunkCap != null) return (SRPSaveData) chunkCap;
+            //Get by player
+            if(blockPos == null && player != null)
+                blockPos = player.getPosition();
+            //Neither player nor blockPos are set, should not happen
+            if(blockPos == null)
+                return data;
+            return ChunkPhasesUtil.getForPosition(blockPos, world, data);
         }
         return data;
     }

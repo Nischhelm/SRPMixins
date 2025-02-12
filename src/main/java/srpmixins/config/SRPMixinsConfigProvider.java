@@ -18,6 +18,9 @@ public class SRPMixinsConfigProvider {
     public static final Map<String, Byte> biomeStartPhases = new HashMap<>();
     public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
+    //Spacing divided by two and truncated (so it's different for odd vs even spacing)
+    public static int chunkPhasesHalfSpacing = 0;
+
     public static void init(){
         setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMixinsConfigHandler.dimension.dimensionHealthMultipliers);
         setupDimensionMultiplierMap(dimensionDmgMultipliers, SRPMixinsConfigHandler.dimension.dimensionDmgMultipliers);
@@ -26,6 +29,8 @@ public class SRPMixinsConfigProvider {
         setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMixinsConfigHandler.dimension.dimensionDropMultipliers);
         setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMixinsConfigHandler.dimension.dimensionMobCapMultipliers);
         setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMixinsConfigHandler.various.biomeBlacklist);
+
+        chunkPhasesHalfSpacing = SRPMixinsConfigHandler.chunkphases.chunkPhasesSpacing >> 1;
 
         for (String s : SRPMixinsConfigHandler.chunkphases.chunkPhasesBiomeStartPhases) {
             String[] split = s.split(",");
@@ -48,6 +53,8 @@ public class SRPMixinsConfigProvider {
         biomeSpawningBlacklists.clear();
         biomeStartPhases.clear();
         chunkPhasesDimensionBlacklist.clear();
+
+        init();
     }
 
     public static int getLurePhaseMultiplier(byte phase){

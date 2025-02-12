@@ -23,6 +23,7 @@ public class ModCompatConfig {
 
     @Config.Comment("Multiply Parasite Mob Cap by this much during Blood Moons (if using SRP custom spawner)")
     @Config.Name("Bloodmoon Parasite Cap Multiplier")
+    @Config.RangeInt(min = 0)
     public float bloodmoonInLCmobCapMultiplier = 4;
 
     @Config.Comment("LC Portals are locked until reaching this phase. Disable with -1")

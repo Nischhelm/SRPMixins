@@ -47,10 +47,11 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         recursionStarted = true;
 
         int chunkRadius = SRPMixinsConfigHandler.chunkphases.chunkPhasesRegionRadius;
+        int chunkSpacing = SRPMixinsConfigHandler.chunkphases.chunkPhasesSpacing;
         for (int i = -chunkRadius; i <= chunkRadius; i++) {
             for (int j = -chunkRadius; j <= chunkRadius; j++) {
                 if(i == 0 && j == 0) continue; //Don't update the current chunk again
-                Chunk chunkNearby = chunk.getWorld().getChunkProvider().getLoadedChunk(chunk.x + i, chunk.z + j);
+                Chunk chunkNearby = chunk.getWorld().getChunkProvider().getLoadedChunk(chunk.x + i*chunkSpacing, chunk.z + j*chunkSpacing);
                 if(chunkNearby == null) continue; //we don't load unloaded chunks for this
                 ICapabilityEvoPoints nearbyCap = chunkNearby.getCapability(CapabilityEvoPointsHandler.CAP_EVOPOINTS, null);
                 if (nearbyCap == null) continue;
