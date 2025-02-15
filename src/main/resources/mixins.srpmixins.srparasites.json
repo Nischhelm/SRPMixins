@@ -10,6 +10,7 @@
     "clientpotioncancel.SRPPotionsMixin",
     "cothtweaks.ConvertImmuneFix",
     "cothtweaks.IncrementCothOnImmuneFix",
+    "deterrenttweaks.BeckonInfestationFix",
     "deterrenttweaks.BeckonUpgradeDeny",
     "deterrenttweaks.DeterrentLowPhaseDamage",
     "deterrenttweaks.NexusCap",

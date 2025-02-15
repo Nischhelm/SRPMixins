@@ -41,6 +41,7 @@ Originally intended for SRParasites to work better with RLCraft
 - Added whitelist for Nexus/Deterrent types to not take dmg over time in too low phases
 - Plays respective sounds when Dispatchers or Beckons of higher stages naturally spawn
 - Blocks Stage 3 Beckons from upgrading to Stage 4 if there is already a Stage 4 Beckon nearby (20 Blocks)
+- Fixes Beckons removing the infested blocks around them on Stage upgrade if evolution phases are disabled
 
 ### General tweaks/fixes
 - Fixed Rage and Heightened Senses applying random UUID attribute modifiers which can accumulate modifiers on repeated restarts

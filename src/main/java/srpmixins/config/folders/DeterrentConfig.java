@@ -36,4 +36,9 @@ public class DeterrentConfig {
     @Config.Comment("Deny Stage 3 Beckons growing up if a Stage 4 Beckon is already nearby (20 blocks distance)")
     @Config.Name("Limit Stage 4 Beckons")
     public boolean limitStage4Beckons = true;
+
+    @Config.Comment("Fix beckons reverting all the infested blocks around them on stage increase if evolution is disabled.\n" +
+            "This also fixes dying higher stage beckons reverting infested blocks (if evolution is disabled) ignoring the SRP config \"Reinforcement System Block Revert Stage\" value, which would only allow reversion if the infested blocks were made by beckons with stage lower or equal to the config value.")
+    @Config.Name("Fix Infested Block Reversion")
+    public boolean fixInfestedBlockReversion = true;
 }
