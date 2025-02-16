@@ -254,7 +254,6 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
 
     @Override
     public boolean setTotalKills(int dimId, int points, boolean isAddingNotSetting, World worldIn, boolean canChangePhase) {
-        if (!SRPConfigSystems.useEvolution) return false;
         //Config is described incorrectly, if true parasites CAN'T get points with no players online
         if (SRPConfigSystems.evolutionNoPlayerMultipler && worldIn.playerEntities.isEmpty()) return false;
 
