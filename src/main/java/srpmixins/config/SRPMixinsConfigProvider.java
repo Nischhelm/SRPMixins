@@ -1,5 +1,6 @@
 package srpmixins.config;
 
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import srpmixins.SRPMixins;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ public class SRPMixinsConfigProvider {
     public static final Map<String, Byte> biomeStartPhases = new HashMap<>();
     public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
+    public static float playerNeedlerMulti = 0.4F;
+
     //Deliberately copied/initialised here to stop ppl from changing it in game
     public static int chunkPhasesSpacing = SRPMixinsConfigHandler.chunkphases.chunkSpacing;
     public static int chunkPhasesHalfSpacing = chunkPhasesSpacing >> 1; //Spacing divided by two and truncated (so it's different for odd vs even spacing)
@@ -31,6 +34,9 @@ public class SRPMixinsConfigProvider {
         setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMixinsConfigHandler.dimension.dimensionDropMultipliers);
         setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMixinsConfigHandler.dimension.dimensionMobCapMultipliers);
         setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMixinsConfigHandler.various.biomeBlacklist);
+
+        playerNeedlerMulti = SRPMixinsConfigHandler.various.playerNeedlerMulti;
+        if(playerNeedlerMulti < 0) playerNeedlerMulti = SRPConfigSystems.needlerDamage; //negative = use SRP default value
 
         for (String s : SRPMixinsConfigHandler.chunkphases.biomeStartPhases) {
             String[] split = s.split(",");

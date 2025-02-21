@@ -17,6 +17,7 @@
     "features.BlacklistWildcards",
     "features.DimensionStatMultiplier",
     "features.DisableScentDebug",
+    "features.NeedlerFix",
     "features.PotionAttributeFix",
     "mobcapmulti.EntityParasiticScentMixin",
     "mobcapmulti.SRPCommandEvolutionMixin",

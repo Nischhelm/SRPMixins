@@ -26,4 +26,17 @@ public class VariousConfig {
     @Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
     @Config.Name("Fix Parasitic Biome spreading limit")
     public boolean fixBiomeSpreadingLimit = true;
+
+    @Config.Comment("SRP soft crashes whenever Needler tries to apply dmg to players. This is fixed if \"Needler Fix\" is enabled. Enable this config to finally make players suffer the fixed Needler effect.")
+    @Config.Name("Needler Fix - Allow on Players")
+    public boolean allowPlayerNeedler = false;
+
+    @Config.Comment("SRP always incorrectly applies max dmg on mobs getting Needler, no matter the potion effect lvl. It also never applies it on players. This fixes both.")
+    @Config.Name("Needler Fix")
+    public boolean fixNeedler = true;
+
+    @Config.Comment("SRP provides a configable maximum dmg for Needler applied on players, but the base percentage of max health which Needler does as dmg is the same for mobs and players. Use this value to customise this for players. Use any negative value to copy from SRPSystems value \"Needler Damage\" (default 0.4=40%)\n" +
+            "Warning: Needler uses a fully custom damaging system via setHealth, which will ignore all other mods attempting to reduce/ignore dmg or cancel attacks/deaths. Only totems will protect players here.")
+    @Config.Name("Needler Fix - Dmg Multi for Players")
+    public float playerNeedlerMulti = 0.4F;
 }

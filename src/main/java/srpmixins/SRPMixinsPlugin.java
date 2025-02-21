@@ -16,12 +16,14 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		if(SRPMixinsConfigHandler.getBoolean("Use Player Phases") || SRPMixinsConfigHandler.getBoolean("Use Chunk Phases"))
 			FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.playerphases.json", true);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srparasites.json", true);
+
 		if(SRPMixinsConfigHandler.getBoolean("Compat: Modpack has LostCities mod")) {
 			FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.lostcities.json", true);
 			if (SRPMixinsConfigHandler.getBoolean("Compat: Modpack has Bloodmoon mod"))
 				FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.bloodmoon.json", true);
 		}
 
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srparasites.needlerfix.json", () -> SRPMixinsConfigHandler.getBoolean("Needler Fix"));
 	}
 
 	@Override
