@@ -1,6 +1,7 @@
 package srpmixins.mixin.adaptationoverhaul;
 
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolArmorBase;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -12,7 +13,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
 import srpmixins.capability.adaptation.ICapabilityAdaptation;
@@ -37,11 +37,11 @@ public class ArmorTooltip {
         }
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "addInformation",
             at = @At(value = "FIELD", target = "Ljava/math/RoundingMode;DOWN:Ljava/math/RoundingMode;")
     )
-    private RoundingMode roundCorrectly(){
+    private RoundingMode roundCorrectly(RoundingMode original){
         return RoundingMode.HALF_UP;
     }
 

@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(BlockEvolutionLure.class)
 public class CarcassAllSameLures {
@@ -37,7 +36,6 @@ public class CarcassAllSameLures {
             remap = false
     )
     private Block checkLuresForType(Block original, @Local(argsOnly = true) World world, @Local(argsOnly = true) BlockEvolutionLure.EnumType lureType) {
-        if(!SRPMixinsConfigHandler.lures.forceCarcassSameLureVariant) return original;
         if(savedPosition == null) return original;
         if (!world.getBlockState(savedPosition).getValue(VARIANT).equals(lureType)) {
             savedPosition = null;

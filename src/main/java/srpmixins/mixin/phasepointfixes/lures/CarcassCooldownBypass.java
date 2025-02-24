@@ -19,7 +19,7 @@ public abstract class CarcassCooldownBypass {
         if(SRPMixinsConfigHandler.chunkphases.enabled) return original;
 
         //No cooldown point change block if reducing points
-        if (SRPMixinsConfigHandler.lures.fixCarcassDuringCooldown && original != 0 && points < 0 && isAdding) return 0;
+        if (original != 0 && points < 0 && isAdding) return 0;
 
         //Default behavior
         return original;
