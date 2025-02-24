@@ -36,6 +36,12 @@ Originally intended for SRParasites to work better with RLCraft
 - Makes living weapons keep their nbt (enchants etc) when evolving to sentient
 - Disables writing the --> xyz (srpkills) tooltip on sentient weapons
 
+### Adaptation fixes
+
+- Fixes living/sentient armor using the last checked point multiplier for the total reduction points instead of the appropriate per armor piece (matters when wearing both living and sentient pieces)
+- Fixes adaptation adapting to "" if there is no immediate attacking entity involved
+- Fixes blacklist check also checking the "Else" blacklist even though it shouldn't
+
 ### Nexus/Deterrent tweaks/fixes
 - Cap Nexus Type spawns to 15 (custom mob cap)
 - Added whitelist for Nexus/Deterrent types to not take dmg over time in too low phases
