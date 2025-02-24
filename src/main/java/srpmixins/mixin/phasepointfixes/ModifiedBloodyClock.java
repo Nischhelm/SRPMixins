@@ -8,7 +8,9 @@ import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -26,21 +28,22 @@ public abstract class ModifiedBloodyClock {
     public boolean sendPhaseMessageToChat(EntityPlayer player, ITextComponent iTextComponent, boolean actionBar, @Local(argsOnly = true) World worldIn, @Local SRPSaveData saveData) {
         int dimension = worldIn.provider.getDimension();
         byte evoPhase = saveData.getEvolutionPhase(dimension);
-        int pointsThis = SRPCommandEvolution.getNeededPoints(evoPhase);
 
+        int pointsCurr = saveData.getTotalKills(dimension);
         if(evoPhase == -2) {
             player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseminustwo"), actionBar);
             return false;
         } else if(evoPhase == -1){
             player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseminusone"), actionBar);
             return false;
-        } else if(evoPhase == 10 && pointsThis >= SRPConfigSystems.phaseTenTotalPoints){
-            player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phasemaximum"), actionBar);
+        } else if(evoPhase == 10 && pointsCurr >= SRPConfigSystems.phaseTenTotalPoints){
+            player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phasemaximum").setStyle(new Style().setColor(TextFormatting.RED)), actionBar);
             return false;
         }
 
+        int pointsThis = SRPCommandEvolution.getNeededPoints(evoPhase);
         int pointsNext = SRPCommandEvolution.getNeededPoints((byte) min(evoPhase + 1, 10));
-        int perc = (int) round((100. * ((double) saveData.getTotalKills(dimension) - pointsThis)) / ((double) pointsNext - pointsThis));
+        int perc = (int) round((100. * ((double) pointsCurr - pointsThis)) / ((double) pointsNext - pointsThis));
         if (pointsNext == pointsThis) perc = 0;
 
         int cooldown = saveData.getCooldown(worldIn, dimension);
