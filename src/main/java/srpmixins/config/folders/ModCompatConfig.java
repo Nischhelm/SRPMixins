@@ -3,14 +3,14 @@ package srpmixins.config.folders;
 import net.minecraftforge.common.config.Config;
 
 public class ModCompatConfig {
-    @Config.RequiresMcRestart
     @Config.Comment("Enable BloodMoon tweaks (don't set this to true if your modpack doesn't have BloodMoon, otherwise it will crash)")
     @Config.Name("Compat: Modpack has Bloodmoon mod")
+    @Config.RequiresMcRestart
     public boolean hasBloodmoon = false;
 
-    @Config.RequiresMcRestart
     @Config.Comment("Enable LostCities tweaks (don't set this to true if your modpack doesn't have LostCities, otherwise it will crash)")
     @Config.Name("Compat: Modpack has LostCities mod")
+    @Config.RequiresMcRestart
     public boolean hasLostCities = false;
 
     @Config.Comment("Disable Lures in LC and instead spawn a Dispatcher Nidus")

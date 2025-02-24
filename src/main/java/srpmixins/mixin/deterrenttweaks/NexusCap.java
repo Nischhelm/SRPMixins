@@ -1,45 +1,30 @@
 package srpmixins.mixin.deterrenttweaks;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationaryArchitect;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.world.World;
-import net.minecraftforge.event.ForgeEventFactory;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.eventhandler.Event;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.config.SRPMixinsConfigHandler;
-
-import java.util.List;
-
 
 @Mixin(SRPWorldEntitySpawner.class)
 public abstract class NexusCap {
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "findChunksForSpawning",
             at = @At(value = "INVOKE", target = "Lnet/minecraftforge/event/ForgeEventFactory;canEntitySpawn(Lnet/minecraft/entity/EntityLiving;Lnet/minecraft/world/World;FFFZ)Lnet/minecraftforge/fml/common/eventhandler/Event$Result;"),
             remap = false
     )
-    private static Event.Result nexusCapMixin(EntityLiving entity, World world, float x, float y, float z, boolean isSpawner){
-        @SuppressWarnings("deprecation")
-        Event.Result canSpawn = ForgeEventFactory.canEntitySpawn(entity, world, x, y, z, false);
-
-        int nexusCap = SRPMixinsConfigHandler.deterrents.nexusCap;
-        if(nexusCap > 0 && entity instanceof EntityPStationaryArchitect) {
-            List<Entity> entityList = world.loadedEntityList;
-            int nexusCounter = 0;
-
-            for (Entity e : entityList)
-                if (e instanceof EntityPStationaryArchitect)
-                    ++nexusCounter;
-
-            if (nexusCounter > nexusCap)
-                canSpawn = Event.Result.DENY;
+    private static Event.Result nexusCap(Event.Result original, @Local EntityParasiteBase entity, @Local(argsOnly = true) WorldServer world) {
+        if(entity instanceof EntityPStationaryArchitect) {
+            int nexusCounter = (int) world.loadedEntityList.stream().filter(v -> v instanceof EntityPStationaryArchitect).count();
+            if (nexusCounter > SRPMixinsConfigHandler.deterrents.nexusCap) return Event.Result.DENY;
         }
 
-        return canSpawn;
+        return original;
     }
 }

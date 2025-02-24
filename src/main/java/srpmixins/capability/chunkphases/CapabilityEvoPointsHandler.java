@@ -1,4 +1,4 @@
-package srpmixins.capability;
+package srpmixins.capability.chunkphases;
 
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;

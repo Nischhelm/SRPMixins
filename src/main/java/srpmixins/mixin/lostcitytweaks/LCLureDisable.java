@@ -28,7 +28,7 @@ public abstract class LCLureDisable extends BlockBase {
             at= @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure;checkBlocks(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lcom/dhanantry/scapeandrunparasites/block/BlockEvolutionLure$EnumType;)Z", remap = false),
             cancellable = true
     )
-    public void lureDisableMixin(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
+    public void lureDisable(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
         if(!SRPMixinsConfigHandler.modcompat.disableLuresInLC) return;
 
         if (playerIn.dimension == 111) {

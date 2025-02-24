@@ -8,8 +8,10 @@
   "mixins": [
     "BloodmoonEventHandlerMixin",
     "BloodmoonHandlerMixin",
-    "ClientBloodmoonHandlerMixin",
     "SRPSpawningDimensionHandlerMixin"
+  ],
+  "client": [
+    "ClientBloodmoonHandlerMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

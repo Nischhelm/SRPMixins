@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "clientpotioncancel.SeizerMixin",
+    "clientpotioncancel.SRPPotionsMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

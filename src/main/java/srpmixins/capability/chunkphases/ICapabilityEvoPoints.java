@@ -1,4 +1,4 @@
-package srpmixins.capability;
+package srpmixins.capability.chunkphases;
 
 public interface ICapabilityEvoPoints {
     //Only for NBT storage

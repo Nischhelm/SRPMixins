@@ -16,7 +16,7 @@ import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(EntityProjectileHomming.class)
-public class OverlordHaunterRangedFix {
+public abstract class OverlordHaunterRangedFix {
     @Shadow(remap = false) private EntityLivingBase owner;
     @Shadow(remap = false) private float damage;
 
@@ -26,14 +26,8 @@ public class OverlordHaunterRangedFix {
             remap = false
     )
     private void fixRangedDmg(World worldIn, EntityLivingBase ownerIn, Entity targetIn, float damage, CallbackInfo ci){
-        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes) {
-            if (this.owner instanceof EntityTerla) {
-                this.damage = SRPMixinsConfigHandler.dmgfix.overlordProjectileDamage * SRPConfig.globalDamageMultiplier;
-            }
-            if (this.owner instanceof EntityPheon) {
-                this.damage = SRPMixinsConfigHandler.dmgfix.haunterProjectileDamage * SRPConfig.globalDamageMultiplier;
-            }
-            this.damage *= SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(this.owner.world.provider.getDimension(),1F);
-        }
+        if (this.owner instanceof EntityTerla) this.damage = SRPMixinsConfigHandler.dmgfix.overlordProjectileDamage * SRPConfig.globalDamageMultiplier;
+        if (this.owner instanceof EntityPheon) this.damage = SRPMixinsConfigHandler.dmgfix.haunterProjectileDamage * SRPConfig.globalDamageMultiplier;
+        this.damage *= SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(this.owner.world.provider.getDimension(),1F);
     }
 }

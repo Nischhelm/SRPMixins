@@ -1,13 +1,11 @@
 package srpmixins.mixin.mobcapmulti;
 
 import com.dhanantry.scapeandrunparasites.entity.EntityParasiticScent;
-import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(EntityParasiticScent.class)
@@ -17,55 +15,55 @@ public abstract class EntityParasiticScentMixin extends Entity {
         super(worldIn);
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "checkNearby",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
             remap = false
     )
-    private int increaseParasiteMobCap_checkNearby() {
+    private int increaseParasiteMobCap_checkNearby(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
-            return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
-        return SRPConfig.worldMobCap;
+        if (dimensionMultiplier != 1.0F)
+            return (int) (original * dimensionMultiplier);
+        return original;
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "checkNearby",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
             remap = false
     )
-    private int increaseParasiteMobCapPerPlayer_checkNearby() {
+    private int increaseParasiteMobCapPerPlayer_checkNearby(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
-            return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
-        return SRPConfig.worldMobCapPlusPlayer;
+        if (dimensionMultiplier != 1.0F)
+            return (int) (original * dimensionMultiplier);
+        return original;
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "placeWaves",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
             remap = false
     )
-    private int increaseParasiteMobCap_placeWaves() {
+    private int increaseParasiteMobCap_placeWaves(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
-            return (int) (SRPConfig.worldMobCap * dimensionMultiplier);
-        return SRPConfig.worldMobCap;
+        if (dimensionMultiplier != 1.0F)
+            return (int) (original * dimensionMultiplier);
+        return original;
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "placeWaves",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
             remap = false
     )
-    private int increaseParasiteMobCapPerPlayer_placeWaves() {
+    private int increaseParasiteMobCapPerPlayer_placeWaves(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
-        if (SRPMixinsConfigHandler.dimension.doMultipliers && dimensionMultiplier != 1.0F)
-            return (int) (SRPConfig.worldMobCapPlusPlayer * dimensionMultiplier);
-        return SRPConfig.worldMobCapPlusPlayer;
+        if (dimensionMultiplier != 1.0F)
+            return (int) (original * dimensionMultiplier);
+        return original;
     }
 }

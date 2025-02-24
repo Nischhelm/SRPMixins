@@ -5,8 +5,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import srpmixins.capability.CapabilityEvoPointsHandler;
-import srpmixins.capability.ICapabilityEvoPoints;
+import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
+import srpmixins.capability.chunkphases.ICapabilityEvoPoints;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 

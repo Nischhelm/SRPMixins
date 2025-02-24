@@ -1,4 +1,4 @@
-package srpmixins.mixin.parabiome;
+package srpmixins.mixin.features;
 
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
 import net.minecraft.util.ResourceLocation;
@@ -15,7 +15,7 @@ import srpmixins.config.SRPMixinsConfigProvider;
 import java.util.ArrayList;
 
 @Mixin(SRPWorldEntitySpawner.class)
-public abstract class BiomeSpawningBlacklist {
+public abstract class SpawningBlacklistByBiome {
 
     @Inject(
             method = "getSpawnListEntryForTypeAt",
@@ -23,13 +23,13 @@ public abstract class BiomeSpawningBlacklist {
             remap = false,
             cancellable = true
     )
-    private static void blacklistDimensions(WorldServer worldServerIn, BlockPos pos, CallbackInfoReturnable<Biome.SpawnListEntry> cir){
+    private static void blacklistBiomesAndDimensions(WorldServer worldServerIn, BlockPos pos, CallbackInfoReturnable<Biome.SpawnListEntry> cir){
         int dim = worldServerIn.provider.getDimension();
         ArrayList<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(dim);
         if(biomeBlacklist == null) return;
 
         ResourceLocation biome = worldServerIn.getBiome(pos).getRegistryName();
-        if(biome==null) return;
+        if(biome == null) return;
         String currBiome = biome.toString();
         String currBiomeMod = biome.getNamespace();
         boolean isInList = biomeBlacklist.contains(currBiome) ||

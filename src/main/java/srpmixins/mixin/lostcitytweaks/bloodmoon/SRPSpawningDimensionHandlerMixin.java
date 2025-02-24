@@ -14,8 +14,7 @@ import srpmixins.config.SRPMixinsConfigProvider;
 @Mixin(SRPSpawning.DimensionHandler.class)
 public abstract class SRPSpawningDimensionHandlerMixin {
 
-    @Unique
-    private static Float currentMulti = null;
+    @Unique private static Float currentMulti = null;
 
     @Inject(
             method = "onSpawn",

@@ -1,8 +1,9 @@
 package srpmixins.mixin.playerphases;
 
-import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -12,11 +13,10 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.SRPMixins;
-import srpmixins.util.PlayerPhases_AlertOnePlayer;
-import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPConfigProvider;
+import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.util.PlayerPhases_AlertOnePlayer;
 import srpmixins.util.SRPSaveDataInterface;
 
 import java.util.List;
@@ -80,34 +80,6 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         return instance;
     }
 
-    @Redirect(
-            method = "createData",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setEvolutionPhase(IBZLnet/minecraft/world/World;Z)Z"),
-            remap = false
-    )
-    private static boolean fixDefault_Gaining_Loss_noPlayerPhases(SRPSaveData instance, int dim, byte phase, boolean override, World world, boolean canChangePhase) {
-        //This would be overwritten later in createData for phase -2, so don't bother
-        if(phase != -2) {
-            //Set canGain
-            instance.setGaining(true, dim);
-            //is in blacklist
-            boolean dimIsInList = SRPConfigProvider.dimensionCanGainPointsBlacklist.contains(dim);
-            //if (found and blacklist) or (not found and whitelist)
-            if (SRPConfigSystems.evolutionDimGainInverted != dimIsInList)
-                instance.setGaining(false, dim);
-            //Set canLoss (should be cantLose)
-            instance.setLoss(false, dim);
-            //is in blacklist
-            dimIsInList = SRPConfigProvider.dimensionCantLosePointsBlacklist.contains(dim);
-            //if (found and blacklist) or (not found and whitelist)
-            if (SRPConfigSystems.evolutionDimLossInverted != dimIsInList)
-                instance.setLoss(true, dim);
-        }
-
-        //Default behavior
-        return instance.setEvolutionPhase(dim, phase, override, world, canChangePhase);
-    }
-
     @Unique
     private static void addDim(SRPSaveData instance, int id) {
         if(((SRPSaveDataAccessor) instance).getDimEPid().contains(id)) return;
@@ -165,8 +137,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     }
 
     @Unique
-    public EntityPlayer getClosestPlayer(World world, double x, double y, double z, double maxDist)
-    {
+    public EntityPlayer getClosestPlayer(World world, double x, double y, double z, double maxDist) {
         double minDist = -1.0D;
         EntityPlayer closestPlayer = null;
 
@@ -192,29 +163,28 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         return Math.max(xD,zD);
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "checkKills",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerDim(Lnet/minecraft/world/World;Ljava/lang/String;I)V"),
             remap = false
     )
-    void sendWarningToOnePlayer(World worldIn, String message, int warning){
+    private void sendWarningToOnePlayer(World world, String message, int warning, Operation<Void> original){
         if(SRPMixinsConfigHandler.playerphases.enabled && this.playerUUID!=null)
-            PlayerPhases_AlertOnePlayer.alertOnePlayer(worldIn,this.playerUUID, message, warning);
+            PlayerPhases_AlertOnePlayer.alertOnePlayer(world,this.playerUUID, message, warning);
         else
-            ParasiteEventEntity.alertAllPlayerDim(worldIn, message, warning);
+            original.call(world, message, warning);
     }
 
-    @Redirect(
+    @WrapOperation(
             method = "checkForUnlock",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerSer(Ljava/lang/String;Lnet/minecraft/world/World;)V"),
             remap = false
     )
-    void sendParaUnlockMessageToOnePlayer(String message, World world){
+    private void sendParaUnlockMessageToOnePlayer(String message, World world, Operation<Void> original){
         if(SRPMixinsConfigHandler.playerphases.enabled) {
             EntityPlayer player = world.getPlayerEntityByUUID(playerUUID);
-            if(player != null)
-                player.sendMessage(new TextComponentString(message));
+            if(player != null) player.sendMessage(new TextComponentString(message));
         } else
-            ParasiteEventEntity.alertAllPlayerSer(message, world);
+            original.call(message, world);
     }
 }

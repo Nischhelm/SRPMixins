@@ -7,3 +7,4 @@ srpmixins.bloodyclock.minutes=%sm%ss
 srpmixins.bloodyclock.seconds=%ss
 srpmixins.bloodyclock.phaseminustwo=Evolution disabled
 srpmixins.bloodyclock.phaseminusone=Not yet infested
+srpmixins.bloodyclock.phasemaximum=What have you done?

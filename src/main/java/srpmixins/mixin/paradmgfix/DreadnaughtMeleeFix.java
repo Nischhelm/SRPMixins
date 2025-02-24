@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityOronco.class)
-public class DreadnaughtMeleeFix extends EntityMob {
+public abstract class DreadnaughtMeleeFix extends EntityMob {
     public DreadnaughtMeleeFix(World worldIn) {
         super(worldIn);
     }
@@ -21,8 +21,7 @@ public class DreadnaughtMeleeFix extends EntityMob {
             method = "applyEntityAttributes",
             at = @At(value = "TAIL")
     )
-    void fixMeleeAuraDmg(CallbackInfo ci){
-        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMixinsConfigHandler.dmgfix.dreadnaughtMeleeDamage * SRPConfig.globalDamageMultiplier);
+    private void fixMeleeAuraDmg(CallbackInfo ci){
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMixinsConfigHandler.dmgfix.dreadnaughtMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

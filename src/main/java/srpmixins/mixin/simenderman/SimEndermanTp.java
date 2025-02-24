@@ -14,7 +14,7 @@ public abstract class SimEndermanTp {
             constant = @Constant(doubleValue = 64.0),
             remap = false
     )
-    double changeSimmermanTPDistance(double constant){
+    private double changeSimmermanTPDistance(double constant){
         return SRPMixinsConfigHandler.simmermen.simmermenTpDistance;
     }
 }

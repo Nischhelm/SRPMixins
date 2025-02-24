@@ -2,7 +2,7 @@
 package srpmixins.mixin.features;
 
 import com.dhanantry.scapeandrunparasites.potion.SRPEffectBase;
-import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.ModifyReceiver;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -49,14 +49,14 @@ public abstract class NeedlerFix {
         return original.call(mobId, blackList, isWhitelist);
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "effectNeedler",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;needlerDamage:F"),
             remap = false
     )
-    private float varyMultiplierForPlayer(@Local(argsOnly = true) EntityLivingBase entity){
+    private float varyMultiplierForPlayer(float original, @Local(argsOnly = true) EntityLivingBase entity){
         //If it's a player, use the custom config instead of SRP health percentage (for first aid for example)
         if(entity instanceof EntityPlayer) return SRPMixinsConfigProvider.playerNeedlerMulti;
-        return SRPConfigSystems.needlerDamage;
+        return original;
     }
 }

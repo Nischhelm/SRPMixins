@@ -1,0 +1,18 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "features.DimensionStatMultiplier",
+    "mobcapmulti.EntityParasiticScentMixin",
+    "mobcapmulti.SRPCommandEvolutionMixin",
+    "mobcapmulti.SRPCommandRootMixin",
+    "mobcapmulti.SRPSpawningDimensionHandlerMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

@@ -7,13 +7,12 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 
 import javax.annotation.Nullable;
 
 @Mixin(EntityBomb.class)
-public class BombFix {
+public abstract class BombFix {
     @Shadow(remap = false) @Nullable private EntityParasiteBase tntPlacedBy;
 
     @ModifyVariable(
@@ -22,13 +21,10 @@ public class BombFix {
             remap = false,
             argsOnly = true
     )
-    float fixProjDmg(float in){
-        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes) {
-            if(tntPlacedBy == null) return in;
-            if(tntPlacedBy instanceof EntityJinjo) return in;
-            int dimension = tntPlacedBy.dimension;
-            return in * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
-        }
-        return in;
+    private float fixProjDmg(float in){
+        if(tntPlacedBy == null) return in;
+        if(tntPlacedBy instanceof EntityJinjo) return in;
+        int dimension = tntPlacedBy.dimension;
+        return in * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
     }
 }

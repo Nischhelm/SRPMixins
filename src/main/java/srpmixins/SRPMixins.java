@@ -8,30 +8,38 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import srpmixins.capability.CapabilityEvoPointsHandler;
+import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
+import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.NexusSpawnSounds;
 import srpmixins.handlers.ParasiteDropChance;
 import srpmixins.util.CompatUtil;
-import srpmixins.config.SRPConfigProvider;
-import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mod(modid = SRPMixins.MODID, version = SRPMixins.VERSION, name = SRPMixins.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.4.4";
+    public static final String VERSION = "2.5.0";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
+    public static boolean completedLoading = false;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(NexusSpawnSounds.class);
-        MinecraftForge.EVENT_BUS.register(ParasiteDropChance.class);
         SRPMixinsConfigProvider.init();
+
+        if(SRPMixinsConfigHandler.deterrents.playsounds) MinecraftForge.EVENT_BUS.register(NexusSpawnSounds.class);
+        if(SRPMixinsConfigHandler.dimension.doMultipliers) MinecraftForge.EVENT_BUS.register(ParasiteDropChance.class);
 
         if(SRPMixinsConfigHandler.chunkphases.enabled && SRPConfigSystems.useEvolution) {
             CapabilityEvoPointsHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(CapabilityEvoPointsHandler.AttachCapabilityHandler.class);
+        }
+
+        if(SRPMixinsConfigHandler.adaptation.overhaulAdaptation) {
+            CapabilityAdaptationHandler.registerCapability();
+            MinecraftForge.EVENT_BUS.register(CapabilityAdaptationHandler.EventHandler.class);
         }
     }
 
@@ -44,5 +52,9 @@ public class SRPMixins {
     public void postInit(FMLPostInitializationEvent event) {
         if(CompatUtil.isLycanitesMobsLoaded())
             CompatUtil.reloadLycaniteSpawnerManager();
+
+        completedLoading = true;
     }
+
+
 }

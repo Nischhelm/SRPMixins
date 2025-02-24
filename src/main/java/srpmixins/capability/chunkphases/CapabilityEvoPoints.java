@@ -1,14 +1,14 @@
-package srpmixins.capability;
+package srpmixins.capability.chunkphases;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.mixin.playerphases.SRPSaveDataAccessor;
-import srpmixins.config.SRPConfigProvider;
 
 import java.util.ArrayList;
 import java.util.List;

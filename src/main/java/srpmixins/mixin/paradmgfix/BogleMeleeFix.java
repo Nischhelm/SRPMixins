@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityLencia.class)
-public class BogleMeleeFix extends EntityMob {
+public abstract class BogleMeleeFix extends EntityMob {
     public BogleMeleeFix(World worldIn) {
         super(worldIn);
     }
@@ -21,8 +21,7 @@ public class BogleMeleeFix extends EntityMob {
             method = "applyEntityAttributes",
             at = @At(value = "TAIL")
     )
-    void fixMeleeAuraDmg(CallbackInfo ci){
-        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMixinsConfigHandler.dmgfix.bogleMeleeDamage * SRPConfig.globalDamageMultiplier);
+    private void fixMeleeAuraDmg(CallbackInfo ci){
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMixinsConfigHandler.dmgfix.bogleMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

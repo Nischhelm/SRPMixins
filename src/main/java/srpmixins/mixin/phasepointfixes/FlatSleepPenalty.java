@@ -2,40 +2,41 @@ package srpmixins.mixin.phasepointfixes;
 
 import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Mixin(SRPEventHandlerBus.class)
 public abstract class FlatSleepPenalty {
-    @Unique
-    HashMap<Integer,Long> lastWake = new HashMap<>();
+    @Unique private Map<Integer,Long> lastWakeInDimension = new HashMap<>();
 
-    @Redirect(
+    @WrapWithCondition(
             method = "playerUp",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
             remap = false
     )
-    boolean flatSleepPenaltyMixin(SRPSaveData data, int id, int in, boolean plus, World world, boolean canChangePhase){
-        if(SRPMixinsConfigHandler.phasepoints.flatSleepPenalty && !SRPMixinsConfigHandler.playerphases.enabled) {
+    private boolean flatSleepPenaltyMixin(SRPSaveData data, int id, int in, boolean plus, World world, boolean canChangePhase){
+        if(!SRPMixinsConfigHandler.playerphases.enabled) {
             int dimension = world.provider.getDimension();
-            long currentWT = world.getWorldTime();
-            if (!lastWake.containsKey(dimension)) {
-                lastWake.put(dimension, currentWT);
-                return data.setTotalKills(id,in, true, world, true);
+            long currTime = world.getWorldTime();
+
+            //Never saved a wakeup time for this dimension before
+            if (!lastWakeInDimension.containsKey(dimension)) {
+                lastWakeInDimension.put(dimension, currTime);
+                return true;
             }
 
-            if (currentWT < lastWake.get(dimension) + 1000) {
-                return false;
-            } else {
-                lastWake.put(dimension, currentWT);
-            }
+            //This player is not first to wake up, do not count
+            if (currTime < lastWakeInDimension.get(dimension) + 1000) return false;
+            //First player to wake up, save the time to stop others from adding points
+            else lastWakeInDimension.put(dimension, currTime);
         }
-        return data.setTotalKills(id,in, true, world, true);
+        return true;
     }
 }

@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmixins.config.SRPMixinsConfigHandler;
 
 import java.util.Random;
 
@@ -24,8 +23,6 @@ public class FixBiomeSpreadLimit {
             cancellable = true
     )
     private static void stopIfOverLimit(World worldIn, BlockPos pos, Random rand, CallbackInfo ci){
-        if(SRPMixinsConfigHandler.various.fixBiomeSpreadingLimit)
-            if(blockParasiteCount > SRPConfig.BlockParasiteLimit)
-                ci.cancel();
+        if(blockParasiteCount > SRPConfig.BlockParasiteLimit) ci.cancel();
     }
 }

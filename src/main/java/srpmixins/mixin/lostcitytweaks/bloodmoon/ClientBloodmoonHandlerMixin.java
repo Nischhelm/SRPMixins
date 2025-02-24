@@ -1,24 +1,21 @@
 package srpmixins.mixin.lostcitytweaks.bloodmoon;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import lumien.bloodmoon.client.ClientBloodmoonHandler;
-import net.minecraft.world.WorldProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(ClientBloodmoonHandler.class)
 public abstract class ClientBloodmoonHandlerMixin {
 
-    @Redirect(
+    @ModifyExpressionValue(
             method="clientTick",
             at=@At(value="INVOKE",target = "Lnet/minecraft/world/WorldProvider;getDimension()I"),
             remap=false
     )
-    private int bloodmoonInLCMixin(WorldProvider instance){
-        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC){
-            if(instance.getDimension() == 111) return 0;
-        }
-        return instance.getDimension();
+    private int bloodmoonInLCMixin(int original){
+        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC && original == 111) return 0;
+        return original;
     }
 }

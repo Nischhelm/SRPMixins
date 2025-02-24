@@ -1,6 +1,7 @@
 package srpmixins.mixin.clientpotioncancel;
 
 import com.dhanantry.scapeandrunparasites.init.SRPPotions;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -20,18 +21,17 @@ public class SRPPotionsMixin {
             remap = false,
             cancellable = true
     )
-    private static void cancelClientPotion(Potion effect, EntityLivingBase in, int duration, int amp, CallbackInfo ci){
-        if(in.world.isRemote)
+    private static void cancelClientPotion(Potion effect, EntityLivingBase entity, int duration, int amp, CallbackInfo ci){
+        if(entity.world.isRemote)
             ci.cancel();
     }
 
-    @Redirect(
+    @WrapWithCondition(
             method = "applySense",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;addPotionEffect(Lnet/minecraft/potion/PotionEffect;)V")
     )
-    private static void cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
-        if(!instance.world.isRemote)
-            instance.addPotionEffect(potionEffect);
+    private static boolean cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
+        return !instance.world.isRemote;
     }
 
     @Redirect(

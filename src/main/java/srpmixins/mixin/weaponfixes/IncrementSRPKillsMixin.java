@@ -29,18 +29,19 @@ public class IncrementSRPKillsMixin extends EntityMob {
     private void incrementSRPKills(DamageSource source, CallbackInfo ci){
         if(this.world.isRemote) return;
         if(SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
-        if(!SRPMixinsConfigHandler.weapons.addArmorBowEvolution) return;
         if(source == null) return;
         if(source.getTrueSource() == null) return;
         if(!(source.getTrueSource() instanceof EntityPlayer)) return;
         EntityPlayer player = (EntityPlayer) source.getTrueSource();
+
+        int paraMaxHealth = (int) this.getMaxHealth();
 
         for(EntityEquipmentSlot slot : EntityEquipmentSlot.values()){
             ItemStack stack = player.getItemStackFromSlot(slot);
             if(stack.isEmpty()) continue;
             if(stack.getItem() instanceof WeaponToolRangeBase || stack.getItem() instanceof WeaponToolArmorBase){
                 NBTTagCompound compound = stack.hasTagCompound() ? stack.getTagCompound() : new NBTTagCompound();
-                compound.setInteger("srpkills", compound.getInteger("srpkills") + (int) this.getMaxHealth());
+                compound.setInteger("srpkills", compound.getInteger("srpkills") + paraMaxHealth);
                 stack.setTagCompound(compound);
             }
         }

@@ -14,7 +14,7 @@ public abstract class FeralEndermanTp {
             constant = @Constant(doubleValue = 64.0),
             remap = false
     )
-    double changeSimmermanTPDistance(double constant){
+    private double changeSimmermanTPDistance(double constant){
         return SRPMixinsConfigHandler.simmermen.simmermenTpDistance;
     }
 }

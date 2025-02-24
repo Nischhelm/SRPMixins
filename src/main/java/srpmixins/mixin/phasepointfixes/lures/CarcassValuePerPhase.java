@@ -2,20 +2,23 @@ package srpmixins.mixin.phasepointfixes.lures;
 
 import com.dhanantry.scapeandrunparasites.block.BlockEvolutionLure;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
-import net.minecraft.world.World;
+import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(BlockEvolutionLure.class)
 public abstract class CarcassValuePerPhase {
-    @Redirect(
+    @ModifyArgs(
             method="onBlockActivated",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z", remap = false)
+            at = @At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z", remap = false)
     )
-    public boolean lurePhaseMultiplierMixin(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase){
-        int multi = SRPMixinsConfigProvider.getLurePhaseMultiplier(data.getEvolutionPhase(id));
-        return data.setTotalKills(id, in*multi, plus, worldIn, canChangePhase);
+    private void lurePhaseMultiplier(Args args, @Local SRPSaveData data) {
+        int dimension = args.get(0);
+        int multi = SRPMixinsConfigProvider.getLurePhaseMultiplier(data.getEvolutionPhase(dimension));
+        int points = args.get(1);
+        args.set(1, points * multi);
     }
 }

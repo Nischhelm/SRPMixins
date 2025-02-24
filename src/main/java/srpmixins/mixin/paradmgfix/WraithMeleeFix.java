@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityElvia.class)
-public class WraithMeleeFix extends EntityMob {
+public abstract class WraithMeleeFix extends EntityMob {
     public WraithMeleeFix(World worldIn) {
         super(worldIn);
     }
@@ -21,8 +21,7 @@ public class WraithMeleeFix extends EntityMob {
             method = "applyEntityAttributes",
             at = @At(value = "TAIL")
     )
-    void fixMeleeAuraDmg(CallbackInfo ci){
-        if(SRPMixinsConfigHandler.dmgfix.doDamageFixes)
-            this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMixinsConfigHandler.dmgfix.wraithMeleeDamage * SRPConfig.globalDamageMultiplier);
+    private void fixMeleeAuraDmg(CallbackInfo ci){
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMixinsConfigHandler.dmgfix.wraithMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

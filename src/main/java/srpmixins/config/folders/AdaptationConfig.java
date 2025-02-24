@@ -1,0 +1,20 @@
+package srpmixins.config.folders;
+
+import net.minecraftforge.common.config.Config;
+
+public class AdaptationConfig {
+    @Config.Comment("Overhaul Living/Sentient Armor adaptation, making it more performant and fixing some issues.\n" +
+            "Fixes that are included without a toggle: \n" +
+            "- When combining living+sentient gear, will use the point multiplier of each armor piece instead of using the last checked one.")
+    @Config.Name("Overhaul Adaptation")
+    @Config.RequiresMcRestart
+    public boolean overhaulAdaptation = true;
+
+    @Config.Comment("If adapting during an attack with no immediate attacker entity, SRP adapts to \"\". This fixes that bug")
+    @Config.Name("Fix Null Adaptation")
+    public boolean fixNullAdaptation = true;
+
+    @Config.Comment("If SRP doesn't find a blacklisted damage type for a mob/player in BlackList Mobs, it will also search the Blacklist Else list. This fixes that bug")
+    @Config.Name("Fix Blacklist Check")
+    public boolean fixBlacklistCheck = true;
+}

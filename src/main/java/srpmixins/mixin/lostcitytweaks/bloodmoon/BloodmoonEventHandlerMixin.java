@@ -1,37 +1,31 @@
 package srpmixins.mixin.lostcitytweaks.bloodmoon;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import lumien.bloodmoon.handler.BloodmoonEventHandler;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.world.WorldProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(BloodmoonEventHandler.class)
 public abstract class BloodmoonEventHandlerMixin {
 
-    @Redirect(
+    @ModifyExpressionValue(
             method="loadWorld",
             at=@At(value="INVOKE",target = "Lnet/minecraft/world/WorldProvider;getDimension()I"),
             remap=false
     )
-    private int bloodmoonInLCMixin(WorldProvider instance){
-        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC){
-            if(instance.getDimension() == 111) return 0;
-        }
-        return instance.getDimension();
+    private int bloodmoonInLC(int original){
+        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC && original == 111) return 0;
+        return original;
     }
 
-    @Redirect(
+    @ModifyExpressionValue(
             method="livingUpdate",
             at=@At(value="FIELD",target = "Lnet/minecraft/entity/EntityLivingBase;dimension:I"),
             remap=false
     )
-    private int killBloodMobsMixin(EntityLivingBase instance){
-        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC){
-            if(instance.dimension == 111) return 0;
-        }
-        return instance.dimension;
+    private int killBloodMobs(int original){
+        if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC && original == 111) return 0;
+        return original;
     }
 }

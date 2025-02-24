@@ -8,13 +8,12 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.config.folders.*;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
+	@Config.Comment("Adaptation Options")
+	@Config.Name("Adaptation")
+	public static final AdaptationConfig adaptation = new AdaptationConfig();
+
 	@Config.Comment("Chunk Phases Options - incompatible with player phases")
 	@Config.Name("Chunk Phases")
 	public static final ChunkPhaseConfig chunkphases = new ChunkPhaseConfig();
@@ -73,25 +72,5 @@ public class SRPMixinsConfigHandler {
 				SRPMixinsConfigProvider.reset();
 			}
 		}
-	}
-
-	//Courtesy of fonnymunkey RLMixins
-	private static File configFile = null;
-	private static String configBooleanString = "";
-
-	public static boolean getBoolean(String name) {
-		if(configFile==null) {
-			configFile = new File("config", SRPMixins.MODID + ".cfg");
-			if(configFile.exists() && configFile.isFile()) {
-				try (Stream<String> stream = Files.lines(configFile.toPath())) {
-					configBooleanString = stream.filter(s -> s.trim().startsWith("B:")).collect(Collectors.joining());
-				}
-				catch(Exception ex) {
-					SRPMixins.LOGGER.error("Failed to parse " + SRPMixins.NAME + " config: " + ex);
-				}
-			}
-		}
-		//If config is not generated or missing entries, don't enable injection on first run
-		return configBooleanString.contains("B:\"" + name + "\"=true");
 	}
 }

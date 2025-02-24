@@ -8,13 +8,12 @@ import net.minecraft.entity.Entity;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import srpmixins.config.SRPMixinsConfigHandler;
 
 public class NexusSpawnSounds {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void soundsOnSpecialSpawns(LivingSpawnEvent.SpecialSpawn event) {
-        if (event.isCanceled() || !SRPMixinsConfigHandler.deterrents.playsounds || !SRPConfigSystems.rsSounds) return;
+        if (event.isCanceled() || !SRPConfigSystems.rsSounds) return;
         Entity e = event.getEntity();
         if (!(e instanceof EntityPStationaryArchitect)) return;
 

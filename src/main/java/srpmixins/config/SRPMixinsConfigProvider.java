@@ -3,10 +3,7 @@ package srpmixins.config;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import srpmixins.SRPMixins;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SRPMixinsConfigProvider {
     public static Map<Integer,Float> dimensionHealthMultipliers = new HashMap<>();
@@ -20,6 +17,8 @@ public class SRPMixinsConfigProvider {
     public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
     public static float playerNeedlerMulti = 0.4F;
+
+    public static List<String> whiteListedDeterrents;
 
     //Deliberately copied/initialised here to stop ppl from changing it in game
     public static int chunkPhasesSpacing = SRPMixinsConfigHandler.chunkphases.chunkSpacing;
@@ -37,6 +36,8 @@ public class SRPMixinsConfigProvider {
 
         playerNeedlerMulti = SRPMixinsConfigHandler.various.playerNeedlerMulti;
         if(playerNeedlerMulti < 0) playerNeedlerMulti = SRPConfigSystems.needlerDamage; //negative = use SRP default value
+
+        whiteListedDeterrents = Arrays.asList(SRPMixinsConfigHandler.deterrents.whiteListedDeterrents);
 
         for (String s : SRPMixinsConfigHandler.chunkphases.biomeStartPhases) {
             String[] split = s.split(",");

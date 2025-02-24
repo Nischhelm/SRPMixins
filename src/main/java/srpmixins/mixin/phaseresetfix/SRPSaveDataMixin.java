@@ -1,4 +1,5 @@
 package srpmixins.mixin.phaseresetfix;
+
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.text.Style;
@@ -23,8 +24,9 @@ public abstract class SRPSaveDataMixin {
     @Shadow(remap = false) private static SRPSaveData createData(World world, MapStorage storage) { return null; }
 
     //This data is just a default SRPSaveData object that tries to protect the server from crashing.
-    // if it was me, i would just return null and uncover all phase reset bugs but lets rather protect ppls mental health
+    // if it was just me, i would just return null and uncover all phase reset bugs but lets rather protect ppls mental health
     @Unique private static SRPSaveData clientSRPData = null;
+    @Unique private static long lastMsgTick = 0;
 
     @Inject(
             method = "get",
@@ -48,7 +50,9 @@ public abstract class SRPSaveDataMixin {
         }
 
         //Send log + msg
-        if (SRPMixinsConfigHandler.phasepoints.phaseResetDebugMode) {
+        long currTime = world.getTotalWorldTime();
+        if (SRPMixinsConfigHandler.phasepoints.phaseResetDebugMode && (currTime - lastMsgTick > 100)) {
+            lastMsgTick = currTime;
             try {
                 throw (new Exception("SRP tried to reset your phase"));
             } catch (Exception e) {
