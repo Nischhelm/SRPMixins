@@ -4,6 +4,7 @@ import srpmixins.SRPMixins;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -46,7 +47,9 @@ public class EarlyConfigReader {
 		if (configIntString.contains("I:\"" + name + "\"=")) {
 			int index = configIntString.indexOf("I:\"" + name + "\"=");
 			try {
-				return Integer.parseInt(Pattern.compile("\\d+").matcher(configIntString.substring(index)).group(1));
+				Matcher matcher = Pattern.compile("(\\d+)").matcher(configIntString.substring(index));
+				matcher.find();
+				return Integer.parseInt(matcher.group(1));
 			} catch (Exception e) {
 				SRPMixins.LOGGER.error(SRPMixins.NAME + ": Failed to parse int config "+ name + ", " + e);
 				return 0;
