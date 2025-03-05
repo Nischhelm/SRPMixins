@@ -27,8 +27,6 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.carcasssamelures.json", () -> EarlyConfigReader.getBoolean("Force carcass all same lure type", SRPMixinsConfigHandler.lures.forceCarcassSameLureVariant));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.clientpotions.json", () -> EarlyConfigReader.getBoolean("Fix clientside potions", SRPMixinsConfigHandler.various.fixClientPotions));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cooldownbypass.json", () -> EarlyConfigReader.getBoolean("Fix Carcasses not working during cooldown", SRPMixinsConfigHandler.lures.fixCarcassDuringCooldown));
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cothassimfix.json", () -> EarlyConfigReader.getBoolean("Stop assimilating COTH immune mobs", SRPMixinsConfigHandler.coth.stopCothImmuneAssim));
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cothferalfix.json", () -> EarlyConfigReader.getBoolean("Stop feralizing COTH immune mobs", SRPMixinsConfigHandler.coth.stopCothImmuneFeral));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cothimmunityfix.json", () -> EarlyConfigReader.getBoolean("Fix srpcothimmunity tag", SRPMixinsConfigHandler.coth.fixSrpCothImmunity));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.damagefix.json", () -> EarlyConfigReader.getBoolean("Damage Fix: Global switch", SRPMixinsConfigHandler.dmgfix.doDamageFixes));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.defaultgainlossfix.json", () -> EarlyConfigReader.getBoolean("Fix default canGain/Lose", SRPMixinsConfigHandler.phasepoints.fixDefaultGainLoss));

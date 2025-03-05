@@ -3,10 +3,10 @@ package srpmixins.config.folders;
 import net.minecraftforge.common.config.Config;
 
 public class LureConfig {
-    @Config.Comment("Change Carcass Point Reduction based on Phase")
-    @Config.Name("Phase dependent Carcass Values")
+    @Config.Comment("Make Carcass point reduction amount be based on current phase, see multipliers below")
+    @Config.Name("Carcass Phase dependent ")
     @Config.RequiresMcRestart
-    public boolean variableCarcassValues = true;
+    public boolean variableCarcassValues = false;
 
     @Config.Comment("Phase multiplier on carcass values (0 to 10). Default values are balanced against Carcasses having values of 1,3,10,40,100,1000 for the 6 available Carcass variants in SRPSystems cfg.")
     @Config.Name("Carcass Phase Multipliers")
