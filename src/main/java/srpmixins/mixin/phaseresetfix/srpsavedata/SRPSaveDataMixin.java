@@ -1,4 +1,4 @@
-package srpmixins.mixin.phaseresetfix;
+package srpmixins.mixin.phaseresetfix.srpsavedata;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.player.EntityPlayer;

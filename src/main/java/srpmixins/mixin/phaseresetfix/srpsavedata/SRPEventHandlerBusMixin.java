@@ -1,4 +1,4 @@
-package srpmixins.mixin.phaseresetfix;
+package srpmixins.mixin.phaseresetfix.srpsavedata;
 
 import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;

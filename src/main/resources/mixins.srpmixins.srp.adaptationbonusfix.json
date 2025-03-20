@@ -1,15 +1,12 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.phaseresetfix.srpsavedata",
+  "package": "srpmixins.mixin.features",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "EntityAINexusGrowMixin",
-    "EntityParasiteBaseMixin",
-    "SRPEventHandlerBusMixin",
-    "SRPSaveDataMixin"
+    "AdaptationBonusFix"
   ],
   "injectors": {
     "maxShiftBy": 10

@@ -53,4 +53,9 @@ public class VariousConfig {
     @Config.Name("Fix attribute potions")
     @Config.RequiresMcRestart
     public boolean fixPotionUUIDs = true;
+
+    @Config.Comment("SRP parses its config list every single time instead of caching the result. For performance this stores the results instead.")
+    @Config.Name("Fix Config List Parsing")
+    @Config.RequiresMcRestart
+    public boolean fixConfigListParse = true;
 }

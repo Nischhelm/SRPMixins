@@ -25,7 +25,7 @@ public class PointConfig {
     @Config.Name("Biome Spreading Penalty First Phase")
     public byte biomeSpreadingPenaltyPhase = 5;
 
-    @Config.Comment("Send logs when phase would get accidentally reset (gets prevented by SRPMixins, but should still be fixed directly)")
+    @Config.Comment("Send logs when phase or nodes would get accidentally reset (gets prevented by SRPMixins, but should still be fixed directly)")
     @Config.Name("Phases reset debug mode")
     public boolean phaseResetDebugMode = true;
 
@@ -38,6 +38,11 @@ public class PointConfig {
     @Config.Name("Fix Phase Resets")
     @Config.RequiresMcRestart
     public boolean fixPhaseResets = true;
+
+    @Config.Comment("SRP doesn't prevent getting Node Data on clientside which would override the current node/colony data in single player. Nothing in SRP code actually does that, but SRP addon mods might. Enable to prevent this from happening.")
+    @Config.Name("Fix Node Resets")
+    @Config.RequiresMcRestart
+    public boolean fixNodeResets = true;
 
     @Config.Comment("If Adapted mobs spawn and instantly despawn again due to distance to a player, SRP still gives players point penalty. This fixes it.")
     @Config.Name("Fix Adapted Penalty on Instant Despawn")

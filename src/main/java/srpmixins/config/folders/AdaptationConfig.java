@@ -17,4 +17,8 @@ public class AdaptationConfig {
     @Config.Comment("If SRP doesn't find a blacklisted damage type for a mob/player in BlackList Mobs, it will also search the Blacklist Else list. This fixes that bug")
     @Config.Name("Fix Blacklist Check")
     public boolean fixBlacklistCheck = true;
+
+    @Config.Comment("SRPConfig has a list \"Adaptation Bonus\" which isn't read properly and will crash if filled with entries. This fixes it.")
+    @Config.Name("Fix Adaptation Bonus Config")
+    public boolean fixAdaptationBonusList = true;
 }

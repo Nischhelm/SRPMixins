@@ -1,4 +1,4 @@
-package srpmixins.mixin.phaseresetfix;
+package srpmixins.mixin.phaseresetfix.srpsavedata;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;

@@ -16,6 +16,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srparasites.json", true);
 
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adaptationbonusfix.json", () -> EarlyConfigReader.getBoolean("Fix Adaptation Bonus Config", SRPMixinsConfigHandler.adaptation.fixAdaptationBonusList));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adaptationoverhaul.json", () -> EarlyConfigReader.getBoolean("Overhaul Adaptation", SRPMixinsConfigHandler.adaptation.overhaulAdaptation));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adaptedinstadespawnpenalty.json", () -> EarlyConfigReader.getBoolean("Fix Adapted Penalty on Instant Despawn", SRPMixinsConfigHandler.phasepoints.fixAdaptedPenaltyInstantDespawn));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adapteddespawnlock.json", () -> EarlyConfigReader.getInt("Adapted Despawn Penalty First Phase", SRPMixinsConfigHandler.phasepoints.adaptedDespawnPenaltyPhase) > -1);
@@ -26,6 +27,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.biomespreadpenalty.json", () -> EarlyConfigReader.getInt("Biome Spreading Penalty First Phase", SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.carcasssamelures.json", () -> EarlyConfigReader.getBoolean("Force carcass all same lure type", SRPMixinsConfigHandler.lures.forceCarcassSameLureVariant));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.clientpotions.json", () -> EarlyConfigReader.getBoolean("Fix clientside potions", SRPMixinsConfigHandler.various.fixClientPotions));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.configlistfix.json", () -> EarlyConfigReader.getBoolean("Fix Config List Parsing", SRPMixinsConfigHandler.various.fixConfigListParse));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cooldownbypass.json", () -> EarlyConfigReader.getBoolean("Fix Carcasses not working during cooldown", SRPMixinsConfigHandler.lures.fixCarcassDuringCooldown));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cothimmunityfix.json", () -> EarlyConfigReader.getBoolean("Fix srpcothimmunity tag", SRPMixinsConfigHandler.coth.fixSrpCothImmunity));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.damagefix.json", () -> EarlyConfigReader.getBoolean("Damage Fix: Global switch", SRPMixinsConfigHandler.dmgfix.doDamageFixes));
@@ -38,6 +40,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.modifiedclock.json", () -> EarlyConfigReader.getBoolean("Bloody Clock percentage", SRPMixinsConfigHandler.phasepoints.modifyBloodyClock));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.needlerfix.json", () -> EarlyConfigReader.getBoolean("Needler Fix", SRPMixinsConfigHandler.various.fixNeedler));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.nexuscap.json", () -> EarlyConfigReader.getInt("Nexus Mob Cap", SRPMixinsConfigHandler.deterrents.nexusCap) > -1);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.noderesetfix.json", () -> EarlyConfigReader.getBoolean("Fix Node Resets", SRPMixinsConfigHandler.phasepoints.fixNodeResets));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.phaseresetfix.json", () -> EarlyConfigReader.getBoolean("Fix Phase Resets", SRPMixinsConfigHandler.phasepoints.fixPhaseResets));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.pointreductionlimit.json", () -> EarlyConfigReader.getBoolean("Fix phase point reduction", SRPMixinsConfigHandler.phasepoints.limitPointReduction));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.potionuuidfix.json", () -> EarlyConfigReader.getBoolean("Fix attribute potions", SRPMixinsConfigHandler.various.fixPotionUUIDs));
