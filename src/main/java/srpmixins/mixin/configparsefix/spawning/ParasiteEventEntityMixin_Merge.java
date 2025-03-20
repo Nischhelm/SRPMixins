@@ -14,9 +14,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
 import srpmixins.util.ParaSpawnEntry;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-@Debug(export = true)
 @Mixin(ParasiteEventEntity.class)
 public abstract class ParasiteEventEntityMixin_Merge {
     @Unique private static Map<Integer, String> srpmixins$mergeMap = null;

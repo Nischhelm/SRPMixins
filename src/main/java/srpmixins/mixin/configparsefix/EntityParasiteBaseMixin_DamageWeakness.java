@@ -47,9 +47,9 @@ public abstract class EntityParasiteBaseMixin_DamageWeakness {
         }
 
         switch (type) {
-            case 1: return srpmixins$parasiteWeakToItems.get(damageName);
-            case 2: return srpmixins$parasiteWeakToMobs.get(damageName);
-            case 3: return srpmixins$parasiteWeakToElse.get(damageName);
+            case 1: return srpmixins$parasiteWeakToItems.getOrDefault(damageName, 1.0F);
+            case 2: return srpmixins$parasiteWeakToMobs.getOrDefault(damageName, 1.0F);
+            case 3: return srpmixins$parasiteWeakToElse.getOrDefault(damageName, 1.0F);
             default: return 1.0F;
         }
     }
@@ -59,7 +59,7 @@ public abstract class EntityParasiteBaseMixin_DamageWeakness {
             at = @At(value = "LOAD", ordinal = 1),
             name = "flagWeak"
     )
-    private boolean srpmixins_overwriteDamageBlacklists(
+    private boolean srpmixins_overwriteDamageWeakness(
             boolean value, @Local(argsOnly = true) LocalFloatRef amount,
             @Local(name = "damageName") String damageName,
             @Local(name = "naniDesu") byte damageType

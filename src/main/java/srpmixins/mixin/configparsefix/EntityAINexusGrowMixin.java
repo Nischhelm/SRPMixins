@@ -19,19 +19,20 @@ import java.util.Map;
 @Mixin(EntityAINexusGrow.class)
 public abstract class EntityAINexusGrowMixin {
     @Shadow(remap = false) @Final private EntityPStationaryArchitect parent;
-    @Unique private static Map<Integer, Integer> configValues = null;
+    @Unique private static Map<Integer, Integer> srpmixins$configValues = null;
+    @Unique private static final String[] srpmixins$emptyList = {"",""};
     @Unique
-    private static Integer getMaxStage(int dimension) {
-        if(configValues == null){
-            configValues = new HashMap<>();
+    private static Integer srpmixins$getMaxStage(int dimension) {
+        if(srpmixins$configValues == null){
+            srpmixins$configValues = new HashMap<>();
             for(String s : SRPConfigSystems.maximumStageList){
                 String[] split = s.split(";");
                 int dim = Integer.parseInt(split[0]);
                 int maxStage = Integer.parseInt(split[1]);
-                configValues.put(dim,maxStage);
+                srpmixins$configValues.put(dim,maxStage);
             }
         }
-        return configValues.get(dimension);
+        return srpmixins$configValues.get(dimension);
     }
 
     @Redirect(
@@ -49,7 +50,7 @@ public abstract class EntityAINexusGrowMixin {
             remap = false
     )
     private String[] dontSplitList(String instance, String regex, Operation<String[]> original){
-        return null;
+        return srpmixins$emptyList;
     }
 
     @WrapOperation(
@@ -77,7 +78,7 @@ public abstract class EntityAINexusGrowMixin {
             remap = false
     )
     private int dontParseStage(String instance, Operation<Integer> original){
-        Integer maxStage = getMaxStage(this.parent.world.provider.getDimension());
+        Integer maxStage = srpmixins$getMaxStage(this.parent.world.provider.getDimension());
         if(maxStage == null) return -1;
         else return maxStage;
     }

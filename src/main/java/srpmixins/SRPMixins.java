@@ -15,7 +15,6 @@ import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.NexusSpawnSounds;
 import srpmixins.handlers.ParasiteDropChance;
-import srpmixins.mixin.configparsefix.SRPEventHandlerBusMixin_ParasiteLoot;
 import srpmixins.util.CompatUtil;
 
 @Mod(modid = SRPMixins.MODID, version = SRPMixins.VERSION, name = SRPMixins.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")

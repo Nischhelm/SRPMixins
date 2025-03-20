@@ -16,17 +16,19 @@ import java.util.Map;
 
 @Mixin(SRPPotions.class)
 public abstract class SRPPotionsMixin {
-    @Unique private static Map<String, Integer> maxAmpMap = null;
+    @Unique private static Map<String, Integer> srpmixins$maxAmpMap = null;
+    @Unique private static final String[] srpmixins$emptyList = {"",""};
+
     @Unique
-    private static Integer getMaxAmp(String potionName){
-        if(maxAmpMap == null){
-            maxAmpMap = new HashMap<>();
+    private static Integer srpmixins$getMaxAmp(String potionName){
+        if(srpmixins$maxAmpMap == null){
+            srpmixins$maxAmpMap = new HashMap<>();
             for(String s : SRPConfig.stackablePotionsLimit){
                 String[] split = s.split(";");
-                maxAmpMap.put(split[0], Integer.parseInt(split[1]));
+                srpmixins$maxAmpMap.put(split[0], Integer.parseInt(split[1]));
             }
         }
-        return maxAmpMap.get(potionName);
+        return srpmixins$maxAmpMap.get(potionName);
     }
 
     @Redirect(
@@ -44,9 +46,9 @@ public abstract class SRPPotionsMixin {
             remap = false
     )
     private static String[] dontSplitList(String instance, String regex, Operation<String[]> original, @Local String potionName){
-        Integer maxAmp = getMaxAmp(potionName);
-        if(maxAmp != null) return new String[]{potionName};
-        return new String[]{"SRPMixins:TryingNotToBeIntrusive"};
+        Integer maxAmp = srpmixins$getMaxAmp(potionName);
+        if(maxAmp != null) return new String[]{potionName,""};
+        return srpmixins$emptyList;
     }
 
     @WrapOperation(
@@ -56,6 +58,6 @@ public abstract class SRPPotionsMixin {
     )
     private static int dontParseMaxAmp(String instance, Operation<Integer> original, @Local String potionName){
         //return the current dimension to pass the next check for every parsed line
-        return getMaxAmp(potionName);
+        return srpmixins$getMaxAmp(potionName);
     }
 }

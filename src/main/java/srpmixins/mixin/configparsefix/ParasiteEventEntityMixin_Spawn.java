@@ -18,6 +18,7 @@ import java.util.List;
 @Mixin(ParasiteEventEntity.class)
 public abstract class ParasiteEventEntityMixin_Spawn {
     @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList = null;
+    @Unique private static final String[] srpmixins$emptyList = {"","",""};
 
     @Inject(
             method = "spawnM",
@@ -35,7 +36,7 @@ public abstract class ParasiteEventEntityMixin_Spawn {
     )
     private static String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original){
         if(srpmixins$currentSpawnList == null) return original.call(instance, regex); //Default behavior
-        return null;
+        return srpmixins$emptyList;
     }
 
     @WrapOperation(

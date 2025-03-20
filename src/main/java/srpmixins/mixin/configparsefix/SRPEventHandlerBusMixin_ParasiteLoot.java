@@ -16,7 +16,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.util.Triple;
 
-import java.util.*;
+import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 @Mixin(SRPEventHandlerBus.class)

@@ -17,6 +17,8 @@ import java.util.List;
 @Mixin(EntityParasiteBase.class)
 public abstract class EntityParasiteBaseMixin_NodeBonus {
     @Unique private static List<PotionEffect> srpmixins$configEffects = null;
+    @Unique private static final String[] srpmixins$emptyList = {"","",""};
+
     @Unique
     private static PotionEffect srpmixins$getEffect(int i){
         if(srpmixins$configEffects == null){
@@ -40,7 +42,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
             remap = false
     )
     private String[] srpmixins_dontSplitList(String instance, String regex, Operation<String[]> original){
-        return null;
+        return srpmixins$emptyList;
     }
 
     @WrapOperation(
@@ -48,7 +50,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 0),
             remap = false
     )
-    private int srpmixins_dontParseNodeLvl(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
+    private int srpmixins_dontParseNodeLvl(String s, Operation<Integer> original, @Local(ordinal = 2) int i){
         PotionEffect effect = srpmixins$getEffect(i);
         if(effect == null) return Integer.MAX_VALUE;
         return effect.getDuration();
@@ -59,7 +61,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 1),
             remap = false
     )
-    private int srpmixins_dontParseAmplifier(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
+    private int srpmixins_dontParseAmplifier(String s, Operation<Integer> original, @Local(ordinal = 2) int i){
         PotionEffect effect = srpmixins$getEffect(i);
         if(effect == null) return 0;
         return effect.getAmplifier();
@@ -69,7 +71,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
             method = "setNodeBonus",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;getPotionFromResourceLocation(Ljava/lang/String;)Lnet/minecraft/potion/Potion;")
     )
-    private Potion srpmixins_dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 1) int i){
+    private Potion srpmixins_dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 2) int i){
         PotionEffect effect = srpmixins$getEffect(i);
         if(effect == null) return null;
         else return effect.getPotion();

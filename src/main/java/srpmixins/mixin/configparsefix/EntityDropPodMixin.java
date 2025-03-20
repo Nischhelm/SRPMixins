@@ -16,12 +16,13 @@ import java.util.List;
 
 @Mixin(EntityDropPod.class)
 public abstract class EntityDropPodMixin {
-    @Unique private static List<PotionEffect> effectsFromConfig = null;
+    @Unique private static List<PotionEffect> srpmixins$effectsFromConfig = null;
+    @Unique private static final String[] srpmixins$emptyList = {"","",""};
 
     @Unique
-    private static PotionEffect getEffect(int i){
-        if(effectsFromConfig == null) {
-            effectsFromConfig = new ArrayList<>();
+    private static PotionEffect srpmixins$getEffect(int i){
+        if(srpmixins$effectsFromConfig == null) {
+            srpmixins$effectsFromConfig = new ArrayList<>();
 
             for (String s : SRPConfigMobs.pod1Effects) {
                 String[] split = s.split(";");
@@ -29,12 +30,12 @@ public abstract class EntityDropPodMixin {
                 if (potion != null) {
                     int duration = Integer.parseInt(split[0]);
                     int amp = Integer.parseInt(split[1]);
-                    effectsFromConfig.add(new PotionEffect(potion, duration, amp));
-                } else effectsFromConfig.add(null);
+                    srpmixins$effectsFromConfig.add(new PotionEffect(potion, duration, amp));
+                } else srpmixins$effectsFromConfig.add(null);
             }
         }
 
-        return effectsFromConfig.get(i);
+        return srpmixins$effectsFromConfig.get(i);
     }
 
     @WrapOperation(
@@ -43,7 +44,7 @@ public abstract class EntityDropPodMixin {
             remap = false
     )
     private String[] dontSplitList(String instance, String regex, Operation<String[]> original){
-        return null;
+        return srpmixins$emptyList;
     }
 
     @WrapOperation(
@@ -51,7 +52,7 @@ public abstract class EntityDropPodMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;getPotionFromResourceLocation(Ljava/lang/String;)Lnet/minecraft/potion/Potion;")
     )
     private Potion dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 1) int i){
-        PotionEffect effect = getEffect(i);
+        PotionEffect effect = srpmixins$getEffect(i);
         //if potion was not parseable, we don't run the amplifier and duration parse overwrites
         if(effect == null) return null;
         else return effect.getPotion();
@@ -63,7 +64,7 @@ public abstract class EntityDropPodMixin {
             remap = false
     )
     private int dontParseDuration(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
-        return getEffect(i).getDuration();
+        return srpmixins$getEffect(i).getDuration();
     }
 
     @WrapOperation(
@@ -72,6 +73,6 @@ public abstract class EntityDropPodMixin {
             remap = false
     )
     private int dontParseAmplifier(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
-        return getEffect(i).getAmplifier();
+        return srpmixins$getEffect(i).getAmplifier();
     }
 }

@@ -1,15 +1,15 @@
 package srpmixins.mixin.configparsefix.spawning;
 
-    import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
-    import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfWolf;
-    import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-    import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-    import org.spongepowered.asm.mixin.Mixin;
-    import org.spongepowered.asm.mixin.Unique;
-    import org.spongepowered.asm.mixin.injection.At;
-    import srpmixins.util.ParaSpawnEntry;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
+import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfWolf;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.util.ParaSpawnEntry;
 
-    import java.util.List;
+import java.util.List;
 
 @Mixin(EntityInfWolf.class)
 public abstract class EntityInfWolfMixin {

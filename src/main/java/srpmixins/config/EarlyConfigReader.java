@@ -1,6 +1,7 @@
 package srpmixins.config;
 
 import srpmixins.SRPMixins;
+import srpmixins.SRPMixinsPlugin;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -18,14 +19,16 @@ public class EarlyConfigReader {
 	public static boolean getBoolean(String name, boolean defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
 
-		if (configBooleanString == null && configFile.exists() && configFile.isFile()) {
-			try (Stream<String> stream = Files.lines(configFile.toPath())) {
-				//All lines starting with "B:"
-				configBooleanString = stream.filter(s -> s.trim().startsWith("B:")).collect(Collectors.joining());
-			} catch (Exception e) {
-				SRPMixins.LOGGER.error("Failed to parse " + SRPMixins.NAME + " config: " + e);
-			}
-		} else configBooleanString = "";
+		if (configBooleanString == null) {
+			if (configFile.exists() && configFile.isFile()) {
+				try (Stream<String> stream = Files.lines(configFile.toPath())) {
+					//All lines starting with "B:"
+					configBooleanString = stream.filter(s -> s.trim().startsWith("B:")).collect(Collectors.joining());
+				} catch (Exception e) {
+					SRPMixins.LOGGER.error("Failed to parse " + SRPMixins.NAME + " config: " + e);
+				}
+			} else configBooleanString = "";
+		}
 
 		if (configBooleanString.contains("B:\"" + name + "\"="))
 			return configBooleanString.contains("B:\"" + name + "\"=true");
@@ -36,13 +39,15 @@ public class EarlyConfigReader {
 	public static int getInt(String name, int defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
 
-		if (configIntString == null && configFile.exists() && configFile.isFile()) {
-			try (Stream<String> stream = Files.lines(configFile.toPath())) {
-				configIntString = stream.filter(s -> s.trim().startsWith("I:")).collect(Collectors.joining());
-			} catch (Exception ex) {
-				SRPMixins.LOGGER.error("Failed to parse " + SRPMixins.NAME + " config: " + ex);
-			}
-		} else configIntString = "";
+		if (configIntString == null) {
+			if (configFile.exists() && configFile.isFile()) {
+				try (Stream<String> stream = Files.lines(configFile.toPath())) {
+					configIntString = stream.filter(s -> s.trim().startsWith("I:")).collect(Collectors.joining());
+				} catch (Exception ex) {
+					SRPMixins.LOGGER.error("Failed to parse " + SRPMixins.NAME + " config: " + ex);
+				}
+			} else configIntString = "";
+		}
 
 		if (configIntString.contains("I:\"" + name + "\"=")) {
 			int index = configIntString.indexOf("I:\"" + name + "\"=");

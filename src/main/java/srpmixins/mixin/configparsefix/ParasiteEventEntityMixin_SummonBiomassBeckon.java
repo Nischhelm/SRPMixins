@@ -20,7 +20,8 @@ import java.util.List;
 //This is so stupid
 public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
     @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList = null;
-
+    @Unique private static final String[] srpmixins$emptyList = {"","",""};
+    
     @Inject(
             method = "spawnBiomassFromBeckon",
             at = @At(value = "INVOKE", target = "Ljava/util/Random;<init>()V"),
@@ -37,7 +38,7 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
     )
     private static String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original){
         if(srpmixins$currentSpawnList == null) return original.call(instance, regex); //Default behavior
-        return null;
+        return srpmixins$emptyList;
     }
 
     @WrapOperation(
@@ -45,7 +46,7 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
             at = @At(value = "INVOKE", target = "Ljava/lang/Double;parseDouble(Ljava/lang/String;)D"),
             remap = false
     )
-    private static double srpmixins_dontParseSummonChance(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
+    private static double srpmixins_dontParseSummonChance(String s, Operation<Double> original, @Local(ordinal = 1) int i){
         if(srpmixins$currentSpawnList == null) return original.call(s); //Default behavior
         return srpmixins$currentSpawnList.get(i).chance;
     }

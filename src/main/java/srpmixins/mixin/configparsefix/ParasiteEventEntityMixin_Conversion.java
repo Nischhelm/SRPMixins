@@ -17,6 +17,9 @@ import java.util.Map;
 public abstract class ParasiteEventEntityMixin_Conversion {
     @Unique private static Map<String, String> srpmixins$cothConversions = null;
     @Unique private static Map<String, String> srpmixins$hijackConversions = null;
+    @Unique private static final String[] srpmixins$emptyList = new String[]{"", ""};
+    @Unique private static final String[] srpmixins$emptyList2 = new String[]{""};
+
     @Unique private static String srpmixins$getConvertedEntity(String victim, boolean isHijacking){
         if(!isHijacking && srpmixins$cothConversions == null){
             srpmixins$cothConversions = new HashMap<>();
@@ -35,6 +38,16 @@ public abstract class ParasiteEventEntityMixin_Conversion {
         return isHijacking ? srpmixins$hijackConversions.get(victim) : srpmixins$cothConversions.get(victim);
     }
 
+    @ModifyVariable(
+            method = "convertEntity",
+            at = @At(value = "LOAD"),
+            remap = false,
+            argsOnly = true
+    )
+    private static String[] srpmixins_emptyInputList_Assim(String[] mobList) {
+        return srpmixins$emptyList2;
+    }
+
     @WrapOperation(
             method = "convertEntity",
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
@@ -44,7 +57,17 @@ public abstract class ParasiteEventEntityMixin_Conversion {
         String convertedId = srpmixins$getConvertedEntity(currTargetId, false);
         if(convertedId != null) return new String[]{currTargetId, convertedId}; //will succeed on first try
 
-        return new String[]{null, null}; //will fail on next test and spawn insider
+        return srpmixins$emptyList; //will fail on next test and spawn insider
+    }
+
+    @ModifyVariable(
+            method = "convertEntityFeral",
+            at = @At(value = "LOAD"),
+            remap = false,
+            argsOnly = true
+    )
+    private static String[] srpmixins_emptyInputList_Feral(String[] mobList) {
+        return srpmixins$emptyList2;
     }
 
     @WrapOperation(
@@ -56,7 +79,7 @@ public abstract class ParasiteEventEntityMixin_Conversion {
         String convertedId = srpmixins$getConvertedEntity(currTargetId, false);
         if(convertedId != null) return new String[]{currTargetId, convertedId}; //will succeed on first try
 
-        return new String[]{null, null}; //will fail on next test and spawn insider
+        return srpmixins$emptyList; //will fail on next test and spawn insider
     }
 
     @ModifyVariable(
@@ -67,7 +90,7 @@ public abstract class ParasiteEventEntityMixin_Conversion {
     )
     private static String[] srpmixins_makeListSingleEntry(String[] list){
         //hijackEntity doesn't have an early return after succeeding the conversion, so we force it like that
-        return new String[]{""};
+        return srpmixins$emptyList2;
     }
 
     @WrapOperation(
@@ -79,7 +102,7 @@ public abstract class ParasiteEventEntityMixin_Conversion {
         String convertedId = srpmixins$getConvertedEntity(currTargetId, true);
         if(convertedId != null) return new String[]{currTargetId, convertedId}; //will succeed on first try
 
-        return new String[]{null, null}; //will fail on next test and return
+        return srpmixins$emptyList; //will fail on next test and return
     }
 
 
