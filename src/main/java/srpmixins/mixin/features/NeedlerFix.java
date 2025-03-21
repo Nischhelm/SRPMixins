@@ -23,7 +23,7 @@ public abstract class NeedlerFix {
             at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"),
             remap = false
     )
-    private float applyLimitCorrectly(float damage, float maxDamage){
+    private float srpmixins_applyLimitCorrectly(float damage, float maxDamage){
         //Fix SRP using max(a,b) instead of correctly using min(a,b)
         return Math.min(damage,maxDamage);
     }
@@ -32,7 +32,7 @@ public abstract class NeedlerFix {
             method = "effectNeedler",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ResourceLocation;toString()Ljava/lang/String;")
     )
-    private ResourceLocation stopCrashIfPlayer(ResourceLocation instance, @Local(argsOnly = true) EntityLivingBase entity){
+    private ResourceLocation srpmixins_stopCrashIfPlayer(ResourceLocation instance, @Local(argsOnly = true) EntityLivingBase entity){
         //Player entities are not in the forge entity list, so they need special handling
         if(entity instanceof EntityPlayer) return new ResourceLocation("srpmixins:disabled_auto_exception");
         return instance;
@@ -43,7 +43,7 @@ public abstract class NeedlerFix {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;checkName(Ljava/lang/String;[Ljava/lang/String;Z)Z"),
             remap = false
     )
-    private boolean dontCheckForPlayer(String mobId, String[] blackList, boolean isWhitelist, Operation<Boolean> original, @Local(argsOnly = true) EntityLivingBase entity){
+    private boolean srpmixins_dontCheckForPlayer(String mobId, String[] blackList, boolean isWhitelist, Operation<Boolean> original, @Local(argsOnly = true) EntityLivingBase entity){
         //If it's a player, use the custom config instead of SRP blacklist
         if(entity instanceof EntityPlayer) return !SRPMixinsConfigHandler.various.allowPlayerNeedler;
         return original.call(mobId, blackList, isWhitelist);
@@ -54,7 +54,7 @@ public abstract class NeedlerFix {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;needlerDamage:F"),
             remap = false
     )
-    private float varyMultiplierForPlayer(float original, @Local(argsOnly = true) EntityLivingBase entity){
+    private float srpmixins_varyMultiplierForPlayer(float original, @Local(argsOnly = true) EntityLivingBase entity){
         //If it's a player, use the custom config instead of SRP health percentage (for first aid for example)
         if(entity instanceof EntityPlayer) return SRPMixinsConfigProvider.playerNeedlerMulti;
         return original;

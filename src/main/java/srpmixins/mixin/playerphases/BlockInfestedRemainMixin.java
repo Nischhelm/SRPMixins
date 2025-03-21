@@ -19,7 +19,7 @@ public abstract class BlockInfestedRemainMixin {
             method = "updateTick",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;getRSchance(Lnet/minecraft/world/World;)D", remap = false)
     )
-    public double getRSChanceMixin(World world, Operation<Double> original, @Local(argsOnly = true) BlockPos blockPos) {
+    public double srpmixins_getRSChanceMixin(World world, Operation<Double> original, @Local(argsOnly = true) BlockPos blockPos) {
         //ParasiteEventEntity.getRSChance(world) only gets called from here, but can't mixin there bc i don't have the blockpos there
         SRPSaveData saveData = SRPSaveDataInterface.get(world,null,blockPos);
         byte evoPhase = saveData.getEvolutionPhase(world.provider.getDimension());

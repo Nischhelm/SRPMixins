@@ -20,14 +20,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class CarcassAllSameLures {
     @Shadow(remap = false) @Final public static PropertyEnum<BlockEvolutionLure.EnumType> VARIANT;
 
-    @Unique private BlockPos savedPosition;
+    @Unique private BlockPos srpmixins$savedPosition;
 
     @Inject(
             method = "checkBlocks",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;getBlockState(Lnet/minecraft/util/math/BlockPos;)Lnet/minecraft/block/state/IBlockState;")
     )
-    private void savePosition(World worldIn, BlockPos pos, BlockEvolutionLure.EnumType t, CallbackInfoReturnable<Boolean> cir){
-        this.savedPosition = pos;
+    private void srpmixins_savePosition(World worldIn, BlockPos pos, BlockEvolutionLure.EnumType t, CallbackInfoReturnable<Boolean> cir){
+        this.srpmixins$savedPosition = pos;
     }
     
     @ModifyExpressionValue(
@@ -35,10 +35,10 @@ public class CarcassAllSameLures {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/block/state/IBlockState;getBlock()Lnet/minecraft/block/Block;"),
             remap = false
     )
-    private Block checkLuresForType(Block original, @Local(argsOnly = true) World world, @Local(argsOnly = true) BlockEvolutionLure.EnumType lureType) {
-        if(savedPosition == null) return original;
-        if (!world.getBlockState(savedPosition).getValue(VARIANT).equals(lureType)) {
-            savedPosition = null;
+    private Block srpmixins_checkLuresForType(Block original, @Local(argsOnly = true) World world, @Local(argsOnly = true) BlockEvolutionLure.EnumType lureType) {
+        if(srpmixins$savedPosition == null) return original;
+        if (!world.getBlockState(srpmixins$savedPosition).getValue(VARIANT).equals(lureType)) {
+            srpmixins$savedPosition = null;
             return Blocks.AIR;
         }
         return original;

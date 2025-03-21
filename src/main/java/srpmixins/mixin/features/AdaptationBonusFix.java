@@ -14,7 +14,7 @@ public abstract class AdaptationBonusFix {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
-    private String useCorrectList(String instance, String regex, @Local int i){
+    private String srpmixins_useCorrectList(String instance, String regex, @Local int i){
         return SRPConfig.adaptationDimStrong[i];
     }
 }

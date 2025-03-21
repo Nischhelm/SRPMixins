@@ -25,7 +25,7 @@ public abstract class ModifiedBloodyClock {
             method = "onItemRightClick",
             at = @At(value="INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;sendStatusMessage(Lnet/minecraft/util/text/ITextComponent;Z)V")
     )
-    public boolean sendPhaseMessageToChat(EntityPlayer player, ITextComponent iTextComponent, boolean actionBar, @Local(argsOnly = true) World worldIn, @Local SRPSaveData saveData) {
+    public boolean srpmixins_sendPhaseMessageToChat(EntityPlayer player, ITextComponent iTextComponent, boolean actionBar, @Local(argsOnly = true) World worldIn, @Local SRPSaveData saveData) {
         int dimension = worldIn.provider.getDimension();
         byte evoPhase = saveData.getEvolutionPhase(dimension);
 

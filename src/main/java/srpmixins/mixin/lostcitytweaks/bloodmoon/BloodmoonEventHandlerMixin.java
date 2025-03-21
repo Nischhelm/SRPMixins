@@ -14,7 +14,7 @@ public abstract class BloodmoonEventHandlerMixin {
             at=@At(value="INVOKE",target = "Lnet/minecraft/world/WorldProvider;getDimension()I"),
             remap=false
     )
-    private int bloodmoonInLC(int original){
+    private int srpmixins_bloodmoonInLC(int original){
         if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC && original == 111) return 0;
         return original;
     }
@@ -24,7 +24,7 @@ public abstract class BloodmoonEventHandlerMixin {
             at=@At(value="FIELD",target = "Lnet/minecraft/entity/EntityLivingBase;dimension:I"),
             remap=false
     )
-    private int killBloodMobs(int original){
+    private int srpmixins_killBloodMobs(int original){
         if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC && original == 111) return 0;
         return original;
     }

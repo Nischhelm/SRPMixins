@@ -17,7 +17,7 @@ public abstract class SRPEffectBaseMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) EntityLivingBase entity){
+    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityLivingBase entity){
         return SRPSaveDataInterface.get(world,null,entity.getPosition());
     }
 
@@ -26,7 +26,7 @@ public abstract class SRPEffectBaseMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPSaveData getPlayerDataMixin2(World world, @Local(argsOnly = true) EntityLivingBase entity){
+    public SRPSaveData srpmixins_getPlayerData2(World world, @Local(argsOnly = true) EntityLivingBase entity){
         return SRPSaveDataInterface.get(world,null,entity.getPosition());
     }
 

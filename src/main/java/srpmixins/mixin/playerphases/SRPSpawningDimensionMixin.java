@@ -17,7 +17,7 @@ public abstract class SRPSpawningDimensionMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) LivingSpawnEvent.CheckSpawn event){
+    private static SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) LivingSpawnEvent.CheckSpawn event){
         return SRPSaveDataInterface.get(world,null,event.getEntity().getPosition());
     }
 }

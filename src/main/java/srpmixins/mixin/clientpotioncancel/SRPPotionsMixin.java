@@ -21,7 +21,7 @@ public class SRPPotionsMixin {
             remap = false,
             cancellable = true
     )
-    private static void cancelClientPotion(Potion effect, EntityLivingBase entity, int duration, int amp, CallbackInfo ci){
+    private static void srpmixins_cancelClientPotion(Potion effect, EntityLivingBase entity, int duration, int amp, CallbackInfo ci){
         if(entity.world.isRemote)
             ci.cancel();
     }
@@ -30,7 +30,7 @@ public class SRPPotionsMixin {
             method = "applySense",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;addPotionEffect(Lnet/minecraft/potion/PotionEffect;)V")
     )
-    private static boolean cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
+    private static boolean srpmixins_cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
         return !instance.world.isRemote;
     }
 
@@ -39,7 +39,7 @@ public class SRPPotionsMixin {
             at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
             remap = false
     )
-    private static void cancelDebugMsg(PrintStream instance, String x){
+    private static void srpmixins_cancelDebugMsg(PrintStream instance, String x){
         //no op, dont send debug msg
     }
 }

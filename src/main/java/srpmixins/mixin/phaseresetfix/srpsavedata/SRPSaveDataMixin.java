@@ -25,8 +25,8 @@ public abstract class SRPSaveDataMixin {
 
     //This data is just a default SRPSaveData object that tries to protect the server from crashing.
     // if it was just me, i would just return null and uncover all phase reset bugs but lets rather protect ppls mental health
-    @Unique private static SRPSaveData clientSRPData = null;
-    @Unique private static long lastMsgTick = 0;
+    @Unique private static SRPSaveData srpmixins$clientSRPData = null;
+    @Unique private static long srpmixins$lastMsgTick = 0;
 
     @Inject(
             method = "get",
@@ -34,25 +34,25 @@ public abstract class SRPSaveDataMixin {
             remap = false,
             cancellable = true
     )
-    private static void fullyDisablePhaseResetsForever(World world, CallbackInfoReturnable<SRPSaveData> cir) {
+    private static void srpmixins_fullyDisablePhaseResetsForever(World world, CallbackInfoReturnable<SRPSaveData> cir) {
         //SRP allows clientside read of SRPSaveData, which due to the data setup will overwrite the serverside data on singleplayer
         //This disables it
         if (!world.isRemote) return; //Serverside calls are fine
 
         //Initialise a default clientside SRPSaveData instance the first time this happens
-        if (clientSRPData == null) {
+        if (srpmixins$clientSRPData == null) {
             SRPSaveData tmpInstance = instance;
 
             instance = new SRPSaveData("SRPMixins_protects_your_phase");
-            clientSRPData = createData(world, null); //createData writes on instance, so we had to tmp save it
+            srpmixins$clientSRPData = createData(world, null); //createData writes on instance, so we had to tmp save it
 
             instance = tmpInstance;
         }
 
         //Send log + msg
         long currTime = world.getTotalWorldTime();
-        if (SRPMixinsConfigHandler.phasepoints.phaseResetDebugMode && (currTime - lastMsgTick > 100)) {
-            lastMsgTick = currTime;
+        if (SRPMixinsConfigHandler.phasepoints.phaseResetDebugMode && (currTime - srpmixins$lastMsgTick > 100)) {
+            srpmixins$lastMsgTick = currTime;
             try {
                 throw (new Exception("SRP tried to reset your phase"));
             } catch (Exception e) {
@@ -64,7 +64,7 @@ public abstract class SRPSaveDataMixin {
             }
         }
 
-        cir.setReturnValue(clientSRPData);
+        cir.setReturnValue(srpmixins$clientSRPData);
     }
 
     //Just a cancel for SRPs "nanissss--------asdddddddddddddddddddddddddddddddddddddddd----" debug msg
@@ -73,7 +73,7 @@ public abstract class SRPSaveDataMixin {
             at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
             remap = false
     )
-    private static void disableSRPDebugMessage(PrintStream instance, String s) {
+    private static void srpmixins_disableSRPDebugMessage(PrintStream instance, String s) {
         //no op
     }
 }

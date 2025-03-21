@@ -14,7 +14,7 @@ public abstract class CarcassCooldownBypass {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;getCooldown(Lnet/minecraft/world/World;I)I"),
             remap = false
     )
-    private int cancelIfMinus(int original, @Local(argsOnly = true, ordinal = 1) int points, @Local(argsOnly = true, ordinal = 0) boolean isAdding) {
+    private int srpmixins_cancelIfMinus(int original, @Local(argsOnly = true, ordinal = 1) int points, @Local(argsOnly = true, ordinal = 0) boolean isAdding) {
         //Chunk Phases handles it internally in CapabilityEvoPoints
         if(SRPMixinsConfigHandler.chunkphases.enabled) return original;
 

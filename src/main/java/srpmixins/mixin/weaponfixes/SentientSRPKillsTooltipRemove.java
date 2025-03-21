@@ -19,7 +19,7 @@ public abstract class SentientSRPKillsTooltipRemove {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;")
     )
     @SideOnly(Side.CLIENT)
-    private NBTTagCompound removeSentientTooltip(NBTTagCompound original) {
+    private NBTTagCompound srpmixins_removeSentientTooltip(NBTTagCompound original) {
         if (getNext() == null) return null;
         return original;
     }

@@ -24,7 +24,7 @@ public abstract class BloodmoonHandlerMixin {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/WorldProvider;getDimension()I"),
             remap = false
     )
-    private int allowLCDimension(int original) {
+    private int srpmixins_allowLCDimension(int original) {
         if (SRPMixinsConfigHandler.modcompat.bloodmoonInLC && original == 111) return 0;
         return original;
     }
@@ -34,7 +34,7 @@ public abstract class BloodmoonHandlerMixin {
             at = @At(value = "INVOKE", target = "Llumien/bloodmoon/server/BloodmoonSpawner;findChunksForSpawning(Lnet/minecraft/world/WorldServer;ZZZ)I"),
             remap = false
     )
-    private void spawnParasites(TickEvent.WorldTickEvent event, CallbackInfo ci, @Local World world) {
+    private void srpmixins_spawnParasites(TickEvent.WorldTickEvent event, CallbackInfo ci, @Local World world) {
         if (!SRPMixinsConfigHandler.modcompat.bloodmoonInLC) return;
         if (!event.world.isRemote && SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner)
             SRPWorldEntitySpawner.findChunksForSpawning((WorldServer) world, true, false, world.getTotalWorldTime() % 400L == 0L);
@@ -45,7 +45,7 @@ public abstract class BloodmoonHandlerMixin {
             at = @At(value = "INVOKE", target = "Llumien/bloodmoon/server/BloodmoonHandler;isBloodmoonActive()Z"),
             remap = false
     )
-    private boolean skipFirstBloodMoonTickInLCMixin(boolean original, @Local int time) {
+    private boolean srpmixins_skipFirstBloodMoonTickInLC(boolean original, @Local int time) {
         //This is needed so the blood moon message in else if(time==12000) is also sent in LC
         if (SRPMixinsConfigHandler.modcompat.bloodmoonInLC && time == 12000) return false;
         return original;
@@ -58,7 +58,7 @@ public abstract class BloodmoonHandlerMixin {
             at = @At(value = "HEAD"),
             remap = false
     )
-    private void updateBloodmoon(CallbackInfo ci) {
+    private void srpmixins_updateBloodmoon(CallbackInfo ci) {
         if (SRPMixinsConfigHandler.modcompat.bloodmoonInLC) PacketHandler.INSTANCE.sendToDimension(new MessageBloodmoonStatus(this.bloodMoon), 111);
     }
 
@@ -67,7 +67,7 @@ public abstract class BloodmoonHandlerMixin {
             at = @At(value = "HEAD"),
             remap = false
     )
-    private void setBloodmoonMixin(boolean bloodMoon, CallbackInfo ci) {
+    private void srpmixins_setBloodmoon(boolean bloodMoon, CallbackInfo ci) {
         if (this.bloodMoon != bloodMoon) PacketHandler.INSTANCE.sendToDimension(new MessageBloodmoonStatus(bloodMoon), 111);
     }
 }

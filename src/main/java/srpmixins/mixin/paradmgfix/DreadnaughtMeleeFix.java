@@ -21,7 +21,7 @@ public abstract class DreadnaughtMeleeFix extends EntityMob {
             method = "applyEntityAttributes",
             at = @At(value = "TAIL")
     )
-    private void fixMeleeAuraDmg(CallbackInfo ci){
+    private void srpmixins_fixMeleeAuraDmg(CallbackInfo ci){
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(SRPMixinsConfigHandler.dmgfix.dreadnaughtMeleeDamage * SRPConfig.globalDamageMultiplier);
     }
 }

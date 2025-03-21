@@ -19,16 +19,16 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BlockEvolutionLure.class)
 public abstract class LureOverflowFix {
-    @Unique private boolean didCooldownOperation = false;
-    @Unique private boolean didSendMsgOperation = false;
+    @Unique private boolean srpmixins$didCooldownOperation = false;
+    @Unique private boolean srpmixins$didSendMsgOperation = false;
 
     @WrapWithCondition(
             method = "onBlockActivated",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setCooldown(ILnet/minecraft/world/World;I)V", remap = false)
     )
-    private boolean onlySetCooldownOnce(SRPSaveData instance, int i, World world, int in){
-        if(!didCooldownOperation){
-            didCooldownOperation = true;
+    private boolean srpmixins_onlySetCooldownOnce(SRPSaveData instance, int i, World world, int in){
+        if(!srpmixins$didCooldownOperation){
+            srpmixins$didCooldownOperation = true;
             return true;
         }
         return false;
@@ -38,11 +38,11 @@ public abstract class LureOverflowFix {
             method = "onBlockActivated",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;sendStatusMessage(Lnet/minecraft/util/text/ITextComponent;Z)V")
     )
-    private boolean onlySendMessageOnce(EntityPlayer instance, ITextComponent chatComponent, boolean actionBar){
+    private boolean srpmixins_onlySendMessageOnce(EntityPlayer instance, ITextComponent chatComponent, boolean actionBar){
         //Don't count the first msg for point reduction, even though that should never run both at the same time
         if(chatComponent instanceof TextComponentTranslation && ((TextComponentTranslation) chatComponent).getKey().equals("message.srparasites.lureb")){
-            if(!didSendMsgOperation){
-                didSendMsgOperation = true;
+            if(!srpmixins$didSendMsgOperation){
+                srpmixins$didSendMsgOperation = true;
                 return true;
             }
             return false;
@@ -54,8 +54,8 @@ public abstract class LureOverflowFix {
             method = "onBlockActivated",
             at = @At("RETURN")
     )
-    private void resetBooleans(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
-        didCooldownOperation = false;
-        didSendMsgOperation = false;
+    private void srpmixins_resetBooleans(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ, CallbackInfoReturnable<Boolean> cir){
+        srpmixins$didCooldownOperation = false;
+        srpmixins$didSendMsgOperation = false;
     }
 }

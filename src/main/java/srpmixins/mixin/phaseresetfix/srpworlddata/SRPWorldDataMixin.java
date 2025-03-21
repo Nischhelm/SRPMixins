@@ -22,8 +22,8 @@ public abstract class SRPWorldDataMixin {
 
     //This data is just a default SRPWorldData object that tries to protect the server from crashing.
     // if it was just me, i would just return null and uncover all phase reset bugs but lets rather protect ppls mental health
-    @Unique private static SRPWorldData clientSRPData = null;
-    @Unique private static long lastMsgTick = 0;
+    @Unique private static SRPWorldData srpmixins$clientSRPData = null;
+    @Unique private static long srpmixins$lastMsgTick = 0;
 
     @Inject(
             method = "get",
@@ -31,25 +31,25 @@ public abstract class SRPWorldDataMixin {
             remap = false,
             cancellable = true
     )
-    private static void fullyDisableNodeResetsForever(World world, CallbackInfoReturnable<SRPWorldData> cir) {
+    private static void srpmixins_fullyDisableNodeResetsForever(World world, CallbackInfoReturnable<SRPWorldData> cir) {
         //SRP allows clientside read of SRPWorldData, which due to the data setup will overwrite the serverside data on singleplayer
         //This disables it
         if (!world.isRemote) return; //Serverside calls are fine
 
         //Initialise a default clientside SRPWorldData instance the first time this happens
-        if (clientSRPData == null) {
+        if (srpmixins$clientSRPData == null) {
             SRPWorldData tmpInstance = instance;
 
             instance = new SRPWorldData("SRPMixins_protects_your_nodes");
-            clientSRPData = create(world, null); //createData writes on instance, so we had to tmp save it
+            srpmixins$clientSRPData = create(world, null); //createData writes on instance, so we had to tmp save it
 
             instance = tmpInstance;
         }
 
         //Send log + msg
         long currTime = world.getTotalWorldTime();
-        if (SRPMixinsConfigHandler.phasepoints.phaseResetDebugMode && (currTime - lastMsgTick > 100)) {
-            lastMsgTick = currTime;
+        if (SRPMixinsConfigHandler.phasepoints.phaseResetDebugMode && (currTime - srpmixins$lastMsgTick > 100)) {
+            srpmixins$lastMsgTick = currTime;
             try {
                 throw (new Exception("SRP tried to reset your node data"));
             } catch (Exception e) {
@@ -61,6 +61,6 @@ public abstract class SRPWorldDataMixin {
             }
         }
 
-        cir.setReturnValue(clientSRPData);
+        cir.setReturnValue(srpmixins$clientSRPData);
     }
 }

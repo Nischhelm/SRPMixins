@@ -20,7 +20,7 @@ public abstract class SpineballFix {
             at = @At(value = "TAIL"),
             remap = false
     )
-    private void fixProjDmg(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ, float projDamage, CallbackInfo ci, @Local(argsOnly = true) World world){
+    private void srpmixins_fixProjDmg(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ, float projDamage, CallbackInfo ci, @Local(argsOnly = true) World world){
         //Used by Prim Yelloweye, Ada Yelloweye, Herd, Vermin, Sentry
         int dimension = world.provider.getDimension();
         this.damage = projDamage * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);

@@ -13,7 +13,7 @@ public class SeizerMixin {
             method = "onLivingUpdate",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;addPotionEffect(Lnet/minecraft/potion/PotionEffect;)V")
     )
-    private boolean cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
+    private boolean srpmixins_cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
         return !instance.world.isRemote;
     }
 }

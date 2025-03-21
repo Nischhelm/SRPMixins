@@ -30,23 +30,23 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/storage/WorldSavedData;<init>(Ljava/lang/String;)V"),
             remap = false
     )
-    private static String changeDataName(String name){
-        return name+uuidtmp;
+    private static String srpmixins_changeDataName(String name){
+        return name+ srpmixins$uuidtmp;
     }
 
-    @Unique private static String uuidtmp = "";
-    @Unique private UUID playerUUID;
+    @Unique private static String srpmixins$uuidtmp = "";
+    @Unique private UUID srpmixins$playerUUID;
     @Override
-    public void setUUID(UUID uuid){
-        playerUUID = uuid;
+    public void srpmixins$setUUID(UUID uuid){
+        srpmixins$playerUUID = uuid;
     }
 
     @Unique
-    private static SRPSaveData createForPlayer(World world, UUID playerUUID, MapStorage storage) {
+    private static SRPSaveData srpmixins$createForPlayer(World world, UUID playerUUID, MapStorage storage) {
         SRPMixins.LOGGER.info("Creating new SRPSaveData for dim{} and player{}", world.provider.getDimension(),playerUUID.toString());
-        uuidtmp = playerUUID.toString();
+        srpmixins$uuidtmp = playerUUID.toString();
         SRPSaveData instance = new SRPSaveData();
-        uuidtmp = "";
+        srpmixins$uuidtmp = "";
         storage.setData("srparasites_global_data" + playerUUID, instance);
 
         instance.getLockedList().addAll(SRPConfigProvider.lockedParasites);
@@ -56,7 +56,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             int phase = entry.getValue().get(0);
             int points =  entry.getValue().get(1);
 
-            addDim(instance, dim);
+            srpmixins$addDim(instance, dim);
             instance.setEvolutionPhase(dim, (byte) phase, true, world, true);
             if (phase == -2) {
                 instance.setGaining(false, dim);
@@ -81,7 +81,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     }
 
     @Unique
-    private static void addDim(SRPSaveData instance, int id) {
+    private static void srpmixins$addDim(SRPSaveData instance, int id) {
         if(((SRPSaveDataAccessor) instance).getDimEPid().contains(id)) return;
 
         ((SRPSaveDataAccessor) instance).getDimEPid().add(id);
@@ -94,14 +94,14 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     }
 
     @Override
-    public SRPSaveData getByPlayer(World world, UUID playerUUID) {
+    public SRPSaveData srpmixins$getByPlayer(World world, UUID playerUUID) {
         if(playerUUID!=null) {
             MapStorage storage = world.getPerWorldStorage();
             SRPSaveData instancePlayer = (SRPSaveData) storage.getOrLoadData(SRPSaveData.class, "srparasites_global_data" + playerUUID);
             if (instancePlayer == null) {
-                instancePlayer = createForPlayer(world,playerUUID, storage);
+                instancePlayer = srpmixins$createForPlayer(world,playerUUID, storage);
             }
-            ((SRPSaveDataInterface) instancePlayer).setUUID(playerUUID);
+            ((SRPSaveDataInterface) instancePlayer).srpmixins$setUUID(playerUUID);
             return instancePlayer;
         }
         if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
@@ -110,17 +110,17 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     }
 
     @Override
-    public SRPSaveData getByBlock(World world, BlockPos blockPos) {
+    public SRPSaveData srpmixins$getByBlock(World world, BlockPos blockPos) {
         if(!world.playerEntities.isEmpty()) {
             if (blockPos != null) {    //TODO: are spawning mobs always at null for parasitetask?
                 int x = blockPos.getX();
                 int y = blockPos.getY();
                 int z = blockPos.getZ();
 
-                EntityPlayer player = getClosestPlayer(world, x, y, z, 256);
+                EntityPlayer player = srpmixins$getClosestPlayer(world, x, y, z, 256);
 
                 if (player != null)
-                    return getByPlayer(world, player.getUniqueID());
+                    return srpmixins$getByPlayer(world, player.getUniqueID());
                 else if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
                     SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByBlock didnt find player {}", blockPos);
             } else if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
@@ -137,13 +137,13 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     }
 
     @Unique
-    public EntityPlayer getClosestPlayer(World world, double x, double y, double z, double maxDist) {
+    public EntityPlayer srpmixins$getClosestPlayer(World world, double x, double y, double z, double maxDist) {
         double minDist = -1.0D;
         EntityPlayer closestPlayer = null;
 
         for (EntityPlayer player: world.playerEntities){
             if (!player.isSpectator()){
-                double currDistXZ = distSq(player,x,z);
+                double currDistXZ = srpmixins$distSq(player,x,z);
                 double currDist = player.getDistanceSq(x,y,z);
 
                 if ((maxDist < 0.0D || currDistXZ < maxDist*maxDist) && (minDist == -1.0D || currDist < minDist)){
@@ -157,7 +157,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     }
 
     @Unique
-    private double distSq(EntityPlayer player, double x, double z) {
+    private double srpmixins$distSq(EntityPlayer player, double x, double z) {
         double xD = Math.abs(player.posX-x);
         double zD = Math.abs(player.posZ-z);
         return Math.max(xD,zD);
@@ -168,9 +168,9 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerDim(Lnet/minecraft/world/World;Ljava/lang/String;I)V"),
             remap = false
     )
-    private void sendWarningToOnePlayer(World world, String message, int warning, Operation<Void> original){
-        if(SRPMixinsConfigHandler.playerphases.enabled && this.playerUUID!=null)
-            PlayerPhases_AlertOnePlayer.alertOnePlayer(world,this.playerUUID, message, warning);
+    private void srpmixins_sendWarningToOnePlayer(World world, String message, int warning, Operation<Void> original){
+        if(SRPMixinsConfigHandler.playerphases.enabled && this.srpmixins$playerUUID !=null)
+            PlayerPhases_AlertOnePlayer.alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
         else
             original.call(world, message, warning);
     }
@@ -180,9 +180,9 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerSer(Ljava/lang/String;Lnet/minecraft/world/World;)V"),
             remap = false
     )
-    private void sendParaUnlockMessageToOnePlayer(String message, World world, Operation<Void> original){
+    private void srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world, Operation<Void> original){
         if(SRPMixinsConfigHandler.playerphases.enabled) {
-            EntityPlayer player = world.getPlayerEntityByUUID(playerUUID);
+            EntityPlayer player = world.getPlayerEntityByUUID(srpmixins$playerUUID);
             if(player != null) player.sendMessage(new TextComponentString(message));
         } else
             original.call(message, world);

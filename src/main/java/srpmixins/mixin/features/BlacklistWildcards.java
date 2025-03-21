@@ -16,7 +16,7 @@ public abstract class BlacklistWildcards {
             cancellable = true,
             remap = false
     )
-    private static void wildcard(String name, String[] list, boolean inverted, CallbackInfoReturnable<Boolean> cir){
+    private static void srpmixins_wildcard(String name, String[] list, boolean inverted, CallbackInfoReturnable<Boolean> cir){
         //SRP checkName function returns true if name is in blacklist (or name is not in whitelist)
         //Name could be "isBlacklisted"/"isNotWhitelisted"
         if(SRPMixinsConfigHandler.various.blacklistsWildcardable && name.contains(":")) {

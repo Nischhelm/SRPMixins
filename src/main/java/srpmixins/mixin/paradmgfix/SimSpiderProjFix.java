@@ -14,7 +14,7 @@ public abstract class SimSpiderProjFix {
             method = "onImpact",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;DORPA_RANGED_DAMAGE:F", remap = false)
     )
-    private float fixProjDmg(float original, @Local(argsOnly = true) RayTraceResult result){
+    private float srpmixins_fixProjDmg(float original, @Local(argsOnly = true) RayTraceResult result){
         if(result.entityHit != null) {
             int dimension = result.entityHit.dimension;
             return original * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);

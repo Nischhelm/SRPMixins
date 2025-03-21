@@ -17,7 +17,7 @@ public abstract class SRPEffectBaseMixin {
             remap = false,
             cancellable = true
     )
-    private void secureImmunity(EntityLivingBase entity, int amplifier, CallbackInfo ci){
+    private void srpmixins_secureImmunity(EntityLivingBase entity, int amplifier, CallbackInfo ci){
         NBTTagCompound tags = entity.getEntityData();
         if (tags.hasKey("srpcothimmunity") && tags.getInteger("srpcothimmunity") == 0){
             entity.removeActivePotionEffect(SRPPotions.COTH_E);

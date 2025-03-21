@@ -13,15 +13,15 @@ import srpmixins.config.SRPMixinsConfigProvider;
 @Mixin(SRPSpawning.DimensionHandler.class)
 public abstract class SRPSpawningDimensionHandlerMixin {
 
-    @Unique private static int dimension;
+    @Unique private static int srpmixins$dimension;
 
     @Inject(
             method = "onSpawn",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
             remap = false
     )
-    private static void saveDimension(LivingSpawnEvent.CheckSpawn event, CallbackInfo ci) {
-        dimension = event.getWorld().provider.getDimension();
+    private static void srpmixins_saveDimension(LivingSpawnEvent.CheckSpawn event, CallbackInfo ci) {
+        srpmixins$dimension = event.getWorld().provider.getDimension();
     }
 
     @ModifyExpressionValue(
@@ -29,8 +29,8 @@ public abstract class SRPSpawningDimensionHandlerMixin {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
             remap = false
     )
-    private static int increaseParasiteMobCap_checkNearby(int original) {
-        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+    private static int srpmixins_increaseParasiteMobCap_checkNearby(int original) {
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(srpmixins$dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
             return (int) (original * dimensionMultiplier);
         return original;
@@ -41,8 +41,8 @@ public abstract class SRPSpawningDimensionHandlerMixin {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
             remap = false
     )
-    private static int increaseParasiteMobCapPerPlayer_checkNearby(int original) {
-        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+    private static int srpmixins_increaseParasiteMobCapPerPlayer_checkNearby(int original) {
+        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(srpmixins$dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
             return (int) (original * dimensionMultiplier);
         return original;

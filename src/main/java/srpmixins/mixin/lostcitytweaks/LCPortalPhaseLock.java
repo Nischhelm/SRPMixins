@@ -25,7 +25,7 @@ public abstract class LCPortalPhaseLock {
             at = @At(value = "INVOKE", target = "Lmcjty/lostcities/varia/CustomTeleporter;teleportToDimension(Lnet/minecraft/entity/player/EntityPlayer;ILnet/minecraft/util/math/BlockPos;)V", ordinal = 1),
             remap = false
     )
-    private boolean lockPortalBehindPhase(EntityPlayer player, int dimension, BlockPos pos, @Local(argsOnly = true) PlayerSleepInBedEvent event) {
+    private boolean srpmixins_lockPortalBehindPhase(EntityPlayer player, int dimension, BlockPos pos, @Local(argsOnly = true) PlayerSleepInBedEvent event) {
         if (!SRPConfigSystems.useEvolution) return true;
         if (SRPMixinsConfigHandler.modcompat.portalLClockedPhase < 0) return true;
 

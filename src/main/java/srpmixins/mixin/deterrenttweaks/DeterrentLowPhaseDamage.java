@@ -17,7 +17,7 @@ public abstract class DeterrentLowPhaseDamage {
             method = "onLivingUpdate",
             at = @At(value="INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPStationary;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z")
     )
-    private boolean onlyDamageWhitelistedDeterrents(EntityPStationary instance, DamageSource source, float amount, Operation<Boolean> original){
+    private boolean srpmixins_onlyDamageWhitelistedDeterrents(EntityPStationary instance, DamageSource source, float amount, Operation<Boolean> original){
         ResourceLocation loc = EntityList.getKey(instance);
         String typeOfThis = loc == null ? "" : loc.toString();
 

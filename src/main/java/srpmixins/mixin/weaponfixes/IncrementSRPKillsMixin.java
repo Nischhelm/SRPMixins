@@ -26,7 +26,7 @@ public class IncrementSRPKillsMixin extends EntityMob {
             method = "onDeath",
             at = @At(value = "TAIL")
     )
-    private void incrementSRPKills(DamageSource source, CallbackInfo ci){
+    private void srpmixins_incrementSRPKills(DamageSource source, CallbackInfo ci){
         if(this.world.isRemote) return;
         if(SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
         if(source == null) return;

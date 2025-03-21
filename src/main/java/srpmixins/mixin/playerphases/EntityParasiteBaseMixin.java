@@ -19,7 +19,7 @@ public abstract class EntityParasiteBaseMixin extends Entity {
             method="onKillEntity",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData getPlayerDataMixin(World world){
+    public SRPSaveData srpmixins_getPlayerData(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
     }
 
@@ -27,7 +27,7 @@ public abstract class EntityParasiteBaseMixin extends Entity {
             method="onDeath",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData getPlayerDataMixin2(World world){
+    public SRPSaveData srpmixins_getPlayerData2(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
     }
 
@@ -36,7 +36,7 @@ public abstract class EntityParasiteBaseMixin extends Entity {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPSaveData getPlayerDataMixin3(World world){
+    public SRPSaveData srpmixins_getPlayerData3(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
     }
 
@@ -44,7 +44,7 @@ public abstract class EntityParasiteBaseMixin extends Entity {
             method="onInitialSpawn",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData getPlayerDataMixin4(World world){
+    public SRPSaveData srpmixins_getPlayerData4(World world){
         return SRPSaveDataInterface.get(world,null,this.getPosition());
     }
 }

@@ -23,17 +23,17 @@ import java.util.List;
 
 @Mixin(WeaponToolArmorBase.class)
 public class ArmorTooltip {
-    @Unique ICapabilityAdaptation adaCap = null;
+    @Unique ICapabilityAdaptation srpmixins$adaCap = null;
 
     @Inject(
             method = "addInformation",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;")
     )
-    private void overwriteLists(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn, CallbackInfo ci, @Local(ordinal = 0) ArrayList<String> resistanceS, @Local(ordinal = 1) ArrayList<Integer> resistanceI){
-        adaCap = stack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
-        if(adaCap != null) {
-            resistanceS.addAll(adaCap.getNames());
-            resistanceI.addAll(adaCap.getCounts());
+    private void srpmixins_overwriteLists(ItemStack stack, World worldIn, List<String> tooltip, ITooltipFlag flagIn, CallbackInfo ci, @Local(ordinal = 0) ArrayList<String> resistanceS, @Local(ordinal = 1) ArrayList<Integer> resistanceI){
+        srpmixins$adaCap = stack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
+        if(srpmixins$adaCap != null) {
+            resistanceS.addAll(srpmixins$adaCap.getNames());
+            resistanceI.addAll(srpmixins$adaCap.getCounts());
         }
     }
 
@@ -41,7 +41,7 @@ public class ArmorTooltip {
             method = "addInformation",
             at = @At(value = "FIELD", target = "Ljava/math/RoundingMode;DOWN:Ljava/math/RoundingMode;")
     )
-    private RoundingMode roundCorrectly(RoundingMode original){
+    private RoundingMode srpmixins_roundCorrectly(RoundingMode original){
         return RoundingMode.HALF_UP;
     }
 
@@ -49,9 +49,9 @@ public class ArmorTooltip {
             method = "addInformation",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;hasKey(Ljava/lang/String;)Z")
     )
-    private boolean changeTooltip(NBTTagCompound instance, String key, Operation<Boolean> original, @Local(argsOnly = true) ItemStack stack) {
-        boolean newHandling = adaCap != null && adaCap.getTrackCount() > 0;
-        adaCap = null;
+    private boolean srpmixins_changeTooltip(NBTTagCompound instance, String key, Operation<Boolean> original, @Local(argsOnly = true) ItemStack stack) {
+        boolean newHandling = srpmixins$adaCap != null && srpmixins$adaCap.getTrackCount() > 0;
+        srpmixins$adaCap = null;
         return newHandling;
     }
 }

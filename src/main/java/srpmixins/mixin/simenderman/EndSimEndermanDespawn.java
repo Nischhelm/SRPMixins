@@ -17,7 +17,7 @@ public abstract class EndSimEndermanDespawn {
             at = @At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPInfected;cannotDespawn(Z)V"),
             remap = false
     )
-    private static boolean endSimmermenDespawnMixin(boolean originalCanDespawn, @Local EntityPInfected parasite){
+    private static boolean srpmixins_endSimmermenDespawn(boolean originalCanDespawn, @Local EntityPInfected parasite){
         if(parasite instanceof EntityInfEnderman || parasite instanceof EntityInfEndermanHead)
             if(parasite.world.provider.getDimension()==1)
                 return true;

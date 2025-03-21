@@ -13,7 +13,7 @@ public abstract class DisableScentDebug {
             method = "onCollideWithPlayer",
             at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V")
     )
-    private boolean disableScentCollideDebug(PrintStream instance, String x) {
+    private boolean srpmixins_disableScentCollideDebug(PrintStream instance, String x) {
         //no op if disabled
         return false;
     }
@@ -23,7 +23,7 @@ public abstract class DisableScentDebug {
             at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
             remap = false
     )
-    private boolean disableScentHitboxDebug(PrintStream instance, String x){
+    private boolean srpmixins_disableScentHitboxDebug(PrintStream instance, String x){
         //no op if disabled
         return false;
     }

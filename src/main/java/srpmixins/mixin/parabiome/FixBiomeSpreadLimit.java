@@ -22,7 +22,7 @@ public class FixBiomeSpreadLimit {
             remap = false,
             cancellable = true
     )
-    private static void stopIfOverLimit(World worldIn, BlockPos pos, Random rand, CallbackInfo ci){
+    private static void srpmixins_stopIfOverLimit(World worldIn, BlockPos pos, Random rand, CallbackInfo ci){
         if(blockParasiteCount > SRPConfig.BlockParasiteLimit) ci.cancel();
     }
 }

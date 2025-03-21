@@ -16,7 +16,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
             remap = false
     )
-    private static boolean phaseLockBlock(SRPSaveData data, int id, int in, boolean plus, World world, boolean canChangePhase) {
+    private static boolean srpmixins_phaseLockBlock(SRPSaveData data, int id, int in, boolean plus, World world, boolean canChangePhase) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
         return startPhase < 0 || data.getEvolutionPhase(world.provider.getDimension()) >= startPhase;
     }
@@ -26,7 +26,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
             remap = false
     )
-    private static boolean phaseLockTrunk(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
+    private static boolean srpmixins_phaseLockTrunk(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
         return startPhase < 0 || data.getEvolutionPhase(id) >= startPhase;
     }
@@ -36,7 +36,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
             remap = false
     )
-    private static boolean phaseLockStain(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
+    private static boolean srpmixins_phaseLockStain(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
         return startPhase < 0 || data.getEvolutionPhase(id) >= startPhase;
     }

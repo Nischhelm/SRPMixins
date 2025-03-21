@@ -40,7 +40,7 @@ public class SentientBowEvolution extends ItemBow {
                 if (srpkills > SRPConfig.weapon_livingSentient_HP_needed) {
                     compound.setInteger("srpkills", 0);
                     stack.shrink(1);
-                    ItemStack newStack = new ItemStack(this.getNext(), 1);
+                    ItemStack newStack = new ItemStack(this.srpmixins$getNext(), 1);
                     if (SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT)
                         newStack.setTagCompound(stack.getTagCompound());
                     EntityItem entityitem = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, newStack);
@@ -54,7 +54,7 @@ public class SentientBowEvolution extends ItemBow {
     }
 
     @Unique
-    public Item getNext() {
+    public Item srpmixins$getNext() {
         return this == SRPItems.weapon_bow ? SRPItems.weapon_bow_sentient : null;
     }
 

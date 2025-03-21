@@ -15,7 +15,7 @@ public abstract class CarcassValuePerPhase {
             method="onBlockActivated",
             at = @At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z", remap = false)
     )
-    private void lurePhaseMultiplier(Args args, @Local SRPSaveData data) {
+    private void srpmixins_lurePhaseMultiplier(Args args, @Local SRPSaveData data) {
         int dimension = args.get(0);
         int multi = SRPMixinsConfigProvider.getLurePhaseMultiplier(data.getEvolutionPhase(dimension));
         int points = args.get(1);

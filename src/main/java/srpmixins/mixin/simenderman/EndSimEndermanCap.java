@@ -18,10 +18,10 @@ public abstract class EndSimEndermanCap {
             method = "convertEntity",
             at = @At(value="INVOKE",target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z", ordinal = 0)
     )
-    private static boolean simmermanCap(World world, Entity entity, Operation<Boolean> original){
-        if(isSimmerman(entity))
+    private static boolean srpmixins_simmermanCap(World world, Entity entity, Operation<Boolean> original){
+        if(srpmixins$isSimmerman(entity))
             if(world.provider.getDimension() == 1) {
-                int simmermancount = (int) world.loadedEntityList.stream().filter(EndSimEndermanCap::isSimmerman).count();
+                int simmermancount = (int) world.loadedEntityList.stream().filter(EndSimEndermanCap::srpmixins$isSimmerman).count();
                 if(simmermancount >= SRPMixinsConfigHandler.simmermen.endSimmermenCap) return false;
             }
 
@@ -29,7 +29,7 @@ public abstract class EndSimEndermanCap {
     }
 
     @Unique
-    private static boolean isSimmerman(Entity entity){
+    private static boolean srpmixins$isSimmerman(Entity entity){
         return entity instanceof EntityInfEnderman || entity instanceof EntityInfEndermanHead;
     }
 }

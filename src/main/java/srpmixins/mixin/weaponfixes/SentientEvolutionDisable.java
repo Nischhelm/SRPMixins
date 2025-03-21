@@ -24,7 +24,7 @@ public abstract class SentientEvolutionDisable {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;"),
             cancellable = true
     )
-    private void disableIncrementSRPKills(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker, CallbackInfoReturnable<Boolean> cir, @Local boolean flag){
+    private void srpmixins_disableIncrementSRPKills(ItemStack stack, EntityLivingBase target, EntityLivingBase attacker, CallbackInfoReturnable<Boolean> cir, @Local boolean flag){
         cir.setReturnValue(flag);
     }
 
@@ -33,7 +33,7 @@ public abstract class SentientEvolutionDisable {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;"),
             cancellable = true
     )
-    private void disableEvolve(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected, CallbackInfo ci, @Local boolean flag){
+    private void srpmixins_disableEvolve(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected, CallbackInfo ci, @Local boolean flag){
         ci.cancel();
     }
 
@@ -42,7 +42,7 @@ public abstract class SentientEvolutionDisable {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getTagCompound()Lnet/minecraft/nbt/NBTTagCompound;")
     )
     @SideOnly(Side.CLIENT)
-    private NBTTagCompound removeSentientTooltip(NBTTagCompound original) {
+    private NBTTagCompound srpmixins_removeSentientTooltip(NBTTagCompound original) {
         return null;
     }
 }

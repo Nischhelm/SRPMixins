@@ -25,7 +25,7 @@ public abstract class SRPEventHandlerBusMixin {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) BlockEvent.CropGrowEvent.Pre event) {
+    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) BlockEvent.CropGrowEvent.Pre event) {
         return SRPSaveDataInterface.get(world, null, event.getPos());
     }
 
@@ -34,7 +34,7 @@ public abstract class SRPEventHandlerBusMixin {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin2(World world, @Local(argsOnly = true) ItemFishedEvent event) {
+    public SRPSaveData srpmixins_getPlayerData2(World world, @Local(argsOnly = true) ItemFishedEvent event) {
         return SRPSaveDataInterface.get(world, event.getEntityPlayer(), null);
     }
 
@@ -43,7 +43,7 @@ public abstract class SRPEventHandlerBusMixin {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin7(World world, @Local(argsOnly = true) EntityLivingBase entity) {
+    public SRPSaveData srpmixins_getPlayerData7(World world, @Local(argsOnly = true) EntityLivingBase entity) {
         return SRPSaveDataInterface.get(world, null, entity.getPosition());
     }
 
@@ -52,7 +52,7 @@ public abstract class SRPEventHandlerBusMixin {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin3(World world, @Local(argsOnly = true) EntityParasiteBase entity) {
+    public SRPSaveData srpmixins_getPlayerData3(World world, @Local(argsOnly = true) EntityParasiteBase entity) {
         return SRPSaveDataInterface.get(world, null, entity.getPosition());
     }
 
@@ -61,7 +61,7 @@ public abstract class SRPEventHandlerBusMixin {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin4(World world, @Local(argsOnly = true) LivingDropsEvent event) {
+    public SRPSaveData srpmixins_getPlayerData4(World world, @Local(argsOnly = true) LivingDropsEvent event) {
         return SRPSaveDataInterface.get(world, null, event.getEntity().getPosition());
     }
 
@@ -70,7 +70,7 @@ public abstract class SRPEventHandlerBusMixin {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin5(World world, @Local(argsOnly = true) PlayerWakeUpEvent event) {
+    public SRPSaveData srpmixins_getPlayerData5(World world, @Local(argsOnly = true) PlayerWakeUpEvent event) {
         return SRPSaveDataInterface.get(world, event.getEntityPlayer(), null);
     }
 
@@ -79,7 +79,7 @@ public abstract class SRPEventHandlerBusMixin {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData getPlayerDataMixin6(World world, @Local(argsOnly = true) LivingHealEvent event) {
+    public SRPSaveData srpmixins_getPlayerData6(World world, @Local(argsOnly = true) LivingHealEvent event) {
         EntityPlayer playerHeal = null;
         BlockPos blockPosHeal = null;
         if (event.getEntityLiving() instanceof EntityPlayer)

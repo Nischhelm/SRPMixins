@@ -19,7 +19,7 @@ public abstract class SentientEvolutionNBTFix {
             method = "onUpdate",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity;)Z")
     )
-    private boolean writeNBTtoSentient(World world, Entity entity, Operation<Boolean> original, @Local(argsOnly = true) ItemStack stack) {
+    private boolean srpmixins_writeNBTtoSentient(World world, Entity entity, Operation<Boolean> original, @Local(argsOnly = true) ItemStack stack) {
         NBTTagCompound oldTags = stack.getTagCompound();
         ((EntityItem) entity).getItem().setTagCompound(oldTags);
         return original.call(world, entity);

@@ -44,7 +44,7 @@ public class SentientArmorEvolution extends ItemArmor {
                 if (srpkills > SRPConfig.weapon_livingSentient_HP_needed) {
                     compound.setInteger("srpkills", 0);
                     stack.shrink(1);
-                    ItemStack newStack = new ItemStack(this.getNext(), 1);
+                    ItemStack newStack = new ItemStack(this.srpmixins$getNext(), 1);
                     if (SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT)
                         newStack.setTagCompound(stack.getTagCompound());
                     EntityItem entityitem = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, newStack);
@@ -58,7 +58,7 @@ public class SentientArmorEvolution extends ItemArmor {
     }
 
     @Unique
-    public Item getNext() {
+    public Item srpmixins$getNext() {
         if (this.getArmorMaterial() != SRPItems.ARMOR_LIVING) return null;
         switch (this.getEquipmentSlot()) {
             case HEAD: return SRPItems.armor_helmetSentient;

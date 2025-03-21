@@ -16,7 +16,7 @@ public abstract class LureCooldownStacking {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setCooldown(ILnet/minecraft/world/World;I)V", remap = false),
             index = 0
     )
-    private int lureCooldownStacking(int original, @Local(argsOnly = true) World world, @Local SRPSaveData data) {
+    private int srpmixins_lureCooldownStacking(int original, @Local(argsOnly = true) World world, @Local SRPSaveData data) {
         return original + data.getCooldown(world, world.provider.getDimension());
     }
 }

@@ -19,7 +19,7 @@ public abstract class NexusCap {
             at = @At(value = "INVOKE", target = "Lnet/minecraftforge/event/ForgeEventFactory;canEntitySpawn(Lnet/minecraft/entity/EntityLiving;Lnet/minecraft/world/World;FFFZ)Lnet/minecraftforge/fml/common/eventhandler/Event$Result;"),
             remap = false
     )
-    private static Event.Result nexusCap(Event.Result original, @Local EntityParasiteBase entity, @Local(argsOnly = true) WorldServer world) {
+    private static Event.Result srpmixins_nexusCap(Event.Result original, @Local EntityParasiteBase entity, @Local(argsOnly = true) WorldServer world) {
         if(entity instanceof EntityPStationaryArchitect) {
             int nexusCounter = (int) world.loadedEntityList.stream().filter(v -> v instanceof EntityPStationaryArchitect).count();
             if (nexusCounter > SRPMixinsConfigHandler.deterrents.nexusCap) return Event.Result.DENY;

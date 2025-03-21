@@ -20,7 +20,7 @@ public abstract class AdaptedPenaltyPhaseLock extends Entity {
             method = "despawnEntity",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;valueEvolutionDespawn:I", remap = false)
     )
-    private int phaseLockMixin(int original, @Local SRPSaveData data) {
+    private int srpmixins_phaseLockMixin(int original, @Local SRPSaveData data) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.adaptedDespawnPenaltyPhase;
         if (startPhase > -1 && data.getEvolutionPhase(this.world.provider.getDimension()) < startPhase)
             return 0;

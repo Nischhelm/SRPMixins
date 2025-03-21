@@ -14,7 +14,7 @@ public abstract class VigilanteProjFix {
             method = "onImpact",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;ANGED_RANGED_ATTACK_DAMAGE:D", remap = false)
     )
-    private double fixProjDmg(double original, @Local(argsOnly = true) RayTraceResult result){
+    private double srpmixins_fixProjDmg(double original, @Local(argsOnly = true) RayTraceResult result){
         if(result.entityHit != null) {
             int dimension = result.entityHit.dimension;
             return original * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);

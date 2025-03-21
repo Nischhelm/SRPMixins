@@ -11,17 +11,17 @@ import java.util.UUID;
 
 public interface SRPSaveDataInterface {
 
-    void setUUID(UUID uuid);
+    void srpmixins$setUUID(UUID uuid);
 
     //For player phases
-    SRPSaveData getByPlayer(World world, UUID playerUUID);
-    SRPSaveData getByBlock(World world, BlockPos blockPos);
+    SRPSaveData srpmixins$getByPlayer(World world, UUID playerUUID);
+    SRPSaveData srpmixins$getByBlock(World world, BlockPos blockPos);
 
     static SRPSaveData get(World world, @Nullable EntityPlayer player, @Nullable BlockPos blockPos){
         SRPSaveData data = SRPSaveData.get(world);
         if(SRPMixinsConfigHandler.playerphases.enabled) {
-            if(player != null) return ((SRPSaveDataInterface) data).getByPlayer(world, player.getUniqueID());
-            else if(blockPos != null) return ((SRPSaveDataInterface) data).getByBlock(world, blockPos);
+            if(player != null) return ((SRPSaveDataInterface) data).srpmixins$getByPlayer(world, player.getUniqueID());
+            else if(blockPos != null) return ((SRPSaveDataInterface) data).srpmixins$getByBlock(world, blockPos);
             //else return data
         }
         else if(SRPMixinsConfigHandler.chunkphases.enabled) {

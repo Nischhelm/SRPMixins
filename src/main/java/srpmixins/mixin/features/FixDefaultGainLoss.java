@@ -16,7 +16,7 @@ public abstract class FixDefaultGainLoss {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setEvolutionPhase(IBZLnet/minecraft/world/World;Z)Z"),
             remap = false
     )
-    private static boolean fixDefault_Gaining_Loss_noPlayerPhases(SRPSaveData data, int dim, byte phase, boolean override, World world, boolean canChangePhase, Operation<Boolean> original) {
+    private static boolean srpmixins_fixDefault_Gaining_Loss_noPlayerPhases(SRPSaveData data, int dim, byte phase, boolean override, World world, boolean canChangePhase, Operation<Boolean> original) {
         //This would be overwritten later in createData for phase -2, so don't bother
         if(phase != -2) {
             //Set canGain

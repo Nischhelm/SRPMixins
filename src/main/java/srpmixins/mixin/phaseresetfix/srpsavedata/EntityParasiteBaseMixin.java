@@ -17,7 +17,7 @@ public abstract class EntityParasiteBaseMixin extends EntityLiving {
             method = "onInitialSpawn",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z", remap = false)
     )
-    public boolean skipIfClient(boolean original){
+    public boolean srpmixins_skipIfClient(boolean original){
         return !this.world.isRemote && original;
     }
 }

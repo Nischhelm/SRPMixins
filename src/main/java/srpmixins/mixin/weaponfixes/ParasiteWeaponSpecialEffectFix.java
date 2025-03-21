@@ -21,7 +21,7 @@ public abstract class ParasiteWeaponSpecialEffectFix extends EntityMob {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/monster/EntityMob;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z", ordinal = 1),
             cancellable = true
     )
-    private void fixParasiteWeaponDmg(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
+    private void srpmixins_fixParasiteWeaponDmg(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
         //Return after super.attackEntityFrom
         cir.setReturnValue(super.attackEntityFrom(source, amount));
     }

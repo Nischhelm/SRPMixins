@@ -16,7 +16,7 @@ public class ItemEPClockMixin {
             method = "onItemRightClick",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData getPlayerData(World world, @Local(argsOnly = true) EntityPlayer player){
+    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityPlayer player){
         return SRPSaveDataInterface.get(world, player, null);
     }
 }

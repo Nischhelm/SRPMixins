@@ -13,7 +13,7 @@ public class ArmorAdaptationCancel {
             at = @At(value = "INVOKE", target = "Ljava/util/Iterator;hasNext()Z"),
             remap = false
     )
-    private boolean cancelOldHandling(boolean original){
+    private boolean srpmixins_cancelOldHandling(boolean original){
         return false;
     }
 }

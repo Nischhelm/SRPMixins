@@ -23,7 +23,7 @@ public abstract class SpawningBlacklistByBiome {
             remap = false,
             cancellable = true
     )
-    private static void blacklistBiomesAndDimensions(WorldServer worldServerIn, BlockPos pos, CallbackInfoReturnable<Biome.SpawnListEntry> cir){
+    private static void srpmixins_blacklistBiomesAndDimensions(WorldServer worldServerIn, BlockPos pos, CallbackInfoReturnable<Biome.SpawnListEntry> cir){
         int dim = worldServerIn.provider.getDimension();
         ArrayList<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(dim);
         if(biomeBlacklist == null) return;

@@ -21,7 +21,7 @@ public abstract class BombFix {
             remap = false,
             argsOnly = true
     )
-    private float fixProjDmg(float in){
+    private float srpmixins_fixProjDmg(float in){
         if(tntPlacedBy == null) return in;
         if(tntPlacedBy instanceof EntityJinjo) return in;
         int dimension = tntPlacedBy.dimension;

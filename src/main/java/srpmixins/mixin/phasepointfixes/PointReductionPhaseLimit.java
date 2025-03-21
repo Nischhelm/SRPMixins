@@ -21,7 +21,7 @@ public abstract class PointReductionPhaseLimit {
             remap = false,
             index = 1
     )
-    private int limitPointReduction(
+    private int srpmixins_limitPointReduction(
             int points,
             @Local(argsOnly = true, ordinal = 0) int dim,
             @Local(argsOnly = true, ordinal = 0) boolean isAdding,
@@ -30,7 +30,7 @@ public abstract class PointReductionPhaseLimit {
         //Default behavior if config disabled, increasing points, setting points, reducing points with carcasses
         if (points > 0 || !isAdding || canChangePhase)
             return points;
-        return getLimitedPoints(dim, points);
+        return srpmixins$getLimitedPoints(dim, points);
     }
 
     //Doesn't work with ModifyArg bc second argument is E, not int
@@ -39,7 +39,7 @@ public abstract class PointReductionPhaseLimit {
             at = @At(value = "INVOKE", target = "Ljava/util/ArrayList;set(ILjava/lang/Object;)Ljava/lang/Object;", ordinal = 0),
             remap = false
     )
-    private void limitPointReduction(Args args,
+    private void srpmixins_limitPointReduction(Args args,
                                      @Local(argsOnly = true, ordinal = 0) int dim,
                                      @Local(argsOnly = true, ordinal = 1) int points,
                                      @Local(argsOnly = true, ordinal = 0) boolean isAdding,
@@ -48,11 +48,11 @@ public abstract class PointReductionPhaseLimit {
         //Default behavior if config disabled, increasing points, setting points, reducing points with carcasses
         if (points > 0 || !isAdding || canChangePhase)
             return;
-        args.set(1, getLimitedPoints(dim, args.get(1)));
+        args.set(1, srpmixins$getLimitedPoints(dim, args.get(1)));
     }
 
     @Unique
-    private int getLimitedPoints(int dim, int currPoints){
+    private int srpmixins$getLimitedPoints(int dim, int currPoints){
         byte evolutionPhase = this.getEvolutionPhase(dim);
         int pointsMin = SRPConfigProvider.getPhaseMinPoints(evolutionPhase);
         //Limit to at least pointsMin

@@ -17,7 +17,7 @@ public abstract class SRPWorldEntitySpawnerMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) BlockPos blockPos){
+    private static SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) BlockPos blockPos){
         return SRPSaveDataInterface.get(world,null,blockPos);
     }
 }

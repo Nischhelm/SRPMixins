@@ -14,7 +14,7 @@ public abstract class ClientBloodmoonHandlerMixin {
             at=@At(value="INVOKE",target = "Lnet/minecraft/world/WorldProvider;getDimension()I"),
             remap=false
     )
-    private int bloodmoonInLCMixin(int original){
+    private int srpmixins_bloodmoonInLC(int original){
         if(SRPMixinsConfigHandler.modcompat.bloodmoonInLC && original == 111) return 0;
         return original;
     }

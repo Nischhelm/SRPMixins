@@ -18,7 +18,7 @@ public abstract class ParasiteEventEntityMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData getPlayerDataMixin(World world, @Local(argsOnly = true) EntityParasiteBase entityin){
+    private static SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityParasiteBase entityin){
         return SRPSaveDataInterface.get(world,null,entityin.getPosition());
     }
 
@@ -27,7 +27,7 @@ public abstract class ParasiteEventEntityMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData getPlayerDataMixin2(World world, @Local(argsOnly = true) EntityParasiteBase in){
+    private static SRPSaveData srpmixins_getPlayerData2(World world, @Local(argsOnly = true) EntityParasiteBase in){
         return SRPSaveDataInterface.get(world,null,in.getPosition());
     }
 
@@ -36,7 +36,7 @@ public abstract class ParasiteEventEntityMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData getPlayerDataMixin3(World world, @Local(argsOnly = true) EntityLivingBase entityIn){
+    private static SRPSaveData srpmixins_getPlayerData3(World world, @Local(argsOnly = true) EntityLivingBase entityIn){
         return SRPSaveDataInterface.get(world,null,entityIn.getPosition());
     }
 
@@ -45,7 +45,7 @@ public abstract class ParasiteEventEntityMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData getPlayerDataMixin4(World world, @Local(argsOnly = true) EntityLivingBase entityIn){
+    private static SRPSaveData srpmixins_getPlayerData4(World world, @Local(argsOnly = true) EntityLivingBase entityIn){
         return SRPSaveDataInterface.get(world,null,entityIn.getPosition());
     }
 
@@ -54,7 +54,7 @@ public abstract class ParasiteEventEntityMixin {
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData getPlayerDataMixin5(World world, @Local(argsOnly = true) EntityLivingBase entityIn){
+    private static SRPSaveData srpmixins_getPlayerData5(World world, @Local(argsOnly = true) EntityLivingBase entityIn){
         return SRPSaveDataInterface.get(world,null,entityIn.getPosition());
     }
 }

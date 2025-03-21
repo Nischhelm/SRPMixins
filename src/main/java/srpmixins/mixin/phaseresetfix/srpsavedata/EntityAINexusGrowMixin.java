@@ -17,7 +17,7 @@ public abstract class EntityAINexusGrowMixin {
             at = @At(value="FIELD",target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z"),
             remap = false
     )
-    private boolean fixPhaseReset(boolean original){
+    private boolean srpmixins_fixPhaseReset(boolean original){
         return !parent.getEntityWorld().isRemote && original;
     }
 }

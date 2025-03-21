@@ -20,7 +20,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
             remap = false
     )
-    private int increaseParasiteMobCap_checkNearby(int original) {
+    private int srpmixins_increaseParasiteMobCap_checkNearby(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
@@ -33,7 +33,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
             remap = false
     )
-    private int increaseParasiteMobCapPerPlayer_checkNearby(int original) {
+    private int srpmixins_increaseParasiteMobCapPerPlayer_checkNearby(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
@@ -46,7 +46,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
             remap = false
     )
-    private int increaseParasiteMobCap_placeWaves(int original) {
+    private int srpmixins_increaseParasiteMobCap_placeWaves(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
@@ -59,7 +59,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
             remap = false
     )
-    private int increaseParasiteMobCapPerPlayer_placeWaves(int original) {
+    private int srpmixins_increaseParasiteMobCapPerPlayer_placeWaves(int original) {
         int dimension = this.world.provider.getDimension();
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
