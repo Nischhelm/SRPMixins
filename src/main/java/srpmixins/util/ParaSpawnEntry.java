@@ -29,12 +29,20 @@ public class ParaSpawnEntry {
         this.points = points;
     }
 
-    public static List<ParaSpawnEntry> parseMobList(String[] list, boolean isSpawn){
+    public static List<ParaSpawnEntry> parseMobList(String[] list, boolean isSpawn) {
         List<ParaSpawnEntry> cache = new ArrayList<>();
-        for(String s : list){
+        for (String s : list) {
             String[] split = s.split(";");
-            if(isSpawn) cache.add(new ParaSpawnEntry(split[0], Integer.parseInt(split[2]), Integer.parseInt(split[1])));
-            else cache.add(new ParaSpawnEntry(split[0], Double.parseDouble(split[1]), Integer.parseInt(split[2])));
+            String name = split[0];
+            if (isSpawn) {
+                int min = Integer.parseInt(split[1]);
+                int max = split.length >= 3 ? Integer.parseInt(split[2]) : min;
+                cache.add(new ParaSpawnEntry(name, max, min));
+            } else {
+                double chance = Double.parseDouble(split[1]);
+                int points = split.length >= 3 ? Integer.parseInt(split[2]) : 0;
+                cache.add(new ParaSpawnEntry(name, chance, points));
+            }
         }
         return cache;
     }

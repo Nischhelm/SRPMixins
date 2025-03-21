@@ -13,7 +13,7 @@ import java.util.List;
 
 @Mixin(EntityDropPod.class)
 public abstract class EntityDropPodMixin {
-    @Unique private static List<ParaSpawnEntry> srpmixins$spawnEntries = null;
+    @Unique private static List<ParaSpawnEntry> srpmixins$spawnEntries_spawn = null;
 
     @WrapOperation(
             method = "selfExplode",
@@ -21,8 +21,8 @@ public abstract class EntityDropPodMixin {
             remap = false
     )
     private void srpmixins_sendSpawnEntries(EntityParasiteBase entity, String[] mobList, int particle, boolean cannotDespawn, String name, Operation<Void> original){
-        if(srpmixins$spawnEntries == null) srpmixins$spawnEntries = ParaSpawnEntry.parseMobList(mobList, true);
-        ParaSpawnEntry.setCurrentSpawnList(srpmixins$spawnEntries);
+        if(srpmixins$spawnEntries_spawn == null) srpmixins$spawnEntries_spawn = ParaSpawnEntry.parseMobList(mobList, true);
+        ParaSpawnEntry.setCurrentSpawnList(srpmixins$spawnEntries_spawn);
         original.call(entity, mobList, particle, cannotDespawn, name);
     }
 }

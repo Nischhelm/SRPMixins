@@ -18,8 +18,8 @@ import java.util.List;
 
 @Mixin(ParasiteEventEntity.class)
 public abstract class ParasiteEventEntityMixin_Summon {
-    @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList = null;
-    @Unique private static final String[] srpmixins$emptyList = {"","",""};
+    @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList_summonM1 = null;
+    @Unique private static final String[] srpmixins$emptyList_summonM1 = {"","",""};
     
     @Inject(
             method = "SummonM(Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase;[Ljava/lang/String;IDDDLnet/minecraft/entity/EntityLivingBase;Z)Z",
@@ -27,7 +27,7 @@ public abstract class ParasiteEventEntityMixin_Summon {
             remap = false
     )
     private static void srpmixins_getSpawnListValues(EntityParasiteBase entityin, String[] out, int range, double tx, double ty, double tz, EntityLivingBase target, boolean pod, CallbackInfoReturnable<Boolean> cir){
-        srpmixins$currentSpawnList = ParaSpawnEntry.getAndClearCurrentSpawnList();
+        srpmixins$currentSpawnList_summonM1 = ParaSpawnEntry.getAndClearCurrentSpawnList();
     }
 
     @WrapOperation(
@@ -36,8 +36,8 @@ public abstract class ParasiteEventEntityMixin_Summon {
             remap = false
     )
     private static String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original){
-        if(srpmixins$currentSpawnList == null) return original.call(instance, regex); //Default behavior
-        return srpmixins$emptyList;
+        if(srpmixins$currentSpawnList_summonM1 == null) return original.call(instance, regex); //Default behavior
+        return srpmixins$emptyList_summonM1;
     }
 
     @WrapOperation(
@@ -46,8 +46,8 @@ public abstract class ParasiteEventEntityMixin_Summon {
             remap = false
     )
     private static double srpmixins_dontParseSummonChance(String s, Operation<Double> original, @Local(ordinal = 1) int i){
-        if(srpmixins$currentSpawnList == null) return original.call(s); //Default behavior
-        return srpmixins$currentSpawnList.get(i).chance;
+        if(srpmixins$currentSpawnList_summonM1 == null) return original.call(s); //Default behavior
+        return srpmixins$currentSpawnList_summonM1.get(i).chance;
     }
 
     @WrapOperation(
@@ -56,8 +56,8 @@ public abstract class ParasiteEventEntityMixin_Summon {
             remap = false
     )
     private static int srpmixins_dontParseSummonPoints(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
-        if(srpmixins$currentSpawnList == null) return original.call(s); //Default behavior
-        return srpmixins$currentSpawnList.get(i).points;
+        if(srpmixins$currentSpawnList_summonM1 == null) return original.call(s); //Default behavior
+        return srpmixins$currentSpawnList_summonM1.get(i).points;
     }
 
     @ModifyArg(
@@ -65,8 +65,8 @@ public abstract class ParasiteEventEntityMixin_Summon {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ResourceLocation;<init>(Ljava/lang/String;)V")
     )
     private static String srpmixins_dontParseSummonMobId(String resourceName, @Local(ordinal = 1) int i){
-        if(srpmixins$currentSpawnList == null) return resourceName; //Default behavior
-        return srpmixins$currentSpawnList.get(i).mobid;
+        if(srpmixins$currentSpawnList_summonM1 == null) return resourceName; //Default behavior
+        return srpmixins$currentSpawnList_summonM1.get(i).mobid;
     }
 
     @Inject(
@@ -75,6 +75,6 @@ public abstract class ParasiteEventEntityMixin_Summon {
             remap = false
     )
     private static void srpmixins_removeCachedSpawnList(EntityParasiteBase entityin, String[] out, int range, double tx, double ty, double tz, EntityLivingBase target, boolean pod, CallbackInfoReturnable<Boolean> cir){
-        srpmixins$currentSpawnList = null;
+        srpmixins$currentSpawnList_summonM1 = null;
     }
 }

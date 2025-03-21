@@ -20,6 +20,7 @@
     "ParasiteEventEntityMixin_Summon2",
     "ParasiteEventEntityMixin_SummonBiomassBeckon",
     "ParasiteEventEntityMixin_SummonBiomassProjectile",
+    "ParasiteEventEntityMixin_SummonBlock",
     "SRPEventHandlerBusMixin_CamouflageItems",
     "SRPEventHandlerBusMixin_ParasiteGriefing",
     "SRPEventHandlerBusMixin_ParasiteLoot",

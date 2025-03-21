@@ -18,7 +18,7 @@ import java.util.Map;
 @Mixin(SRPEventHandlerBus.class)
 public abstract class SRPEventHandlerBusMixin_CamouflageItems {
     @Unique private static Map<String, Pair<Double, Integer>> srpmixins$camouflageItems = null;
-    @Unique private static final String[] srpmixins$emptyList = {"","",""};
+    @Unique private static final String[] srpmixins$emptyList_Camo = {"","",""};
 
     @Unique
     private static Pair<Double, Integer> srpmixins$getCamouflageProperties(String itemName){
@@ -54,7 +54,7 @@ public abstract class SRPEventHandlerBusMixin_CamouflageItems {
         if(srpmixins$getCamouflageProperties(itemName) != null)
             return new String[]{itemName,"",""};
         else
-            return srpmixins$emptyList;
+            return srpmixins$emptyList_Camo;
     }
 
     @WrapOperation(

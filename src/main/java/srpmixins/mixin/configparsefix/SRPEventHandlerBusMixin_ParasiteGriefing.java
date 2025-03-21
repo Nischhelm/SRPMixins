@@ -18,7 +18,7 @@ import java.util.Map;
 @Mixin(SRPEventHandlerBus.class)
 public abstract class SRPEventHandlerBusMixin_ParasiteGriefing {
     @Unique private static Map<String, Triple<Float, Integer, Integer>> srpmixins$mobGriefTasks = null;
-    @Unique private static final String[] srpmixins$emptyList = {"","","",""};
+    @Unique private static final String[] srpmixins$emptyList_Grief = {"","","",""};
     @Unique
     private static Triple<Float, Integer, Integer> srpmixins$getGriefingProperties(String itemName){
         if(srpmixins$mobGriefTasks == null){
@@ -54,7 +54,7 @@ public abstract class SRPEventHandlerBusMixin_ParasiteGriefing {
         if(srpmixins$getGriefingProperties(mobName) != null)
             return new String[]{mobName,"","",""};
         else
-            return srpmixins$emptyList;
+            return srpmixins$emptyList_Grief;
     }
 
     @WrapOperation(

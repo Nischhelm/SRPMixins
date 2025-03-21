@@ -60,6 +60,7 @@ Originally intended for SRParasites to work better with RLCraft
   - Made Assimilated Endermen always be able to despawn in the End Dimension, even when coming from COTH
 - Adds Biome specific blacklist for spawning parasites
 - Allows for turning SRP lists to proper wildcardable lists (safer to use but enabling this makes you have to go through all SRP configs and fixing them)
+- For performance, SRPMixins saves various results of String operations in cache instead of doing them over and over
 
 ### Tweaks intended for RLCraft
 - Lures are disabled in Lost Cities Dimension and turn to Dispatcher Nidus when trying to use them

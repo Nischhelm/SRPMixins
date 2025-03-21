@@ -17,7 +17,7 @@ import java.util.Map;
 
 @Mixin(ParasiteEventEntity.class)
 public abstract class ParasiteEventEntityMixin_BeckonSummon {
-    @Unique private static final Map<String, List<ParaSpawnEntry>> srpmixins$spawnEntries = new HashMap<>();
+    @Unique private static final Map<String, List<ParaSpawnEntry>> srpmixins$spawnEntries_summon_beckonNE = new HashMap<>();
 
     @WrapOperation(
             method = "spawnBeckonNE",
@@ -26,9 +26,9 @@ public abstract class ParasiteEventEntityMixin_BeckonSummon {
     )
     private static boolean srpmixins_sendSummonEntries(EntityParasiteBase entity, String[] mobList, int range, @Nullable EntityLivingBase target, Operation<Boolean> original){
         if(mobList.length == 1) {
-            if (!srpmixins$spawnEntries.containsKey(mobList[0]))
-                srpmixins$spawnEntries.put(mobList[0], ParaSpawnEntry.parseMobList(mobList, false));
-            ParaSpawnEntry.setCurrentSpawnList(srpmixins$spawnEntries.get(mobList[0]));
+            if (!srpmixins$spawnEntries_summon_beckonNE.containsKey(mobList[0]))
+                srpmixins$spawnEntries_summon_beckonNE.put(mobList[0], ParaSpawnEntry.parseMobList(mobList, false));
+            ParaSpawnEntry.setCurrentSpawnList(srpmixins$spawnEntries_summon_beckonNE.get(mobList[0]));
         }
         return original.call(entity, mobList, range, target);
     }

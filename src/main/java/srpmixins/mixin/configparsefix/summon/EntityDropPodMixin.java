@@ -15,7 +15,7 @@ import java.util.List;
 
 @Mixin(EntityDropPod.class)
 public abstract class EntityDropPodMixin {
-    @Unique private static List<ParaSpawnEntry> srpmixins$spawnEntries = null;
+    @Unique private static List<ParaSpawnEntry> srpmixins$spawnEntries_summon = null;
 
     @WrapOperation(
             method = "selfExplode",
@@ -23,8 +23,8 @@ public abstract class EntityDropPodMixin {
             remap = false
     )
     private boolean srpmixins_sendSummonEntries(EntityParasiteBase entity, String[] mobList, int range, double tx, double ty, double tz, @Nullable EntityLivingBase target, boolean pod, Operation<Boolean> original){
-        if(srpmixins$spawnEntries == null) srpmixins$spawnEntries = ParaSpawnEntry.parseMobList(mobList, false);
-        ParaSpawnEntry.setCurrentSpawnList(srpmixins$spawnEntries);
+        if(srpmixins$spawnEntries_summon == null) srpmixins$spawnEntries_summon = ParaSpawnEntry.parseMobList(mobList, false);
+        ParaSpawnEntry.setCurrentSpawnList(srpmixins$spawnEntries_summon);
         return original.call(entity, mobList, range, tx, ty, tz, target, pod);
     }
 }

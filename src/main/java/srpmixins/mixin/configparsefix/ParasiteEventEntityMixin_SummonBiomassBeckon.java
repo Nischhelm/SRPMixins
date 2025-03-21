@@ -19,8 +19,8 @@ import java.util.List;
 @Mixin(ParasiteEventEntity.class)
 //This is so stupid
 public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
-    @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList = null;
-    @Unique private static final String[] srpmixins$emptyList = {"","",""};
+    @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList_summonBeckon = null;
+    @Unique private static final String[] srpmixins$emptyList_summonBeckon = {"","",""};
     
     @Inject(
             method = "spawnBiomassFromBeckon",
@@ -28,7 +28,7 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
             remap = false
     )
     private static void srpmixins_getSpawnListValues(EntityParasiteBase entityin, int stage, EntityLivingBase target, boolean payfather, String[] ground, String[] air, CallbackInfoReturnable<Boolean> cir){
-        srpmixins$currentSpawnList = ParaSpawnEntry.getAndClearCurrentSpawnList();
+        srpmixins$currentSpawnList_summonBeckon = ParaSpawnEntry.getAndClearCurrentSpawnList();
     }
 
     @WrapOperation(
@@ -37,8 +37,8 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
             remap = false
     )
     private static String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original){
-        if(srpmixins$currentSpawnList == null) return original.call(instance, regex); //Default behavior
-        return srpmixins$emptyList;
+        if(srpmixins$currentSpawnList_summonBeckon == null) return original.call(instance, regex); //Default behavior
+        return srpmixins$emptyList_summonBeckon;
     }
 
     @WrapOperation(
@@ -47,8 +47,8 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
             remap = false
     )
     private static double srpmixins_dontParseSummonChance(String s, Operation<Double> original, @Local(ordinal = 1) int i){
-        if(srpmixins$currentSpawnList == null) return original.call(s); //Default behavior
-        return srpmixins$currentSpawnList.get(i).chance;
+        if(srpmixins$currentSpawnList_summonBeckon == null) return original.call(s); //Default behavior
+        return srpmixins$currentSpawnList_summonBeckon.get(i).chance;
     }
 
     @WrapOperation(
@@ -57,8 +57,8 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
             remap = false
     )
     private static int srpmixins_dontParseSummonPoints(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
-        if(srpmixins$currentSpawnList == null) return original.call(s); //Default behavior
-        return srpmixins$currentSpawnList.get(i).points;
+        if(srpmixins$currentSpawnList_summonBeckon == null) return original.call(s); //Default behavior
+        return srpmixins$currentSpawnList_summonBeckon.get(i).points;
     }
 
     @ModifyArg(
@@ -67,8 +67,8 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
             remap = false
     )
     private static String srpmixins_dontParseSummonMobId(String resourceName, @Local(ordinal = 1) int i){
-        if(srpmixins$currentSpawnList == null) return resourceName; //Default behavior
-        return srpmixins$currentSpawnList.get(i).mobid;
+        if(srpmixins$currentSpawnList_summonBeckon == null) return resourceName; //Default behavior
+        return srpmixins$currentSpawnList_summonBeckon.get(i).mobid;
     }
 
     @Inject(
@@ -77,6 +77,6 @@ public abstract class ParasiteEventEntityMixin_SummonBiomassBeckon {
             remap = false
     )
     private static void srpmixins_removeCachedSpawnList(EntityParasiteBase entityin, int stage, EntityLivingBase target, boolean payfather, String[] ground, String[] air, CallbackInfoReturnable<Boolean> cir){
-        srpmixins$currentSpawnList = null;
+        srpmixins$currentSpawnList_summonBeckon = null;
     }
 }

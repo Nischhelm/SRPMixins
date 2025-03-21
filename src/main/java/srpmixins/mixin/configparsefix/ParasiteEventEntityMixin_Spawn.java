@@ -5,6 +5,7 @@ import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -15,10 +16,11 @@ import srpmixins.util.ParaSpawnEntry;
 
 import java.util.List;
 
+@Debug(export = true)
 @Mixin(ParasiteEventEntity.class)
 public abstract class ParasiteEventEntityMixin_Spawn {
-    @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList = null;
-    @Unique private static final String[] srpmixins$emptyList = {"","",""};
+    @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList_spawnM = null;
+    @Unique private static final String[] srpmixins$emptyList_spawnM = {"","",""};
 
     @Inject(
             method = "spawnM",
@@ -26,7 +28,7 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             remap = false
     )
     private static void srpmixins_getSpawnListValues(EntityParasiteBase entityin, String[] out, int particle, boolean cannotDespawn, String name, CallbackInfo ci){
-        srpmixins$currentSpawnList = ParaSpawnEntry.getAndClearCurrentSpawnList();
+        srpmixins$currentSpawnList_spawnM = ParaSpawnEntry.getAndClearCurrentSpawnList();
     }
 
     @WrapOperation(
@@ -35,8 +37,8 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             remap = false
     )
     private static String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original){
-        if(srpmixins$currentSpawnList == null) return original.call(instance, regex); //Default behavior
-        return srpmixins$emptyList;
+        if(srpmixins$currentSpawnList_spawnM == null) return original.call(instance, regex); //Default behavior
+        return srpmixins$emptyList_spawnM;
     }
 
     @WrapOperation(
@@ -45,8 +47,8 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             remap = false
     )
     private static int srpmixins_dontParseSpawnMaxCount(String s, Operation<Integer> original, @Local(ordinal = 2) int i){
-        if(srpmixins$currentSpawnList == null) return original.call(s); //Default behavior
-        return srpmixins$currentSpawnList.get(i).maxCount;
+        if(srpmixins$currentSpawnList_spawnM == null) return original.call(s); //Default behavior
+        return srpmixins$currentSpawnList_spawnM.get(i).maxCount;
     }
 
     @WrapOperation(
@@ -55,8 +57,8 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             remap = false
     )
     private static int srpmixins_dontParseSpawnMinCount(String s, Operation<Integer> original, @Local(ordinal = 2) int i){
-        if(srpmixins$currentSpawnList == null) return original.call(s); //Default behavior
-        return srpmixins$currentSpawnList.get(i).minCount;
+        if(srpmixins$currentSpawnList_spawnM == null) return original.call(s); //Default behavior
+        return srpmixins$currentSpawnList_spawnM.get(i).minCount;
     }
 
     @ModifyArg(
@@ -64,8 +66,8 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ResourceLocation;<init>(Ljava/lang/String;)V")
     )
     private static String srpmixins_dontParseSpawnMobId(String resourceName, @Local(ordinal = 2) int i){
-        if(srpmixins$currentSpawnList == null) return resourceName; //Default behavior
-        return srpmixins$currentSpawnList.get(i).mobid;
+        if(srpmixins$currentSpawnList_spawnM == null) return resourceName; //Default behavior
+        return srpmixins$currentSpawnList_spawnM.get(i).mobid;
     }
 
     @Inject(
@@ -74,6 +76,6 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             remap = false
     )
     private static void srpmixins_removeCachedSpawnList(EntityParasiteBase entityin, String[] out, int particle, boolean cannotDespawn, String name, CallbackInfo ci){
-        srpmixins$currentSpawnList = null;
+        srpmixins$currentSpawnList_spawnM = null;
     }
 }
