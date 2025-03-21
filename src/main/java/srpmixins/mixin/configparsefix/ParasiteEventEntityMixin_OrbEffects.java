@@ -25,11 +25,7 @@ public abstract class ParasiteEventEntityMixin_OrbEffects {
             cancellable = true
     )
     private static void orbApplyEffects(EntityLivingBase target, EntityParasiteBase orbCreator, String[] unused, int mobCount, CallbackInfo ci) {
-        int paraId = orbCreator.getParasiteIDRegister();
-        if (paraId == 37 && orbCreator instanceof EntityWymo)
-            paraId = SRPConfigProvider.WYMO_FAKEID; //WYMO fix with fake id
-
-        List<ParaOrbEffect> orbEffects = SRPConfigProvider.orbEffects.get(paraId);
+        List<ParaOrbEffect> orbEffects = SRPConfigProvider.orbEffects.get(orbCreator.getParasiteIDRegister());
         if (orbEffects == null) return; //other mobs not from base SRP -> fallback to default less performant behavior
 
         boolean targetIsPara = target instanceof EntityParasiteBase;

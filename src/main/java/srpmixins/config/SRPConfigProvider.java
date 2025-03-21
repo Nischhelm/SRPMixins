@@ -68,7 +68,6 @@ public class SRPConfigProvider {
     public static final Map<Integer, List<Integer>> evolutionStartPerDimension = new HashMap<>();
     public static final List<Integer> lockedParasites = new ArrayList<>();
 
-    public static final int WYMO_FAKEID = 87897779;
     public static final Map<Integer, List<Triple<ItemStack, Integer, Boolean>>> lootPools = new HashMap<>();
     public static final Map<Integer, List<ParaOrbEffect>> orbEffects = new HashMap<>();
 
@@ -128,7 +127,7 @@ public class SRPConfigProvider {
             lootTableConfigs.put(33, SRPConfigMobs.ganroLoot);
             lootTableConfigs.put(34, SRPConfigMobs.pod1Loot);
             lootTableConfigs.put(36, SRPConfigMobs.kolLoot);
-            lootTableConfigs.put(37, SRPConfigMobs.shycoLoot);
+            lootTableConfigs.put(37, SRPConfigMobs.wymoLoot);
             lootTableConfigs.put(38, SRPConfigMobs.arachnidaLoot);
             lootTableConfigs.put(39, SRPConfigMobs.inhooSLoot);
             lootTableConfigs.put(40, SRPConfigMobs.infadventurerLoot);
@@ -192,8 +191,6 @@ public class SRPConfigProvider {
             lootTableConfigs.put(307, SRPConfigMobs.infsquidLoot);
             lootTableConfigs.put(309, SRPConfigMobs.hebluLoot);
 
-            lootTableConfigs.put(WYMO_FAKEID, SRPConfigMobs.wymoLoot); //incorrect parasite id but WYMO doesn't have its own id
-
             for (Map.Entry<Integer, String[]> entry : lootTableConfigs.entrySet()) {
                 List<Triple<ItemStack, Integer, Boolean>> dropList = new ArrayList<>();
                 for (String s : entry.getValue()) {
@@ -226,6 +223,7 @@ public class SRPConfigProvider {
             orbConfigData.put(17, SRPConfigMobs.zetmoOrbEffects);
             orbConfigData.put(25, SRPConfigMobs.angedOrbEffects);
             orbConfigData.put(33, SRPConfigMobs.ganroOrbEffects);
+            orbConfigData.put(37, SRPConfigMobs.wymoOrbEffects);
             orbConfigData.put(38, SRPConfigMobs.arachnidaOrbEffects);
             orbConfigData.put(50, SRPConfigMobs.esorOrbEffects);
             orbConfigData.put(51, SRPConfigMobs.shycoadaptedOrbEffects);
@@ -241,8 +239,6 @@ public class SRPConfigProvider {
             orbConfigData.put(87, SRPConfigMobs.pheonOrbEffects);
             orbConfigData.put(88, SRPConfigMobs.vestaOrbEffects);
             orbConfigData.put(92, SRPConfigMobs.ikiOrbEffects);
-
-            orbConfigData.put(WYMO_FAKEID, SRPConfigMobs.wymoOrbEffects); //fake id for WYMO bc it doesn't have its own
 
             for (Map.Entry<Integer, String[]> entry : orbConfigData.entrySet()) {
                 List<ParaOrbEffect> orbEffectList = new ArrayList<>();

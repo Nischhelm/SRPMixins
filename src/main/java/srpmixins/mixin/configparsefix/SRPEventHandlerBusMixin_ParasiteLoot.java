@@ -28,10 +28,7 @@ public abstract class SRPEventHandlerBusMixin_ParasiteLoot {
             remap = false
     )
     private void srpmixins_overwriteLootPoolLogic(SRPEventHandlerBus instance, LivingDropsEvent event, String[] drop, Operation<Void> original, @Local EntityParasiteBase parasite) {
-        int paraId = parasite.getParasiteIDRegister();
-        if(paraId == 37 && parasite instanceof EntityWymo)
-            paraId = SRPConfigProvider.WYMO_FAKEID; //hotfix for WYMO id being duplicated without overwriting it fully
-        List<Triple<ItemStack, Integer, Boolean>> lootPool = SRPConfigProvider.lootPools.get(paraId);
+        List<Triple<ItemStack, Integer, Boolean>> lootPool = SRPConfigProvider.lootPools.get(parasite.getParasiteIDRegister());
         if (lootPool == null) {
             //Default behavior
             original.call(instance, event, drop);
