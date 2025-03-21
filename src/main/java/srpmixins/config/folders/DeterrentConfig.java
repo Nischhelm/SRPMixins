@@ -44,4 +44,9 @@ public class DeterrentConfig {
     @Config.Name("Fix Infested Block Reversion")
     @Config.RequiresMcRestart
     public boolean fixInfestedBlockReversion = true;
+
+    @Config.Comment("SRP only uses the Beckon Stage III Infestation Limits (in SRParasitesMobs.cfg) instead of limiting the infestation spread by beckon stage, essentially ignoring the stage I and stage II config values. This fixes it.")
+    @Config.Name("Fix Block Infestation Limit")
+    @Config.RequiresMcRestart
+    public boolean fixInfestedBlockLimit = true;
 }
