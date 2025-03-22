@@ -1,7 +1,6 @@
 package srpmixins.config;
 
 import srpmixins.SRPMixins;
-import srpmixins.SRPMixinsPlugin;
 
 import java.io.File;
 import java.nio.file.Files;

@@ -15,12 +15,13 @@ import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.NexusSpawnSounds;
 import srpmixins.handlers.ParasiteDropChance;
+import srpmixins.handlers.SRPArmorBowEvolutionHandler;
 import srpmixins.util.CompatUtil;
 
 @Mod(modid = SRPMixins.MODID, version = SRPMixins.VERSION, name = SRPMixins.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.5.4";
+    public static final String VERSION = "2.5.5";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean completedLoading = false;
@@ -41,6 +42,9 @@ public class SRPMixins {
             CapabilityAdaptationHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(CapabilityAdaptationHandler.EventHandler.class);
         }
+
+        if(SRPMixinsConfigHandler.weapons.addArmorBowEvolution)
+            MinecraftForge.EVENT_BUS.register(SRPArmorBowEvolutionHandler.class);
     }
 
     @Mod.EventHandler

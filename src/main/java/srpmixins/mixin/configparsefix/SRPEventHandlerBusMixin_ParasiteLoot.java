@@ -1,7 +1,6 @@
 package srpmixins.mixin.configparsefix;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
-import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityWymo;
 import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;

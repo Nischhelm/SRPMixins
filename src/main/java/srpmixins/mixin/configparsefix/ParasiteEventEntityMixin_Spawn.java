@@ -5,7 +5,6 @@ import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -16,7 +15,6 @@ import srpmixins.util.ParaSpawnEntry;
 
 import java.util.List;
 
-@Debug(export = true)
 @Mixin(ParasiteEventEntity.class)
 public abstract class ParasiteEventEntityMixin_Spawn {
     @Unique private static List<ParaSpawnEntry> srpmixins$currentSpawnList_spawnM = null;

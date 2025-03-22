@@ -1,7 +1,6 @@
 package srpmixins.mixin.configparsefix;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
-import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityWymo;
 import com.dhanantry.scapeandrunparasites.init.SRPPotions;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import net.minecraft.entity.EntityLivingBase;

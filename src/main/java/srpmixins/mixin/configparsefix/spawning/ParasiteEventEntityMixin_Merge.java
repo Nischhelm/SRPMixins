@@ -6,7 +6,6 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -23,6 +22,8 @@ import java.util.Map;
 public abstract class ParasiteEventEntityMixin_Merge {
     @Unique private static Map<Integer, String> srpmixins$mergeMap = null;
     @Unique private static List<String> srpmixins$mergeList = null;
+    @Unique private static final String[] srpmixins$emptyList = {"",""};
+    @Unique private static Integer srpmixins$selectedMergeIndex = null;
     @Unique private static String srpmixins$getMergedEntity(int index, boolean fromList){
         if(srpmixins$mergeMap == null){
             srpmixins$mergeMap = new HashMap<>();
@@ -42,7 +43,7 @@ public abstract class ParasiteEventEntityMixin_Merge {
             remap = false
     )
     private static String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original){
-        return new String[]{""};
+        return srpmixins$emptyList;
     }
 
     @Redirect(
@@ -51,7 +52,7 @@ public abstract class ParasiteEventEntityMixin_Merge {
             remap = false
     )
     private static int srpmixins_onlyLoopOnce(String[] array){
-        return Math.max(array.length, 1);
+        return Math.min(array.length, 1);
     }
 
     @WrapOperation(
@@ -60,7 +61,11 @@ public abstract class ParasiteEventEntityMixin_Merge {
             remap = false
     )
     private static int srpmixins_dontParseIndex(String s, Operation<Integer> original, @Local(argsOnly = true) int code){
-        if(srpmixins$getMergedEntity(code, false) != null) return code;
+        //If map has an entry for code, return code to write into index, otherwise return -999 to never pass the next check and instead do the random fallback from SRP
+        if(srpmixins$getMergedEntity(code, false) != null){
+            srpmixins$selectedMergeIndex = code;
+            return code;
+        }
         return -999;
     }
 
@@ -70,6 +75,10 @@ public abstract class ParasiteEventEntityMixin_Merge {
             remap = false
     )
     private static void srpmixins_sendSpawnEntries(EntityParasiteBase total, String[] parasite, int entityout, boolean max, String min, Operation<Void> original, @Local(ordinal = 1) int index){
-        ParaSpawnEntry.setCurrentSpawnList(new ParaSpawnEntry(srpmixins$getMergedEntity(index, true), 1, 1));
+        if(srpmixins$selectedMergeIndex != null) ParaSpawnEntry.setCurrentSpawnList(new ParaSpawnEntry(srpmixins$getMergedEntity(srpmixins$selectedMergeIndex, false), 1, 1));
+        else ParaSpawnEntry.setCurrentSpawnList(new ParaSpawnEntry(srpmixins$getMergedEntity(index, true), 1, 1));
+
+        original.call(total, parasite, entityout, max, min);
+        srpmixins$selectedMergeIndex = null;
     }
 }
