@@ -8,3 +8,8 @@ srpmixins.bloodyclock.seconds=%ss
 srpmixins.bloodyclock.phaseminustwo=Evolution disabled
 srpmixins.bloodyclock.phaseminusone=Not yet infested
 srpmixins.bloodyclock.phasemaximum=What have you done?
+
+enchantment.parasite_piercer=Parasite Piercer
+enchantment.srpmixins.parasite_piercer.desc=Gives a chance to ignore Parasites Damage Cap.
+enchantment.parasite_slicer=Parasite Slicer
+enchantment.srpmixins.parasite_slicer.desc=Increases Damage against Parasites.

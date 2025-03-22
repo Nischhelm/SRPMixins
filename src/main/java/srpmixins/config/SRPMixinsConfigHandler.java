@@ -34,6 +34,10 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("Dimension Multipliers")
 	public static final DimensionConfig dimension = new DimensionConfig();
 
+	@Config.Comment("Enchantment Options")
+	@Config.Name("Enchantments")
+	public static final EnchantmentConfig enchantments = new EnchantmentConfig();
+
 	@Config.Comment("Lure and Carcass Options")
 	@Config.Name("Lures and Carcasses")
 	public static final LureConfig lures = new LureConfig();

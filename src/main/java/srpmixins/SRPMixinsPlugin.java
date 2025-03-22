@@ -16,6 +16,9 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srparasites.json", true);
 
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.enchantment_piercer.json", () -> EarlyConfigReader.getBoolean("Parasite Piercer - Enabled", SRPMixinsConfigHandler.enchantments.piercer.enabled));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.enchantment_slicer.json", () -> EarlyConfigReader.getBoolean("Parasite Slicer - Enabled", SRPMixinsConfigHandler.enchantments.slicer.enabled));
+
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adaptationbonusfix.json", () -> EarlyConfigReader.getBoolean("Fix Adaptation Bonus Config", SRPMixinsConfigHandler.adaptation.fixAdaptationBonusList));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adaptationoverhaul.json", () -> EarlyConfigReader.getBoolean("Overhaul Adaptation", SRPMixinsConfigHandler.adaptation.overhaulAdaptation));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adaptedinstadespawnpenalty.json", () -> EarlyConfigReader.getBoolean("Fix Adapted Penalty on Instant Despawn", SRPMixinsConfigHandler.phasepoints.fixAdaptedPenaltyInstantDespawn));
