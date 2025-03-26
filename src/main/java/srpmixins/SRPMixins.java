@@ -1,6 +1,10 @@
 package srpmixins;
 
+import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfSquid;
+import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityLum;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -21,7 +25,7 @@ import srpmixins.util.CompatUtil;
 @Mod(modid = SRPMixins.MODID, version = SRPMixins.VERSION, name = SRPMixins.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.5.6";
+    public static final String VERSION = "2.5.7";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean completedLoading = false;
@@ -60,7 +64,10 @@ public class SRPMixins {
         SRPConfigProvider.postInit();
 
         completedLoading = true;
+
+        if(SRPMixinsConfigHandler.waterparas.enableWaterSpawns) {
+            EntitySpawnPlacementRegistry.setPlacementType(EntityInfSquid.class, EntityLiving.SpawnPlacementType.IN_WATER);
+            EntitySpawnPlacementRegistry.setPlacementType(EntityLum.class, EntityLiving.SpawnPlacementType.IN_WATER);
+        }
     }
-
-
 }

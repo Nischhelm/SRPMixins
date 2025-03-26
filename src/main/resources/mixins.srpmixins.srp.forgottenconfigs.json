@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.forgottenconfigs",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "BeckonCooldownIgnore",
+    "BeckonGrowPenalty",
+    "CropGrowStunned",
+    "DefaultPhases",
+    "KillCountDimensionBlacklist",
+    "KillCountPlus",
+    "KyphosisXPValue",
+    "MergeHealth",
+    "MobAttributes",
+    "MobSpawningCOTH",
+    "PhaseDelay",
+    "PhaseResidue",
+    "PreeminentRemain",
+    "ScentBonus",
+    "ScentReactionBonus",
+    "SentryXPValue",
+    "SpawnRates"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

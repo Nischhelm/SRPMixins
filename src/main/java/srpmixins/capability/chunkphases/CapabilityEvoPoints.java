@@ -385,7 +385,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         int index = instanceAccessor().getSimRegId().indexOf((byte) id);
         if(index != -1)
             return instanceAccessor().getSimRegIdTimes().get(index);
-        return -1;
+        return SRPMixinsConfigHandler.coth.fixMinAssimilations ? 0 : -1;
     }
 
     @Override

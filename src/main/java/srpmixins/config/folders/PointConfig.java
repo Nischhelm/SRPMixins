@@ -48,9 +48,4 @@ public class PointConfig {
     @Config.Name("Fix Adapted Penalty on Instant Despawn")
     @Config.RequiresMcRestart
     public boolean fixAdaptedPenaltyInstantDespawn = true;
-
-    @Config.Comment("SRP has a default value per dimension of whether it should be able to gain or lose points. However, those values are unused. This fixes it")
-    @Config.Name("Fix default canGain/Lose")
-    @Config.RequiresMcRestart
-    public boolean fixDefaultGainLoss = true;
 }

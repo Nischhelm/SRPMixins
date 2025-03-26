@@ -7,15 +7,12 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
-import net.minecraftforge.common.config.Config;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import srpmixins.ModEnchantments;
 import srpmixins.config.SRPMixinsConfigHandler;
 
-@Debug(export = true)
 @Mixin(EntityParasiteBase.class)
 public abstract class EntityParasiteBaseMixin_ParasitePiercer {
     @ModifyVariable(

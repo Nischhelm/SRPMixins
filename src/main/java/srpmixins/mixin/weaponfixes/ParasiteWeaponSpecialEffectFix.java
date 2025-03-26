@@ -1,12 +1,12 @@
 package srpmixins.mixin.weaponfixes;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Cancellable;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(EntityParasiteBase.class)
@@ -16,13 +16,13 @@ public abstract class ParasiteWeaponSpecialEffectFix extends EntityMob {
         super(worldIn);
     }
 
-    @Inject(
+    @ModifyExpressionValue(
             method = "attackEntityFrom",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/monster/EntityMob;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z", ordinal = 1),
-            cancellable = true
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/monster/EntityMob;attackEntityFrom(Lnet/minecraft/util/DamageSource;F)Z")
     )
-    private void srpmixins_fixParasiteWeaponDmg(DamageSource source, float amount, CallbackInfoReturnable<Boolean> cir) {
-        //Return after super.attackEntityFrom
-        cir.setReturnValue(super.attackEntityFrom(source, amount));
+    private boolean srpmixins_fixParasiteWeaponDmg(boolean original, @Cancellable CallbackInfoReturnable<Boolean> cir) {
+        //Return after all super.attackEntityFrom's
+        cir.setReturnValue(original);
+        return original;
     }
 }

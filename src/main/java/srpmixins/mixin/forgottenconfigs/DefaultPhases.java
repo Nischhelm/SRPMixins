@@ -1,4 +1,4 @@
-package srpmixins.mixin.features;
+package srpmixins.mixin.forgottenconfigs;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
@@ -7,10 +7,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Constant;
+import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import srpmixins.config.SRPConfigProvider;
 
 @Mixin(SRPSaveData.class)
-public abstract class FixDefaultGainLoss {
+public abstract class DefaultPhases {
     @WrapOperation(
             method = "createData",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setEvolutionPhase(IBZLnet/minecraft/world/World;Z)Z"),
@@ -38,5 +40,23 @@ public abstract class FixDefaultGainLoss {
 
         //Default behavior SRPSaveData.setEvolutionPhase
         return original.call(data, dim, phase, override, world, canChangePhase);
+    }
+
+    @ModifyConstant(
+            method = "addDim",
+            constant = @Constant(intValue = 0, ordinal = 1),
+            remap = false
+    )
+    private static int srpmixins_fixDefaultPhase(int constant){
+        return SRPConfigSystems.defaultEvoPhase;
+    }
+
+    @ModifyConstant(
+            method = "addDim",
+            constant = @Constant(intValue = 0, ordinal = 3),
+            remap = false
+    )
+    private static int srpmixins_fixDefaultPoints(int constant){
+        return SRPConfigSystems.defaultEvoPoints;
     }
 }

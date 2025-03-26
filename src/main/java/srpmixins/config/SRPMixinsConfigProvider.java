@@ -1,7 +1,9 @@
 package srpmixins.config;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import scala.Int;
 import srpmixins.SRPMixins;
+import srpmixins.util.SRPSaveDataInterface;
 
 import java.util.*;
 
@@ -24,6 +26,8 @@ public class SRPMixinsConfigProvider {
     public static int chunkPhasesSpacing = SRPMixinsConfigHandler.chunkphases.chunkSpacing;
     public static int chunkPhasesHalfSpacing = chunkPhasesSpacing >> 1; //Spacing divided by two and truncated (so it's different for odd vs even spacing)
     public static boolean chunkPhasesSpacingIsOdd = (chunkPhasesSpacing & 1) == 1;
+
+    public static final Map<Integer, Integer> minFeralisations = new HashMap<>();
 
     public static void init(){
         setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMixinsConfigHandler.dimension.dimensionHealthMultipliers);
@@ -48,6 +52,15 @@ public class SRPMixinsConfigProvider {
 
         for(int dimId : SRPMixinsConfigHandler.chunkphases.dimensionBlacklist)
             chunkPhasesDimensionBlacklist.add(dimId);
+
+        for(String s : SRPMixinsConfigHandler.coth.minFeralisations){
+            String[] split = s.split(",");
+            if(split.length == 2) {
+                int paraId = Integer.parseInt(split[0].trim());
+                int count = Integer.parseInt(split[1].trim());
+                minFeralisations.put(paraId, count);
+            } else SRPMixins.LOGGER.info("SRPMixins unable to parse Min Feralisation line. Expected pattern: int, int, found {}",s);
+        }
     }
 
     public static void reset(){

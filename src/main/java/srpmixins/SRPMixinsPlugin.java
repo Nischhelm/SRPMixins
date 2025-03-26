@@ -35,13 +35,15 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cooldownbypass.json", () -> EarlyConfigReader.getBoolean("Fix Carcasses not working during cooldown", SRPMixinsConfigHandler.lures.fixCarcassDuringCooldown));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.cothimmunityfix.json", () -> EarlyConfigReader.getBoolean("Fix srpcothimmunity tag", SRPMixinsConfigHandler.coth.fixSrpCothImmunity));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.damagefix.json", () -> EarlyConfigReader.getBoolean("Damage Fix: Global switch", SRPMixinsConfigHandler.dmgfix.doDamageFixes));
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.defaultgainlossfix.json", () -> EarlyConfigReader.getBoolean("Fix default canGain/Lose", SRPMixinsConfigHandler.phasepoints.fixDefaultGainLoss));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.dimensionmultis.json", () -> EarlyConfigReader.getBoolean("Parasite Stat+Drop Multiplier: Global switch", SRPMixinsConfigHandler.dimension.doMultipliers));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.disablescentdebug.json", () -> EarlyConfigReader.getBoolean("Disable Scent Debug", SRPMixinsConfigHandler.various.disableScentDebug));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.flatsleeppenalty.json", () -> EarlyConfigReader.getBoolean("Flat sleep point penalty", SRPMixinsConfigHandler.phasepoints.flatSleepPenalty));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.forgottenconfigs.json", () -> EarlyConfigReader.getBoolean("Use Forgotten Configs", SRPMixinsConfigHandler.various.useForgottenConfigs));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infsquidcap.json", () -> EarlyConfigReader.getInt("Water Parasite Mob Cap", SRPMixinsConfigHandler.waterparas.waterParasiteCap) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.lurecooldownstack.json", () -> EarlyConfigReader.getBoolean("Lures stack cooldown", SRPMixinsConfigHandler.lures.lureCooldownStacking));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.lureoverflowfix.json", () -> EarlyConfigReader.getBoolean("Fix Cooldown Overflow", SRPMixinsConfigHandler.lures.fixCooldownOverflow));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.modifiedclock.json", () -> EarlyConfigReader.getBoolean("Bloody Clock percentage", SRPMixinsConfigHandler.phasepoints.modifyBloodyClock));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.minassimilations.json", () -> EarlyConfigReader.getBoolean("Fix Min Assimilations Zero", SRPMixinsConfigHandler.coth.fixMinAssimilations));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.needlerfix.json", () -> EarlyConfigReader.getBoolean("Needler Fix", SRPMixinsConfigHandler.various.fixNeedler));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.nexuscap.json", () -> EarlyConfigReader.getInt("Nexus Mob Cap", SRPMixinsConfigHandler.deterrents.nexusCap) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.noderesetfix.json", () -> EarlyConfigReader.getBoolean("Fix Node Resets", SRPMixinsConfigHandler.phasepoints.fixNodeResets));
@@ -53,10 +55,13 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.sentnbtlossfix.json", () -> EarlyConfigReader.getBoolean("Fix parasite weapon evolution NBT loss", SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermancap.json", () -> EarlyConfigReader.getInt("End Simmermen Conversion Cap", SRPMixinsConfigHandler.simmermen.endSimmermenCap) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermandespawn.json", () -> EarlyConfigReader.getBoolean("End Simmermen despawn", SRPMixinsConfigHandler.simmermen.despawnEndSimmermen));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.squidtargeting.json", () -> EarlyConfigReader.getBoolean("Water Parasites Target Squids", SRPMixinsConfigHandler.waterparas.parasTargetSquids));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.variablecarcasses.json", () -> EarlyConfigReader.getBoolean("Phase dependent Carcass Values", SRPMixinsConfigHandler.lures.variableCarcassValues));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.waterspawns.json", () -> EarlyConfigReader.getBoolean("Enable Water Spawns", SRPMixinsConfigHandler.waterparas.enableWaterSpawns));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.weapondamage.json", () -> EarlyConfigReader.getBoolean("Fix parasite weapon damage", SRPMixinsConfigHandler.weapons.fixParasiteDmg));
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermantp.json", true);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.minferalisations.json", true);
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.customphasemechanics.json", () -> EarlyConfigReader.getBoolean("Use Player Phases", SRPMixinsConfigHandler.playerphases.enabled) || EarlyConfigReader.getBoolean("Use Chunk Phases", SRPMixinsConfigHandler.chunkphases.enabled));
 

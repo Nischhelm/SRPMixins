@@ -62,6 +62,10 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("Various")
 	public static final VariousConfig various = new VariousConfig();
 
+	@Config.Comment("Options for Assimilated Squids and Primitive Devourers")
+	@Config.Name("Water Parasites")
+	public static final WaterParaConfig waterparas = new WaterParaConfig();
+
 	@Config.Comment("Living and Sentient Weapon Options")
 	@Config.Name("SRP Weapons")
 	public static final WeaponConfig weapons = new WeaponConfig();
