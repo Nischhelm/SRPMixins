@@ -1,5 +1,6 @@
 package srpmixins.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class DeterrentConfig {
@@ -37,16 +38,19 @@ public class DeterrentConfig {
     @Config.Comment("Deny Stage 3 Beckons growing up if a Stage 4 Beckon is already nearby (20 blocks distance)")
     @Config.Name("Limit Stage 4 Beckons")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckonupgradedeny.json")
     public boolean limitStage4Beckons = true;
 
     @Config.Comment("Fix beckons reverting all the infested blocks around them on stage increase if evolution is disabled.\n" +
             "This also fixes dying higher stage beckons reverting infested blocks (if evolution is disabled) ignoring the SRP config \"Reinforcement System Block Revert Stage\" value, which would only allow reversion if the infested blocks were made by beckons with stage lower or equal to the config value.")
     @Config.Name("Fix Infested Block Reversion")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckoninfestationfix.json")
     public boolean fixInfestedBlockReversion = true;
 
     @Config.Comment("SRP only uses the Beckon Stage III Infestation Limits (in SRParasitesMobs.cfg) instead of limiting the infestation spread by beckon stage, essentially ignoring the stage I and stage II config values. This fixes it.")
     @Config.Name("Fix Block Infestation Limit")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckoninfestationlimit.json")
     public boolean fixInfestedBlockLimit = true;
 }

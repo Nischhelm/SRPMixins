@@ -1,5 +1,6 @@
 package srpmixins.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class AdaptationConfig {
@@ -8,6 +9,7 @@ public class AdaptationConfig {
             "- When combining living+sentient gear, will use the point multiplier of each armor piece instead of using the last checked one.")
     @Config.Name("Overhaul Adaptation")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationoverhaul.json")
     public boolean overhaulAdaptation = true;
 
     @Config.Comment("If adapting during an attack with no immediate attacker entity, SRP adapts to \"\". This fixes that bug")
@@ -20,5 +22,7 @@ public class AdaptationConfig {
 
     @Config.Comment("SRPConfig has a list \"Adaptation Bonus\" which isn't read properly and will crash if filled with entries. This fixes it.")
     @Config.Name("Fix Adaptation Bonus Config")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationbonusfix.json")
     public boolean fixAdaptationBonusList = true;
 }

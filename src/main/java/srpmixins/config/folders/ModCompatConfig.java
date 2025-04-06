@@ -1,17 +1,23 @@
 package srpmixins.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class ModCompatConfig {
-    @Config.Comment("Enable BloodMoon tweaks (don't set this to true if your modpack doesn't have BloodMoon, otherwise it will crash)")
-    @Config.Name("Compat: Modpack has Bloodmoon mod")
+    @Config.Comment("Set to false to disable all bloodmoon related tweaks")
+    @Config.Name("Enable Bloodmoon tweaks")
     @Config.RequiresMcRestart
-    public boolean hasBloodmoon = false;
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.bloodmoon.json")
+    @MixinConfig.CompatHandling(modid = "bloodmoon")
+    @MixinConfig.CompatHandling(modid = "lostcities")
+    public boolean enableBloodmoon = false;
 
-    @Config.Comment("Enable LostCities tweaks (don't set this to true if your modpack doesn't have LostCities, otherwise it will crash)")
-    @Config.Name("Compat: Modpack has LostCities mod")
+    @Config.Comment("Set to false to disable all lost cities related tweaks. This also disables the bloodmoon tweaks as they only work inside the lost cities")
+    @Config.Name("Enable Lost Cities tweaks")
     @Config.RequiresMcRestart
-    public boolean hasLostCities = false;
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.lostcities.json")
+    @MixinConfig.CompatHandling(modid = "lostcities")
+    public boolean enableLostCities = false;
 
     @Config.Comment("Disable Lures in LC and instead spawn a Dispatcher Nidus")
     @Config.Name("Lures disabled in LC")

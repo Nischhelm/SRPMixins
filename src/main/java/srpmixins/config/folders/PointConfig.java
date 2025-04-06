@@ -1,11 +1,13 @@
 package srpmixins.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class PointConfig {
     @Config.Comment("Bloody Clock also displays progress to next phase in percent")
     @Config.Name("Bloody Clock percentage")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.modifiedclock.json")
     public boolean modifyBloodyClock = true;
 
     @Config.Comment("If Bloody CLock percentage is true, also show point cooldown when using the clock")
@@ -15,6 +17,7 @@ public class PointConfig {
     @Config.Comment("Only give one penalty of evolution phase points when players sleep instead of a penalty per sleeping player (if player phases off)")
     @Config.Name("Flat sleep point penalty")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.flatsleeppenalty.json")
     public boolean flatSleepPenalty = true;
 
     @Config.Comment("Players can only get point penalty from adapted mobs despawning from this phase onwards (disable with -1, needs MC restart for full disable)")
@@ -32,20 +35,24 @@ public class PointConfig {
     @Config.Comment("Limit point reduction from parasite kills to the min point value for each phase, stopping unintended phase decreases")
     @Config.Name("Fix phase point reduction")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.pointreductionlimit.json")
     public boolean limitPointReduction = true;
 
     @Config.Comment("SRP sometimes gets Evolution Data on clientside which overrides the current evolution phase in single player. Enable to stop this from happening")
     @Config.Name("Fix Phase Resets")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.phaseresetfix.json")
     public boolean fixPhaseResets = true;
 
     @Config.Comment("SRP doesn't prevent getting Node Data on clientside which would override the current node/colony data in single player. Nothing in SRP code actually does that, but SRP addon mods might. Enable to prevent this from happening.")
     @Config.Name("Fix Node Resets")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.noderesetfix.json")
     public boolean fixNodeResets = true;
 
     @Config.Comment("If Adapted mobs spawn and instantly despawn again due to distance to a player, SRP still gives players point penalty. This fixes it.")
     @Config.Name("Fix Adapted Penalty on Instant Despawn")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptedinstadespawnpenalty.json")
     public boolean fixAdaptedPenaltyInstantDespawn = true;
 }

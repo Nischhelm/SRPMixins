@@ -22,10 +22,16 @@ import srpmixins.handlers.ParasiteDropChance;
 import srpmixins.handlers.SRPArmorBowEvolutionHandler;
 import srpmixins.util.CompatUtil;
 
-@Mod(modid = SRPMixins.MODID, version = SRPMixins.VERSION, name = SRPMixins.NAME, dependencies = "required-after:fermiumbooter", acceptableRemoteVersions = "*")
+@Mod(
+        modid = SRPMixins.MODID,
+        version = SRPMixins.VERSION,
+        name = SRPMixins.NAME,
+        dependencies = "required-after:fermiumbooter@[1.2.0,);required-after:srparasites",
+        acceptableRemoteVersions = "*"
+)
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.5.7";
+    public static final String VERSION = "2.5.8";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean completedLoading = false;

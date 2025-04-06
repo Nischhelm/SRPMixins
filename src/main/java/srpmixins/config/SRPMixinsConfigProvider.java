@@ -1,9 +1,7 @@
 package srpmixins.config;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
-import scala.Int;
 import srpmixins.SRPMixins;
-import srpmixins.util.SRPSaveDataInterface;
 
 import java.util.*;
 

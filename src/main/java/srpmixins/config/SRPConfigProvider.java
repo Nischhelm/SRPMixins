@@ -9,7 +9,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import srpmixins.SRPMixins;
 import srpmixins.util.ParaOrbEffect;
-import srpmixins.util.SRPSaveDataInterface;
 import srpmixins.util.Triple;
 
 import java.util.*;

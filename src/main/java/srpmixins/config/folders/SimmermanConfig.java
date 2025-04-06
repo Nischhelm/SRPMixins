@@ -1,5 +1,6 @@
 package srpmixins.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class SimmermanConfig {
@@ -11,6 +12,7 @@ public class SimmermanConfig {
     @Config.Comment("Make Assimilated Endermen be able to despawn if they got converted in the end (performance)")
     @Config.Name("End Simmermen despawn")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.simmermandespawn.json")
     public boolean despawnEndSimmermen = true;
 
     @Config.Comment("Max amount of Assimilated Endermen that can spawn via assimilation in the end (Disable with -1, requires MC restart for full disable)")

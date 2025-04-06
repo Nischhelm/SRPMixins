@@ -6,9 +6,7 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.MapStorage;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,9 +15,6 @@ import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(SRPWorldData.class)
 public abstract class SRPWorldDataMixin {
-    @Shadow(remap = false) private static SRPWorldData instance;
-    @Shadow(remap = false) private static SRPWorldData create(World world, MapStorage storage) { return null; }
-
     //This data is just a default SRPWorldData object that tries to protect the server from crashing.
     // if it was just me, i would just return null and uncover all phase reset bugs but lets rather protect ppls mental health
     @Unique private static SRPWorldData srpmixins$clientSRPData = null;
@@ -38,12 +33,7 @@ public abstract class SRPWorldDataMixin {
 
         //Initialise a default clientside SRPWorldData instance the first time this happens
         if (srpmixins$clientSRPData == null) {
-            SRPWorldData tmpInstance = instance;
-
-            instance = new SRPWorldData("SRPMixins_protects_your_nodes");
-            srpmixins$clientSRPData = create(world, null); //createData writes on instance, so we had to tmp save it
-
-            instance = tmpInstance;
+            srpmixins$clientSRPData = new SRPWorldData("SRPMixins_protects_your_nodes");
         }
 
         //Send log + msg

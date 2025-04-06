@@ -8,7 +8,6 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import net.minecraft.entity.passive.EntityWaterMob;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;

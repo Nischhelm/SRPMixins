@@ -4,8 +4,6 @@ import com.dhanantry.scapeandrunparasites.entity.monster.crude.EntityMes;
 import com.dhanantry.scapeandrunparasites.entity.monster.deterrent.EntityNak;
 import com.dhanantry.scapeandrunparasites.entity.monster.feral.EntityFerBear;
 import com.dhanantry.scapeandrunparasites.entity.monster.inborn.EntityGothol;
-import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfSquid;
-import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityLum;
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.EntityOrch;
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigMobs;

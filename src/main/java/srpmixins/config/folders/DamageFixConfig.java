@@ -1,11 +1,13 @@
 package srpmixins.config.folders;
 
+import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class DamageFixConfig {
     @Config.Comment("Set to false to disable all fixes for parasite damages")
     @Config.Name("Damage Fix: Global switch")
     @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.damagefix.json")
     public boolean doDamageFixes = true;
 
     @Config.Comment("Ancient Overlord homing missile base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
