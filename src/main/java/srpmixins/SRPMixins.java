@@ -31,7 +31,7 @@ import srpmixins.util.CompatUtil;
 )
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.5.8";
+    public static final String VERSION = "2.5.81";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean completedLoading = false;

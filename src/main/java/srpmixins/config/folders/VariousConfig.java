@@ -81,9 +81,9 @@ public class VariousConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.forgottenconfigs.json")
     public boolean useForgottenConfigs = true;
 
-    @Config.Comment("SRP has a config for mobs automatically targeting/avoiding parasites but for some reason only allows that for entities that are EntityCreature (animals etc). This allows any EntityLivingBase.")
+    /*@Config.Comment("SRP has a config for mobs automatically targeting/avoiding parasites but for some reason only allows that for entities that are EntityCreature (animals etc). This allows any EntityLivingBase.")
     @Config.Name("Fix Target & Avoid Tasks")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.targettaskfix.json")
-    public boolean fixTargetTasks = true;
+    public boolean fixTargetTasks = true;*/
 }
