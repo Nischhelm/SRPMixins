@@ -16,26 +16,17 @@ public class CothConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.minassimilations.json")
     public boolean fixMinAssimilations = true;
 
-    @Config.Comment("SRP uses the min assimilation values of the corresponding assimilated mob to allow feral mobs to spawn naturally. Use this list to override that with custom values. Remove lines to use default assimilated values. Pattern: para id, min feralisations\n" +
-            "93 Feral Cow\n" +
-            "94 Feral Enderman\n" +
-            "95 Feral Horse\n" +
-            "96 Feral Human\n" +
-            "97 Feral Pig\n" +
-            "98 Feral Sheep\n" +
-            "99 Feral Villager\n" +
-            "300 Feral Wolf\n" +
-            "306 Feral Bear")
+    @Config.Comment("SRP uses the min assimilation values of the corresponding assimilated mob to allow feral mobs to spawn naturally. Use this list to override that with custom values. Remove lines to use default assimilated values. Pattern: mob name, min feralisations")
     @Config.Name("Min Feralisations")
     public String[] minFeralisations = {
-            "93, 4",
-            "94, 9",
-            "95, 3",
-            "96, 5",
-            "97, 4",
-            "98, 3",
-            "99, 6",
-            "300, 2",
-            "306, 2"
+            "fer_cow, 4",
+            "fer_enderman, 9",
+            "fer_horse, 3",
+            "fer_human, 5",
+            "fer_pig, 4",
+            "fer_sheep, 3",
+            "fer_villager, 6",
+            "fer_wolf, 2",
+            "fer_bear, 2"
     };
 }

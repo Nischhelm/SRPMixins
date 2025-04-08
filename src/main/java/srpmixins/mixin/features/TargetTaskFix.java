@@ -1,15 +1,7 @@
 package srpmixins.mixin.features;
 
 import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityCreature;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(SRPEventHandlerBus.class)
 public abstract class TargetTaskFix {

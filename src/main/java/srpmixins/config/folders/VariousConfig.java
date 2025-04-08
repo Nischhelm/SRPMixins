@@ -81,6 +81,21 @@ public class VariousConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.forgottenconfigs.json")
     public boolean useForgottenConfigs = true;
 
+    @Config.Comment("Adaptable mobs can steal food from the players inventory via attacks or scary orbs. Use this blacklist to disable them from stealing certain foods. Pattern: modid:itemname, optional metadata")
+    @Config.Name("Food Steal Item Blacklist")
+    public String[] foodBlacklist = {};
+
+    @Config.Comment("Set to true to make the food steal item blacklist a whitelist instead")
+    @Config.Name("Food Steal Item Blacklist is Whitelist")
+    public boolean foodBlacklistIsWhitelist = false;
+
+    @Config.Comment("Parasites regularly break blocks. Use this list to blacklist some blocks for certain parasites or parasite groups.\n" +
+            "Special group names: PRIMITIVE, ADAPTED, PURE, PREEMINENT, ANCIENT, NEXUS, DETERRENT, ASSIMILATED, FERAL, INBORN, HIJACKED, CRUDE\n" +
+            "For specific parasites use their ingame mobid so for example ada_longarms\n" +
+            "Expected pattern: modid:blockname, list of parasite mobids and parasite groups separated by comma")
+    @Config.Name("Block Break Blacklist")
+    public String[] blockBreakBlacklist = {};
+
     /*@Config.Comment("SRP has a config for mobs automatically targeting/avoiding parasites but for some reason only allows that for entities that are EntityCreature (animals etc). This allows any EntityLivingBase.")
     @Config.Name("Fix Target & Avoid Tasks")
     @Config.RequiresMcRestart
