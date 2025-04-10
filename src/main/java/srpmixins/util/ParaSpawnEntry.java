@@ -1,5 +1,7 @@
 package srpmixins.util;
 
+import srpmixins.SRPMixins;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,15 +35,24 @@ public class ParaSpawnEntry {
         List<ParaSpawnEntry> cache = new ArrayList<>();
         for (String s : list) {
             String[] split = s.split(";");
-            String name = split[0];
-            if (isSpawn) {
-                int min = Integer.parseInt(split[1]);
-                int max = split.length >= 3 ? Integer.parseInt(split[2]) : min;
-                cache.add(new ParaSpawnEntry(name, max, min));
-            } else {
-                double chance = Double.parseDouble(split[1]);
-                int points = split.length >= 3 ? Integer.parseInt(split[2]) : 0;
-                cache.add(new ParaSpawnEntry(name, chance, points));
+            if(split.length <= 1){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse spawn/summon entry, expected pattern is modid:mobname; int or double; optional int, provided was {}", s);
+                continue;
+            }
+            String name = split[0].trim();
+
+            try {
+                if (isSpawn) {
+                    int min = Integer.parseInt(split[1].trim());
+                    int max = split.length >= 3 ? Integer.parseInt(split[2].trim()) : min;
+                    cache.add(new ParaSpawnEntry(name, max, min));
+                } else {
+                    double chance = Double.parseDouble(split[1].trim());
+                    int points = split.length >= 3 ? Integer.parseInt(split[2].trim()) : 0;
+                    cache.add(new ParaSpawnEntry(name, chance, points));
+                }
+            } catch (Exception e){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse spawn/summon entry, expected number(s) after the first semicolon, provided was {}", s);
             }
         }
         return cache;

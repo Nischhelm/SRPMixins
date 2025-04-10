@@ -12,6 +12,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
+import srpmixins.SRPMixins;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,9 +28,17 @@ public abstract class EntityAINexusGrowMixin {
             srpmixins$configValues = new HashMap<>();
             for(String s : SRPConfigSystems.maximumStageList){
                 String[] split = s.split(";");
-                int dim = Integer.parseInt(split[0]);
-                int maxStage = Integer.parseInt(split[1]);
-                srpmixins$configValues.put(dim,maxStage);
+                if(split.length < 2){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Reinforcement System Maximum Stage entry, expected pattern: dimension; max stage, provided was: {}", s);
+                    continue;
+                }
+                try {
+                    int dim = Integer.parseInt(split[0].trim());
+                    int maxStage = Integer.parseInt(split[1].trim());
+                    srpmixins$configValues.put(dim,maxStage);
+                } catch (Exception e){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Reinforcement System Maximum Stage entry, expected semicolon separated numbers, provided was: {}", s);
+                }
             }
         }
         return srpmixins$configValues.get(dimension);

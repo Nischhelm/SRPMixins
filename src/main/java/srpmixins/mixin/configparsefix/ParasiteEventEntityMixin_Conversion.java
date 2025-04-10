@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import srpmixins.SRPMixins;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,14 +26,20 @@ public abstract class ParasiteEventEntityMixin_Conversion {
             srpmixins$cothConversions = new HashMap<>();
             for(String s : SRPConfigSystems.COTHVictimParasite){
                 String[] split = s.split(";");
-                srpmixins$cothConversions.put(split[0], split[1]);
+                if(split.length < 2)
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP COTH conversion entry, expected pattern: modid:victim_mobname; modid:assimilated_mobname, provided was {}", s);
+                else
+                    srpmixins$cothConversions.put(split[0].trim(), split[1].trim());
             }
         }
         else if(isHijacking && srpmixins$hijackConversions == null){
             srpmixins$hijackConversions = new HashMap<>();
             for(String s : SRPConfigSystems.HIJACKVictimParasite){
                 String[] split = s.split(";");
-                srpmixins$hijackConversions.put(split[0], split[1]);
+                if(split.length < 2)
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Hijack conversion entry, expected pattern: modid:victim_mobname; modid:assimilated_mobname, provided was {}", s);
+                else
+                    srpmixins$hijackConversions.put(split[0].trim(), split[1].trim());
             }
         }
         return isHijacking ? srpmixins$hijackConversions.get(victim) : srpmixins$cothConversions.get(victim);

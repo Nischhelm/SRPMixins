@@ -1,7 +1,7 @@
 package srpmixins.mixin.configparsefix;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPMalleable;
-import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
 import net.minecraft.entity.Entity;
@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
+import srpmixins.SRPMixins;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,11 +27,19 @@ public abstract class EntityPMalleableMixin extends Entity {
     private static Double srpmixins$getAdaptationBonus(int dimension) {
         if(srpmixins$configValues == null){
             srpmixins$configValues = new HashMap<>();
-            for(String s : SRPConfigSystems.maximumStageList){
+            for(String s : SRPConfig.adaptationDimStrong){
                 String[] split = s.split(";");
-                int dim = Integer.parseInt(split[0]);
-                double adaptationBonus = Double.parseDouble(split[1]);
-                srpmixins$configValues.put(dim,adaptationBonus);
+                if(split.length < 2){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Adaptation Bonus entry, expected pattern: dimension; adaptation multiplier, provided was: {}", s);
+                    continue;
+                }
+                try {
+                    int dim = Integer.parseInt(split[0].trim());
+                    double adaptationBonus = Double.parseDouble(split[1].trim());
+                    srpmixins$configValues.put(dim, adaptationBonus);
+                } catch (Exception e){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Adaptation Bonus entry, expected numbers, provided was: {}", s);
+                }
             }
         }
         return srpmixins$configValues.get(dimension);

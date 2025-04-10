@@ -10,6 +10,7 @@ import net.minecraft.potion.PotionEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.SRPMixins;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,12 +26,24 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
             srpmixins$configEffects = new ArrayList<>();
             for(String s : SRPConfigWorld.potionEffectForNodes){
                 String[] split = s.split(";");
-                int nodeLimit = Integer.parseInt(split[0]);
-                Potion potion = Potion.getPotionFromResourceLocation(split[1]);
-                int amp = Integer.parseInt(split[2]);
-                //Save nodeLimit in unused duration
-                if(potion != null) srpmixins$configEffects.add(new PotionEffect(potion, nodeLimit, amp));
-                else srpmixins$configEffects.add(null);
+                if(split.length < 3) {
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP node potion effect, expected pattern: node lvl; modid:potionname; amplifier, provided was: {}", s);
+                    continue;
+                }
+                try {
+                    int nodeLimit = Integer.parseInt(split[0].trim());
+                    Potion potion = Potion.getPotionFromResourceLocation(split[1].trim());
+                    int amp = Integer.parseInt(split[2].trim());
+                    //Save nodeLimit in unused duration
+                    if (potion != null) srpmixins$configEffects.add(new PotionEffect(potion, nodeLimit, amp));
+                    else {
+                        srpmixins$configEffects.add(null);
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP node potion effect, expected numbers in first and last line entry, provided was: {}", s);
+                    }
+                } catch (Exception e) {
+                    srpmixins$configEffects.add(null);
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP node potion effect, potion doesn't exist, provided was: {}", s);
+                }
             }
         }
         return srpmixins$configEffects.get(i);

@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
+import srpmixins.SRPMixins;
 import srpmixins.util.Triple;
 
 import java.util.HashMap;
@@ -25,11 +26,19 @@ public abstract class SRPEventHandlerBusMixin_ParasiteGriefing {
             srpmixins$mobGriefTasks = new HashMap<>();
             for (String s : SRPConfig.parasiteGriefing){
                 String[] split = s.split(";");
-                String mob = split[0];
-                float hardness = Float.parseFloat(split[1]);
-                int cooldown = Integer.parseInt(split[2]);
-                int range = Integer.parseInt(split[3]);
-                srpmixins$mobGriefTasks.put(mob, new Triple<>(hardness, cooldown, range));
+                if(split.length < 4) {
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP mob griefing list entry, expected pattern: modid:mobname; hardness; cooldown; range, provided was: {}", s);
+                    continue;
+                }
+                try {
+                    String mob = split[0].trim();
+                    float hardness = Float.parseFloat(split[1].trim());
+                    int cooldown = Integer.parseInt(split[2].trim());
+                    int range = Integer.parseInt(split[3].trim());
+                    srpmixins$mobGriefTasks.put(mob, new Triple<>(hardness, cooldown, range));
+                } catch (Exception e) {
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP mob griefing list entry, expected numbers after the first semicolon, provided was: {}", s);
+                }
             }
         }
 

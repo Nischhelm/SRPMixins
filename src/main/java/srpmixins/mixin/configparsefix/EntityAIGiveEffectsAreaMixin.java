@@ -12,6 +12,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.SRPMixins;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +40,24 @@ public abstract class EntityAIGiveEffectsAreaMixin {
                 srpmixins$effectsFromConfig.put(configList.getKey(), new ArrayList<>());
                 for (String s : configList.getValue()) {
                     String[] split = s.split(";");
-                    Potion potion = Potion.getPotionFromResourceLocation(split[2]);
-                    if (potion != null) {
-                        int duration = Integer.parseInt(split[0]);
-                        int amp = Integer.parseInt(split[1]);
-                        srpmixins$effectsFromConfig.get(configList.getKey()).add(new PotionEffect(potion, duration, amp));
-                    } else srpmixins$effectsFromConfig.get(configList.getKey()).add(null);
+                    if(split.length < 3) {
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP AOE potion effect for parasite id {}, expected pattern: duration; amplifier; modid:potionname, provided was: {}", configList.getKey(), s);
+                        continue;
+                    }
+                    try {
+                        Potion potion = Potion.getPotionFromResourceLocation(split[2].trim());
+                        if (potion != null) {
+                            int duration = Integer.parseInt(split[0].trim());
+                            int amp = Integer.parseInt(split[1].trim());
+                            srpmixins$effectsFromConfig.get(configList.getKey()).add(new PotionEffect(potion, duration, amp));
+                        } else{
+                            srpmixins$effectsFromConfig.get(configList.getKey()).add(null);
+                            SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP AOE potion effect for parasite id {}, potion doesn't exist, provided was: {}", configList.getKey(), s);
+                        }
+                    } catch (Exception e){
+                        srpmixins$effectsFromConfig.get(configList.getKey()).add(null);
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP AOE potion effect for parasite id {}, expected numbers until the last semicolon, provided was: {}", configList.getKey(), s);
+                    }
                 }
             }
         }

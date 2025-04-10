@@ -60,12 +60,12 @@ public class SRPMixinsConfigProvider {
             String[] split = s.split(",");
             if(split.length == 2) {
                 int paraId = mobNameToParaIdMap.getOrDefault(split[0].trim(), -1);
-                if(paraId == -1) { SRPMixins.LOGGER.info("SRPMixins unable to parse Min Feralisation line {}. Mob name doesn't exist",s); continue; }
+                if(paraId == -1) { SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line {}. Mob name doesn't exist",s); continue; }
                 int count;
                 try { count = Integer.parseInt(split[1].trim()); }
-                catch (Exception e){ SRPMixins.LOGGER.info("SRPMixins unable to parse Min Feralisation line {}. Count is not a number",s); continue; }
+                catch (Exception e){ SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line {}. Count is not a number",s); continue; }
                 minFeralisations.put(paraId, count);
-            } else SRPMixins.LOGGER.info("SRPMixins unable to parse Min Feralisation line. Expected pattern: int, int, found {}",s);
+            } else SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line. Expected pattern: int, int, found {}",s);
         }
 
         for(String s : SRPMixinsConfigHandler.various.foodBlacklist){
@@ -73,13 +73,13 @@ public class SRPMixinsConfigProvider {
             if(split.length == 1) foodBlacklist.put(split[0].trim(), -1);
             else if(split.length == 2)
                 try { foodBlacklist.put(split[0].trim(), Integer.parseInt(split[1].trim())); }
-                catch (Exception e) { SRPMixins.LOGGER.info("SRPMixins unable to parse food blacklist entry {}. Metadata not a number", s); }
-            else SRPMixins.LOGGER.info("SRPMixins unable to parse food blacklist entry {}. Expected pattern: modid:itemname, optional metadata", s);
+                catch (Exception e) { SRPMixins.LOGGER.warn("SRPMixins unable to parse food blacklist entry {}. Metadata not a number", s); }
+            else SRPMixins.LOGGER.warn("SRPMixins unable to parse food blacklist entry {}. Expected pattern: modid:itemname, optional metadata", s);
         }
 
         for(String s : SRPMixinsConfigHandler.various.blockBreakBlacklist) {
             String[] split = s.split(",");
-            if(split.length < 2) SRPMixins.LOGGER.info("SRPMixins unable to parse block break blacklist entry {}. Expected pattern: modid:blockname, comma separated parasite mobname/group list", s);
+            if(split.length < 2) SRPMixins.LOGGER.warn("SRPMixins unable to parse block break blacklist entry {}. Expected pattern: modid:blockname, comma separated parasite mobname/group list", s);
             else {
                 List<Integer> listedParaIds = new ArrayList<>();
                 for(int i = 1; i < split.length; i++){

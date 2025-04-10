@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
+import srpmixins.SRPMixins;
 import srpmixins.util.Pair;
 
 import java.util.HashMap;
@@ -26,10 +27,17 @@ public abstract class SRPEventHandlerBusMixin_CamouflageItems {
             srpmixins$camouflageItems = new HashMap<>();
             for (String s : SRPConfigSystems.COTHItemPrevent){
                 String[] split = s.split(";");
-                String item = split[0];
-                double chance = Double.parseDouble(split[1]);
-                int duration = Integer.parseInt(split[2]);
-                srpmixins$camouflageItems.put(item, new Pair<>(chance, duration));
+                if(split.length < 3){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP camouflage item entry, expected pattern: modid:itemname; chance; duration, provided was: {}", s);
+                }
+                try {
+                    String item = split[0].trim();
+                    double chance = Double.parseDouble(split[1].trim());
+                    int duration = Integer.parseInt(split[2].trim());
+                    srpmixins$camouflageItems.put(item, new Pair<>(chance, duration));
+                } catch (Exception e){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP camouflage item entry, expected numbers after first semicolon, provided was: {}", s);
+                }
             }
         }
 

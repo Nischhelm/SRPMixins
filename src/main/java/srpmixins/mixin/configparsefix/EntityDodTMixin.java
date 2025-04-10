@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.SRPMixins;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,12 +39,24 @@ public abstract class EntityDodTMixin {
                 srpmixins$effectsFromConfig.put(configList.getKey(), new ArrayList<>());
                 for (String s : configList.getValue()) {
                     String[] split = s.split(";");
-                    Potion potion = Potion.getPotionFromResourceLocation(split[1]);
+                    if(split.length < 3){
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Dispatcher Stage {} effect list entry, expected pattern: duration; modid:potionname; amplifier, provided was: {}", configList.getKey(), s);
+                        continue;
+                    }
+                    Potion potion = Potion.getPotionFromResourceLocation(split[1].trim());
                     if (potion != null) {
-                        int duration = Integer.parseInt(split[0]);
-                        int amp = Integer.parseInt(split[2]);
-                        srpmixins$effectsFromConfig.get(configList.getKey()).add(new PotionEffect(potion, duration, amp));
-                    } else srpmixins$effectsFromConfig.get(configList.getKey()).add(null);
+                        try {
+                            int duration = Integer.parseInt(split[0].trim());
+                            int amp = Integer.parseInt(split[2].trim());
+                            srpmixins$effectsFromConfig.get(configList.getKey()).add(new PotionEffect(potion, duration, amp));
+                        } catch (Exception e){
+                            srpmixins$effectsFromConfig.get(configList.getKey()).add(null);
+                            SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Dispatcher Stage {} effect list entry, expected numbers in first and last line entry, provided was: {}", configList.getKey(), s);
+                        }
+                    } else {
+                        srpmixins$effectsFromConfig.get(configList.getKey()).add(null);
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Dispatcher Stage {} effect list entry, potion doesn't exist, provided was: {}", configList.getKey(), s);
+                    }
                 }
             }
         }

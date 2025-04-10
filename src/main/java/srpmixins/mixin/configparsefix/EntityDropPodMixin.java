@@ -10,6 +10,7 @@ import net.minecraft.potion.PotionEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.SRPMixins;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,24 @@ public abstract class EntityDropPodMixin {
 
             for (String s : SRPConfigMobs.pod1Effects) {
                 String[] split = s.split(";");
-                Potion potion = Potion.getPotionFromResourceLocation(split[2]);
-                if (potion != null) {
-                    int duration = Integer.parseInt(split[0]);
-                    int amp = Integer.parseInt(split[1]);
-                    srpmixins$effectsFromConfig.add(new PotionEffect(potion, duration, amp));
-                } else srpmixins$effectsFromConfig.add(null);
+                if(split.length < 3) {
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Drop Pod potion effect, expected pattern: duration; amplifier; modid:potionname, provided was: {}", s);
+                    continue;
+                }
+                try {
+                    Potion potion = Potion.getPotionFromResourceLocation(split[2].trim());
+                    if (potion != null) {
+                        int duration = Integer.parseInt(split[0].trim());
+                        int amp = Integer.parseInt(split[1].trim());
+                        srpmixins$effectsFromConfig.add(new PotionEffect(potion, duration, amp));
+                    } else{
+                        srpmixins$effectsFromConfig.add(null);
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Drop Pod potion effect, potion doesn't exist, provided was: {}", s);
+                    }
+                } catch (Exception e){
+                    srpmixins$effectsFromConfig.add(null);
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP Drop Pod potion effect, expected numbers until the last semicolon, provided was: {}", s);
+                }
             }
         }
 

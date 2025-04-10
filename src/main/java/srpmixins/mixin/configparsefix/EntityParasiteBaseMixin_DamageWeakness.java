@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import srpmixins.SRPMixins;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,9 +39,17 @@ public abstract class EntityParasiteBaseMixin_DamageWeakness {
         Map<String, Float> map = new HashMap<>();
         for (String s : list) {
             String[] split = s.split(";");
-            String dmgName = split[0];
-            float multi = Float.parseFloat(split[1]);
-            map.put(dmgName, multi);
+            if(split.length < 2) {
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP parasite weakness list entry, expected pattern: damage type; multiplier, provided was: {}", s);
+                continue;
+            }
+            try {
+                String dmgName = split[0].trim();
+                float multi = Float.parseFloat(split[1].trim());
+                map.put(dmgName, multi);
+            } catch (Exception e) {
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP parasite weakness list entry, expected number after semicolon, provided was: {}", s);
+            }
         }
         return map;
     }

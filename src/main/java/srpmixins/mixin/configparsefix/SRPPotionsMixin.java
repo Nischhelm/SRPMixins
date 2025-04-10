@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
+import srpmixins.SRPMixins;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +26,14 @@ public abstract class SRPPotionsMixin {
             srpmixins$maxAmpMap = new HashMap<>();
             for(String s : SRPConfig.stackablePotionsLimit){
                 String[] split = s.split(";");
-                srpmixins$maxAmpMap.put(split[0], Integer.parseInt(split[1]));
+                if(split.length < 2)
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP potion max amplifier entry, expected pattern: modid:potionname; max amplifier, provided was: {}", s);
+                else
+                    try{
+                        srpmixins$maxAmpMap.put(split[0].trim(), Integer.parseInt(split[1].trim()));
+                    } catch (Exception e){
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP potion max amplifier entry, expected number after semicolon, provided was {}", s);
+                    }
             }
         }
         return srpmixins$maxAmpMap.get(potionName);

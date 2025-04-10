@@ -105,7 +105,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             return instancePlayer;
         }
         if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
-            SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByPlayer didnt find player");
+            SRPMixins.LOGGER.warn("SRPMixins Debug Mode: getByPlayer didnt find player");
         return SRPSaveData.get(world);
     }
 
@@ -122,9 +122,9 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
                 if (player != null)
                     return srpmixins$getByPlayer(world, player.getUniqueID());
                 else if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
-                    SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByBlock didnt find player {}", blockPos);
+                    SRPMixins.LOGGER.warn("SRPMixins Debug Mode: getByBlock didnt find player {}", blockPos);
             } else if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
-                SRPMixins.LOGGER.info("SRPMixins Debug Mode: getByBlock didnt find blockpos");
+                SRPMixins.LOGGER.warn("SRPMixins Debug Mode: getByBlock didnt find blockpos");
             if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode) {
                 try {
                     throw (new Exception("SRPMixins Debug Mode - Stack Trace"));
