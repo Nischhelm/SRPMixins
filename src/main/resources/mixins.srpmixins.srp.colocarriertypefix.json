@@ -6,7 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "SpawnerSpawnFix"
+    "ColonyCarrierTypeIdFix_AI",
+    "ColonyCarrierTypeIdFix"
   ],
   "injectors": {
     "maxShiftBy": 10

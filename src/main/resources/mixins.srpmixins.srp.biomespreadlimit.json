@@ -6,7 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "FixBiomeSpreadLimit"
+    "BiomeSpreadLimitFix"
   ],
   "injectors": {
     "maxShiftBy": 10

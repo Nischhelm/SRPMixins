@@ -40,7 +40,7 @@ public class SRPMixinsConfigProvider {
         setupDimensionMultiplierMap(dimensionKBResMultipliers, SRPMixinsConfigHandler.dimension.dimensionKBResMultipliers);
         setupDimensionMultiplierMap(dimensionDropMultipliers, SRPMixinsConfigHandler.dimension.dimensionDropMultipliers);
         setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMixinsConfigHandler.dimension.dimensionMobCapMultipliers);
-        setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMixinsConfigHandler.various.biomeBlacklist);
+        setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMixinsConfigHandler.spawns.biomeBlacklist);
 
         playerNeedlerMulti = SRPMixinsConfigHandler.potions.playerNeedlerMulti;
         if(playerNeedlerMulti < 0) playerNeedlerMulti = SRPConfigSystems.needlerDamage; //negative = use SRP default value

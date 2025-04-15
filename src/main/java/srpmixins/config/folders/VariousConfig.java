@@ -10,21 +10,6 @@ public class VariousConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.disablescentdebug.json")
     public boolean disableScentDebug = true;
 
-    @Config.Comment("Blacklist of biomes and dimensions in which no parasites will spawn. \n" +
-            "Pattern: dimensionId, modid:biomename \n" +
-            "Disable full mods with dimid, modid \n" +
-            "Disable full dimensions with dimid, no biomes for that dimension in any line\n" +
-            "For example: \n" +
-            "0, minecraft:mutated_forest\n" +
-            "3, biomesoplenty\n" +
-            "-1")
-    @Config.Name("Parasite Spawning Biome Blacklist per dimension")
-    public String[] biomeBlacklist = {};
-
-    @Config.Comment("Use Biome Blacklist as Whitelist")
-    @Config.Name("Parasite Spawning Biome Blacklist per dimension is whitelist")
-    public boolean biomeBlacklistIsWhitelist = false;
-
     @Config.Comment("Make SRP Blacklists/Whitelists use wildcards to dis/enable whole mods (*). WARNING: this forces you to change all current SRP config lists that use full mod names without wildcards")
     @Config.Name("SRP Blacklists are Wildcard-able")
     @Config.RequiresMcRestart
@@ -78,12 +63,6 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.strangebonestacking.json")
     public boolean strangeBoneStacking = true;
-
-    @Config.Comment("Parasites can't spawn from spawners in base SRP. This fixes it. Reintroduced after moving it to RLMixins")
-    @Config.Name("Fix Spawner Block spawning")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.spawnerspawnfix.json")
-    public boolean fixSpawnerSpawns = true;
 
     @Config.Comment("Parasite Bush and Vines will force load chunks when a parasite biome is growing. This stops the force loading. Moved from RLMixins (thanks fonny!)")
     @Config.Name("Fix Parasite Bush Generation Lag")

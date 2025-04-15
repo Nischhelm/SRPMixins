@@ -1,4 +1,4 @@
-package srpmixins.mixin.features;
+package srpmixins.mixin.spawning;
 
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;

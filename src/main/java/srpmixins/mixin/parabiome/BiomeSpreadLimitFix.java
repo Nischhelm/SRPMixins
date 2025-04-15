@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.Random;
 
 @Mixin(ParasiteEventWorld.class)
-public class FixBiomeSpreadLimit {
+public class BiomeSpreadLimitFix {
     @Shadow(remap = false) public static int blockParasiteCount;
 
     @Inject(

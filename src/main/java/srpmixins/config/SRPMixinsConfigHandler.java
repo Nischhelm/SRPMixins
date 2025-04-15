@@ -76,6 +76,11 @@ public class SRPMixinsConfigHandler {
 	@MixinConfig.SubInstance
 	public static final SimmermanConfig simmermen = new SimmermanConfig();
 
+	@Config.Comment("Spawn Fixes and Tweaks")
+	@Config.Name("Spawning")
+	@MixinConfig.SubInstance
+	public static final SpawnConfig spawns = new SpawnConfig();
+
 	@Config.Comment("Various Options")
 	@Config.Name("Various")
 	@MixinConfig.SubInstance

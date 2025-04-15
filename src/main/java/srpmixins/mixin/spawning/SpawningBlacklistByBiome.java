@@ -1,4 +1,4 @@
-package srpmixins.mixin.features;
+package srpmixins.mixin.spawning;
 
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
 import net.minecraft.util.ResourceLocation;
@@ -36,7 +36,7 @@ public abstract class SpawningBlacklistByBiome {
                 biomeBlacklist.contains(currBiomeMod) ||
                 biomeBlacklist.isEmpty();
 
-        if(isInList != SRPMixinsConfigHandler.various.biomeBlacklistIsWhitelist)
+        if(isInList != SRPMixinsConfigHandler.spawns.biomeBlacklistIsWhitelist)
             cir.setReturnValue(null);
     }
 }

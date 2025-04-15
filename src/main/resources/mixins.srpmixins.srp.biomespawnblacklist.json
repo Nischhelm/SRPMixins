@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.features",
+  "package": "srpmixins.mixin.spawning",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
