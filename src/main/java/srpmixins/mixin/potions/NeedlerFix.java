@@ -1,5 +1,5 @@
 
-package srpmixins.mixin.features;
+package srpmixins.mixin.potions;
 
 import com.dhanantry.scapeandrunparasites.potion.SRPEffectBase;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
@@ -45,7 +45,7 @@ public abstract class NeedlerFix {
     )
     private boolean srpmixins_dontCheckForPlayer(String mobId, String[] blackList, boolean isWhitelist, Operation<Boolean> original, @Local(argsOnly = true) EntityLivingBase entity){
         //If it's a player, use the custom config instead of SRP blacklist
-        if(entity instanceof EntityPlayer) return !SRPMixinsConfigHandler.various.allowPlayerNeedler;
+        if(entity instanceof EntityPlayer) return !SRPMixinsConfigHandler.potions.allowPlayerNeedler;
         return original.call(mobId, blackList, isWhitelist);
     }
 

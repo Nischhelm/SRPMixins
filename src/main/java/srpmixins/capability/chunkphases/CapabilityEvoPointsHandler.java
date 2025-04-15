@@ -16,7 +16,7 @@ import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigProvider;
-import srpmixins.util.ChunkPhasesUtil;
+import srpmixins.util.customphasemechanics.ChunkPhasesUtil;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;

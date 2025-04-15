@@ -1,4 +1,4 @@
-package srpmixins.util;
+package srpmixins.util.customphasemechanics;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.player.EntityPlayer;

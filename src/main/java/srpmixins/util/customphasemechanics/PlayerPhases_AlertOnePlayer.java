@@ -1,4 +1,4 @@
-package srpmixins.util;
+package srpmixins.util.customphasemechanics;
 
 import com.dhanantry.scapeandrunparasites.SRPMain;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;

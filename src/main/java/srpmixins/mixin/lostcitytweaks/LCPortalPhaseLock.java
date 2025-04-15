@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.util.SRPSaveDataInterface;
+import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 @Mixin(ForgeEventHandlers.class)
 public abstract class LCPortalPhaseLock {

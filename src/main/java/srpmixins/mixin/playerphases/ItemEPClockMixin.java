@@ -8,7 +8,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import srpmixins.util.SRPSaveDataInterface;
+import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 @Mixin(ItemEPClock.class)
 public class ItemEPClockMixin {

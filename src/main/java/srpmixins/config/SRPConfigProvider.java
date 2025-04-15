@@ -8,8 +8,8 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import srpmixins.SRPMixins;
-import srpmixins.util.ParaOrbEffect;
-import srpmixins.util.Triple;
+import srpmixins.util.configparse.ParaOrbEffect;
+import srpmixins.util.configparse.Triple;
 
 import java.util.*;
 import java.util.stream.Collectors;

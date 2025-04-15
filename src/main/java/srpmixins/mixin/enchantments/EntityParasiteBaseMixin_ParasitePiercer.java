@@ -10,7 +10,7 @@ import net.minecraft.util.DamageSource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import srpmixins.ModEnchantments;
+import srpmixins.registry.ModEnchantments;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityParasiteBase.class)

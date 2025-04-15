@@ -1,4 +1,4 @@
-package srpmixins;
+package srpmixins.registry;
 
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnumEnchantmentType;

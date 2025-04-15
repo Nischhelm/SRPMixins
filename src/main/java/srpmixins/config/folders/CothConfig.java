@@ -29,4 +29,13 @@ public class CothConfig {
             "fer_wolf, 2",
             "fer_bear, 2"
     };
+
+    @Config.Comment("SRP has the min assimilation value for big spider be hardcoded at 0 which is fixed by SRPMixins \"Fix Min Assimilations Zero\" to actually mean 0. \n" +
+            "Due to this, sim big spiders actually spawn naturally from the phase spawn lists they are in. \n" +
+            "To make them again only spawn from some beckon spawn lists - how it behaves (incorrectly?) in base SRP - the default value here is 1, which can only be reached if using wyrmsofnyrus (since no other mobs are assimilated to big spiders). \n" +
+            "To have them spawn naturally as i think its intended to (why else would the be in the phase spawn lists?), set this value back to 0.\n" +
+            "Fully disable this mixin with -1.")
+    @Config.Name("Sim Big Spider Min Assimilations")
+    @Config.RequiresMcRestart
+    public int assimBigSpiderMinAssimilations = 1;
 }

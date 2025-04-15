@@ -4,6 +4,7 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import srpmixins.SRPMixins;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class SRPMixinsConfigProvider {
     public static final Map<String, Integer> mobNameToParaIdMap = new HashMap<>();
@@ -21,7 +22,7 @@ public class SRPMixinsConfigProvider {
 
     public static float playerNeedlerMulti = 0.4F;
 
-    public static List<String> whiteListedDeterrents;
+    public static List<Integer> whiteListedDeterrents;
 
     //Deliberately copied/initialised here to stop ppl from changing it in game
     public static int chunkPhasesSpacing = SRPMixinsConfigHandler.chunkphases.chunkSpacing;
@@ -41,16 +42,26 @@ public class SRPMixinsConfigProvider {
         setupDimensionMultiplierMap(dimensionMobCapMultipliers, SRPMixinsConfigHandler.dimension.dimensionMobCapMultipliers);
         setupBiomeBlacklistMap(biomeSpawningBlacklists, SRPMixinsConfigHandler.various.biomeBlacklist);
 
-        playerNeedlerMulti = SRPMixinsConfigHandler.various.playerNeedlerMulti;
+        playerNeedlerMulti = SRPMixinsConfigHandler.potions.playerNeedlerMulti;
         if(playerNeedlerMulti < 0) playerNeedlerMulti = SRPConfigSystems.needlerDamage; //negative = use SRP default value
 
-        whiteListedDeterrents = Arrays.asList(SRPMixinsConfigHandler.deterrents.whiteListedDeterrents);
+        whiteListedDeterrents = Arrays.stream(SRPMixinsConfigHandler.deterrents.whiteListedDeterrents)
+                .map(s -> mobNameToParaIdMap.get(s.replace("srparasites:","")))
+                .collect(Collectors.toList());
 
         for (String s : SRPMixinsConfigHandler.chunkphases.biomeStartPhases) {
             String[] split = s.split(",");
-            String biomeId = split[0].trim();
-            byte startPhase = Byte.parseByte(split[1].trim());
-            biomeStartPhases.put(biomeId, startPhase);
+            if(split.length < 2){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse biome start phase entry, expected pattern: modid:biomename; startPhase, provided was: {}", s);
+                continue;
+            }
+            try {
+                String biomeId = split[0].trim();
+                byte startPhase = Byte.parseByte(split[1].trim());
+                biomeStartPhases.put(biomeId, startPhase);
+            } catch (Exception e){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse biome start phase entry, expected number after semicolon, provided was: {}", s);
+            }
         }
 
         for(int dimId : SRPMixinsConfigHandler.chunkphases.dimensionBlacklist)
@@ -59,12 +70,22 @@ public class SRPMixinsConfigProvider {
         for(String s : SRPMixinsConfigHandler.coth.minFeralisations){
             String[] split = s.split(",");
             if(split.length == 2) {
-                int paraId = mobNameToParaIdMap.getOrDefault(split[0].trim(), -1);
-                if(paraId == -1) { SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line {}. Mob name doesn't exist",s); continue; }
-                int count;
-                try { count = Integer.parseInt(split[1].trim()); }
-                catch (Exception e){ SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line {}. Count is not a number",s); continue; }
-                minFeralisations.put(paraId, count);
+                String firstEntry = split[0].trim();
+                int paraId = mobNameToParaIdMap.getOrDefault(firstEntry, -1);
+                if(paraId == -1) {
+                    try {
+                        paraId = Integer.parseInt(firstEntry); //Compat for old config
+                    } catch (Exception e) {
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line {}. Mob name doesn't exist",s);
+                        continue;
+                    }
+                }
+                if(!mobGroupToParaIdMap.get("FERAL").contains(paraId)){ SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line {}. Not a feral parasite",s); continue; }
+                try {
+                    int count = Integer.parseInt(split[1].trim());
+                    minFeralisations.put(paraId, count);
+                }
+                catch (Exception e){ SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line {}. Count is not a number",s); }
             } else SRPMixins.LOGGER.warn("SRPMixins unable to parse Min Feralisation line. Expected pattern: int, int, found {}",s);
         }
 
@@ -102,6 +123,9 @@ public class SRPMixinsConfigProvider {
         biomeSpawningBlacklists.clear();
         biomeStartPhases.clear();
         chunkPhasesDimensionBlacklist.clear();
+        minFeralisations.clear();
+        blockBreakBlacklist.clear();
+        foodBlacklist.clear();
 
         init();
     }

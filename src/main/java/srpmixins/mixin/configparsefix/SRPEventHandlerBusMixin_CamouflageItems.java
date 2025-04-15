@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
 import srpmixins.SRPMixins;
-import srpmixins.util.Pair;
+import srpmixins.util.configparse.Pair;
 
 import java.util.HashMap;
 import java.util.Map;

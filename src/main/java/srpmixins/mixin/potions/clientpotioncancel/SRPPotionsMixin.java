@@ -1,4 +1,4 @@
-package srpmixins.mixin.clientpotioncancel;
+package srpmixins.mixin.potions.clientpotioncancel;
 
 import com.dhanantry.scapeandrunparasites.init.SRPPotions;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;

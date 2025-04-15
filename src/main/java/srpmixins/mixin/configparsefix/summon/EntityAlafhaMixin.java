@@ -7,7 +7,7 @@ import net.minecraft.entity.EntityLivingBase;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import srpmixins.util.ParaSpawnEntry;
+import srpmixins.util.configparse.ParaSpawnEntry;
 
 import javax.annotation.Nullable;
 import java.util.List;

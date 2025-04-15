@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.util.Triple;
+import srpmixins.util.configparse.Triple;
 
 import java.util.List;
 import java.util.Random;

@@ -16,8 +16,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.util.PlayerPhases_AlertOnePlayer;
-import srpmixins.util.SRPSaveDataInterface;
+import srpmixins.util.customphasemechanics.PlayerPhases_AlertOnePlayer;
+import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 import java.util.List;
 import java.util.Map;

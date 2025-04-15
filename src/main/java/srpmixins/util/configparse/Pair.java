@@ -1,17 +1,14 @@
-package srpmixins.util;
+package srpmixins.util.configparse;
 
-public class Triple<L,M,R> {
+public class Pair<L,R> {
     private final L left;
-    private final M middle;
     private final R right;
 
-    public Triple(L left, M middle, R right) {
+    public Pair(L left, R right) {
         this.left = left;
-        this.middle = middle;
         this.right = right;
     }
 
     public L getLeft() { return this.left; }
-    public M getMiddle() { return this.middle; }
     public R getRight() { return this.right; }
 }

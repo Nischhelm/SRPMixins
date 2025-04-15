@@ -53,9 +53,9 @@ public class DimensionConfig {
     @Config.Comment("Decreases drop chance of SRP Items per dimension. Set to 1 for default behavior")
     @Config.Name("Parasite Drop chance Multipliers")
     public String[] dimensionDropMultipliers = {
-            "-1,0.5",
-            "0,0.25",
-            "1,0.5",
+            "-1,1",
+            "0,1",
+            "1,1",
             "3,1",
             "111,1"
     };

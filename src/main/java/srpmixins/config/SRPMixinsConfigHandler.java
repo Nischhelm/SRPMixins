@@ -66,6 +66,11 @@ public class SRPMixinsConfigHandler {
 	@MixinConfig.SubInstance
 	public static final PointConfig phasepoints = new PointConfig();
 
+	@Config.Comment("Potion Tweaks and Fixes")
+	@Config.Name("Potions")
+	@MixinConfig.SubInstance
+	public static final PotionConfig potions = new PotionConfig();
+
 	@Config.Comment("Assimilated and Feral Enderman Options")
 	@Config.Name("Assimilated and Feral Endermen")
 	@MixinConfig.SubInstance

@@ -11,7 +11,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.util.SRPSaveDataInterface;
+import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 @Mixin(BlockInfestedRemain.class)
 public abstract class BlockInfestedRemainMixin {

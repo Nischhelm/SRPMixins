@@ -1,4 +1,4 @@
-package srpmixins.mixin.features;
+package srpmixins.mixin.potions;
 
 import com.dhanantry.scapeandrunparasites.init.SRPPotions;
 import org.spongepowered.asm.mixin.Mixin;

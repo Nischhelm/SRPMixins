@@ -20,7 +20,8 @@ import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.NexusSpawnSounds;
 import srpmixins.handlers.ParasiteDropChance;
 import srpmixins.handlers.SRPArmorBowEvolutionHandler;
-import srpmixins.util.CompatUtil;
+import srpmixins.util.compat.CompatUtil;
+import srpmixins.util.compat.LycanitesMobsCompat;
 
 @Mod(
         modid = SRPMixins.MODID,
@@ -31,7 +32,7 @@ import srpmixins.util.CompatUtil;
 )
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.5.10";
+    public static final String VERSION = "2.6.0";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static boolean completedLoading = false;
@@ -65,7 +66,7 @@ public class SRPMixins {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         if(CompatUtil.isLycanitesMobsLoaded())
-            CompatUtil.reloadLycaniteSpawnerManager();
+            LycanitesMobsCompat.reloadLycaniteSpawnerManager();
 
         SRPConfigProvider.postInit();
 

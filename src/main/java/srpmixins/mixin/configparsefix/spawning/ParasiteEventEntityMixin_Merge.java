@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import scala.tools.asm.Opcodes;
-import srpmixins.util.ParaSpawnEntry;
+import srpmixins.util.configparse.ParaSpawnEntry;
 
 import java.util.ArrayList;
 import java.util.HashMap;
