@@ -34,8 +34,7 @@ public class CothConfig {
             "Due to this, sim big spiders actually spawn naturally from the phase spawn lists they are in. \n" +
             "To make them again only spawn from some beckon spawn lists - how it behaves (incorrectly?) in base SRP - the default value here is 1, which can only be reached if using wyrmsofnyrus (since no other mobs are assimilated to big spiders). \n" +
             "To have them spawn naturally as i think its intended to (why else would the be in the phase spawn lists?), set this value back to 0.\n" +
-            "Fully disable this mixin with -1.")
+            "Fully disable this mixin with -1 (requires restart).")
     @Config.Name("Sim Big Spider Min Assimilations")
-    @Config.RequiresMcRestart
     public int assimBigSpiderMinAssimilations = 1;
 }

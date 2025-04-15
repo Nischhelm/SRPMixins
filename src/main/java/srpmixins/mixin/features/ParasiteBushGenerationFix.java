@@ -17,7 +17,6 @@ public abstract class ParasiteBushGenerationFix {
 	@Inject(
 			method = "generate",
 			at = @At("HEAD"),
-			remap = false,
 			cancellable = true
 	)
 	public void srpmixins_dontGenerateBushIfNotLoaded(World worldIn, Random rand, BlockPos position, CallbackInfoReturnable<Boolean> cir) {

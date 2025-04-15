@@ -15,7 +15,6 @@ public abstract class SpawnerSpawnFix {
     @Inject(
             method = "onSpawn",
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;loadedEntityList:Ljava/util/List;"),
-            remap = false,
             cancellable = true
     )
     private static void srpmixins_forceSpawnerSpawns(LivingSpawnEvent.CheckSpawn event, CallbackInfo ci){

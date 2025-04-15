@@ -9,27 +9,25 @@ import net.minecraft.util.EntityDamageSourceIndirect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 
-//By kotlinprogrammer / RLMixins, modified
+//By kotlinprogrammer / RLMixins, modified+fixed
 @Mixin(EntityPMalleable.class)
 public abstract class AdaptToIndirectFix {
 
     @WrapOperation(
             method = "attackEntityFrom",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/DamageSource;getImmediateSource()Lnet/minecraft/entity/Entity;", ordinal = 0),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/DamageSource;getImmediateSource()Lnet/minecraft/entity/Entity;", ordinal = 0)
     )
     private Entity srpmixins_skipImmediateSourceCheckIfIndirect(DamageSource source, Operation<Entity> original) {
         if (source instanceof EntityDamageSourceIndirect) return null; //adapt to dmg type directly
-        return source.getImmediateSource();
+        return original.call(source);
     }
 
     @WrapOperation(
             method = "attackEntityFrom",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/DamageSource;getTrueSource()Lnet/minecraft/entity/Entity;", ordinal = 2),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/DamageSource;getTrueSource()Lnet/minecraft/entity/Entity;", ordinal = 2)
     )
     private Entity srpmixins_skipTrueSourceCheckIfIndirect(DamageSource source, Operation<Entity> original) {
         if (source instanceof EntityDamageSourceIndirect) return null; //adapt to dmg type directly
-        return source.getTrueSource();
+        return original.call(source);
     }
 }
