@@ -70,8 +70,8 @@ public class CapabilityAdaptationHandler {
                             int count = countCmpnd.getInteger("resistance" + i);
 
                             if(!SRPMixinsConfigHandler.adaptation.fixNullAdaptation || !name.isEmpty()) {
-                                oldNames.add(i, name);
-                                oldCounts.add(i, count);
+                                oldNames.add(name);
+                                oldCounts.add(count);
                             }
                         }
                     }
