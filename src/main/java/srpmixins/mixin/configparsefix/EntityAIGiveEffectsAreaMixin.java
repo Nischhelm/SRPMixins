@@ -6,8 +6,11 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigMobs;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -70,7 +73,7 @@ public abstract class EntityAIGiveEffectsAreaMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
-    private String[] dontSplitList(String instance, String regex, Operation<String[]> original){
+    private String[] srpmixins_dontSplitList(String instance, String regex, Operation<String[]> original){
         List<PotionEffect> effects = srpmixins$getEffect(this.parent.getParasiteIDRegister());
         if(effects == null) return original.call(instance, regex);
         return srpmixins$emptyList;
@@ -80,7 +83,8 @@ public abstract class EntityAIGiveEffectsAreaMixin {
             method = "BuffParasites",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;getPotionFromResourceLocation(Ljava/lang/String;)Lnet/minecraft/potion/Potion;")
     )
-    private Potion dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 1) int i){
+    private Potion srpmixins_dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 1) int i, @Share("index") LocalIntRef index){
+        index.set(i);
         List<PotionEffect> effects = srpmixins$getEffect(this.parent.getParasiteIDRegister());
         //if potion was not parseable, we don't run the amplifier and duration parse overwrites
         if(effects == null) return original.call(s);
@@ -93,10 +97,10 @@ public abstract class EntityAIGiveEffectsAreaMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 0),
             remap = false
     )
-    private int dontParseDuration(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
+    private int srpmixins_dontParseDuration(String s, Operation<Integer> original, @Share("index") LocalIntRef index){
         List<PotionEffect> effects = srpmixins$getEffect(this.parent.getParasiteIDRegister());
         if(effects == null) return original.call(s);
-        else return effects.get(i).getDuration();
+        else return effects.get(index.get()).getDuration();
     }
 
     @WrapOperation(
@@ -104,9 +108,9 @@ public abstract class EntityAIGiveEffectsAreaMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 1),
             remap = false
     )
-    private int dontParseAmplifier(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
+    private int srpmixins_dontParseAmplifier(String s, Operation<Integer> original, @Share("index") LocalIntRef index){
         List<PotionEffect> effects = srpmixins$getEffect(this.parent.getParasiteIDRegister());
         if(effects == null) return original.call(s);
-        else return effects.get(i).getAmplifier();
+        else return effects.get(index.get()).getAmplifier();
     }
 }

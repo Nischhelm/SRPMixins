@@ -5,6 +5,8 @@ import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -44,7 +46,8 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 0),
             remap = false
     )
-    private static int srpmixins_dontParseSpawnMaxCount(String s, Operation<Integer> original, @Local(ordinal = 2) int i){
+    private static int srpmixins_dontParseSpawnMaxCount(String s, Operation<Integer> original, @Local(ordinal = 2) int i, @Share("index") LocalIntRef index){
+        index.set(i);
         if(srpmixins$currentSpawnList_spawnM == null) return original.call(s); //Default behavior
         return srpmixins$currentSpawnList_spawnM.get(i).maxCount;
     }
@@ -54,18 +57,18 @@ public abstract class ParasiteEventEntityMixin_Spawn {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 1),
             remap = false
     )
-    private static int srpmixins_dontParseSpawnMinCount(String s, Operation<Integer> original, @Local(ordinal = 2) int i){
+    private static int srpmixins_dontParseSpawnMinCount(String s, Operation<Integer> original, @Share("index") LocalIntRef index){
         if(srpmixins$currentSpawnList_spawnM == null) return original.call(s); //Default behavior
-        return srpmixins$currentSpawnList_spawnM.get(i).minCount;
+        return srpmixins$currentSpawnList_spawnM.get(index.get()).minCount;
     }
 
     @ModifyArg(
             method = "spawnM",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ResourceLocation;<init>(Ljava/lang/String;)V")
     )
-    private static String srpmixins_dontParseSpawnMobId(String resourceName, @Local(ordinal = 2) int i){
+    private static String srpmixins_dontParseSpawnMobId(String resourceName, @Share("index") LocalIntRef index){
         if(srpmixins$currentSpawnList_spawnM == null) return resourceName; //Default behavior
-        return srpmixins$currentSpawnList_spawnM.get(i).mobid;
+        return srpmixins$currentSpawnList_spawnM.get(index.get()).mobid;
     }
 
     @Inject(

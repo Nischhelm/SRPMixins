@@ -49,7 +49,7 @@ public abstract class EntityAINexusGrowMixin {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;maximumStageList:[Ljava/lang/String;", opcode = Opcodes.ARRAYLENGTH, args = "array=length"),
             remap = false
     )
-    private int loopOnlyOnce(String[] array){
+    private int srpmixins_loopOnlyOnce(String[] array){
         return Math.min(array.length,1);
     }
 
@@ -58,7 +58,7 @@ public abstract class EntityAINexusGrowMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
-    private String[] dontSplitList(String instance, String regex, Operation<String[]> original){
+    private String[] srpmixins_dontSplitList(String instance, String regex, Operation<String[]> original){
         return srpmixins$emptyList;
     }
 
@@ -67,7 +67,7 @@ public abstract class EntityAINexusGrowMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;length()I"),
             remap = false
     )
-    private int dontCheckLength(String instance, Operation<Integer> original){
+    private int srpmixins_dontCheckLength(String instance, Operation<Integer> original){
         return 1;
     }
 
@@ -76,7 +76,7 @@ public abstract class EntityAINexusGrowMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 0),
             remap = false
     )
-    private int dontParseDimension(String instance, Operation<Integer> original){
+    private int srpmixins_dontParseDimension(String instance, Operation<Integer> original){
         //return the current dimension to pass the next check for every parsed line
         return this.parent.world.provider.getDimension();
     }
@@ -86,7 +86,7 @@ public abstract class EntityAINexusGrowMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 1),
             remap = false
     )
-    private int dontParseStage(String instance, Operation<Integer> original){
+    private int srpmixins_dontParseStage(String instance, Operation<Integer> original){
         Integer maxStage = srpmixins$getMaxStage(this.parent.world.provider.getDimension());
         if(maxStage == null) return -1;
         else return maxStage;

@@ -25,11 +25,12 @@ public class SpawnConfig {
     @Config.Name("Parasite Spawning Biome Blacklist per dimension is whitelist")
     public boolean biomeBlacklistIsWhitelist = false;
 
-    @Config.Comment("SRP disables certain parasites until a colony is created. This also happens though if colonies aren't even activated, fully locking away certain parasites (preeminents by default). This makes SRP ignore the colony lock if colonies are disabled.")
-    @Config.Name("Fix Colony Lock")
+    @Config.Comment("SRP disables certain parasites until a colony is created. This also happens though if colonies aren't even activated, fully locking away certain parasites (preeminents by default). This makes SRP ignore the colony lock if colonies are disabled.\n" +
+            "WARNING: SRP has preeminents in the default phase spawning lists for phase 3 and beyond. If you enable this fix, you will need to change your SRP defaults. Preeminents should only spawn in parasite biomes and/or late phases like 9/10.")
+    @Config.Name("Fix Colony Lock - requires SRP config change")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.cololockfix.json")
-    public boolean fixColonyLock = true;
+    public boolean fixColonyLock = false;
 
     @Config.Comment("SRP allows to disable certain parasites until a certain phase in a certain dimension is reached. This also happens though if phases aren't even activated, fully locking away certain parasites. This makes SRP ignore the evolution lock if evolution is disabled.")
     @Config.Name("Fix Evolution Lock")

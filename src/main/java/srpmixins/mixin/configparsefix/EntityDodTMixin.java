@@ -5,6 +5,8 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigMobs;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import org.spongepowered.asm.mixin.Mixin;
@@ -69,7 +71,7 @@ public abstract class EntityDodTMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
-    private String[] dontSplitList(String instance, String regex, Operation<String[]> original){
+    private String[] srpmixins_dontSplitList(String instance, String regex, Operation<String[]> original){
         List<PotionEffect> effects = srpmixins$getEffect(this.stage);
         if(effects == null) return original.call(instance, regex);
         return srpmixins$emptyList;
@@ -80,7 +82,8 @@ public abstract class EntityDodTMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 0),
             remap = false
     )
-    private int dontParseDuration(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
+    private int srpmixins_dontParseDuration(String s, Operation<Integer> original, @Local(ordinal = 1) int i, @Share("index") LocalIntRef index){
+        index.set(i);
         List<PotionEffect> effects = srpmixins$getEffect(this.stage);
         if(effects == null) return original.call(s);
         return effects.get(i).getDuration();
@@ -91,20 +94,20 @@ public abstract class EntityDodTMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 1),
             remap = false
     )
-    private int dontParseAmplifier(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
+    private int srpmixins_dontParseAmplifier(String s, Operation<Integer> original, @Share("index") LocalIntRef index){
         List<PotionEffect> effects = srpmixins$getEffect(this.stage);
         if(effects == null) return original.call(s);
-        return effects.get(i).getAmplifier();
+        return effects.get(index.get()).getAmplifier();
     }
 
     @WrapOperation(
             method = "applyEffectsDod",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;getPotionFromResourceLocation(Ljava/lang/String;)Lnet/minecraft/potion/Potion;")
     )
-    private Potion dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 1) int i){
+    private Potion srpmixins_dontParsePotion(String s, Operation<Potion> original, @Share("index") LocalIntRef index){
         List<PotionEffect> effects = srpmixins$getEffect(this.stage);
         //if there's no list for the current dispatcher stage for whatever reason, we pass back to original handling
         if(effects == null) return original.call(s);
-        return effects.get(i).getPotion();
+        return effects.get(index.get()).getPotion();
     }
 }

@@ -5,6 +5,8 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigMobs;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalIntRef;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import org.spongepowered.asm.mixin.Mixin;
@@ -56,7 +58,7 @@ public abstract class EntityDropPodMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
-    private String[] dontSplitList(String instance, String regex, Operation<String[]> original){
+    private String[] srpmixins_dontSplitList(String instance, String regex, Operation<String[]> original){
         return srpmixins$emptyList;
     }
 
@@ -64,7 +66,8 @@ public abstract class EntityDropPodMixin {
             method = "selfExplode",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;getPotionFromResourceLocation(Ljava/lang/String;)Lnet/minecraft/potion/Potion;")
     )
-    private Potion dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 1) int i){
+    private Potion srpmixins_dontParsePotion(String s, Operation<Potion> original, @Local(ordinal = 1) int i, @Share("index") LocalIntRef index){
+        index.set(i);
         PotionEffect effect = srpmixins$getEffect(i);
         //if potion was not parseable, we don't run the amplifier and duration parse overwrites
         if(effect == null) return null;
@@ -76,8 +79,8 @@ public abstract class EntityDropPodMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 0),
             remap = false
     )
-    private int dontParseDuration(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
-        return srpmixins$getEffect(i).getDuration();
+    private int srpmixins_dontParseDuration(String s, Operation<Integer> original, @Share("index") LocalIntRef index){
+        return srpmixins$getEffect(index.get()).getDuration();
     }
 
     @WrapOperation(
@@ -85,7 +88,7 @@ public abstract class EntityDropPodMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 1),
             remap = false
     )
-    private int dontParseAmplifier(String s, Operation<Integer> original, @Local(ordinal = 1) int i){
-        return srpmixins$getEffect(i).getAmplifier();
+    private int srpmixins_dontParseAmplifier(String s, Operation<Integer> original, @Share("index") LocalIntRef index){
+        return srpmixins$getEffect(index.get()).getAmplifier();
     }
 }

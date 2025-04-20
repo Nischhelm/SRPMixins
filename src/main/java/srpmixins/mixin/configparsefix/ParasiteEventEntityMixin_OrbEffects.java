@@ -23,7 +23,7 @@ public abstract class ParasiteEventEntityMixin_OrbEffects {
             remap = false,
             cancellable = true
     )
-    private static void orbApplyEffects(EntityLivingBase target, EntityParasiteBase orbCreator, String[] unused, int mobCount, CallbackInfo ci) {
+    private static void srpmixins_orbApplyEffects(EntityLivingBase target, EntityParasiteBase orbCreator, String[] unused, int mobCount, CallbackInfo ci) {
         List<ParaOrbEffect> orbEffects = SRPConfigProvider.orbEffects.get(orbCreator.getParasiteIDRegister());
         if (orbEffects == null) return; //other mobs not from base SRP -> fallback to default less performant behavior
 

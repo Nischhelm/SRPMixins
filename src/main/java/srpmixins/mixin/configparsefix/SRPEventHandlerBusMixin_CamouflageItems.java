@@ -58,7 +58,7 @@ public abstract class SRPEventHandlerBusMixin_CamouflageItems {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
-    private String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original, @Local String itemName){
+    private String[] srpmixins_dontSplit(String instance, String regex, Operation<String[]> original, @Local(name = "item") String itemName){
         if(srpmixins$getCamouflageProperties(itemName) != null)
             return new String[]{itemName,"",""};
         else
@@ -70,7 +70,7 @@ public abstract class SRPEventHandlerBusMixin_CamouflageItems {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I"),
             remap = false
     )
-    private int srpmixins_dontParseDuration(String s, Operation<Integer> original, @Local String itemName){
+    private int srpmixins_dontParseDuration(String s, Operation<Integer> original, @Local(name = "item") String itemName){
         return srpmixins$getCamouflageProperties(itemName).getRight();
     }
 
@@ -79,7 +79,7 @@ public abstract class SRPEventHandlerBusMixin_CamouflageItems {
             at = @At(value = "INVOKE", target = "Ljava/lang/Double;parseDouble(Ljava/lang/String;)D"),
             remap = false
     )
-    private double srpmixins_dontParseChance(String s, Operation<Double> original, @Local String itemName){
+    private double srpmixins_dontParseChance(String s, Operation<Double> original, @Local(name = "item") String itemName){
         return srpmixins$getCamouflageProperties(itemName).getLeft();
     }
 }

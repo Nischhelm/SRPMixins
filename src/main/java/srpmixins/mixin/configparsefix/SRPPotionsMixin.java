@@ -53,7 +53,7 @@ public abstract class SRPPotionsMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
-    private static String[] srpmixins_dontSplitList(String instance, String regex, Operation<String[]> original, @Local String potionName){
+    private static String[] srpmixins_dontSplitList(String instance, String regex, Operation<String[]> original, @Local(name = "name") String potionName){
         Integer maxAmp = srpmixins$getMaxAmp(potionName);
         if(maxAmp != null) return new String[]{potionName,""};
         return srpmixins$emptyList;
@@ -64,7 +64,7 @@ public abstract class SRPPotionsMixin {
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I"),
             remap = false
     )
-    private static int srpmixins_dontParseMaxAmp(String instance, Operation<Integer> original, @Local String potionName){
+    private static int srpmixins_dontParseMaxAmp(String instance, Operation<Integer> original, @Local(name = "name") String potionName){
         //return the current dimension to pass the next check for every parsed line
         return srpmixins$getMaxAmp(potionName);
     }
