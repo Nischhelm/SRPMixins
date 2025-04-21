@@ -53,4 +53,20 @@ public class DeterrentConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckoninfestationlimit.json")
     public boolean fixInfestedBlockLimit = true;
+
+    @Config.Comment("When Beckons stand inside infested grass, they will not be able to propagate their new stage (after upgrade) to the infested blocks around them, making some infestation mechanics not work properly in those cases. This fixes it.")
+    @Config.Name("Fix Block Infestation Beckon Upgrade")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.aiblockinfestfix.json")
+    public boolean fixKyphosisInfestation = true;
+
+    @Config.Comment("Beckon infested area grows a lot of infested grass in it. Increase this multiplier to make it more rare (default SRP is 1, default here is 8x rarer).")
+    @Config.Name("Infested Grass Rarity")
+    public float infestedGrassSpawnRateMultiplier = 8.F;
+
+    @Config.Comment("Beckons infest blocks in a square shaped area. This makes the area circular instead, looks better.")
+    @Config.Name("Circular Infestation Area")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.circularinfestationarea.json")
+    public boolean infestationAreaIsCircular = true;
 }
