@@ -196,13 +196,12 @@ public class SRPConfigProvider {
                 for (String s : entry.getValue()) {
                     String[] split = s.split(";");
                     if(split.length < 4){
-                        SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Loot Pool line, too few entries (Expected pattern: int;int;int;modid:potionname;int;int): {}", s);
+                        SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Loot Pool line, too few entries (Expected pattern: modid:itemname;odds;maxQuantity;alwaysDrop): {}", s);
                         continue;
                     }
                     Item item = Item.getByNameOrId(split[0].trim());
 
-                    if (item == null)
-                        SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Loot Pool line, item {} doesn't exist: {}", split[0], s);
+                    if (item == null) SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Loot Pool line, item {} doesn't exist: {}", split[0], s);
                     else {
                         try {
                             int chance = Integer.parseInt(split[1].trim());
@@ -248,23 +247,22 @@ public class SRPConfigProvider {
                 List<ParaOrbEffect> orbEffectList = new ArrayList<>();
                 for (String s : entry.getValue()) {
                     String[] split = s.split(";");
-                    if(split.length < 5){
+                    if(split.length < 6){
                         SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Orb Effects line, too few entries (Expected pattern: int;int;int;modid:potionname;int;int): {}", s);
                         continue;
                     }
                     Potion potion = Potion.getPotionFromResourceLocation(split[3].trim());
 
-                    if (potion == null)
-                        SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Orb Effects line, potion {} doesn't exist: {}", split[3].trim(), s);
+                    if (potion == null) SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Orb Effects line, potion {} doesn't exist: {}", split[3].trim(), s);
                     else {
                         try {
-                            int self = Integer.parseInt(split[0].trim());
+                            int applicationMode = Integer.parseInt(split[0].trim());
                             int duration = Integer.parseInt(split[1].trim()) * 20;
-                            int amp = Integer.parseInt(split[2].trim());
-                            int enemiesA = Integer.parseInt(split[4].trim());
-                            int enemiesD = Integer.parseInt(split[5].trim());
+                            int amplifier = Integer.parseInt(split[2].trim());
+                            int mobDivisorAmplifier = Integer.parseInt(split[4].trim());
+                            int mobDivisorDuration = Integer.parseInt(split[5].trim());
 
-                            orbEffectList.add(new ParaOrbEffect(self, new PotionEffect(potion, duration, amp), enemiesA, enemiesD));
+                            orbEffectList.add(new ParaOrbEffect(applicationMode, new PotionEffect(potion, duration, amplifier), mobDivisorAmplifier, mobDivisorDuration));
                         } catch (Exception e) {
                             SRPMixins.LOGGER.warn("SRPMixins: Unable to parse SRP Orb Effects line (Expected pattern: int;int;int;modid:potionname;int;int): {}", s);
                         }

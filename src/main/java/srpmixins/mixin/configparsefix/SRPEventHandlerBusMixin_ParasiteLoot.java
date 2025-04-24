@@ -52,7 +52,7 @@ public abstract class SRPEventHandlerBusMixin_ParasiteLoot {
     private static void srpmixins$addLootToDrops(Random rand, Triple<ItemStack, Integer, Boolean> loot, LivingDropsEvent event){
         if (rand.nextInt(100) < loot.getMiddle()) {
             ItemStack newStack = loot.getLeft().copy();
-            newStack.setCount(rand.nextInt(newStack.getCount()));
+            newStack.setCount(1 + rand.nextInt(newStack.getCount()));
 
             BlockPos pos = event.getEntity().getPosition();
             event.getDrops().add(new EntityItem(event.getEntity().getEntityWorld(), pos.getX(), pos.getY(), pos.getZ(), newStack));
