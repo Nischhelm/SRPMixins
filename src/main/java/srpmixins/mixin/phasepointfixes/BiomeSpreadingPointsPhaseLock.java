@@ -18,7 +18,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
     )
     private static boolean srpmixins_phaseLockBlock(SRPSaveData data, int id, int in, boolean plus, World world, boolean canChangePhase) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
-        return startPhase < 0 || data.getEvolutionPhase(world.provider.getDimension()) >= startPhase;
+        return data.getEvolutionPhase(world.provider.getDimension()) >= startPhase;
     }
 
     @WrapWithCondition(
@@ -28,7 +28,7 @@ public abstract class BiomeSpreadingPointsPhaseLock {
     )
     private static boolean srpmixins_phaseLockTrunk(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
-        return startPhase < 0 || data.getEvolutionPhase(id) >= startPhase;
+        return data.getEvolutionPhase(id) >= startPhase;
     }
 
     @WrapWithCondition(
@@ -38,6 +38,6 @@ public abstract class BiomeSpreadingPointsPhaseLock {
     )
     private static boolean srpmixins_phaseLockStain(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
-        return startPhase < 0 || data.getEvolutionPhase(id) >= startPhase;
+        return data.getEvolutionPhase(id) >= startPhase;
     }
 }

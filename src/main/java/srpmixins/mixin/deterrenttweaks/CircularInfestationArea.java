@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-@Debug(export = true)
 @Mixin(ParasiteEventWorld.class)
 public class CircularInfestationArea {
     @WrapOperation(

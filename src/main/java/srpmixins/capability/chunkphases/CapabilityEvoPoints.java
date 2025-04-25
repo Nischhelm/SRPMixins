@@ -2,7 +2,6 @@ package srpmixins.capability.chunkphases;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import srpmixins.config.SRPConfigProvider;
@@ -105,15 +104,15 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
             }
 
             //Check if phase got changed. Don't reduce further than phase 0 or increase above phase 10
-            if (canChangePhase && !(addedPoints < 0 && this.evoPhase <= 0) && !(addedPoints > 0 && this.evoPhase >= 10)) {
+            if (canChangePhase && !(addedPoints < 0 && this.evoPhase <= 0) && !(addedPoints > 0 && this.evoPhase >= SRPMixinsConfigHandler.morephases.getMaxPhase())) {
                 //checking this before going through the whole list is just for performance
                 //Phase can also reduce multiple phases at once, so we can't just -- or ++
                 if (isOutsideCurrRange(this.evoPoints)) {
                     byte newPhase = -1;
                     //newPhase is always one lower than the phase belonging to current phasePointMin
                     //so when the comparison fails we're already at the correct phase
-                    for (int phasePointMin : SRPConfigProvider.phasePointThresholds)
-                        if (this.evoPoints >= phasePointMin) newPhase++;
+                    for (byte phase = 0; phase <= SRPMixinsConfigHandler.morephases.maxEvolutionPhase; phase++)
+                        if (this.evoPoints >= SRPConfigProvider.getPhaseMinPoints(phase)) newPhase++;
                         else break;
                     if (this.evoPhase != newPhase) //In theory unnecessary
                         setEvoPhase(newPhase);
@@ -137,10 +136,10 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         nextPhaseMin = SRPConfigProvider.getPhaseMinPoints((byte) (this.evoPhase + 1));
         if(this.evoPhase < 0) currPhaseMin = null;
         if(this.evoPhase == -2) nextPhaseMin = null;
-        if(this.evoPhase == 10) nextPhaseMin = SRPConfigSystems.phaseTenTotalPoints+1;
+        if(this.evoPhase == SRPMixinsConfigHandler.morephases.getMaxPhase()) nextPhaseMin = SRPConfigSystems.phaseTenTotalPoints+1;
 
         // Cooldown, only for the current chunk
-        int phaseCooldownSeconds = SRPConfigProvider.phaseCooldowns.get(MathHelper.clamp(this.evoPhase,0,10));
+        int phaseCooldownSeconds = SRPConfigProvider.getPhaseCooldown(this.evoPhase);
         setCooldown(20 * phaseCooldownSeconds, chunk.getWorld().getWorldTime(), false);
 
         // Unlock parasites, global, not chunk dependent

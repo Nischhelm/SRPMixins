@@ -36,13 +36,13 @@ public abstract class ModifiedBloodyClock {
         } else if(evoPhase == -1){
             player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phaseminusone"), actionBar);
             return false;
-        } else if(evoPhase == 10 && pointsCurr >= SRPConfigSystems.phaseTenTotalPoints){
+        } else if(pointsCurr >= SRPConfigSystems.phaseTenTotalPoints){
             player.sendStatusMessage(new TextComponentTranslation("srpmixins.bloodyclock.phasemaximum").setStyle(new Style().setColor(TextFormatting.RED)), actionBar);
             return false;
         }
 
         int pointsThis = SRPCommandEvolution.getNeededPoints(evoPhase);
-        int pointsNext = SRPCommandEvolution.getNeededPoints((byte) min(evoPhase + 1, 10));
+        int pointsNext = SRPCommandEvolution.getNeededPoints((byte) min(evoPhase + 1, SRPMixinsConfigHandler.morephases.enableMorePhases ? SRPMixinsConfigHandler.morephases.maxEvolutionPhase : 10));
         int perc = (int) round((100. * ((double) pointsCurr - pointsThis)) / ((double) pointsNext - pointsThis));
         if (pointsNext == pointsThis) perc = 0;
 

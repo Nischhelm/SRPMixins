@@ -23,7 +23,7 @@ public abstract class BlockInfestedRemainMixin {
         //ParasiteEventEntity.getRSChance(world) only gets called from here, but can't mixin there bc i don't have the blockpos there
         SRPSaveData saveData = SRPSaveDataInterface.get(world,null,blockPos);
         byte evoPhase = saveData.getEvolutionPhase(world.provider.getDimension());
-        return SRPConfigProvider.reinForcementChancePerPhase.get(MathHelper.clamp(evoPhase, 0, 10));
+        return SRPConfigProvider.getReinforcementChance(evoPhase);
         //Not calling old behavior, they forgot phase 9+10
     }
 }

@@ -24,6 +24,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.foodstealblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.minferalisations.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermantp.json");
+		//FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermantptarget.json"); //wip, this code is so fucking unreadable
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adapteddespawnlock.json", () -> EarlyConfigReader.getInt("Adapted Despawn Penalty First Phase", SRPMixinsConfigHandler.phasepoints.adaptedDespawnPenaltyPhase) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.biomespreadpenalty.json", () -> EarlyConfigReader.getInt("Biome Spreading Penalty First Phase", SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase) > -1);

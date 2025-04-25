@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.morephases",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "BlockInfestedRemainMixin",
+    "EntityAINexusGrowMixin",
+    "EntityParasiteBaseMixin",
+    "EntityPStationaryMixin",
+    "ParasiteEventEntityMixin",
+    "SRPCommandEvolutionMixin",
+    "SRPConfigSystemsMixin",
+    "SRPEventHandlerBusMixin",
+    "SRPSaveDataMixin",
+    "SRPSpawningDimensionHandlerMixin",
+    "SRPSpawningMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

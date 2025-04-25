@@ -22,7 +22,7 @@ public abstract class AdaptedPenaltyPhaseLock extends Entity {
     )
     private int srpmixins_phaseLockMixin(int original, @Local SRPSaveData data) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.adaptedDespawnPenaltyPhase;
-        if (startPhase > -1 && data.getEvolutionPhase(this.world.provider.getDimension()) < startPhase)
+        if (data.getEvolutionPhase(this.world.provider.getDimension()) < startPhase)
             return 0;
 
         //Default behavior

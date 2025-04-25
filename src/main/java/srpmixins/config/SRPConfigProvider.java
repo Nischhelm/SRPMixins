@@ -15,54 +15,77 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SRPConfigProvider {
-    public static final List<Integer> phaseCooldowns = Arrays.asList(
-            0,
-            SRPConfigSystems.phaseDelayTicksOne,
-            SRPConfigSystems.phaseDelayTicksTwo,
-            SRPConfigSystems.phaseDelayTicksThree,
-            SRPConfigSystems.phaseDelayTicksFour,
-            SRPConfigSystems.phaseDelayTicksFive,
-            SRPConfigSystems.phaseDelayTicksSix,
-            SRPConfigSystems.phaseDelayTicksSeven,
-            SRPConfigSystems.phaseDelayTicksEight,
-            SRPConfigSystems.phaseDelayTicksNine,
-            SRPConfigSystems.phaseDelayTicksTen
-    );
+    private static List<Integer> phaseCooldowns = null;
+    public static int getPhaseCooldown(byte phase){
+        if(SRPMixinsConfigHandler.morephases.enableMorePhases)
+            return SRPMixinsConfigHandler.morephases.phaseDelayTicks[phase];
 
-    public static final List<Integer> phasePointThresholds = Arrays.asList(
-            0,
-            SRPConfigSystems.phaseKillsOne,
-            SRPConfigSystems.phaseKillsTwo,
-            SRPConfigSystems.phaseKillsThree,
-            SRPConfigSystems.phaseKillsFour,
-            SRPConfigSystems.phaseKillsFive,
-            SRPConfigSystems.phaseKillsSix,
-            SRPConfigSystems.phaseKillsSeven,
-            SRPConfigSystems.phaseKillsEight,
-            SRPConfigSystems.phaseKillsNine,
-            SRPConfigSystems.phaseKillsTen
-    );
+        if(phaseCooldowns == null){
+            phaseCooldowns = Arrays.asList(
+                    0,
+                    SRPConfigSystems.phaseDelayTicksOne,
+                    SRPConfigSystems.phaseDelayTicksTwo,
+                    SRPConfigSystems.phaseDelayTicksThree,
+                    SRPConfigSystems.phaseDelayTicksFour,
+                    SRPConfigSystems.phaseDelayTicksFive,
+                    SRPConfigSystems.phaseDelayTicksSix,
+                    SRPConfigSystems.phaseDelayTicksSeven,
+                    SRPConfigSystems.phaseDelayTicksEight,
+                    SRPConfigSystems.phaseDelayTicksNine,
+                    SRPConfigSystems.phaseDelayTicksTen
+            );
+        }
+        return phaseCooldowns.get(MathHelper.clamp(phase, 0, 10));
+    }
 
+    private static List<Integer> phasePointThresholds = null;
     public static int getPhaseMinPoints(byte phase){
+        if(SRPMixinsConfigHandler.morephases.enableMorePhases)
+            return SRPMixinsConfigHandler.morephases.phaseKills[phase];
+
+        if(phasePointThresholds == null) {
+            phasePointThresholds = Arrays.asList(
+                    0,
+                    SRPConfigSystems.phaseKillsOne,
+                    SRPConfigSystems.phaseKillsTwo,
+                    SRPConfigSystems.phaseKillsThree,
+                    SRPConfigSystems.phaseKillsFour,
+                    SRPConfigSystems.phaseKillsFive,
+                    SRPConfigSystems.phaseKillsSix,
+                    SRPConfigSystems.phaseKillsSeven,
+                    SRPConfigSystems.phaseKillsEight,
+                    SRPConfigSystems.phaseKillsNine,
+                    SRPConfigSystems.phaseKillsTen
+            );
+        }
         return phasePointThresholds.get(MathHelper.clamp(phase, 0, 10));
     }
 
-    public static final List<Double> reinForcementChancePerPhase = Arrays.asList(
-            0.0,
-            SRPConfigSystems.reinforcementSystemChanceOne,
-            SRPConfigSystems.reinforcementSystemChanceTwo,
-            SRPConfigSystems.reinforcementSystemChanceThree,
-            SRPConfigSystems.reinforcementSystemChanceFour,
-            SRPConfigSystems.reinforcementSystemChanceFive,
-            SRPConfigSystems.reinforcementSystemChanceSix,
-            SRPConfigSystems.reinforcementSystemChanceSeven,
-            SRPConfigSystems.reinforcementSystemChanceEight,
-            SRPConfigSystems.reinforcementSystemChanceNine,
-            SRPConfigSystems.reinforcementSystemChanceTen
-    );
+    private static List<Double> reinforcementChancePerPhase;
+    public static double getReinforcementChance(byte phase){
+        if(SRPMixinsConfigHandler.morephases.enableMorePhases)
+            return SRPMixinsConfigHandler.morephases.reinforcementSystemChance[phase];
 
-    public static final List<Integer> dimensionCanGainPointsBlacklist = Arrays.stream(SRPConfigSystems.evolutionDimGain).boxed().collect(Collectors.toList());
-    public static final List<Integer> dimensionCantLosePointsBlacklist = Arrays.stream(SRPConfigSystems.evolutionDimLoss).boxed().collect(Collectors.toList());
+        if(reinforcementChancePerPhase == null)
+            reinforcementChancePerPhase = Arrays.asList(
+                    0.0,
+                    SRPConfigSystems.reinforcementSystemChanceOne,
+                    SRPConfigSystems.reinforcementSystemChanceTwo,
+                    SRPConfigSystems.reinforcementSystemChanceThree,
+                    SRPConfigSystems.reinforcementSystemChanceFour,
+                    SRPConfigSystems.reinforcementSystemChanceFive,
+                    SRPConfigSystems.reinforcementSystemChanceSix,
+                    SRPConfigSystems.reinforcementSystemChanceSeven,
+                    SRPConfigSystems.reinforcementSystemChanceEight,
+                    SRPConfigSystems.reinforcementSystemChanceNine,
+                    SRPConfigSystems.reinforcementSystemChanceTen
+            );
+
+        return reinforcementChancePerPhase.get(MathHelper.clamp(phase, 0, 10));
+    }
+
+    public static List<Integer> dimensionCanGainPointsBlacklist;
+    public static List<Integer> dimensionCantLosePointsBlacklist;
 
     //dimensionId, [phase, points]
     public static final Map<Integer, List<Integer>> evolutionStartPerDimension = new HashMap<>();
@@ -72,6 +95,9 @@ public class SRPConfigProvider {
     public static final Map<Integer, List<ParaOrbEffect>> orbEffects = new HashMap<>();
 
     public static void init(){
+        dimensionCanGainPointsBlacklist = Arrays.stream(SRPConfigSystems.evolutionDimGain).boxed().collect(Collectors.toList());
+        dimensionCantLosePointsBlacklist = Arrays.stream(SRPConfigSystems.evolutionDimLoss).boxed().collect(Collectors.toList());
+
         for(String s : SRPConfigSystems.evolutionParasiteLock) {
             if (s != null) {
                 String[] split = s.split(";");

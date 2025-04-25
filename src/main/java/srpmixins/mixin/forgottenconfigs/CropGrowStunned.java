@@ -7,13 +7,14 @@ import com.llamalad7.mixinextras.sugar.Cancellable;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-@Mixin(SRPEventHandlerBus.class)
+@Mixin(value = SRPEventHandlerBus.class, priority = 900)
 public abstract class CropGrowStunned {
     @ModifyExpressionValue(
             method = "cropGrow",

@@ -1,25 +1,23 @@
-package srpmixins.mixin.forgottenconfigs;
+package srpmixins.mixin.morephases;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
-import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.config.SRPMixinsConfigHandler;
 
-@Mixin(value = EntityParasiteBase.class, priority = 900)
-public abstract class KillCountPlus {
+@Mixin(EntityParasiteBase.class)
+public abstract class EntityParasiteBaseMixin {
     @Shadow(remap = false) protected double killcount;
 
     @ModifyExpressionValue(
             method = "onLivingUpdate",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase;phaseCreated:B", remap = false)
     )
-    private byte srpmixins_useAllKillCountConfigs(byte phaseCreated){
-        switch (phaseCreated){
-            case 9: this.killcount += SRPConfigSystems.phaseKillCountPlusNine; break;
-            case 10: this.killcount += SRPConfigSystems.phaseKillCountPlusTen; break;
-        }
-        return phaseCreated;
+    private byte srpmixins_addKillCount(byte phase) {
+        if(phase >= 0 && phase <= SRPMixinsConfigHandler.morephases.maxEvolutionPhase)
+            this.killcount += SRPMixinsConfigHandler.morephases.phaseKillCountPlus[phase];
+        return -69; //don't run original code
     }
 }

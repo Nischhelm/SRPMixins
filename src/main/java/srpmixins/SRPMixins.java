@@ -6,6 +6,7 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -32,13 +33,17 @@ import srpmixins.util.compat.LycanitesMobsCompat;
 )
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.6.6";
+    public static final String VERSION = "2.6.7";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
+    public static Configuration CONFIG;
     public static boolean completedLoading = false;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        CONFIG = new Configuration(event.getSuggestedConfigurationFile());
+        CONFIG.load();
+
         SRPMixinsConfigProvider.init();
 
         if(SRPMixinsConfigHandler.deterrents.playsounds) MinecraftForge.EVENT_BUS.register(NexusSpawnSounds.class);
@@ -61,6 +66,9 @@ public class SRPMixins {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         SRPConfigProvider.init();
+
+        if(SRPMixinsConfigHandler.morephases.enableMorePhases && SRPMixinsConfigHandler.morephases.phaseKills.length == 0)
+            SRPMixinsConfigProvider.initMorePhasesConfig();
     }
 
     @Mod.EventHandler
@@ -69,6 +77,7 @@ public class SRPMixins {
             LycanitesMobsCompat.reloadLycaniteSpawnerManager();
 
         SRPConfigProvider.postInit();
+        SRPMixinsConfigProvider.postInit();
 
         completedLoading = true;
 

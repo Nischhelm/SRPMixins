@@ -56,6 +56,11 @@ public class SRPMixinsConfigHandler {
 	@MixinConfig.SubInstance
 	public static final ModCompatConfig modcompat = new ModCompatConfig();
 
+	@Config.Comment("SRP phase configs for quick access and increase/decrease of phases")
+	@Config.Name("More Phases")
+	@MixinConfig.SubInstance
+	public static final MorePhasesConfig morephases = new MorePhasesConfig();
+
 	@Config.Comment("Player Phases Options - incompatible with chunk phases")
 	@Config.Name("Player Phases")
 	@MixinConfig.SubInstance
