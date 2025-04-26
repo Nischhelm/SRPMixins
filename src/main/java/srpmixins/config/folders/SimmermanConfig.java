@@ -35,5 +35,5 @@ public class SimmermanConfig {
     @Config.Comment("Max Distance from target at which Assimilated and Feral Endermen will tp themselves and other mobs for mobs to, default 4. Set to 0 to disable")
     @Config.Name("Assimilated/Feral Endermen max target tp radius")
     @Config.RangeDouble(min = 0.0)
-    public double simmermenTpDistanceFromTargetMax = 8.0;
+    public double simmermenTpDistanceFromTargetMax = 6.0;
 }
