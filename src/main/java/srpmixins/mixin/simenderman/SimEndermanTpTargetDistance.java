@@ -1,33 +1,31 @@
 package srpmixins.mixin.simenderman;
 
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnderman;
-import com.llamalad7.mixinextras.sugar.Local;
-import com.llamalad7.mixinextras.sugar.ref.LocalDoubleRef;
+import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.Shadow;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityInfEnderman.class)
 public abstract class SimEndermanTpTargetDistance extends EntityLivingBase {
+    @Shadow(remap = false) protected abstract boolean teleportTo(double x, double y, double z);
 
     public SimEndermanTpTargetDistance(World worldIn) {
         super(worldIn);
     }
 
-    @Inject(
-            method = "setCoordTarget",
-            at = @At(value = "HEAD"),
-            remap = false
-    )
-    private void srpmixins_changeSimmermanTPTargetPosition(double x, double y, double z, CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalDoubleRef xRef, @Local(argsOnly = true, ordinal = 2) LocalDoubleRef zRef) {
-        double radius = SRPMixinsConfigHandler.simmermen.simmermenTpDistanceFromTargetMin + this.rand.nextDouble() * (SRPMixinsConfigHandler.simmermen.simmermenTpDistanceFromTargetMax - SRPMixinsConfigHandler.simmermen.simmermenTpDistanceFromTargetMin);
+    @WrapMethod(method = "teleportToPos", remap = false)
+    protected boolean srpmixins_teleportToPos(double x, double y, double z, double dis, Operation<Boolean> original) {
+        double radius = MathHelper.nextDouble(this.rand, SRPMixinsConfigHandler.simmermen.simmermenTpDistanceFromTargetMin, SRPMixinsConfigHandler.simmermen.simmermenTpDistanceFromTargetMax);
         double angle = this.rand.nextDouble() * Math.PI * 2.;
 
-        xRef.set(x + radius * Math.cos(angle));
-        zRef.set(z + radius * Math.sin(angle));
+        double xNew = x + radius * Math.cos(angle);
+        double zNew = z + radius * Math.sin(angle);
+
+        return this.teleportTo(xNew, y, zNew);
     }
 }

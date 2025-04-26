@@ -2,6 +2,7 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import org.spongepowered.asm.mixin.Mixin;
 
 public class SimmermanConfig {
     @Config.Comment("Distance from which Assimilated and Feral Endermen search for mobs to tp, default 64 (performance)")
@@ -20,13 +21,19 @@ public class SimmermanConfig {
     @Config.RangeInt(min = -1)
     public int endSimmermenCap = 40;
 
-    /*@Config.Comment("Min Distance from target at which Assimilated and Feral Endermen will tp themselves and other mobs for mobs to, default 1. Set to 0 to disable")
-    @Config.Name("Assimilated/Feral Endermen min target tp radius")
-    @Config.RangeDouble(min = 0.0)*/
-    public double simmermenTpDistanceFromTargetMin = 1.0;
+    @Config.Comment("Disable this to not use min and max target tp radius config on Simmermen and Feral Endermen.")
+    @Config.Name("Modify Assim/Feral Endermen target tp radius")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.simmermantptarget.json")
+    public boolean simmermenUseTargetTpRadius = true;
 
-    /*@Config.Comment("Max Distance from target at which Assimilated and Feral Endermen will tp themselves and other mobs for mobs to, default 4. Set to 0 to disable")
+    @Config.Comment("Min Distance from target at which Assimilated and Feral Endermen will tp themselves and other mobs for mobs to, default 1. Set to 0 to disable")
+    @Config.Name("Assimilated/Feral Endermen min target tp radius")
+    @Config.RangeDouble(min = 0.0)
+    public double simmermenTpDistanceFromTargetMin = 4.0;
+
+    @Config.Comment("Max Distance from target at which Assimilated and Feral Endermen will tp themselves and other mobs for mobs to, default 4. Set to 0 to disable")
     @Config.Name("Assimilated/Feral Endermen max target tp radius")
-    @Config.RangeDouble(min = 0.0)*/
-    public double simmermenTpDistanceFromTargetMax = 4.0;
+    @Config.RangeDouble(min = 0.0)
+    public double simmermenTpDistanceFromTargetMax = 8.0;
 }

@@ -75,4 +75,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.commandfix.json")
     public boolean fixCommandOverrides = true;
+
+    @Config.Comment("SRP sends a new network packet for every individual block position that gets turned into parasitic biome or back to plains. This fix sends one bigger packet instead, for performance.")
+    @Config.Name("Fix SRP Biome Packet")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.biomepacket.json")
+    public boolean fixBiomePacket = true;
 }
