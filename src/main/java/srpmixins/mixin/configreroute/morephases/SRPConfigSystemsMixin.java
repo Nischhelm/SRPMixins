@@ -1,4 +1,4 @@
-package srpmixins.mixin.morephases;
+package srpmixins.mixin.configreroute.morephases;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import org.spongepowered.asm.mixin.Mixin;

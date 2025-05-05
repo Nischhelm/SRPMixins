@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.morephases",
+  "package": "srpmixins.mixin.configreroute.morephases",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",

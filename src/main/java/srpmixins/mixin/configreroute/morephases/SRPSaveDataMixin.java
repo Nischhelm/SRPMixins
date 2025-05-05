@@ -1,4 +1,4 @@
-package srpmixins.mixin.morephases;
+package srpmixins.mixin.configreroute.morephases;
 
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;

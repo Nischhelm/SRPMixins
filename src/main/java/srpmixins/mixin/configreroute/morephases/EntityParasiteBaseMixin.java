@@ -1,4 +1,4 @@
-package srpmixins.mixin.morephases;
+package srpmixins.mixin.configreroute.morephases;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;

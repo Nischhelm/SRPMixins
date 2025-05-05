@@ -1,4 +1,4 @@
-package srpmixins.mixin.morephases;
+package srpmixins.mixin.configreroute.morephases;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationary;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;

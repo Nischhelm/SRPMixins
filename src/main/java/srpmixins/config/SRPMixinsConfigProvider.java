@@ -158,16 +158,18 @@ public class SRPMixinsConfigProvider {
     }
 
     public static void setupBiomeBlacklistMap(Map<Integer, ArrayList<String>> map, String[] config) {
+        map.put(Integer.MAX_VALUE, new ArrayList<>());
         for (String line : config) {
-            String[] split = line.split(" *, *");
+            String[] split = line.split(",");
             if (split.length >= 1) {
                 try {
-                    int dim = Integer.parseInt(split[0]);
+                    int dim = Integer.parseInt(split[0].trim());
                     if (!map.containsKey(dim))
                         map.put(dim, new ArrayList<>());
                     if(split.length>=2) {
-                        String biome = split[1];
+                        String biome = split[1].trim();
                         map.get(dim).add(biome);
+                        map.get(Integer.MAX_VALUE).add(biome);
                     }
                 } catch (NumberFormatException e) {
                     SRPMixins.LOGGER.warn(SRPMixins.NAME + " config could not parse biome blacklist line {}", line);
@@ -178,11 +180,11 @@ public class SRPMixinsConfigProvider {
 
     public static void setupDimensionMultiplierMap(Map<Integer,Float> map, String[] config) {
         for (String line : config) {
-            String[] split = line.split(" *, *");
+            String[] split = line.split(",");
             if (split.length >= 2) {
                 try {
-                    int dim = Integer.parseInt(split[0]);
-                    float multi = Float.parseFloat(split[1]);
+                    int dim = Integer.parseInt(split[0].trim());
+                    float multi = Float.parseFloat(split[1].trim());
                     if (!map.containsKey(dim))
                         map.put(dim, multi);
                 } catch (NumberFormatException e) {
@@ -406,13 +408,56 @@ public class SRPMixinsConfigProvider {
             //Should trigger on the first spawn list that doesn't contain the current entry
             else if(!phases.isEmpty()){
                 //startPhase - endPhase
-                if(phases.size() >= 2) phasesToSpawnIn += phases.get(0) + " - " + phases.get(phases.size()-1) + "; ";
+                if(phases.size() >= 2) phasesToSpawnIn += phases.get(0) + " - " + phases.get(phases.size()-1) + ", ";
                 //single phases
-                else phasesToSpawnIn += phases.get(0) + "; ";
+                else phasesToSpawnIn += phases.get(0) + ", ";
                 phases.clear();
             }
         }
         SRPMixins.LOGGER.info(phasesToSpawnIn);
-        return phasesToSpawnIn.substring(0, phasesToSpawnIn.length()-2); //remove last "; "
+        return phasesToSpawnIn.substring(0, phasesToSpawnIn.length()-2); //remove last ", "
+    }
+
+
+    private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
+
+    //This only runs once to grab all the SRP configs and put them into an SRP config
+    public static void initMobConfigs() {
+
+    }
+
+    private static class SRPMobConfig {
+        float dmgMulti, armorMulti, healthMulti, kbresMulti;
+        int spawnWeight;
+        boolean enabled;
+        String[] loot;
+    }
+
+    public static float getMobConfigDamage(String paraName) {
+        return srpMobConfig.get(paraName).dmgMulti;
+    }
+
+    public static float getMobConfigArmor(String paraName) {
+        return srpMobConfig.get(paraName).armorMulti;
+    }
+
+    public static float getMobConfigHealth(String paraName) {
+        return srpMobConfig.get(paraName).healthMulti;
+    }
+
+    public static float getMobConfigKBRes(String paraName) {
+        return srpMobConfig.get(paraName).kbresMulti;
+    }
+
+    public static int getMobConfigSpawnWeight(String paraName) {
+        return srpMobConfig.get(paraName).spawnWeight;
+    }
+
+    public static boolean getMobConfigEnabled(String paraName) {
+        return srpMobConfig.get(paraName).enabled;
+    }
+
+    public static String[] getMobConfigLoot(String paraName) {
+        return srpMobConfig.get(paraName).loot;
     }
 }

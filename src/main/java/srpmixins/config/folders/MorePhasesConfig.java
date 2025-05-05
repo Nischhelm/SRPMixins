@@ -44,7 +44,7 @@ public class MorePhasesConfig {
     @Config.Name("Spawning - Maximum Parasite Type ID")
     public int[] phaseMaxParasiteID = {};
 
-    @Config.Comment("List for parasites that will spawn at each phase. Pattern: [startPhase - endPhase; otherPhase; anotherPhase; etc]; modid:mobname; minGroupCount; maxGroupCount; weight")
+    @Config.Comment("List for parasites that will spawn at each phase. Pattern: [startPhase - endPhase, otherPhase, anotherPhase, etc]; modid:mobname; minGroupCount; maxGroupCount; weight")
     @Config.Name("Spawning - Phase Spawn List")
     public String[] phaseSpawnList = {};
 

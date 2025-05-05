@@ -1,4 +1,4 @@
-package srpmixins.mixin.morephases;
+package srpmixins.mixin.configreroute.morephases;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.EntityAINexusGrow;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationaryArchitect;

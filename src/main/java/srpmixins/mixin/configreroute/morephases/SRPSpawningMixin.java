@@ -1,4 +1,4 @@
-package srpmixins.mixin.morephases;
+package srpmixins.mixin.configreroute.morephases;
 
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
@@ -54,7 +54,7 @@ public abstract class SRPSpawningMixin {
 
             //Pattern: [0 - 2; 4; 10; ...]
             String phasesToSpawnIn = split[0].trim().replace("[","").replace("]","");
-            String[] split2 = phasesToSpawnIn.split(";");
+            String[] split2 = phasesToSpawnIn.split(",");
             List<Byte> spawnPhases = new ArrayList<>();
 
             try {
