@@ -12,11 +12,14 @@ public class AdaptationConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationoverhaul.json")
     public boolean overhaulAdaptation = true;
 
-    @Config.Comment("Tweaks the adaption fire tick window to be set by any damage while burning instead of only fire tick damage. Additionally Fire Resistance makes adaptable parasites ignore burning checks")
-    @Config.Name("Burning State Sets Fire Tick Window")
+    @Config.Comment("In SRP, adaptable Parasites will have a chance to fail adapting to a damage type if they got hit by inFire or onFire dmg maximum 10 ticks (half a second) before the current hit. \n" +
+            "This means you would have to hit them during the iframe the fire tick creates to make them fail the adaptation. \n" +
+            "Enable this fix to instead make them have a chance to fail adaptation whenever they are burning (and not having fire resistance).\n" +
+            "Warning: this makes any burn inflicting method to deal with parasites about twice as useful against their adaptation")
+    @Config.Name("Fix Adaptation While Burning")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptburningfirewindowanydamage.json")
-    public boolean anyDamageWhenBurningFailWindow = true;
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptwhileburningfix.json")
+    public boolean fixAdaptationWhileBurning = true;
 
     @Config.Comment("If adapting during an attack with no immediate attacker entity, SRP adapts to \"\". This fixes that bug. Requires \"Overhaul Adaptation\".")
     @Config.Name("Fix Null Adaptation")
