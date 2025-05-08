@@ -17,14 +17,4 @@ public abstract class DisableScentDebug {
         //no op if disabled
         return false;
     }
-
-    @WrapWithCondition(
-            method = "placeWaves",
-            at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
-            remap = false
-    )
-    private boolean srpmixins_disableScentHitboxDebug(PrintStream instance, String x){
-        //no op if disabled
-        return false;
-    }
 }

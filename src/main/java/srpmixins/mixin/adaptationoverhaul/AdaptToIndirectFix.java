@@ -24,7 +24,7 @@ public abstract class AdaptToIndirectFix {
 
     @WrapOperation(
             method = "attackEntityFrom",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/DamageSource;getTrueSource()Lnet/minecraft/entity/Entity;", ordinal = 2)
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/DamageSource;getTrueSource()Lnet/minecraft/entity/Entity;", ordinal = 3)
     )
     private Entity srpmixins_skipTrueSourceCheckIfIndirect(DamageSource source, Operation<Entity> original) {
         if (source instanceof EntityDamageSourceIndirect) return null; //adapt to dmg type directly
