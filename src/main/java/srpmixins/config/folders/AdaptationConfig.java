@@ -12,7 +12,7 @@ public class AdaptationConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationoverhaul.json")
     public boolean overhaulAdaptation = true;
 
-    @Config.Comment("Tweaks the adaption fire tick window to be set by any damage while burning instead of only fire tick damage. Also makes Fire Resistance make isBurning return false for adaptable parasites")
+    @Config.Comment("Tweaks the adaption fire tick window to be set by any damage while burning instead of only fire tick damage. Additionally Fire Resistance makes adaptable parasites ignore burning checks")
     @Config.Name("Burning State Sets Fire Tick Window")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptburningfirewindowanydamage.json")

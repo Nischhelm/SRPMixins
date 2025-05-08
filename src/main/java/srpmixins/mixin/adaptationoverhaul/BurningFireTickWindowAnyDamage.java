@@ -34,7 +34,6 @@ public abstract class BurningFireTickWindowAnyDamage extends EntityParasiteBase 
     @Unique
     @Override
     public boolean isBurning(){
-        boolean original = super.isBurning(); // does a remote check
-        return original && !this.isPotionActive(MobEffects.FIRE_RESISTANCE);
+        return super.isBurning() && !this.isPotionActive(MobEffects.FIRE_RESISTANCE);
     }
 }
