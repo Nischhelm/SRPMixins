@@ -12,32 +12,12 @@ import srpmixins.config.SRPMixinsConfigHandler;
 public abstract class BiomeSpreadingPointsPhaseLock {
 
     @WrapWithCondition(
-            method = "canInfestBlock",
+            method = {"canInfestBlock", "spreadBiomeBlockStain", "spreadBiomeBlockTrunk"},
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
             remap = false
     )
     private static boolean srpmixins_phaseLockBlock(SRPSaveData data, int id, int in, boolean plus, World world, boolean canChangePhase) {
         int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
         return data.getEvolutionPhase(world.provider.getDimension()) >= startPhase;
-    }
-
-    @WrapWithCondition(
-            method = "spreadBiomeBlockTrunk",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
-            remap = false
-    )
-    private static boolean srpmixins_phaseLockTrunk(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
-        int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
-        return data.getEvolutionPhase(id) >= startPhase;
-    }
-
-    @WrapWithCondition(
-            method = "spreadBiomeBlockStain",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
-            remap = false
-    )
-    private static boolean srpmixins_phaseLockStain(SRPSaveData data, int id, int in, boolean plus, World worldIn, boolean canChangePhase) {
-        int startPhase = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
-        return data.getEvolutionPhase(id) >= startPhase;
     }
 }

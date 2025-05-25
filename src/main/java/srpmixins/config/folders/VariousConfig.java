@@ -33,7 +33,7 @@ public class VariousConfig {
             "- Most Phase 9+10 configs (cooldown, killcount plus, scent bonus+reaction, beckon grow penalties, crop grow stunned, mobs spawning with COTH, beckon spawn from residue\n" +
             "- Spawning Rates of certain mobs making them not spawn at all with phases disabled (Monarch, Feral Bear, Light Carrier, Thrall)\n" +
             "- Merging flesh not spawning primitives with reduced health defined via merge config\n" +
-            "- Mob Health/Dmg/Armor/KBres multipliers (Gnat, Hijacked Golem, Light Carrier, Worker, Prim Vermin)\n" +
+            "- Mob Health/Dmg/Armor/KBres multipliers (Gnat, Hijacked Golem, Light Carrier, Worker, Prim Vermin, Feral Bear)\n" +
             "- XP value of sentries and kyphosis not using the deterrent XP value\n" +
             "- Preeminents incorrectly using the Pure value for remain value\n" +
             "- Points over time dimension blacklist\n" +

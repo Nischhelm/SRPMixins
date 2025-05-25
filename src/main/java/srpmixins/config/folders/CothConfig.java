@@ -37,4 +37,10 @@ public class CothConfig {
             "Fully disable this mixin with -1 (requires restart).")
     @Config.Name("Sim Big Spider Min Assimilations")
     public int assimBigSpiderMinAssimilations = 1;
+
+    @Config.Comment("Feral Bears couldn't get created from assimilated ones upgrading or from gnats. This fixes it.")
+    @Config.Name("Fix Feral Bear Creation")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.feraliseferbears.json")
+    public boolean fixFeralBearCreation = true;
 }
