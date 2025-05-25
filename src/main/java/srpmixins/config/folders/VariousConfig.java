@@ -37,8 +37,7 @@ public class VariousConfig {
             "- XP value of sentries and kyphosis not using the deterrent XP value\n" +
             "- Preeminents incorrectly using the Pure value for remain value\n" +
             "- Points over time dimension blacklist\n" +
-            "- Min phase for Beckons ignoring summoning cooldown+\n" +
-            "- Fixes empty lists set as whitelists not working as expected")
+            "- Min phase for Beckons ignoring summoning cooldown")
     @Config.Name("Use Forgotten Configs")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.forgottenconfigs.json")
@@ -82,4 +81,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.biomepacket.json")
     public boolean fixBiomePacket = true;
+
+    @Config.Comment("SRP always uses the same method to treat its various config blacklists. In the case of an empty whitelist (list empty & treatAsWhitelist = true) the list is incorrectly treated as an empty BLACKlist, so instead of \"deny all\" its treated as \"allow all\". This fixes it.")
+    @Config.Name("Fix Empty Whitelists read as Blacklists")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.emptywhitelistfix.json")
+    public boolean fixEmptyWhitelist = true;
 }

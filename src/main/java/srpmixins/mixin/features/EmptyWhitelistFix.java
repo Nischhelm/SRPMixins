@@ -1,4 +1,4 @@
-package srpmixins.mixin.forgottenconfigs;
+package srpmixins.mixin.features;
 
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
@@ -18,4 +18,17 @@ public abstract class EmptyWhitelistFix {
     private static boolean srpmixins_checkNameInvertEmpty(boolean original, @Local(argsOnly = true) boolean inverted){
         return original || inverted;
     }
+
+    /*
+    Wish i could just do this
+
+     * Method should be called "isEntryBlacklisted", or "doesEntryContainAnyOfTheseStrings?"
+     * @author Nischhelm
+     * @reason optimise and fix empty whitelist being read as empty blacklist.
+
+    @Overwrite(remap = false)
+    public static boolean checkName(String potentialElement, String[] blacklist, boolean isWhitelist) {
+        boolean elementContainsAnyListEntry = Arrays.stream(blacklist).anyMatch(potentialElement::contains);
+        return elementContainsAnyListEntry != isWhitelist;
+    }*/
 }
