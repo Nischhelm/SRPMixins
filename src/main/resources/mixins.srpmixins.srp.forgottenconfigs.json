@@ -10,6 +10,7 @@
     "BeckonGrowPenalty",
     "CropGrowStunned",
     "DefaultPhases",
+    "EmptyWhitelistFix",
     "KillCountDimensionBlacklist",
     "KillCountPlus",
     "KyphosisXPValue",

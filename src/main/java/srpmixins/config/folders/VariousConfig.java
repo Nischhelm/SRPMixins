@@ -37,7 +37,8 @@ public class VariousConfig {
             "- XP value of sentries and kyphosis not using the deterrent XP value\n" +
             "- Preeminents incorrectly using the Pure value for remain value\n" +
             "- Points over time dimension blacklist\n" +
-            "- Min phase for Beckons ignoring summoning cooldown")
+            "- Min phase for Beckons ignoring summoning cooldown+\n" +
+            "- Fixes empty lists set as whitelists not working as expected")
     @Config.Name("Use Forgotten Configs")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.forgottenconfigs.json")
