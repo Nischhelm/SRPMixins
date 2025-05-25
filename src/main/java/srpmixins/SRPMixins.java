@@ -69,6 +69,8 @@ public class SRPMixins {
 
         if(SRPMixinsConfigHandler.morephases.enableMorePhases && SRPMixinsConfigHandler.morephases.phaseKills.length == 0)
             SRPMixinsConfigProvider.initMorePhasesConfig();
+        if (SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length == 0)
+            SRPMixinsConfigProvider.initMobConfigs();
     }
 
     @Mod.EventHandler

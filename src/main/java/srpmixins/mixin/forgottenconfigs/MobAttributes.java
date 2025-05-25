@@ -76,7 +76,8 @@ public class MobAttributes {
 
     @Inject(
             method = "reset",
-            at = @At("TAIL")
+            at = @At("TAIL"),
+            remap = false
     )
     private static void srpmixins_resetForgottenMobAttributes(CallbackInfo ci){
         ATA_HEALTH = 5.0D;

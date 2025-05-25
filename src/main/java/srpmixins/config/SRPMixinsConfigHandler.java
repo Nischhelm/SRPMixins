@@ -1,5 +1,6 @@
 package srpmixins.config;
 
+import com.dhanantry.scapeandrunparasites.util.SRPAttributes;
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
@@ -86,6 +87,11 @@ public class SRPMixinsConfigHandler {
 	@MixinConfig.SubInstance
 	public static final SpawnConfig spawns = new SpawnConfig();
 
+	@Config.Comment("Quick Access for common SRP mob configs like stat multis")
+	@Config.Name("SRP Mob Config")
+	@MixinConfig.SubInstance
+	public static final SRPMobConfig mobConfig = new SRPMobConfig();
+
 	@Config.Comment("Various Options")
 	@Config.Name("Various")
 	@MixinConfig.SubInstance
@@ -109,6 +115,10 @@ public class SRPMixinsConfigHandler {
 			if(event.getModID().equals(SRPMixins.MODID)) {
 				ConfigManager.sync(SRPMixins.MODID, Config.Type.INSTANCE);
 				SRPMixinsConfigProvider.reset();
+				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig) {
+					SRPAttributes.reset();
+					SRPAttributes.init();
+				}
 			}
 		}
 	}
