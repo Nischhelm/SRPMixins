@@ -16,7 +16,7 @@ public class SRPMixinsConfigProvider {
     public static final Map<Integer,Float> dimensionKBResMultipliers = new HashMap<>();
     public static final Map<Integer,Float> dimensionDropMultipliers = new HashMap<>();
     public static final Map<Integer,Float> dimensionMobCapMultipliers = new HashMap<>();
-    public static final Map<Integer, ArrayList<String>> biomeSpawningBlacklists = new HashMap<>();
+    public static final Map<Integer, List<String>> biomeSpawningBlacklists = new HashMap<>();
     public static final Map<String, Byte> biomeStartPhases = new HashMap<>();
     public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
@@ -157,8 +157,7 @@ public class SRPMixinsConfigProvider {
         return SRPMixinsConfigHandler.lures.carcassPhaseMultis[phase];
     }
 
-    public static void setupBiomeBlacklistMap(Map<Integer, ArrayList<String>> map, String[] config) {
-        map.put(Integer.MAX_VALUE, new ArrayList<>());
+    public static void setupBiomeBlacklistMap(Map<Integer, List<String>> map, String[] config) {
         for (String line : config) {
             String[] split = line.split(",");
             if (split.length >= 1) {
@@ -169,7 +168,6 @@ public class SRPMixinsConfigProvider {
                     if(split.length>=2) {
                         String biome = split[1].trim();
                         map.get(dim).add(biome);
-                        map.get(Integer.MAX_VALUE).add(biome);
                     }
                 } catch (NumberFormatException e) {
                     SRPMixins.LOGGER.warn(SRPMixins.NAME + " config could not parse biome blacklist line {}", line);
