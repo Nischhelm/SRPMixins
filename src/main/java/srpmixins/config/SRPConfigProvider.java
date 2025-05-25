@@ -101,17 +101,37 @@ public class SRPConfigProvider {
         for(String s : SRPConfigSystems.evolutionParasiteLock) {
             if (s != null) {
                 String[] split = s.split(";");
-                int id = Integer.parseInt(split[2]);
-                lockedParasites.add(id);
+                if(split.length >= 3) {
+                    String mobIdOrName = split[2].trim();
+                    try {
+                        int id = Integer.parseInt(mobIdOrName);
+                        lockedParasites.add(id);
+                    } catch (Exception e){
+                        if(SRPMixinsConfigProvider.mobNameToParaIdMap.containsKey(mobIdOrName))
+                            lockedParasites.add(SRPMixinsConfigProvider.mobNameToParaIdMap.get(mobIdOrName));
+                        else if(SRPMixinsConfigProvider.mobNameToParaIdMap.containsKey(mobIdOrName.replace("srparasites:","")))
+                            lockedParasites.add(SRPMixinsConfigProvider.mobNameToParaIdMap.get(mobIdOrName.replace("srparasites:","")));
+                        else
+                            SRPMixins.LOGGER.warn("SRPMixins unable to parse \"SRP Evolution Parasite Lock\" entry, expected parasite id or name in last entry, provided was {}", s);
+                    }
+                } else
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP \"Evolution Parasite Lock\" line, line has not enough entries to be valid (expected pattern: dim; phase; parasite id or name), provided was: {}", s);
             }
         }
 
         for (String s : SRPConfigSystems.evolutionDimStart) {
             String[] split = s.split(";");
-            int dim = Integer.parseInt(split[0]);
-            int phase = Integer.parseInt(split[1]);
-            int points = Integer.parseInt(split[2]);
-            evolutionStartPerDimension.put(dim, Arrays.asList(phase, points));
+            if(split.length >= 3) {
+                try {
+                    int dim = Integer.parseInt(split[0].trim());
+                    int phase = Integer.parseInt(split[1].trim());
+                    int points = Integer.parseInt(split[2].trim());
+                    evolutionStartPerDimension.put(dim, Arrays.asList(phase, points));
+                } catch (Exception e){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP \"Evolution Phases Dimension Starting Phase\" line, expected only integers, provided was: {}", s);
+                }
+            } else
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP \"Evolution Phases Dimension Starting Phase\" line, line has not enough entries to be valid (expected pattern: dim; phase; points), provided was: {}", s);
         }
     }
 

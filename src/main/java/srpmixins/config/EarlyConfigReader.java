@@ -11,12 +11,12 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//Inspiredy by fonnymunkey RLMixins, altered
+//Inspired by fonnymunkey RLMixins, altered
 public class EarlyConfigReader {
 	private static File configFile = null;
 	//private static String configBooleanString = null;
 	private static String configIntString = null;
-	private static String configStringArrayString = null;
+	//private static String configStringArrayString = null; //TODO WIP
 
 	/*public static boolean getBoolean(String name, boolean defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
@@ -66,6 +66,7 @@ public class EarlyConfigReader {
 		else return defaultValue;
 	}
 
+	/* WIP
 	public static boolean stringListIsDisabled(String name, String[] defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
 
@@ -104,5 +105,5 @@ public class EarlyConfigReader {
 		}
 		//If config is not generated yet or missing entries, we use the default value that will get written into it right after this
 		else return defaultValue.length == 0;
-	}
+	}*/
 }
