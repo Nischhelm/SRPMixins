@@ -27,13 +27,23 @@ public class SimmermanConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.simmermantptarget.json")
     public boolean simmermenUseTargetTpRadius = true;
 
-    @Config.Comment("Min Distance from target at which Assimilated and Feral Endermen will tp themselves and other mobs for mobs to, default 1. Set to 0 to disable")
-    @Config.Name("Assimilated/Feral Endermen min target tp radius")
+    @Config.Comment("Min Distance from target at which Assimilated Endermen will tp themselves and other mobs for mobs to, default 1. Set to 0 to disable")
+    @Config.Name("Assimilated Endermen min target tp radius")
     @Config.RangeDouble(min = 0.0)
     public double simmermenTpDistanceFromTargetMin = 4.0;
 
-    @Config.Comment("Max Distance from target at which Assimilated and Feral Endermen will tp themselves and other mobs for mobs to, default 4. Set to 0 to disable")
-    @Config.Name("Assimilated/Feral Endermen max target tp radius")
+    @Config.Comment("Max Distance from target at which Assimilated Endermen will tp themselves and other mobs for mobs to, default 4. Set to 0 to disable")
+    @Config.Name("Assimilated Endermen max target tp radius")
     @Config.RangeDouble(min = 0.0)
     public double simmermenTpDistanceFromTargetMax = 6.0;
+
+    @Config.Comment("Min Distance from target at which Feral Endermen will tp themselves and other mobs for mobs to, default 1. Set to 0 to disable")
+    @Config.Name("Feral Endermen min target tp radius")
+    @Config.RangeDouble(min = 0.0)
+    public double fermenTpDistanceFromTargetMin = 4.0;
+
+    @Config.Comment("Max Distance from target at which Feral Endermen will tp themselves and other mobs for mobs to, default 4. Set to 0 to disable")
+    @Config.Name("Feral Endermen max target tp radius")
+    @Config.RangeDouble(min = 0.0)
+    public double fermenTpDistanceFromTargetMax = 6.0;
 }
