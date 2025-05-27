@@ -15,10 +15,10 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
@@ -31,16 +31,12 @@ public abstract class SpawnNextPhaseLock {
     )
     private static void srpmixins_spawnNextPhaseLock(EntityParasiteBase entityIn, EntityParasiteBase entityOut, boolean effects, boolean thunder, Operation<Void> original){
         if(entityIn.world.isRemote || !SRPConfigSystems.useEvolution) { original.call(entityIn, entityOut, effects, thunder); return; }
-        ResourceLocation locIn = EntityList.getKey(entityIn);
-        ResourceLocation locOut = EntityList.getKey(entityOut);
-        if(locIn == null || locOut == null) { original.call(entityIn, entityOut, effects, thunder); return; }
 
-        String mobIn = locIn.toString().replace("srparasites:","");
-        String mobOut = locOut.toString().replace("srparasites:","");
+        String mobIn = srpmixins$getNameForEntity(entityIn);
+        String mobOut = srpmixins$getNameForEntity(entityOut);
+        if(mobIn.isEmpty() || mobOut.isEmpty()) { original.call(entityIn, entityOut, effects, thunder); return; }
 
-        int currPhase = SRPSaveDataInterface.get(entityIn.world, null, entityIn.getPosition()).getEvolutionPhase(entityIn.world.provider.getDimension());
-        int phaseLock = SRPMixinsConfigProvider.getConversionPhaseLock(mobIn, mobOut);
-        if(currPhase >= phaseLock)
+        if(!srpmixins$conversionIsPhaseLocked(entityIn, mobIn, mobOut))
             original.call(entityIn, entityOut, effects, thunder);
         //else no conversion
     }
@@ -51,19 +47,15 @@ public abstract class SpawnNextPhaseLock {
     )
     private static Entity srpmixins_conversionPhaseLock(ResourceLocation locOut, World worldIn, Operation<Entity> original, @Local(argsOnly = true) EntityLivingBase entityIn, @Local(ordinal = 0) String mobIn, @Cancellable CallbackInfo ci){
         if(entityIn.world.isRemote || !SRPConfigSystems.useEvolution) { return original.call(locOut, worldIn); }
-
-        ResourceLocation locIn = EntityList.getKey(entityIn);
-        if(locIn == null || locOut == null) { return original.call(locOut, worldIn); }
+        if(locOut == null) return null;
 
         mobIn = mobIn.replace("srparasites:","");
         String mobOut = locOut.toString().replace("srparasites:","");
 
-        int currPhase = SRPSaveDataInterface.get(entityIn.world, null, entityIn.getPosition()).getEvolutionPhase(entityIn.world.provider.getDimension());
-        int phaseLock = SRPMixinsConfigProvider.getConversionPhaseLock(mobIn, mobOut);
-        if(currPhase >= phaseLock)
-            return original.call(locOut, worldIn);
-        else
+        if(srpmixins$conversionIsPhaseLocked(entityIn, mobIn, mobOut)){
             ci.cancel(); //Don't convert
+            return null;
+        }
 
         return original.call(locOut, worldIn);
     }
@@ -74,19 +66,15 @@ public abstract class SpawnNextPhaseLock {
     )
     private static Entity srpmixins_conversionPhaseLockFeralAndHijack(ResourceLocation locOut, World worldIn, Operation<Entity> original, @Local(argsOnly = true) EntityLivingBase entityIn, @Local(ordinal = 0) String mobIn, @Cancellable CallbackInfoReturnable<Boolean> cir){
         if(entityIn.world.isRemote || !SRPConfigSystems.useEvolution) { return original.call(locOut, worldIn); }
-
-        ResourceLocation locIn = EntityList.getKey(entityIn);
-        if(locIn == null || locOut == null) { return original.call(locOut, worldIn); }
+        if(locOut == null) return null;
 
         mobIn = mobIn.replace("srparasites:","");
         String mobOut = locOut.toString().replace("srparasites:","");
 
-        int currPhase = SRPSaveDataInterface.get(entityIn.world, null, entityIn.getPosition()).getEvolutionPhase(entityIn.world.provider.getDimension());
-        int phaseLock = SRPMixinsConfigProvider.getConversionPhaseLock(mobIn, mobOut);
-        if(currPhase >= phaseLock)
-            return original.call(locOut, worldIn);
-        else
+        if(srpmixins$conversionIsPhaseLocked(entityIn, mobIn, mobOut)){
             cir.setReturnValue(false); //Don't convert
+            return null;
+        }
 
         return original.call(locOut, worldIn);
     }
@@ -98,21 +86,37 @@ public abstract class SpawnNextPhaseLock {
     )
     private static String[] srpmixins_mergePhaseLock(String mergeListEntry, String sep, Operation<String[]> original, @Local(argsOnly = true) EntityParasiteBase entityIn, @Cancellable CallbackInfoReturnable<Boolean> cir){
         if(entityIn.world.isRemote || !SRPConfigSystems.useEvolution) { return original.call(mergeListEntry, sep); }
-
         ResourceLocation locIn = EntityList.getKey(entityIn);
         if(locIn == null) { return original.call(mergeListEntry, sep); }
 
-        String mobIn = locIn.toString().replace("srparasites:","");
-        //Not using original.call since it's returning an empty list
+        String mobIn = srpmixins$getNameForEntity(entityIn);
+        //Not using original.call here since it's returning an empty list
         String mobOut = mergeListEntry.substring(0, mergeListEntry.indexOf(";")).replace("srparasites:","");
 
-        int currPhase = SRPSaveDataInterface.get(entityIn.world, null, entityIn.getPosition()).getEvolutionPhase(entityIn.world.provider.getDimension());
-        int phaseLock = SRPMixinsConfigProvider.getConversionPhaseLock(mobIn, mobOut);
-        if(currPhase >= phaseLock)
-            return original.call(mergeListEntry, sep);
-        else
+        if(srpmixins$conversionIsPhaseLocked(entityIn, mobIn, mobOut)){
             cir.setReturnValue(false); //Don't convert
+            return null;
+        }
 
         return original.call(mergeListEntry, sep);
+    }
+
+    @Unique
+    private static String srpmixins$getNameForEntity(Entity entity){
+        if(entity instanceof EntityParasiteBase){
+            int paraId = ((EntityParasiteBase) entity).getParasiteIDRegister();
+            return SRPMixinsConfigProvider.paraIdToMobName.getOrDefault(paraId,"");
+        } else {
+            ResourceLocation locIn = EntityList.getKey(entity);
+            if(locIn != null) return locIn.toString();
+            else return "";
+        }
+    }
+
+    @Unique
+    private static boolean srpmixins$conversionIsPhaseLocked(Entity entityIn, String mobIn, String mobOut){
+        int currPhase = SRPSaveDataInterface.get(entityIn.world, null, entityIn.getPosition()).getEvolutionPhase(entityIn.world.provider.getDimension());
+        int phaseLock = SRPMixinsConfigProvider.getConversionPhaseLock(mobIn, mobOut);
+        return currPhase < phaseLock;
     }
 }

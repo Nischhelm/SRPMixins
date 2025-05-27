@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class SRPMixinsConfigProvider {
     public static final Map<String, Integer> mobNameToParaIdMap = new HashMap<>();
+    public static final Map<Integer, String> paraIdToMobName;
     public static final Map<String, List<Integer>> mobGroupToParaIdMap = new HashMap<>();
 
     public static final Map<Integer,Float> dimensionHealthMultipliers = new HashMap<>();
@@ -305,6 +306,8 @@ public class SRPMixinsConfigProvider {
         mobNameToParaIdMap.put("fer_bear", 306);
         mobNameToParaIdMap.put("sim_squid", 307);
         mobNameToParaIdMap.put("worm", 308);
+
+        paraIdToMobName = mobNameToParaIdMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
         mobGroupToParaIdMap.put("ADAPTED", Arrays.asList(51, 52, 53, 54, 55, 56, 58));
         mobGroupToParaIdMap.put("ANCIENT", Arrays.asList(20, 24, 35));
