@@ -35,6 +35,10 @@ public class SRPMixinsConfigProvider {
     public static final Map<String, List<Integer>> blockBreakBlacklist = new HashMap<>();
     public static final List<List<Float>> nexusGrowStunChance = new ArrayList<>();
 
+    private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
+
+    private static final Map<String, Map<String, Integer>> conversionPathwayLocks = new HashMap<>();
+
     public static void init(){
         setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMixinsConfigHandler.dimension.dimensionHealthMultipliers);
         setupDimensionMultiplierMap(dimensionDmgMultipliers, SRPMixinsConfigHandler.dimension.dimensionDmgMultipliers);
@@ -113,6 +117,8 @@ public class SRPMixinsConfigProvider {
                 blockBreakBlacklist.put(split[0].trim(), listedParaIds);
             }
         }
+
+        readConversionLockConfig();
     }
 
     public static void postInit(){
@@ -398,11 +404,9 @@ public class SRPMixinsConfigProvider {
     private static String getPhaseListsContainingEntryAsString(String spawnEntry, List<List<String>> phaseSpawnListOriginal) {
         List<Integer> phases = new ArrayList<>();
         String phasesToSpawnIn = "";
-        SRPMixins.LOGGER.info(spawnEntry);
         for(int i = 0; i <= phaseSpawnListOriginal.size(); i++) {
             //we go one index further to always clear the list at the end
             if(i < phaseSpawnListOriginal.size() && phaseSpawnListOriginal.get(i).contains(spawnEntry)) {
-                SRPMixins.LOGGER.info("List {} contains the entry", i);
                 phases.add(i);
             }
             //Should trigger on the first spawn list that doesn't contain the current entry
@@ -414,12 +418,8 @@ public class SRPMixinsConfigProvider {
                 phases.clear();
             }
         }
-        SRPMixins.LOGGER.info(phasesToSpawnIn);
         return phasesToSpawnIn.substring(0, phasesToSpawnIn.length()-2); //remove last ", "
     }
-
-
-    private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
 
     //The bottom part only runs once to grab all the SRP mob configs and put them into a list
     public static boolean readMobConfigs() {
@@ -575,5 +575,60 @@ public class SRPMixinsConfigProvider {
 
     public static boolean getMobConfigEnabled(String paraName) {
         return srpMobConfig.get(paraName).enabled;
+    }
+
+    //---------------------------- CONVERSION PHASE LOCK ----------------------------
+
+    public static int getConversionPhaseLock(String mobIn, String mobOut) {
+        if (!conversionPathwayLocks.containsKey(mobIn) || !conversionPathwayLocks.get(mobIn).containsKey(mobOut)){
+            if(SRPMixinsConfigHandler.spawns.autoFillConversionRules)
+                setConversionPathwayLock(mobIn, mobOut, -2);
+            return -2;
+        }
+        return conversionPathwayLocks.get(mobIn).get(mobOut);
+    }
+
+    private static void setConversionPathwayLock(String mobIn, String mobOut, int defaultValue) {
+        if(!conversionPathwayLocks.containsKey(mobIn))
+            conversionPathwayLocks.put(mobIn, new HashMap<>());
+        conversionPathwayLocks.get(mobIn).put(mobOut, defaultValue);
+    }
+
+    public static void readConversionLockConfig(){
+        for(String s : SRPMixinsConfigHandler.spawns.conversionRules){
+            String[] split = s.split(",");
+            if(split.length < 3)
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse conversion pathway line, too few arguments (expected 3): {}", s);
+            else {
+                try {
+                    String mobIn = split[0].trim().replace("srparasites:","");
+                    String mobOut = split[1].trim().replace("srparasites:","");
+                    int phase = Integer.parseInt(split[2].trim());
+                    setConversionPathwayLock(mobIn, mobOut, phase);
+                } catch (Exception e) {
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse conversion pathway line, expected integer in last entry, provided was {}", s);
+                }
+            }
+        }
+    }
+
+    public static void writeConversionLockConfig(){
+        int mapEntries = 0;
+        for(Map<String, Integer> v : conversionPathwayLocks.values())
+            mapEntries += v.size();
+
+        if(mapEntries > SRPMixinsConfigHandler.spawns.conversionRules.length){
+            List<String> configList = new ArrayList<>();
+            for(Map.Entry<String, Map<String, Integer>> bigEntry : conversionPathwayLocks.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toList())) {
+                for (Map.Entry<String, Integer> smallEntry : bigEntry.getValue().entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toList())) {
+                    String mobIn = bigEntry.getKey();
+                    String mobOut = smallEntry.getKey();
+                    Integer phase = smallEntry.getValue();
+                    configList.add(mobIn + ", " + mobOut + ", " + phase);
+                }
+            }
+            SRPMixins.CONFIG.get("general.Spawning", "Conversion Phase Lock Rules", SRPMixinsConfigHandler.spawns.conversionRules).set(configList.toArray(new String[0]));
+            SRPMixins.CONFIG.save();
+        }
     }
 }

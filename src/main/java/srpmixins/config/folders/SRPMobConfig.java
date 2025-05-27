@@ -15,6 +15,7 @@ public class SRPMobConfig {
             "use true/false for enabled\n" +
             "spawnWeight is only used if evolution custom spawner is disabled\n" +
             "some values aren't used, keep those on \"---\"\n" +
+            "changing spawnWeight or enabled requires restart to work\n" +
             "Pattern: enabled healthMulti dmgMulti armorMulti knockbackResistanceMulti spawnWeight paraname")
     @Config.Name("SRP Mob Config")
     public String[] mobConfig = {};

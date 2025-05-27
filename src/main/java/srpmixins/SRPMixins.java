@@ -21,6 +21,7 @@ import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.NexusSpawnSounds;
 import srpmixins.handlers.ParasiteDropChance;
 import srpmixins.handlers.SRPArmorBowEvolutionHandler;
+import srpmixins.handlers.WriteConversionPathways;
 import srpmixins.util.compat.CompatUtil;
 import srpmixins.util.compat.LycanitesMobsCompat;
 
@@ -33,7 +34,7 @@ import srpmixins.util.compat.LycanitesMobsCompat;
 )
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.6.9";
+    public static final String VERSION = "2.7.0";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static Configuration CONFIG;
@@ -46,9 +47,6 @@ public class SRPMixins {
 
         SRPMixinsConfigProvider.init();
 
-        if(SRPMixinsConfigHandler.deterrents.playsounds) MinecraftForge.EVENT_BUS.register(NexusSpawnSounds.class);
-        if(SRPMixinsConfigHandler.dimension.doMultipliers) MinecraftForge.EVENT_BUS.register(ParasiteDropChance.class);
-
         if(SRPMixinsConfigHandler.chunkphases.enabled && SRPConfigSystems.useEvolution) {
             CapabilityEvoPointsHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(CapabilityEvoPointsHandler.AttachCapabilityHandler.class);
@@ -59,8 +57,14 @@ public class SRPMixins {
             MinecraftForge.EVENT_BUS.register(CapabilityAdaptationHandler.EventHandler.class);
         }
 
-        if(SRPMixinsConfigHandler.weapons.addArmorBowEvolution)
-            MinecraftForge.EVENT_BUS.register(SRPArmorBowEvolutionHandler.class);
+        registerEventSubscriberIf(NexusSpawnSounds.class, SRPMixinsConfigHandler.deterrents.playsounds);
+        registerEventSubscriberIf(ParasiteDropChance.class, SRPMixinsConfigHandler.dimension.doMultipliers);
+        registerEventSubscriberIf(SRPArmorBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addArmorBowEvolution);
+        registerEventSubscriberIf(WriteConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
+    }
+
+    private static void registerEventSubscriberIf(Object subscriber, boolean condition){
+        if(condition) MinecraftForge.EVENT_BUS.register(subscriber);
     }
 
     @Mod.EventHandler

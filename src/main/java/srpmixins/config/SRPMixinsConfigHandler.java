@@ -119,6 +119,7 @@ public class SRPMixinsConfigHandler {
 					SRPAttributes.reset();
 					SRPAttributes.init();
 				}
+				SRPMixinsConfigProvider.readConversionLockConfig();
 			}
 		}
 	}

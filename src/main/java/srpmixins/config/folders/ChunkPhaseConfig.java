@@ -33,7 +33,8 @@ public class ChunkPhaseConfig {
     @Config.Name("Dimension blacklist is whitelist")
     public boolean dimensionBlacklistIsWhitelist = false;
 
-    @Config.Comment("If using chunk phases, a chunk region that gets points will be a square of this many chunks squared.\nWARNING: never change this in an existing world, or you will lose your evolution progress")
+    @Config.Comment("If using chunk phases, a chunk region that gets points will be a square of this many chunks squared.\n" +
+            "WARNING: never change this in an existing world, or you will lose your evolution progress")
     @Config.Name("Chunk spacing")
     @Config.RequiresMcRestart
     @Config.RangeInt(min = 1)
