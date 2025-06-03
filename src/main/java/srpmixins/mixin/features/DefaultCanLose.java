@@ -16,15 +16,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class DefaultCanLose {
     @Unique private static boolean srpmixins$readingOldData = false;
 
-    @WrapOperation(
-            method = "createData",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setLoss(ZI)V"),
-            remap = false
-    )
-    private static void srpmixins_phaseMinusTwoCantLose(SRPSaveData instance, boolean b, int in, Operation<Void> original){
-        original.call(instance, false, in);
-    }
-
     //------------- READ + WRITE new value
 
     @WrapOperation(

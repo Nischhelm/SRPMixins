@@ -64,8 +64,8 @@ public class VariousConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.parasitebushgen.json")
     public boolean fixBiomeBushLag = true;
 
-    @Config.Comment("SRP Commands don't have proper autocompletion. This fixes it. Also fixes the /help command for them.")
-    @Config.Name("Fix SRP Command Autocompletion")
+    @Config.Comment("Minimal fix for the /help command of all SRP commands")
+    @Config.Name("Fix /help on SRP Commands")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.commandfix.json")
     public boolean fixCommandOverrides = true;

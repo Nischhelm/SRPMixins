@@ -21,13 +21,4 @@ public abstract class SRPCommandColonyMixin implements ICommand {
     public int compareTo(ICommand arg0) {
         return this.getName().compareTo(arg0.getName());
     }
-
-    @ModifyReturnValue(
-            method = "getTabCompletions",
-            at = @At(value = "RETURN")
-    )
-    public List<String> getTabCompletionsComplete(List<String> original, @Local(argsOnly = true) String[] args) {
-        if (args.length == 1) return CommandBase.getListOfStringsMatchingLastWord(args, original);
-        else return original;
-    }
 }

@@ -4,9 +4,7 @@ import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 
 public class AdaptationConfig {
-    @Config.Comment("Overhaul Living/Sentient Armor adaptation, making it more performant and fixing some issues.\n" +
-            "Fixes that are included without a toggle: \n" +
-            "- When combining living+sentient gear, will use the point multiplier of each armor piece instead of using the last checked one.")
+    @Config.Comment("Overhaul Living/Sentient Armor adaptation, making it more performant and fixing some issues")
     @Config.Name("Overhaul Adaptation")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationoverhaul.json")
