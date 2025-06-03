@@ -20,7 +20,7 @@ public abstract class FeralEndermanTpTargetDistance extends EntityLivingBase {
 
     @WrapMethod(method = "teleportToPos", remap = false)
     protected boolean srpmixins_teleportToPos(double x, double y, double z, double dis, Operation<Boolean> original) {
-        double radius = MathHelper.nextDouble(this.rand, SRPMixinsConfigHandler.simmermen.simmermenTpDistanceFromTargetMin, SRPMixinsConfigHandler.simmermen.simmermenTpDistanceFromTargetMax);
+        double radius = MathHelper.nextDouble(this.rand, SRPMixinsConfigHandler.simmermen.fermenTpDistanceFromTargetMin, SRPMixinsConfigHandler.simmermen.fermenTpDistanceFromTargetMax);
         double angle = this.rand.nextDouble() * Math.PI * 2.;
 
         double xNew = x + radius * Math.cos(angle);
