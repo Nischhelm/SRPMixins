@@ -22,6 +22,7 @@ public abstract class DimensionStatMultiplier extends EntityMob {
         super(worldIn);
     }
 
+    @Override
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         if (world.isRemote) return;

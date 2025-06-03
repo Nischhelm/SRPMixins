@@ -1,6 +1,6 @@
 package srpmixins.mixin.features;
 
-import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPMalleable;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.init.Items;
@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 
-@Mixin(EntityPMalleable.class)
+@Mixin(EntityParasiteBase.class)
 public abstract class FoodStealBlacklist {
     @WrapOperation(
             method = "attackEntityAsMobFood",

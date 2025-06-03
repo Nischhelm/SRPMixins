@@ -15,7 +15,7 @@ import srpmixins.config.SRPMixinsConfigHandler;
 public abstract class NexusCap {
 
     @WrapOperation(
-            method = "findChunksForSpawning",
+            method = {"findChunksForSpawningOrigin","findChunksForSpawningVanilla"},
             at = @At(value = "INVOKE", target = "Lnet/minecraftforge/event/ForgeEventFactory;canEntitySpawn(Lnet/minecraft/entity/EntityLiving;Lnet/minecraft/world/World;FFFZ)Lnet/minecraftforge/fml/common/eventhandler/Event$Result;"),
             remap = false
     )
