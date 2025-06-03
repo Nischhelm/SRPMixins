@@ -28,7 +28,7 @@ import srpmixins.util.compat.LycanitesMobsCompat;
         modid = SRPMixins.MODID,
         version = SRPMixins.VERSION,
         name = SRPMixins.NAME,
-        dependencies = "required-after:fermiumbooter@[1.2.0,);required-after:srparasites",
+        dependencies = "required-after:fermiumbooter@[1.2.0,);required-after:srparasites@[1.10.0,)",
         acceptableRemoteVersions = "*"
 )
 public class SRPMixins {

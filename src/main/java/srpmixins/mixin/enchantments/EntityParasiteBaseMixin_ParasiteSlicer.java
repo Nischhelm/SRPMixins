@@ -17,8 +17,7 @@ public abstract class EntityParasiteBaseMixin_ParasiteSlicer extends EntityLivin
 
     @Override
     @Nonnull
-    public EnumCreatureAttribute getCreatureAttribute()
-    {
+    public EnumCreatureAttribute getCreatureAttribute() {
         return ParasiteCreatureAttribute.PARASITE;
     }
 }
