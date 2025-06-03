@@ -49,4 +49,12 @@ public class SpawnConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.colocarriertypefix.json")
     public boolean fixColonyCarrierTypeId = true;
+
+    @Config.Comment("Auto fill the conversion rules with existing conversion pathways when they happen. Will be updated on logout.")
+    @Config.Name("Conversion Phase Lock Rules - Auto fill")
+    public boolean autoFillConversionRules = true;
+
+    @Config.Comment("A lot of parasites evolve into each other. Use this list to stop specific evolution pathways until a specific phase is reached. Pattern: paraIn, paraOut, minPhase")
+    @Config.Name("Conversion Phase Lock Rules")
+    public String[] conversionRules = {};
 }

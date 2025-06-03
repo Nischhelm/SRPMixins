@@ -21,6 +21,7 @@ import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.NexusSpawnSounds;
 import srpmixins.handlers.ParasiteDropChance;
 import srpmixins.handlers.SRPBowEvolutionHandler;
+import srpmixins.handlers.WriteConversionPathways;
 import srpmixins.util.compat.CompatUtil;
 import srpmixins.util.compat.LycanitesMobsCompat;
 
@@ -46,9 +47,6 @@ public class SRPMixins {
 
         SRPMixinsConfigProvider.init();
 
-        if(SRPMixinsConfigHandler.deterrents.playsounds) MinecraftForge.EVENT_BUS.register(NexusSpawnSounds.class);
-        if(SRPMixinsConfigHandler.dimension.doMultipliers) MinecraftForge.EVENT_BUS.register(ParasiteDropChance.class);
-
         if(SRPMixinsConfigHandler.chunkphases.enabled && SRPConfigSystems.useEvolution) {
             CapabilityEvoPointsHandler.registerCapability();
             MinecraftForge.EVENT_BUS.register(CapabilityEvoPointsHandler.AttachCapabilityHandler.class);
@@ -59,8 +57,14 @@ public class SRPMixins {
             MinecraftForge.EVENT_BUS.register(CapabilityAdaptationHandler.EventHandler.class);
         }
 
-        if(SRPMixinsConfigHandler.weapons.addBowEvolution)
-            MinecraftForge.EVENT_BUS.register(SRPBowEvolutionHandler.class);
+        registerEventSubscriberIf(NexusSpawnSounds.class, SRPMixinsConfigHandler.deterrents.playsounds);
+        registerEventSubscriberIf(ParasiteDropChance.class, SRPMixinsConfigHandler.dimension.doMultipliers);
+        registerEventSubscriberIf(SRPBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addBowEvolution);
+        registerEventSubscriberIf(WriteConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
+    }
+
+    private static void registerEventSubscriberIf(Object subscriber, boolean condition){
+        if(condition) MinecraftForge.EVENT_BUS.register(subscriber);
     }
 
     @Mod.EventHandler
@@ -69,6 +73,8 @@ public class SRPMixins {
 
         if(SRPMixinsConfigHandler.morephases.enableMorePhases && SRPMixinsConfigHandler.morephases.phaseKills.length == 0)
             SRPMixinsConfigProvider.initMorePhasesConfig();
+        if (SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length == 0)
+            SRPMixinsConfigProvider.initMobConfigs();
     }
 
     @Mod.EventHandler

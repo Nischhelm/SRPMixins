@@ -1,5 +1,6 @@
 package srpmixins.config;
 
+import com.dhanantry.scapeandrunparasites.util.config.SRPConfigMobs;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import srpmixins.SRPMixins;
 
@@ -8,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class SRPMixinsConfigProvider {
     public static final Map<String, Integer> mobNameToParaIdMap = new HashMap<>();
+    public static final Map<Integer, String> paraIdToMobName;
     public static final Map<String, List<Integer>> mobGroupToParaIdMap = new HashMap<>();
 
     public static final Map<Integer,Float> dimensionHealthMultipliers = new HashMap<>();
@@ -16,7 +18,7 @@ public class SRPMixinsConfigProvider {
     public static final Map<Integer,Float> dimensionKBResMultipliers = new HashMap<>();
     public static final Map<Integer,Float> dimensionDropMultipliers = new HashMap<>();
     public static final Map<Integer,Float> dimensionMobCapMultipliers = new HashMap<>();
-    public static final Map<Integer, ArrayList<String>> biomeSpawningBlacklists = new HashMap<>();
+    public static final Map<Integer, List<String>> biomeSpawningBlacklists = new HashMap<>();
     public static final Map<String, Byte> biomeStartPhases = new HashMap<>();
     public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
@@ -33,6 +35,10 @@ public class SRPMixinsConfigProvider {
     public static final Map<String, Integer> foodBlacklist = new HashMap<>();
     public static final Map<String, List<Integer>> blockBreakBlacklist = new HashMap<>();
     public static final List<List<Float>> nexusGrowStunChance = new ArrayList<>();
+
+    private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
+
+    private static final Map<String, Map<String, Integer>> conversionPathwayLocks = new HashMap<>();
 
     public static void init(){
         setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMixinsConfigHandler.dimension.dimensionHealthMultipliers);
@@ -112,6 +118,8 @@ public class SRPMixinsConfigProvider {
                 blockBreakBlacklist.put(split[0].trim(), listedParaIds);
             }
         }
+
+        readConversionLockConfig();
     }
 
     public static void postInit(){
@@ -145,6 +153,7 @@ public class SRPMixinsConfigProvider {
         minFeralisations.clear();
         blockBreakBlacklist.clear();
         foodBlacklist.clear();
+        srpMobConfig.clear();
 
         init();
         postInit();
@@ -157,8 +166,7 @@ public class SRPMixinsConfigProvider {
         return SRPMixinsConfigHandler.lures.carcassPhaseMultis[phase];
     }
 
-    public static void setupBiomeBlacklistMap(Map<Integer, ArrayList<String>> map, String[] config) {
-        map.put(Integer.MAX_VALUE, new ArrayList<>());
+    public static void setupBiomeBlacklistMap(Map<Integer, List<String>> map, String[] config) {
         for (String line : config) {
             String[] split = line.split(",");
             if (split.length >= 1) {
@@ -169,7 +177,6 @@ public class SRPMixinsConfigProvider {
                     if(split.length>=2) {
                         String biome = split[1].trim();
                         map.get(dim).add(biome);
-                        map.get(Integer.MAX_VALUE).add(biome);
                     }
                 } catch (NumberFormatException e) {
                     SRPMixins.LOGGER.warn(SRPMixins.NAME + " config could not parse biome blacklist line {}", line);
@@ -300,6 +307,8 @@ public class SRPMixinsConfigProvider {
         mobNameToParaIdMap.put("sim_squid", 307);
         mobNameToParaIdMap.put("worm", 308);
 
+        paraIdToMobName = mobNameToParaIdMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
+
         mobGroupToParaIdMap.put("ADAPTED", Arrays.asList(51, 52, 53, 54, 55, 56, 58));
         mobGroupToParaIdMap.put("ANCIENT", Arrays.asList(20, 24, 35));
         mobGroupToParaIdMap.put("ASSIMILATED", Arrays.asList(2, 6, 13, 14, 15, 21, 22, 26, 27, 28, 31, 32, 40, 44, 45, 46, 49, 59, 64, 69, 70, 71, 307));
@@ -398,39 +407,153 @@ public class SRPMixinsConfigProvider {
     private static String getPhaseListsContainingEntryAsString(String spawnEntry, List<List<String>> phaseSpawnListOriginal) {
         List<Integer> phases = new ArrayList<>();
         String phasesToSpawnIn = "";
-        SRPMixins.LOGGER.info(spawnEntry);
         for(int i = 0; i <= phaseSpawnListOriginal.size(); i++) {
             //we go one index further to always clear the list at the end
             if(i < phaseSpawnListOriginal.size() && phaseSpawnListOriginal.get(i).contains(spawnEntry)) {
-                SRPMixins.LOGGER.info("List {} contains the entry", i);
                 phases.add(i);
             }
             //Should trigger on the first spawn list that doesn't contain the current entry
             else if(!phases.isEmpty()){
                 //startPhase - endPhase
                 if(phases.size() >= 2) phasesToSpawnIn += phases.get(0) + " - " + phases.get(phases.size()-1) + ", ";
-                //single phases
+                    //single phases
                 else phasesToSpawnIn += phases.get(0) + ", ";
                 phases.clear();
             }
         }
-        SRPMixins.LOGGER.info(phasesToSpawnIn);
         return phasesToSpawnIn.substring(0, phasesToSpawnIn.length()-2); //remove last ", "
     }
 
+    //The bottom part only runs once to grab all the SRP mob configs and put them into a list
+    public static boolean readMobConfigs() {
+        String unused = "---";
+        for (String s : SRPMixinsConfigHandler.mobConfig.mobConfig) {
+            List<String> split = Arrays.stream(s.split("\t")).map(String::trim).collect(Collectors.toList());
+            if (split.size() < 7)
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse SRPMixins Mob Config entry, too few entries, provided was {}", s);
+            else {
+                try {
+                    Boolean enabled = split.get(0).equals(unused) ? null : Boolean.parseBoolean(split.get(0));
+                    Float healthMulti = split.get(1).equals(unused) ? null : Float.parseFloat(split.get(1));
+                    Float dmgMulti = split.get(2).equals(unused) ? null : Float.parseFloat(split.get(2));
+                    Float armorMulti = split.get(3).equals(unused) ? null : Float.parseFloat(split.get(3));
+                    Float kbresMulti = split.get(4).equals(unused) ? null : Float.parseFloat(split.get(4));
+                    Integer spawnRate = split.get(5).equals(unused) ? null : Integer.parseInt(split.get(5));
+                    String mobName = split.get(6);
+                    srpMobConfig.put(mobName, new SRPMobConfig(enabled, dmgMulti, armorMulti, healthMulti, kbresMulti, spawnRate));
+                } catch (Exception e) {
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRPMixins Mob Config entry, expected numbers, provided was {}", s);
+                }
+            }
+        }
+        return !srpMobConfig.isEmpty();
+    }
 
-    private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
-
-    //This only runs once to grab all the SRP configs and put them into an SRP config
     public static void initMobConfigs() {
+        srpMobConfig.put("anc_dreadnaut", new SRPMobConfig(SRPConfigMobs.oroncoEnabled, SRPConfigMobs.oroncoDamageMultiplier, SRPConfigMobs.oroncoArmorMultiplier, SRPConfigMobs.oroncoHealthMultiplier, SRPConfigMobs.oroncoKDResistanceMultiplier, SRPConfigMobs.oroncoSpawnRate));
+        srpMobConfig.put("anc_overlord", new SRPMobConfig(SRPConfigMobs.terlaEnabled, SRPConfigMobs.terlaDamageMultiplier, SRPConfigMobs.terlaArmorMultiplier, SRPConfigMobs.terlaHealthMultiplier, SRPConfigMobs.terlaKDResistanceMultiplier, SRPConfigMobs.terlaSpawnRate));
+        srpMobConfig.put("anc_pod", new SRPMobConfig(null, SRPConfigMobs.pod1DamageMultiplier, SRPConfigMobs.pod1ArmorMultiplier, SRPConfigMobs.pod1HealthMultiplier, null, null));
+        srpMobConfig.put("pri_arachnida", new SRPMobConfig(SRPConfigMobs.arachnidaEnabled, SRPConfigMobs.arachnidaDamageMultiplier, SRPConfigMobs.arachnidaArmorMultiplier, SRPConfigMobs.arachnidaHealthMultiplier, SRPConfigMobs.arachnidaKDResistanceMultiplier, SRPConfigMobs.arachnidaSpawnRate));
+        srpMobConfig.put("bogle", new SRPMobConfig(SRPConfigMobs.lenciaEnabled, SRPConfigMobs.lenciaDamageMultiplier, SRPConfigMobs.lenciaArmorMultiplier, SRPConfigMobs.lenciaHealthMultiplier, SRPConfigMobs.lenciaKDResistanceMultiplier, SRPConfigMobs.lenciaSpawnRate));
+        srpMobConfig.put("bomber_heavy", new SRPMobConfig(SRPConfigMobs.jinjoEnabled, SRPConfigMobs.jinjoDamageMultiplier, SRPConfigMobs.jinjoArmorMultiplier, SRPConfigMobs.jinjoHealthMultiplier, SRPConfigMobs.jinjoKDResistanceMultiplier, SRPConfigMobs.jinjoSpawnRate));
+        srpMobConfig.put("bomber_light", new SRPMobConfig(SRPConfigMobs.ombooEnabled, SRPConfigMobs.ombooDamageMultiplier, SRPConfigMobs.ombooArmorMultiplier, SRPConfigMobs.ombooHealthMultiplier, SRPConfigMobs.ombooKDResistanceMultiplier, SRPConfigMobs.ombooSpawnRate));
+        srpMobConfig.put("buglin", new SRPMobConfig(SRPConfigMobs.lodoEnabled, SRPConfigMobs.lodoDamageMultiplier, SRPConfigMobs.lodoArmorMultiplier, SRPConfigMobs.lodoHealthMultiplier, SRPConfigMobs.lodoKDResistanceMultiplier, SRPConfigMobs.lodoSpawnRate));
+        srpMobConfig.put("carrier_colony", new SRPMobConfig(SRPConfigMobs.vestaEnabled, SRPConfigMobs.vestaDamageMultiplier, SRPConfigMobs.vestaArmorMultiplier, SRPConfigMobs.vestaHealthMultiplier, SRPConfigMobs.vestaKDResistanceMultiplier, SRPConfigMobs.vestaSpawnRate));
+        srpMobConfig.put("carrier_flying", new SRPMobConfig(SRPConfigMobs.butholEnabled, SRPConfigMobs.butholDamageMultiplier, SRPConfigMobs.butholArmorMultiplier, SRPConfigMobs.butholHealthMultiplier, SRPConfigMobs.butholKDResistanceMultiplier, SRPConfigMobs.butholSpawnRate));
+        srpMobConfig.put("carrier_heavy", new SRPMobConfig(SRPConfigMobs.ratholEnabled, SRPConfigMobs.ratholDamageMultiplier, SRPConfigMobs.ratholArmorMultiplier, SRPConfigMobs.ratholHealthMultiplier, SRPConfigMobs.ratholKDResistanceMultiplier, SRPConfigMobs.ratholSpawnRate));
+        srpMobConfig.put("carrier_light", new SRPMobConfig(SRPConfigMobs.gotholEnabled, SRPConfigMobs.gotholDamageMultiplier, SRPConfigMobs.gotholArmorMultiplier, SRPConfigMobs.gotholHealthMultiplier, SRPConfigMobs.gotholKDResistanceMultiplier, SRPConfigMobs.gotholSpawnRate));
+        srpMobConfig.put("crux", new SRPMobConfig(SRPConfigMobs.cruxaEnabled, SRPConfigMobs.cruxaDamageMultiplier, SRPConfigMobs.cruxaArmorMultiplier, SRPConfigMobs.cruxaHealthMultiplier, SRPConfigMobs.cruxaKDResistanceMultiplier, SRPConfigMobs.cruxaSpawnRate));
+        srpMobConfig.put("draconite", new SRPMobConfig(SRPConfigMobs.hebluEnabled, SRPConfigMobs.hebluDamageMultiplier, SRPConfigMobs.hebluArmorMultiplier, SRPConfigMobs.hebluHealthMultiplier, SRPConfigMobs.hebluKDResistanceMultiplier, SRPConfigMobs.hebluSpawnRate));
+        srpMobConfig.put("fer_bear", new SRPMobConfig(SRPConfigMobs.ferbearEnabled, SRPConfigMobs.ferbearDamageMultiplier, SRPConfigMobs.ferbearArmorMultiplier, SRPConfigMobs.ferbearHealthMultiplier, SRPConfigMobs.ferbearKDResistanceMultiplier, SRPConfigMobs.ferbearSpawnRate));
+        srpMobConfig.put("fer_cow", new SRPMobConfig(SRPConfigMobs.fercowEnabled, SRPConfigMobs.fercowDamageMultiplier, SRPConfigMobs.fercowArmorMultiplier, SRPConfigMobs.fercowHealthMultiplier, SRPConfigMobs.fercowKDResistanceMultiplier, SRPConfigMobs.fercowSpawnRate));
+        srpMobConfig.put("fer_enderman", new SRPMobConfig(SRPConfigMobs.ferendermanEnabled, SRPConfigMobs.ferendermanDamageMultiplier, SRPConfigMobs.ferendermanArmorMultiplier, SRPConfigMobs.ferendermanHealthMultiplier, SRPConfigMobs.ferendermanKDResistanceMultiplier, SRPConfigMobs.ferendermanSpawnRate));
+        srpMobConfig.put("fer_horse", new SRPMobConfig(SRPConfigMobs.ferhorseEnabled, SRPConfigMobs.ferhorseDamageMultiplier, SRPConfigMobs.ferhorseArmorMultiplier, SRPConfigMobs.ferhorseHealthMultiplier, SRPConfigMobs.ferhorseKDResistanceMultiplier, SRPConfigMobs.ferhorseSpawnRate));
+        srpMobConfig.put("fer_human", new SRPMobConfig(SRPConfigMobs.ferhumanEnabled, SRPConfigMobs.ferhumanDamageMultiplier, SRPConfigMobs.ferhumanArmorMultiplier, SRPConfigMobs.ferhumanHealthMultiplier, SRPConfigMobs.ferhumanKDResistanceMultiplier, SRPConfigMobs.ferhumanSpawnRate));
+        srpMobConfig.put("fer_pig", new SRPMobConfig(SRPConfigMobs.ferpigEnabled, SRPConfigMobs.ferpigDamageMultiplier, SRPConfigMobs.ferpigArmorMultiplier, SRPConfigMobs.ferpigHealthMultiplier, SRPConfigMobs.ferpigKDResistanceMultiplier, SRPConfigMobs.ferpigSpawnRate));
+        srpMobConfig.put("fer_sheep", new SRPMobConfig(SRPConfigMobs.fersheepEnabled, SRPConfigMobs.fersheepDamageMultiplier, SRPConfigMobs.fersheepArmorMultiplier, SRPConfigMobs.fersheepHealthMultiplier, SRPConfigMobs.fersheepKDResistanceMultiplier, SRPConfigMobs.fersheepSpawnRate));
+        srpMobConfig.put("fer_villager", new SRPMobConfig(SRPConfigMobs.fervillagerEnabled, SRPConfigMobs.fervillagerDamageMultiplier, SRPConfigMobs.fervillagerArmorMultiplier, SRPConfigMobs.fervillagerHealthMultiplier, SRPConfigMobs.fervillagerKDResistanceMultiplier, SRPConfigMobs.fervillagerSpawnRate));
+        srpMobConfig.put("fer_wolf", new SRPMobConfig(SRPConfigMobs.ferwolfEnabled, SRPConfigMobs.ferwolfDamageMultiplier, SRPConfigMobs.ferwolfArmorMultiplier, SRPConfigMobs.ferwolfHealthMultiplier, SRPConfigMobs.ferwolfKDResistanceMultiplier, SRPConfigMobs.ferwolfSpawnRate));
+        srpMobConfig.put("gnat", new SRPMobConfig(SRPConfigMobs.ataEnabled, SRPConfigMobs.ataDamageMultiplier, SRPConfigMobs.ataArmorMultiplier, SRPConfigMobs.ataHealthMultiplier, SRPConfigMobs.ataKDResistanceMultiplier, SRPConfigMobs.ataSpawnRate));
+        srpMobConfig.put("grunt", new SRPMobConfig(SRPConfigMobs.flogEnabled, SRPConfigMobs.flogDamageMultiplier, SRPConfigMobs.flogArmorMultiplier, SRPConfigMobs.flogHealthMultiplier, SRPConfigMobs.flogKDResistanceMultiplier, SRPConfigMobs.flogSpawnRate));
+        srpMobConfig.put("haunter", new SRPMobConfig(SRPConfigMobs.pheonEnabled, SRPConfigMobs.pheonDamageMultiplier, SRPConfigMobs.pheonArmorMultiplier, SRPConfigMobs.pheonHealthMultiplier, SRPConfigMobs.pheonKDResistanceMultiplier, SRPConfigMobs.pheonSpawnRate));
+        srpMobConfig.put("heed", new SRPMobConfig(SRPConfigMobs.heedEnabled, SRPConfigMobs.heedDamageMultiplier, SRPConfigMobs.heedArmorMultiplier, SRPConfigMobs.heedHealthMultiplier, SRPConfigMobs.heedKDResistanceMultiplier, SRPConfigMobs.heedSpawnRate));
+        srpMobConfig.put("hostii", new SRPMobConfig(SRPConfigMobs.herdEnabled, SRPConfigMobs.herdDamageMultiplier, SRPConfigMobs.herdArmorMultiplier, SRPConfigMobs.herdHealthMultiplier, SRPConfigMobs.herdKDResistanceMultiplier, SRPConfigMobs.herdSpawnRate));
+        srpMobConfig.put("hi_blaze", new SRPMobConfig(SRPConfigMobs.hiblazeEnabled, SRPConfigMobs.hiblazeDamageMultiplier, SRPConfigMobs.hiblazeArmorMultiplier, SRPConfigMobs.hiblazeHealthMultiplier, SRPConfigMobs.hiblazeKDResistanceMultiplier, SRPConfigMobs.hiblazeSpawnRate));
+        srpMobConfig.put("hi_golem", new SRPMobConfig(SRPConfigMobs.higolemEnabled, SRPConfigMobs.higolemDamageMultiplier, SRPConfigMobs.higolemArmorMultiplier, SRPConfigMobs.higolemHealthMultiplier, SRPConfigMobs.higolemKDResistanceMultiplier, SRPConfigMobs.higolemSpawnRate));
+        srpMobConfig.put("hi_skeleton", new SRPMobConfig(SRPConfigMobs.hiskeletonEnabled, SRPConfigMobs.hiskeletonDamageMultiplier, SRPConfigMobs.hiskeletonArmorMultiplier, SRPConfigMobs.hiskeletonHealthMultiplier, SRPConfigMobs.hiskeletonKDResistanceMultiplier, SRPConfigMobs.hiskeletonSpawnRate));
+        srpMobConfig.put("host", new SRPMobConfig(SRPConfigMobs.hostEnabled, SRPConfigMobs.hostDamageMultiplier, SRPConfigMobs.hostArmorMultiplier, SRPConfigMobs.hostHealthMultiplier, SRPConfigMobs.hostKDResistanceMultiplier, SRPConfigMobs.hostSpawnRate));
+        srpMobConfig.put("incompleteform_medium", new SRPMobConfig(SRPConfigMobs.inhooMEnabled, SRPConfigMobs.inhooMDamageMultiplier, SRPConfigMobs.inhooMArmorMultiplier, SRPConfigMobs.inhooMHealthMultiplier, SRPConfigMobs.inhooMKDResistanceMultiplier, SRPConfigMobs.inhooMSpawnRate));
+        srpMobConfig.put("incompleteform_small", new SRPMobConfig(SRPConfigMobs.inhooSEnabled, SRPConfigMobs.inhooSDamageMultiplier, SRPConfigMobs.inhooSArmorMultiplier, SRPConfigMobs.inhooSHealthMultiplier, SRPConfigMobs.inhooSKDResistanceMultiplier, SRPConfigMobs.inhooSSpawnRate));
+        srpMobConfig.put("kyphosis", new SRPMobConfig(SRPConfigMobs.tonroEnabled, SRPConfigMobs.tonroDamageMultiplier, SRPConfigMobs.tonroArmorMultiplier, SRPConfigMobs.tonroHealthMultiplier, null, null));
+        srpMobConfig.put("mangler", new SRPMobConfig(SRPConfigMobs.nuuhEnabled, SRPConfigMobs.nuuhDamageMultiplier, SRPConfigMobs.nuuhArmorMultiplier, SRPConfigMobs.nuuhHealthMultiplier, SRPConfigMobs.nuuhKDResistanceMultiplier, SRPConfigMobs.nuuhSpawnRate));
+        srpMobConfig.put("marauder", new SRPMobConfig(SRPConfigMobs.esorEnabled, SRPConfigMobs.esorDamageMultiplier, SRPConfigMobs.esorArmorMultiplier, SRPConfigMobs.esorHealthMultiplier, SRPConfigMobs.esorKDResistanceMultiplier, SRPConfigMobs.esorSpawnRate));
+        srpMobConfig.put("monarch", new SRPMobConfig(SRPConfigMobs.orchEnabled, SRPConfigMobs.orchDamageMultiplier, SRPConfigMobs.orchArmorMultiplier, SRPConfigMobs.orchHealthMultiplier, SRPConfigMobs.orchKDResistanceMultiplier, SRPConfigMobs.orchSpawnRate));
+        srpMobConfig.put("overseer", new SRPMobConfig(SRPConfigMobs.alafhaEnabled, SRPConfigMobs.alafhaDamageMultiplier, SRPConfigMobs.alafhaArmorMultiplier, SRPConfigMobs.alafhaHealthMultiplier, SRPConfigMobs.alafhaKDResistanceMultiplier, SRPConfigMobs.alafhaSpawnRate));
+        srpMobConfig.put("pri_bolster", new SRPMobConfig(SRPConfigMobs.zetmoEnabled, SRPConfigMobs.zetmoDamageMultiplier, SRPConfigMobs.zetmoArmorMultiplier, SRPConfigMobs.zetmoHealthMultiplier, SRPConfigMobs.zetmoKDResistanceMultiplier, SRPConfigMobs.zetmoSpawnRate));
+        srpMobConfig.put("pri_devourer", new SRPMobConfig(SRPConfigMobs.lumEnabled, SRPConfigMobs.lumDamageMultiplier, SRPConfigMobs.lumArmorMultiplier, SRPConfigMobs.lumHealthMultiplier, SRPConfigMobs.lumKDResistanceMultiplier, SRPConfigMobs.lumSpawnRate));
+        srpMobConfig.put("pri_longarms", new SRPMobConfig(SRPConfigMobs.shycoEnabled, SRPConfigMobs.shycoDamageMultiplier, SRPConfigMobs.shycoArmorMultiplier, SRPConfigMobs.shycoHealthMultiplier, SRPConfigMobs.shycoKDResistanceMultiplier, SRPConfigMobs.shycoSpawnRate));
+        srpMobConfig.put("pri_manducater", new SRPMobConfig(SRPConfigMobs.hullEnabled, SRPConfigMobs.hullDamageMultiplier, SRPConfigMobs.hullArmorMultiplier, SRPConfigMobs.hullHealthMultiplier, SRPConfigMobs.hullKDResistanceMultiplier, SRPConfigMobs.hullSpawnRate));
+        srpMobConfig.put("pri_reeker", new SRPMobConfig(SRPConfigMobs.noglaEnabled, SRPConfigMobs.noglaDamageMultiplier, SRPConfigMobs.noglaArmorMultiplier, SRPConfigMobs.noglaHealthMultiplier, SRPConfigMobs.noglaKDResistanceMultiplier, SRPConfigMobs.noglaSpawnRate));
+        srpMobConfig.put("pri_summoner", new SRPMobConfig(SRPConfigMobs.canraEnabled, SRPConfigMobs.canraDamageMultiplier, SRPConfigMobs.canraArmorMultiplier, SRPConfigMobs.canraHealthMultiplier, SRPConfigMobs.canraKDResistanceMultiplier, SRPConfigMobs.canraSpawnRate));
+        srpMobConfig.put("pri_tozoon", new SRPMobConfig(SRPConfigMobs.wymoEnabled, SRPConfigMobs.wymoDamageMultiplier, SRPConfigMobs.wymoArmorMultiplier, SRPConfigMobs.wymoHealthMultiplier, SRPConfigMobs.wymoKDResistanceMultiplier, SRPConfigMobs.wymoSpawnRate));
+        srpMobConfig.put("pri_vermin", new SRPMobConfig(SRPConfigMobs.ikiEnabled, SRPConfigMobs.ikiDamageMultiplier, SRPConfigMobs.ikiArmorMultiplier, SRPConfigMobs.ikiHealthMultiplier, SRPConfigMobs.ikiKDResistanceMultiplier, SRPConfigMobs.ikiSpawnRate));
+        srpMobConfig.put("pri_yelloweye", new SRPMobConfig(SRPConfigMobs.emanaEnabled, SRPConfigMobs.emanaDamageMultiplier, SRPConfigMobs.emanaArmorMultiplier, SRPConfigMobs.emanaHealthMultiplier, SRPConfigMobs.emanaKDResistanceMultiplier, SRPConfigMobs.emanaSpawnRate));
+        srpMobConfig.put("rupter", new SRPMobConfig(SRPConfigMobs.mudoEnabled, SRPConfigMobs.mudoDamageMultiplier, SRPConfigMobs.mudoArmorMultiplier, SRPConfigMobs.mudoHealthMultiplier, SRPConfigMobs.mudoKDResistanceMultiplier, SRPConfigMobs.mudoSpawnRate));
+        srpMobConfig.put("seizer", new SRPMobConfig(SRPConfigMobs.nakEnabled, SRPConfigMobs.nakDamageMultiplier, SRPConfigMobs.nakArmorMultiplier, SRPConfigMobs.nakHealthMultiplier, null, SRPConfigMobs.nakSpawnRate));
+        srpMobConfig.put("sentry", new SRPMobConfig(SRPConfigMobs.unvoEnabled, SRPConfigMobs.unvoDamageMultiplier, SRPConfigMobs.unvoArmorMultiplier, SRPConfigMobs.unvoHealthMultiplier, null, null));
+        srpMobConfig.put("sim_adventurer", new SRPMobConfig(SRPConfigMobs.infadventurerEnabled, SRPConfigMobs.infadventurerDamageMultiplier, SRPConfigMobs.infadventurerArmorMultiplier, SRPConfigMobs.infadventurerHealthMultiplier, SRPConfigMobs.infadventurerKDResistanceMultiplier, SRPConfigMobs.infadventurerSpawnRate));
+        srpMobConfig.put("sim_bear", new SRPMobConfig(SRPConfigMobs.infbearEnabled, SRPConfigMobs.infbearDamageMultiplier, SRPConfigMobs.infbearArmorMultiplier, SRPConfigMobs.infbearHealthMultiplier, SRPConfigMobs.infbearKDResistanceMultiplier, SRPConfigMobs.infbearSpawnRate));
+        srpMobConfig.put("sim_bigspider", new SRPMobConfig(SRPConfigMobs.dorpaEnabled, SRPConfigMobs.dorpaDamageMultiplier, SRPConfigMobs.dorpaArmorMultiplier, SRPConfigMobs.dorpaHealthMultiplier, SRPConfigMobs.dorpaKDResistanceMultiplier, SRPConfigMobs.dorpaSpawnRate));
+        srpMobConfig.put("sim_cow", new SRPMobConfig(SRPConfigMobs.infcowEnabled, SRPConfigMobs.infcowDamageMultiplier, SRPConfigMobs.infcowArmorMultiplier, SRPConfigMobs.infcowHealthMultiplier, SRPConfigMobs.infcowKDResistanceMultiplier, SRPConfigMobs.infcowSpawnRate));
+        srpMobConfig.put("sim_dragone", new SRPMobConfig(SRPConfigMobs.infdragoneEnabled, SRPConfigMobs.infdragoneDamageMultiplier, SRPConfigMobs.infdragoneArmorMultiplier, SRPConfigMobs.infdragoneHealthMultiplier, SRPConfigMobs.infdragoneKDResistanceMultiplier, SRPConfigMobs.infdragoneSpawnRate));
+        srpMobConfig.put("sim_enderman", new SRPMobConfig(SRPConfigMobs.infendermanEnabled, SRPConfigMobs.infendermanDamageMultiplier, SRPConfigMobs.infendermanArmorMultiplier, SRPConfigMobs.infendermanHealthMultiplier, SRPConfigMobs.infendermanKDResistanceMultiplier, SRPConfigMobs.infendermanSpawnRate));
+        srpMobConfig.put("sim_horse", new SRPMobConfig(SRPConfigMobs.infhorseEnabled, SRPConfigMobs.infhorseDamageMultiplier, SRPConfigMobs.infhorseArmorMultiplier, SRPConfigMobs.infhorseHealthMultiplier, SRPConfigMobs.infhorseKDResistanceMultiplier, SRPConfigMobs.infhorseSpawnRate));
+        srpMobConfig.put("sim_human", new SRPMobConfig(SRPConfigMobs.infhumanEnabled, SRPConfigMobs.infhumanDamageMultiplier, SRPConfigMobs.infhumanArmorMultiplier, SRPConfigMobs.infhumanHealthMultiplier, SRPConfigMobs.infhumanKDResistanceMultiplier, SRPConfigMobs.infhumanSpawnRate));
+        srpMobConfig.put("sim_pig", new SRPMobConfig(SRPConfigMobs.infpigEnabled, SRPConfigMobs.infpigDamageMultiplier, SRPConfigMobs.infpigArmorMultiplier, SRPConfigMobs.infpigHealthMultiplier, SRPConfigMobs.infpigKDResistanceMultiplier, SRPConfigMobs.infpigSpawnRate));
+        srpMobConfig.put("sim_sheep", new SRPMobConfig(SRPConfigMobs.infsheepEnabled, SRPConfigMobs.infsheepDamageMultiplier, SRPConfigMobs.infsheepArmorMultiplier, SRPConfigMobs.infsheepHealthMultiplier, SRPConfigMobs.infsheepKDResistanceMultiplier, SRPConfigMobs.infsheepSpawnRate));
+        srpMobConfig.put("sim_squid", new SRPMobConfig(SRPConfigMobs.infsquidEnabled, SRPConfigMobs.infsquidDamageMultiplier, SRPConfigMobs.infsquidArmorMultiplier, SRPConfigMobs.infsquidHealthMultiplier, SRPConfigMobs.infsquidKDResistanceMultiplier, SRPConfigMobs.infsquidSpawnRate));
+        srpMobConfig.put("sim_villager", new SRPMobConfig(SRPConfigMobs.infvillagerEnabled, SRPConfigMobs.infvillagerDamageMultiplier, SRPConfigMobs.infvillagerArmorMultiplier, SRPConfigMobs.infvillagerHealthMultiplier, SRPConfigMobs.infvillagerKDResistanceMultiplier, SRPConfigMobs.infvillagerSpawnRate));
+        srpMobConfig.put("sim_wolf", new SRPMobConfig(SRPConfigMobs.infwolfEnabled, SRPConfigMobs.infwolfDamageMultiplier, SRPConfigMobs.infwolfArmorMultiplier, SRPConfigMobs.infwolfHealthMultiplier, SRPConfigMobs.infwolfKDResistanceMultiplier, SRPConfigMobs.infwolfSpawnRate));
+        srpMobConfig.put("succor", new SRPMobConfig(SRPConfigMobs.flamEnabled, null, SRPConfigMobs.flamArmorMultiplier, SRPConfigMobs.flamHealthMultiplier, SRPConfigMobs.flamKDResistanceMultiplier, null));
+        srpMobConfig.put("thrall", new SRPMobConfig(SRPConfigMobs.thrallEnabled, SRPConfigMobs.thrallDamageMultiplier, SRPConfigMobs.thrallArmorMultiplier, SRPConfigMobs.thrallHealthMultiplier, SRPConfigMobs.thrallKDResistanceMultiplier, SRPConfigMobs.thrallSpawnRate));
+        srpMobConfig.put("vigilante", new SRPMobConfig(SRPConfigMobs.angedEnabled, SRPConfigMobs.angedDamageMultiplier, SRPConfigMobs.angedArmorMultiplier, SRPConfigMobs.angedHealthMultiplier, SRPConfigMobs.angedKDResistanceMultiplier, SRPConfigMobs.angedSpawnRate));
+        srpMobConfig.put("warden", new SRPMobConfig(SRPConfigMobs.ganroEnabled, SRPConfigMobs.ganroDamageMultiplier, SRPConfigMobs.ganroArmorMultiplier, SRPConfigMobs.ganroHealthMultiplier, SRPConfigMobs.ganroKDResistanceMultiplier, SRPConfigMobs.ganroSpawnRate));
+        srpMobConfig.put("worker", new SRPMobConfig(SRPConfigMobs.kolEnabled, SRPConfigMobs.kolDamageMultiplier, SRPConfigMobs.kolArmorMultiplier, SRPConfigMobs.kolHealthMultiplier, SRPConfigMobs.kolKDResistanceMultiplier, SRPConfigMobs.kolSpawnRate));
+        srpMobConfig.put("wraith", new SRPMobConfig(SRPConfigMobs.elviaEnabled, SRPConfigMobs.elviaDamageMultiplier, SRPConfigMobs.elviaArmorMultiplier, SRPConfigMobs.elviaHealthMultiplier, SRPConfigMobs.elviaKDResistanceMultiplier, SRPConfigMobs.elviaSpawnRate));
 
+        String unused = "---";
+        List<String> configList = new ArrayList<>();
+        for (Map.Entry<String, SRPMobConfig> entry : srpMobConfig.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toList()))
+            configList.add(
+                    (entry.getValue().enabled == null ? unused : entry.getValue().enabled) + "\t" +
+                            (entry.getValue().healthMulti == null ? unused : entry.getValue().healthMulti) + "\t" +
+                            (entry.getValue().dmgMulti == null ? unused : entry.getValue().dmgMulti) + "\t" +
+                            (entry.getValue().armorMulti == null ? unused : entry.getValue().armorMulti) + "\t" +
+                            (entry.getValue().kbresMulti == null ? unused : entry.getValue().kbresMulti) + "\t" +
+                            (entry.getValue().spawnWeight == null ? unused : entry.getValue().spawnWeight) + "\t" +
+                            entry.getKey()
+            );
+
+        String[] configArray = configList.toArray(configList.toArray(new String[0]));
+        SRPMixins.CONFIG.get("general.SRP Mob Config", "SRP Mob Config", SRPMixinsConfigHandler.mobConfig.mobConfig).set(configArray);
+        SRPMixinsConfigHandler.mobConfig.mobConfig = configArray;
+
+        SRPMixins.CONFIG.save();
     }
 
     private static class SRPMobConfig {
-        float dmgMulti, armorMulti, healthMulti, kbresMulti;
-        int spawnWeight;
-        boolean enabled;
-        String[] loot;
+        public final Boolean enabled;
+        public final Float dmgMulti, armorMulti, healthMulti, kbresMulti;
+        public final Integer spawnWeight;
+
+        public SRPMobConfig(Boolean enabled, Float dmgMulti, Float armorMulti, Float healthMulti, Float kbresMulti, Integer spawnWeight) {
+            this.enabled = enabled;
+            this.dmgMulti = dmgMulti;
+            this.armorMulti = armorMulti;
+            this.healthMulti = healthMulti;
+            this.kbresMulti = kbresMulti;
+            this.spawnWeight = spawnWeight;
+        }
     }
 
     public static float getMobConfigDamage(String paraName) {
@@ -457,7 +580,58 @@ public class SRPMixinsConfigProvider {
         return srpMobConfig.get(paraName).enabled;
     }
 
-    public static String[] getMobConfigLoot(String paraName) {
-        return srpMobConfig.get(paraName).loot;
+    //---------------------------- CONVERSION PHASE LOCK ----------------------------
+
+    public static int getConversionPhaseLock(String mobIn, String mobOut) {
+        if (!conversionPathwayLocks.containsKey(mobIn) || !conversionPathwayLocks.get(mobIn).containsKey(mobOut)){
+            if(SRPMixinsConfigHandler.spawns.autoFillConversionRules)
+                setConversionPathwayLock(mobIn, mobOut, -2);
+            return -2;
+        }
+        return conversionPathwayLocks.get(mobIn).get(mobOut);
+    }
+
+    private static void setConversionPathwayLock(String mobIn, String mobOut, int defaultValue) {
+        if(!conversionPathwayLocks.containsKey(mobIn))
+            conversionPathwayLocks.put(mobIn, new HashMap<>());
+        conversionPathwayLocks.get(mobIn).put(mobOut, defaultValue);
+    }
+
+    public static void readConversionLockConfig(){
+        for(String s : SRPMixinsConfigHandler.spawns.conversionRules){
+            String[] split = s.split(",");
+            if(split.length < 3)
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse conversion pathway line, too few arguments (expected 3): {}", s);
+            else {
+                try {
+                    String mobIn = split[0].trim().replace("srparasites:","");
+                    String mobOut = split[1].trim().replace("srparasites:","");
+                    int phase = Integer.parseInt(split[2].trim());
+                    setConversionPathwayLock(mobIn, mobOut, phase);
+                } catch (Exception e) {
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse conversion pathway line, expected integer in last entry, provided was {}", s);
+                }
+            }
+        }
+    }
+
+    public static void writeConversionLockConfig(){
+        int mapEntries = 0;
+        for(Map<String, Integer> v : conversionPathwayLocks.values())
+            mapEntries += v.size();
+
+        if(mapEntries > SRPMixinsConfigHandler.spawns.conversionRules.length){
+            List<String> configList = new ArrayList<>();
+            for(Map.Entry<String, Map<String, Integer>> bigEntry : conversionPathwayLocks.entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toList())) {
+                for (Map.Entry<String, Integer> smallEntry : bigEntry.getValue().entrySet().stream().sorted(Map.Entry.comparingByKey()).collect(Collectors.toList())) {
+                    String mobIn = bigEntry.getKey();
+                    String mobOut = smallEntry.getKey();
+                    Integer phase = smallEntry.getValue();
+                    configList.add(mobIn + ", " + mobOut + ", " + phase);
+                }
+            }
+            SRPMixins.CONFIG.get("general.Spawning", "Conversion Phase Lock Rules", SRPMixinsConfigHandler.spawns.conversionRules).set(configList.toArray(new String[0]));
+            SRPMixins.CONFIG.save();
+        }
     }
 }
