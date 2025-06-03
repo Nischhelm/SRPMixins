@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-//Inspiredy by fonnymunkey RLMixins, altered
+//Inspired by fonnymunkey RLMixins, altered
 public class EarlyConfigReader {
 	private static File configFile = null;
 	//private static String configBooleanString = null;
