@@ -18,7 +18,7 @@ public abstract class KillCountDimensionBlacklist extends EntityMob {
             method = "onLivingUpdate",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z", remap = false)
     )
-    private boolean srpmixins_usePreeminentRemainValue(boolean original){
+    private boolean srpmixins_hookupConfigWhitelist(boolean original){
         boolean isInList = false;
         for(int whitelistedDim : SRPConfigSystems.blackListedDimensionsEPP) //its a whitelist
             if (whitelistedDim == this.dimension) {
