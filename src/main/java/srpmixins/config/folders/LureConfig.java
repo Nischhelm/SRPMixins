@@ -37,10 +37,4 @@ public class LureConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.carcasssamelures.json")
     public boolean forceCarcassSameLureVariant = true;
-
-    @Config.Comment("When using faint lures, SRP also calls setCooldown for lures 9 and 10 (they forgot to set a break). This fixes it.")
-    @Config.Name("Fix Cooldown Overflow")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.lureoverflowfix.json")
-    public boolean fixCooldownOverflow = true;
 }

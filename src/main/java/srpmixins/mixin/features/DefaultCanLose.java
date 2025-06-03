@@ -37,7 +37,7 @@ public abstract class DefaultCanLose {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/nbt/NBTTagCompound;getBoolean(Ljava/lang/String;)Z")
     )
     private boolean srpmixins_invertOldReadValues(NBTTagCompound instance, String key, Operation<Boolean> original){
-        if(srpmixins$readingOldData) return !original.call(instance, key);
+        if(srpmixins$readingOldData && (key.equals("canLose") || key.equals("loss"))) return !original.call(instance, key);
         return original.call(instance, key);
     }
 

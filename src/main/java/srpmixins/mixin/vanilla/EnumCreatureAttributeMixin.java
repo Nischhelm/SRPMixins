@@ -15,13 +15,13 @@ public abstract class EnumCreatureAttributeMixin {
     @Invoker("<init>") private static EnumCreatureAttribute srpmixins_invokeInit(String internalName, int internalId){ throw new AssertionError("SRPMixins couldn't find constructor for EnumCreatureAttribute");}
 
     static {
-        ParasiteCreatureAttribute.PARASITE = srpmixins$addVariant("PARASITE");
+        ParasiteCreatureAttribute.PARASITE = srpmixins$addParasiteCreatureAttribute();
     }
 
     @Unique
-    private static EnumCreatureAttribute srpmixins$addVariant(String internalName){
+    private static EnumCreatureAttribute srpmixins$addParasiteCreatureAttribute(){
         List<EnumCreatureAttribute> variants = new ArrayList<>(Arrays.asList($VALUES));
-        EnumCreatureAttribute newEnumCreatureAttribute = srpmixins_invokeInit(internalName, variants.get(variants.size()-1).ordinal()+1);
+        EnumCreatureAttribute newEnumCreatureAttribute = srpmixins_invokeInit("PARASITE", variants.get(variants.size()-1).ordinal()+1);
         variants.add(newEnumCreatureAttribute);
         $VALUES = variants.toArray(new EnumCreatureAttribute[0]);
         return newEnumCreatureAttribute;
