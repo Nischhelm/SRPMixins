@@ -24,9 +24,9 @@ public abstract class LureOverflowFix {
 
     @WrapWithCondition(
             method = "onBlockActivated",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setCooldown(ILnet/minecraft/world/World;I)V", remap = false)
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setCooldown(ILnet/minecraft/world/World;IZ)V", remap = false)
     )
-    private boolean srpmixins_onlySetCooldownOnce(SRPSaveData instance, int i, World world, int in){
+    private boolean srpmixins_onlySetCooldownOnce(SRPSaveData instance, int i, World world, int in, boolean worldIn){
         if(!srpmixins$didCooldownOperation){
             srpmixins$didCooldownOperation = true;
             return true;

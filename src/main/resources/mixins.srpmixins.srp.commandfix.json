@@ -8,6 +8,10 @@
   "mixins": [
     "SRPCommandEvolutionMixin",
     "SRPCommandColonyMixin",
+    "SRPCommandDislodgementMixin",
+    "SRPCommandGenerationMixin",
+    "SRPCommandOriginMixin",
+    "SRPCommandUDevelopmentMixin",
     "SRPCommandNodeMixin",
     "SRPCommandRootMixin"
   ],

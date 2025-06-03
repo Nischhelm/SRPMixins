@@ -32,12 +32,6 @@ public class PointConfig {
     @Config.Name("Phases reset debug mode")
     public boolean phaseResetDebugMode = true;
 
-    @Config.Comment("Limit point reduction from parasite kills to the min point value for each phase, stopping unintended phase decreases")
-    @Config.Name("Fix phase point reduction")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.pointreductionlimit.json")
-    public boolean limitPointReduction = true;
-
     @Config.Comment("SRP sometimes gets Evolution Data on clientside which overrides the current evolution phase in single player. Enable to stop this from happening")
     @Config.Name("Fix Phase Resets")
     @Config.RequiresMcRestart

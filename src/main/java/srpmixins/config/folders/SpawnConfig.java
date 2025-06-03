@@ -11,7 +11,6 @@ public class SpawnConfig {
     public boolean fixSpawnerSpawns = true;
 
     @Config.Comment("Blacklist of biomes and dimensions in which no parasites will spawn. \n" +
-            "if evolution and evolution custom spawner are disabled, the dimension value will be ignored, so using \"minecraft\" would block spawns in any vanilla biome in any dimension.\n" +
             "Pattern: dimensionId, modid:biomename \n" +
             "Disable full mods with dimid, modid \n" +
             "Disable full dimensions with dimid, no biomes for that dimension in any line\n" +

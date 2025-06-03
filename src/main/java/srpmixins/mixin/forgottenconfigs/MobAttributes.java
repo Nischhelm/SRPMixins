@@ -16,11 +16,6 @@ public class MobAttributes {
     @Shadow(remap = false) public static double ATA_ATTACK_DAMAGE;
     @Shadow(remap = false) public static double ATA_KD_RESISTANCE;
 
-    @Shadow(remap = false) public static double IKI_HEALTH;
-    @Shadow(remap = false) public static double IKI_ARMOR;
-    @Shadow(remap = false) public static double IKI_ATTACK_DAMAGE;
-    @Shadow(remap = false) public static double IKI_KD_RESISTANCE;
-
     @Shadow(remap = false) public static double GOTHOL_HEALTH;
     @Shadow(remap = false) public static double GOTHOL_ARMOR;
     @Shadow(remap = false) public static double GOTHOL_DAMAGE;
@@ -42,11 +37,6 @@ public class MobAttributes {
         ATA_ARMOR *= (SRPConfig.globalArmorMultiplier * SRPConfigMobs.ataArmorMultiplier);
         ATA_ATTACK_DAMAGE *= (SRPConfig.globalDamageMultiplier * SRPConfigMobs.ataDamageMultiplier);
         ATA_KD_RESISTANCE *= (SRPConfig.globalKDResistanceMultiplier * SRPConfigMobs.ataKDResistanceMultiplier);
-
-        IKI_HEALTH *= (SRPConfig.globalHealthMultiplier * SRPConfigMobs.ikiHealthMultiplier);
-        IKI_ARMOR *= (SRPConfig.globalArmorMultiplier * SRPConfigMobs.ikiArmorMultiplier);
-        IKI_ATTACK_DAMAGE *= (SRPConfig.globalDamageMultiplier * SRPConfigMobs.ikiDamageMultiplier);
-        IKI_KD_RESISTANCE *= (SRPConfig.globalKDResistanceMultiplier * SRPConfigMobs.ikiKDResistanceMultiplier);
 
         GOTHOL_HEALTH *= (SRPConfig.globalHealthMultiplier * SRPConfigMobs.gotholHealthMultiplier);
         GOTHOL_ARMOR *= (SRPConfig.globalArmorMultiplier * SRPConfigMobs.gotholArmorMultiplier);

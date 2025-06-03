@@ -15,10 +15,10 @@ import srpmixins.config.SRPConfigProvider;
 public abstract class DefaultPhases {
     @WrapOperation(
             method = "createData",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setEvolutionPhase(IBZLnet/minecraft/world/World;Z)Z"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setEvolutionPhase(IBZLnet/minecraft/world/World;)Z"),
             remap = false
     )
-    private static boolean srpmixins_fixDefault_Gaining_Loss_noPlayerPhases(SRPSaveData data, int dim, byte phase, boolean override, World world, boolean canChangePhase, Operation<Boolean> original) {
+    private static boolean srpmixins_fixDefault_Gaining_Loss_noPlayerPhases(SRPSaveData data, int dim, byte phase, boolean override, World world, Operation<Boolean> original) {
         //This would be overwritten later in createData for phase -2, so don't bother
         if(phase != -2) {
             //Set canGain
@@ -39,24 +39,6 @@ public abstract class DefaultPhases {
         }
 
         //Default behavior SRPSaveData.setEvolutionPhase
-        return original.call(data, dim, phase, override, world, canChangePhase);
-    }
-
-    @ModifyConstant(
-            method = "addDim",
-            constant = @Constant(intValue = 0, ordinal = 1),
-            remap = false
-    )
-    private static int srpmixins_fixDefaultPhase(int constant){
-        return SRPConfigSystems.defaultEvoPhase;
-    }
-
-    @ModifyConstant(
-            method = "addDim",
-            constant = @Constant(intValue = 0, ordinal = 3),
-            remap = false
-    )
-    private static int srpmixins_fixDefaultPoints(int constant){
-        return SRPConfigSystems.defaultEvoPoints;
+        return original.call(data, dim, phase, override, world);
     }
 }

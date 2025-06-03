@@ -16,12 +16,6 @@ public class VariousConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.wildcardablelists.json")
     public boolean blacklistsWildcardable = false;
 
-    @Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
-    @Config.Name("Fix Parasitic Biome spreading limit")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.biomespreadlimit.json")
-    public boolean fixBiomeSpreadingLimit = true;
-
     @Config.Comment("SRP parses its config list every single time instead of caching the result. For performance this stores the results instead.")
     @Config.Name("Fix Config List Parsing")
     @Config.RequiresMcRestart

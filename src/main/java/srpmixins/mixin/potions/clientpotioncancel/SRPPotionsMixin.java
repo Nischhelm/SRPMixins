@@ -8,10 +8,7 @@ import net.minecraft.potion.PotionEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.io.PrintStream;
 
 @Mixin(SRPPotions.class)
 public class SRPPotionsMixin {
@@ -32,14 +29,5 @@ public class SRPPotionsMixin {
     )
     private static boolean srpmixins_cancelClientPotion(EntityLivingBase instance, PotionEffect potionEffect){
         return !instance.world.isRemote;
-    }
-
-    @Redirect(
-            method = "applyStackPotion",
-            at = @At(value = "INVOKE", target = "Ljava/io/PrintStream;println(Ljava/lang/String;)V"),
-            remap = false
-    )
-    private static void srpmixins_cancelDebugMsg(PrintStream instance, String x){
-        //no op, dont send debug msg
     }
 }

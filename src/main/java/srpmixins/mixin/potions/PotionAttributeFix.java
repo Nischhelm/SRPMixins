@@ -11,6 +11,7 @@ public class PotionAttributeFix {
     @Unique private static final String srpmixins$atkDmgUUID = "2f887c3e-f25c-4f37-bf9e-e4cca1a0d237";
     @Unique private static final String srpmixins$movSpeedUUID = "f9b296d4-d0b9-4329-b5da-4ff586379b3a";
     @Unique private static final String srpmixins$followRangeUUID = "8f75c318-6702-4087-b2b9-fdb1cdef1bd0";
+    @Unique private static final String srpmixins$followRangeUUID_vomit = "f41fbce3-f16d-48b4-8c95-3b8da31d6ec6";
 
     @ModifyArg(
             method = "<clinit>",
@@ -22,7 +23,7 @@ public class PotionAttributeFix {
 
     @ModifyArg(
             method = "<clinit>",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 0)
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 1)
     )
     private static String srpmixins_fixedUUIDsForPotionAttributes_movSpeed(String uuid) {
         return srpmixins$movSpeedUUID;
@@ -30,9 +31,17 @@ public class PotionAttributeFix {
 
     @ModifyArg(
             method = "<clinit>",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 1)
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 0)
     )
-    private static String srpmixins_fixedUUIDsForPotionAttributes_flwRange(String uuid) {
+    private static String srpmixins_fixedUUIDsForPotionAttributes_flwRange_vomit(String uuid) {
+        return srpmixins$followRangeUUID_vomit;
+    }
+
+    @ModifyArg(
+            method = "<clinit>",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/potion/SRPEffectBase;registerPotionAttributeModifier(Lnet/minecraft/entity/ai/attributes/IAttribute;Ljava/lang/String;DI)Lnet/minecraft/potion/Potion;", ordinal = 2)
+    )
+    private static String srpmixins_fixedUUIDsForPotionAttributes_flwRange_sens(String uuid) {
         return srpmixins$followRangeUUID;
     }
 }

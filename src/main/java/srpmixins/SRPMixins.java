@@ -20,7 +20,7 @@ import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.NexusSpawnSounds;
 import srpmixins.handlers.ParasiteDropChance;
-import srpmixins.handlers.SRPArmorBowEvolutionHandler;
+import srpmixins.handlers.SRPBowEvolutionHandler;
 import srpmixins.util.compat.CompatUtil;
 import srpmixins.util.compat.LycanitesMobsCompat;
 
@@ -59,8 +59,8 @@ public class SRPMixins {
             MinecraftForge.EVENT_BUS.register(CapabilityAdaptationHandler.EventHandler.class);
         }
 
-        if(SRPMixinsConfigHandler.weapons.addArmorBowEvolution)
-            MinecraftForge.EVENT_BUS.register(SRPArmorBowEvolutionHandler.class);
+        if(SRPMixinsConfigHandler.weapons.addBowEvolution)
+            MinecraftForge.EVENT_BUS.register(SRPBowEvolutionHandler.class);
     }
 
     @Mod.EventHandler

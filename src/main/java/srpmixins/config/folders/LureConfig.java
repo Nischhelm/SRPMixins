@@ -32,12 +32,6 @@ public class LureConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.cooldownbypass.json")
     public boolean fixCarcassDuringCooldown = true;
 
-    @Config.Comment("Make using Lures add their cooldown to current cooldown instead of setting it to a fixed value, possibly even reducing the cooldown by doing that")
-    @Config.Name("Lures stack cooldown")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.lurecooldownstack.json")
-    public boolean lureCooldownStacking = true;
-
     @Config.Comment("Only allow carcasses built from 5 lures of the same type. Without this fix, only the level of the center lure matters")
     @Config.Name("Force carcass all same lure type")
     @Config.RequiresMcRestart

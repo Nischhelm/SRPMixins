@@ -1,9 +1,9 @@
 package srpmixins.mixin.parabiome;
 
 import com.dhanantry.scapeandrunparasites.SRPMain;
-import com.dhanantry.scapeandrunparasites.init.SRPBiomes;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasiteBase;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -41,7 +41,7 @@ public abstract class SendBiomePacket {
             remap = false
     )
     private static boolean srpmixins_dontAddIfAlreadyParaBiome(String biomeName, String[] biomeBlacklist, boolean isWhitelist, Operation<Boolean> original){
-        if(srpmixins$biome == SRPBiomes.biomeInfested)
+        if(srpmixins$biome instanceof BiomeParasiteBase)
             return true; //fail check, don't add block if its already para biome
         return original.call(biomeName, biomeBlacklist, isWhitelist);
     }
@@ -64,7 +64,7 @@ public abstract class SendBiomePacket {
             at = @At(value = "TAIL"),
             remap = false
     )
-    private static void srpmixins_sendBiomePacket(World worldIn, BlockPos pos, int age, CallbackInfo ci){
+    private static void srpmixins_sendBiomePacket(World worldIn, BlockPos pos, int age, int type, CallbackInfo ci){
         if(srpmixins$biomePacket != null) {
             SRPMain.network.sendToDimension(srpmixins$biomePacket, worldIn.provider.getDimension());
             srpmixins$biomePacket = null;

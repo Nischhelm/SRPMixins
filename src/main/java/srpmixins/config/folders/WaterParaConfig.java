@@ -5,7 +5,7 @@ import net.minecraftforge.common.config.Config;
 
 public class WaterParaConfig {
 
-    @Config.Comment("Make Primitive Devourer and Assimilated Squid spawn correctly in water")
+    @Config.Comment("Make Primitive Devourer and Assimilated Squid spawn")
     @Config.Name("Enable Water Spawns")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.waterspawns.json")
@@ -16,8 +16,4 @@ public class WaterParaConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.squidtargeting.json")
     public boolean parasTargetSquids = true;
-
-    @Config.Comment("After there is this many Assimilated Squid or Primitive Devourers loaded, no more will spawn from conversion or spawning. Disable with -1, needs restart. Only works using SRP Phase Custom Spawner + Evo Phases")
-    @Config.Name("Water Parasite Mob Cap")
-    public int waterParasiteCap = 10;
 }

@@ -6,7 +6,9 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "SentientEvolutionDisable"
+    "SentientEvolutionDisable",
+    "SentientEvolutionDisable_Armor",
+    "SentientEvolutionDisable_Armor_increment"
   ],
   "injectors": {
     "maxShiftBy": 10

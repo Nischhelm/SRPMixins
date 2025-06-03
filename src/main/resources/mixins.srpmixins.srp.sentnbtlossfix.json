@@ -6,7 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "SentientEvolutionNBTFix"
+    "SentientEvolutionNBTFix",
+    "SentientEvolutionNBTFix_Armor"
   ],
   "injectors": {
     "maxShiftBy": 10
