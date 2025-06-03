@@ -260,7 +260,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
             //Dimension can't gain points
             if (!getCanGain(dimId) && points > 0) return false;
             //Dimension can't lose points
-            if (getCanLoss(dimId) && points < 0) return false;
+            if (!getCanLoss(dimId) && points < 0) return false;
 
             return addEvoPoints(points, worldIn.getWorldTime(), canChangePhase);
         }

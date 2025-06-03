@@ -49,4 +49,10 @@ public class PointConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptedinstadespawnpenalty.json")
     public boolean fixAdaptedPenaltyInstantDespawn = true;
+
+    @Config.Comment("Finish the \"can lose points\" option inversion of v1.10 by not allowing phase -2 to lose points and by reading+writing settings from 1.9.21 inverted")
+    @Config.Name("Fix Default Can Lose")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.defaultcanlose.json")
+    public boolean fixDefaultCanLose = true;
 }

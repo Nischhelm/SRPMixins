@@ -23,21 +23,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Debug(export = true)
 @Mixin(SRPSpawning.class)
 public abstract class SRPSpawningMixin {
     @Unique private static final Map<Byte, List<Biome.SpawnListEntry>> srpmixins$spawnLists = new HashMap<>();
 
     @ModifyVariable(
             method = "getSpawns",
-            at = @At(value = "LOAD", ordinal = 2),
+            at = @At(value = "LOAD", ordinal = 1),
             name = "phase",
             remap = false
     )
     private static int srpmixins_getSpawns(int phase, @Cancellable CallbackInfoReturnable<List<Biome.SpawnListEntry>> cir){
-        cir.setReturnValue(srpmixins$spawnLists.get((byte) phase));
+        if(phase >= 0) cir.setReturnValue(srpmixins$spawnLists.get((byte) phase)); //TODO: phase -1
         return phase;
-        //TODO test
     }
 
     @Inject(

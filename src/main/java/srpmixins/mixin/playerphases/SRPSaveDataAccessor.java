@@ -26,7 +26,7 @@ public interface SRPSaveDataAccessor {
     @Invoker(value = "checkForUnlock", remap = false)
     void invokeCheckForUnlock(byte phase, int worldId, World w);
 
-    //Should be called: CANT lose points
+    //Since 1.10 fixed to actually be "can lose" instead of previously "cant lose"
     @Accessor(value = "dimEPcanLossPoints", remap = false)
     ArrayList<Boolean> getDimEPcanLossPoints();
 
