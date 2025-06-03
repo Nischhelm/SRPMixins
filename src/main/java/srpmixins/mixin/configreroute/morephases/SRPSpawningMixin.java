@@ -1,18 +1,20 @@
 package srpmixins.mixin.configreroute.morephases;
 
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
-import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.sugar.Cancellable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.biome.Biome;
+import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
 
@@ -21,13 +23,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Debug(export = true)
 @Mixin(SRPSpawning.class)
 public abstract class SRPSpawningMixin {
     @Unique private static final Map<Byte, List<Biome.SpawnListEntry>> srpmixins$spawnLists = new HashMap<>();
 
-    @WrapMethod(method = "getSpawns", remap = false)
-    private static List<Biome.SpawnListEntry> srpmixins_getSpawns(byte phase, Operation<List<Biome.SpawnListEntry>> original){
-        return srpmixins$spawnLists.get(phase);
+    @ModifyVariable(
+            method = "getSpawns",
+            at = @At(value = "LOAD", ordinal = 2),
+            name = "phase",
+            remap = false
+    )
+    private static int srpmixins_getSpawns(int phase, @Cancellable CallbackInfoReturnable<List<Biome.SpawnListEntry>> cir){
+        cir.setReturnValue(srpmixins$spawnLists.get((byte) phase));
+        return phase;
+        //TODO test
     }
 
     @Inject(

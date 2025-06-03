@@ -48,7 +48,7 @@
     "summon.EntityAlafhaMixin",
     "summon.EntityDropPodMixin",
     "summon.EntityOroncoTenMixin",
-    "summon.EntityPRoosterMixin",
+    "summon.EntityPRooterMixin",
     "summon.ParasiteEventEntityMixin_BeckonSummon"
   ],
   "injectors": {

@@ -10,12 +10,12 @@ import srpmixins.config.SRPMixinsConfigHandler;
 @Mixin(SRPSpawning.DimensionHandler.class)
 public abstract class SRPSpawningDimensionHandlerMixin {
     @WrapMethod(method = "canSpawninPhase", remap = false)
-    private static boolean srpmixins_canSpawninPhase(byte phase, EntityParasiteBase parasite, Operation<Boolean> original) {
+    private static boolean srpmixins_canSpawninPhase(int phase, int levelUD, EntityParasiteBase parasite, Operation<Boolean> original) {
         byte type = parasite.getParasiteType();
         if (phase < 0 || phase > SRPMixinsConfigHandler.morephases.maxEvolutionPhase) return false;
 
         if (SRPMixinsConfigHandler.morephases.phaseMinParasiteID[phase] < type && type < SRPMixinsConfigHandler.morephases.phaseMaxParasiteID[phase]) {
-            parasite.setCreatedPhase(phase);
+            parasite.setCreatedPhase(phase, levelUD);
             return true;
         }
         return false;

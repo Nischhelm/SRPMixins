@@ -51,9 +51,9 @@ public abstract class SendBiomePacket {
             at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fml/common/network/simpleimpl/SimpleNetworkWrapper;sendToDimension(Lnet/minecraftforge/fml/common/network/simpleimpl/IMessage;I)V"),
             remap = false
     )
-    private static boolean srpmixins_addBlockPosToPacket(SimpleNetworkWrapper instance, IMessage message, int dimensionId, @Local(name = "convert") BlockPos convertedPos){
+    private static boolean srpmixins_addBlockPosToPacket(SimpleNetworkWrapper instance, IMessage message, int dimensionId, @Local(name = "convert") BlockPos convertedPos, @Local(argsOnly = true, ordinal = 1) int type){
         if(srpmixins$biomePacket == null)
-            srpmixins$biomePacket = new SRPMixinsPacketBiomeChange(true);
+            srpmixins$biomePacket = new SRPMixinsPacketBiomeChange(true, type);
 
         srpmixins$biomePacket.addBlockPos(convertedPos);
         return false;
@@ -78,7 +78,7 @@ public abstract class SendBiomePacket {
     )
     private static boolean srpmixins_addBlockPosToPacket_kill(SimpleNetworkWrapper instance, IMessage message, int dimensionId, @Local(name = "convert") BlockPos convertedPos){
         if(srpmixins$biomePacket == null)
-            srpmixins$biomePacket = new SRPMixinsPacketBiomeChange(false);
+            srpmixins$biomePacket = new SRPMixinsPacketBiomeChange(false, 1);
 
         srpmixins$biomePacket.addBlockPos(convertedPos);
         return false;

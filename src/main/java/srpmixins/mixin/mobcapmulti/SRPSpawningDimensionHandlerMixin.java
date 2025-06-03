@@ -19,7 +19,8 @@ public abstract class SRPSpawningDimensionHandlerMixin {
 
     @ModifyExpressionValue(
             method = "onSpawn",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false)
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I"),
+            remap = false
     )
     private static int srpmixins_increaseParasiteMobCapPerPlayer(int original, @Share(value = "dimension") LocalIntRef dim, @Local(argsOnly = true) ICommandSender sender) {
         dim.set(sender.getEntityWorld().provider.getDimension());
@@ -31,7 +32,8 @@ public abstract class SRPSpawningDimensionHandlerMixin {
 
     @ModifyExpressionValue(
             method = "onSpawn",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldSpawningMobCap:I", remap = false)
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldSpawningMobCap:I"),
+            remap = false
     )
     private static int srpmixins_increaseParasiteMobCap(int original, @Share(value = "dimension") LocalIntRef dim) {
         float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dim.get(),1.0F);

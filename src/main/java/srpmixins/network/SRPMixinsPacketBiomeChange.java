@@ -14,11 +14,13 @@ import java.util.List;
 public class SRPMixinsPacketBiomeChange implements IMessage {
     private final List<BlockPos> blockPos = new ArrayList<>();
     private boolean convertToParasite;
+    private int type;
 
     public SRPMixinsPacketBiomeChange() {}
 
-    public SRPMixinsPacketBiomeChange(boolean convert) {
+    public SRPMixinsPacketBiomeChange(boolean convert, int type) {
         this.convertToParasite = convert;
+        this.type = type;
     }
 
     public void addBlockPos(BlockPos pos){
@@ -28,6 +30,7 @@ public class SRPMixinsPacketBiomeChange implements IMessage {
     @Override
     public void fromBytes(ByteBuf byteBuf) {
         this.convertToParasite = byteBuf.readBoolean();
+        this.type = byteBuf.readInt();
         int nPos = byteBuf.readInt();
         for(int i = 0; i < nPos; i++)
             this.blockPos.add(new BlockPos(byteBuf.readInt(), 0, byteBuf.readInt()));
@@ -36,6 +39,7 @@ public class SRPMixinsPacketBiomeChange implements IMessage {
     @Override
     public void toBytes(ByteBuf byteBuf) {
         byteBuf.writeBoolean(this.convertToParasite);
+        byteBuf.writeInt(this.type);
         byteBuf.writeInt(this.blockPos.size());
         for(BlockPos pos : this.blockPos) {
             byteBuf.writeInt(pos.getX());
@@ -52,7 +56,7 @@ public class SRPMixinsPacketBiomeChange implements IMessage {
 
         private void handle(SRPMixinsPacketBiomeChange message, MessageContext ctx) {
             for(BlockPos pos : message.blockPos)
-                SRPMain.proxy.spreadBiome(pos, message.convertToParasite);
+                SRPMain.proxy.spreadBiome(pos, message.convertToParasite, message.type);
         }
     }
 }

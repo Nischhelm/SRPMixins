@@ -1,7 +1,7 @@
 package srpmixins.mixin.configparsefix;
 
-import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigWorld;
+import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
@@ -17,7 +17,7 @@ import srpmixins.SRPMixins;
 import java.util.ArrayList;
 import java.util.List;
 
-@Mixin(EntityParasiteBase.class)
+@Mixin(SRPEventHandlerBus.class)
 public abstract class EntityParasiteBaseMixin_NodeBonus {
     @Unique private static List<PotionEffect> srpmixins$configEffects = null;
     @Unique private static final String[] srpmixins$emptyList = {"","",""};
@@ -52,7 +52,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
     }
 
     @WrapOperation(
-            method = "setNodeBonus",
+            method = "applyNode",
             at = @At(value = "INVOKE", target = "Ljava/lang/String;split(Ljava/lang/String;)[Ljava/lang/String;"),
             remap = false
     )
@@ -61,7 +61,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
     }
 
     @WrapOperation(
-            method = "setNodeBonus",
+            method = "applyNode",
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 0),
             remap = false
     )
@@ -73,7 +73,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
     }
 
     @WrapOperation(
-            method = "setNodeBonus",
+            method = "applyNode",
             at = @At(value = "INVOKE", target = "Ljava/lang/Integer;parseInt(Ljava/lang/String;)I", ordinal = 1),
             remap = false
     )
@@ -84,7 +84,7 @@ public abstract class EntityParasiteBaseMixin_NodeBonus {
     }
 
     @WrapOperation(
-            method = "setNodeBonus",
+            method = "applyNode",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/potion/Potion;getPotionFromResourceLocation(Ljava/lang/String;)Lnet/minecraft/potion/Potion;")
     )
     private Potion srpmixins_dontParsePotion(String s, Operation<Potion> original, @Share("index") LocalIntRef index){

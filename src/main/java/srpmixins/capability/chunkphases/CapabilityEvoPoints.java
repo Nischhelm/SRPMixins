@@ -99,7 +99,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
                 //Don't reduce further than 0 if phase is not -1 or -2
                 this.evoPoints = Math.max(this.evoPoints, 0);
                 //Don't reduce further than phase min if config is enabled
-                if (SRPMixinsConfigHandler.phasepoints.limitPointReduction && !canChangePhase && addedPoints < 0)
+                if (!canChangePhase && addedPoints < 0)
                     this.evoPoints = Math.max(this.evoPoints, SRPConfigProvider.getPhaseMinPoints(this.evoPhase));
             }
 
@@ -145,7 +145,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         // Unlock parasites, global, not chunk dependent
         SRPSaveDataAccessor data = instanceAccessor();
         //First call of SRPSaveData.instance needs to create it from worldStorage NBT
-        if(data == null) data = ((SRPSaveDataAccessor) SRPSaveData.get(chunk.getWorld()));
+        if(data == null) data = ((SRPSaveDataAccessor) SRPSaveData.get(chunk.getWorld(), 2));
         data.invokeCheckForUnlock(this.evoPhase, chunk.getWorld().provider.getDimension(), chunk.getWorld());
     }
 
@@ -247,7 +247,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
             if (phase == -1 && points > 0) points = -points; //bruh
         }
 
-        setEvolutionPhase(currentDim, (byte) phase, true, world, true);
+        setEvolutionPhase(currentDim, (byte) phase, true, world);
         this.evoPoints = points;
     }
 
@@ -280,14 +280,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
 
     //This whole thing is only called for SRPCommand setphase and will only update current chunk
     @Override
-    public boolean setEvolutionPhase(int dimId, byte phase, boolean doRefreshPoints, World worldIn, boolean canChangePhase) {
-        //Don't understand, why do we set points back to start of phase?
-        // in this chunk implementation this would never run, but we keep it in for compat
-        if (!canChangePhase) {
-            setPointsToPhaseStart();
-            return false;
-        }
-
+    public boolean setEvolutionPhase(int dimId, byte phase, boolean doRefreshPoints, World worldIn) {
         setEvoPhase(phase);
 
         if (doRefreshPoints) setPointsToPhaseStart();
@@ -302,7 +295,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
 
     //Only used by SRP command setCooldown and BlockEvolutionLure
     @Override
-    public void setCooldown(int cooldown, World worldIn, int dimId) {
+    public void setCooldown(int cooldown, World worldIn, int dimId, boolean isAdding) {
         setCooldown(cooldown * 20, worldIn.getWorldTime(), true);
     }
 

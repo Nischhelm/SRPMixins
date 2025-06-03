@@ -16,7 +16,7 @@ public class EarlyConfigReader {
 	private static File configFile = null;
 	//private static String configBooleanString = null;
 	private static String configIntString = null;
-	private static String configStringArrayString = null;
+	//private static String configStringArrayString = null;
 
 	/*public static boolean getBoolean(String name, boolean defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
@@ -66,7 +66,7 @@ public class EarlyConfigReader {
 		else return defaultValue;
 	}
 
-	public static boolean stringListIsDisabled(String name, String[] defaultValue) {
+	/*public static boolean stringListIsDisabled(String name, String[] defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
 
 		if (configStringArrayString == null) {
@@ -104,5 +104,5 @@ public class EarlyConfigReader {
 		}
 		//If config is not generated yet or missing entries, we use the default value that will get written into it right after this
 		else return defaultValue.length == 0;
-	}
+	}*/
 }

@@ -1,6 +1,6 @@
 package srpmixins.mixin.configparsefix.summon;
 
-import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPRooster;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPRooter;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -13,8 +13,8 @@ import srpmixins.util.configparse.ParaSpawnEntry;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@Mixin(EntityPRooster.class)
-public abstract class EntityPRoosterMixin {
+@Mixin(EntityPRooter.class)
+public abstract class EntityPRooterMixin {
     @Unique private static List<ParaSpawnEntry> srpmixins$spawnEntries = null;
 
     @WrapOperation(
