@@ -14,9 +14,9 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public class ItemEPClockMixin {
     @Redirect(
             method = "onItemRightClick",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityPlayer player){
+    public SRPSaveData srpmixins_getPlayerData(World world, int id, @Local(argsOnly = true) EntityPlayer player){
         return SRPSaveDataInterface.get(world, player, null);
     }
 }

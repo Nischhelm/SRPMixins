@@ -13,9 +13,9 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public abstract class TileEntityCanisterMixin extends TileEntity {
     @Redirect(
             method="update",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData srpmixins_getPlayerData(World world){
+    public SRPSaveData srpmixins_getPlayerData(World world, int id){
         return SRPSaveDataInterface.get(world,null,this.getPos());
     }
 

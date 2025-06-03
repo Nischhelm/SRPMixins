@@ -14,10 +14,10 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public abstract class BlockInfestedRubbleMixin {
     @Redirect(
             method="removedByPlayer",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )
-    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityPlayer player){
+    public SRPSaveData srpmixins_getPlayerData(World world, int id, @Local(argsOnly = true) EntityPlayer player){
         return SRPSaveDataInterface.get(world,player,null);
     }
 }

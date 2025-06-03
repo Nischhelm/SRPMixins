@@ -15,7 +15,6 @@
     "EntityMudoMixin",
     "EntityPAdaptedMixin",
     "EntityParasiteBaseMixin",
-    "EntityParasiticScentMixin",
     "EntityPStationaryMixin",
     "ItemEPClockMixin",
     "ParasiteEventEntityMixin",

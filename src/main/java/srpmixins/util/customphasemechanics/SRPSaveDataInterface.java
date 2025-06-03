@@ -18,7 +18,7 @@ public interface SRPSaveDataInterface {
     SRPSaveData srpmixins$getByBlock(World world, BlockPos blockPos);
 
     static SRPSaveData get(World world, @Nullable EntityPlayer player, @Nullable BlockPos blockPos){
-        SRPSaveData data = SRPSaveData.get(world);
+        SRPSaveData data = SRPSaveData.get(world, 2);
         if(SRPMixinsConfigHandler.playerphases.enabled) {
             if(player != null) return ((SRPSaveDataInterface) data).srpmixins$getByPlayer(world, player.getUniqueID());
             else if(blockPos != null) return ((SRPSaveDataInterface) data).srpmixins$getByBlock(world, blockPos);

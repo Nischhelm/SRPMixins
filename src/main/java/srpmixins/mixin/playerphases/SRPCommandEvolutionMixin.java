@@ -15,9 +15,9 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public abstract class SRPCommandEvolutionMixin {
     @Redirect(
             method="execute",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) ICommandSender sender){
+    public SRPSaveData srpmixins_getPlayerData(World world, int id, @Local(argsOnly = true) ICommandSender sender){
         return SRPSaveDataInterface.get(world,(EntityPlayer) sender.getCommandSenderEntity(),null);
     }
 }

@@ -14,10 +14,10 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public abstract class SRPWorldEntitySpawnerMixin {
     @Redirect(
             method="getSpawnListEntryForTypeAt",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) BlockPos blockPos){
+    private static SRPSaveData srpmixins_getPlayerData(World world, int id, @Local(argsOnly = true) BlockPos blockPos){
         return SRPSaveDataInterface.get(world,null,blockPos);
     }
 }

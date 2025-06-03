@@ -57,7 +57,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             int points =  entry.getValue().get(1);
 
             srpmixins$addDim(instance, dim);
-            instance.setEvolutionPhase(dim, (byte) phase, true, world, true);
+            instance.setEvolutionPhase(dim, (byte) phase, true, world);
             if (phase == -2) {
                 instance.setGaining(false, dim);
                 instance.setLoss(true, dim);
@@ -106,7 +106,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         }
         if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)
             SRPMixins.LOGGER.warn("SRPMixins Debug Mode: getByPlayer didnt find player");
-        return SRPSaveData.get(world);
+        return SRPSaveData.get(world, 2);
     }
 
     @Override
@@ -133,7 +133,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
                 }
             }
         }
-        return SRPSaveData.get(world);
+        return SRPSaveData.get(world, 2);
     }
 
     @Unique
@@ -177,14 +177,14 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
 
     @WrapOperation(
             method = "checkForUnlock",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerSer(Ljava/lang/String;Lnet/minecraft/world/World;)V"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerSer(Lnet/minecraft/world/World;Ljava/lang/String;)V"),
             remap = false
     )
-    private void srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world, Operation<Void> original){
+    private void srpmixins_sendParaUnlockMessageToOnePlayer(World world, String message, Operation<Void> original){
         if(SRPMixinsConfigHandler.playerphases.enabled) {
             EntityPlayer player = world.getPlayerEntityByUUID(srpmixins$playerUUID);
             if(player != null) player.sendMessage(new TextComponentString(message));
         } else
-            original.call(message, world);
+            original.call(world, message);
     }
 }

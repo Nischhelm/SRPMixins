@@ -14,19 +14,19 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public abstract class SRPEffectBaseMixin {
     @Redirect(
             method="effectCOTH",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityLivingBase entity){
+    public SRPSaveData srpmixins_getPlayerData(World world, int id, @Local(argsOnly = true) EntityLivingBase entity){
         return SRPSaveDataInterface.get(world,null,entity.getPosition());
     }
 
     @Redirect(
             method="effectPrey",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    public SRPSaveData srpmixins_getPlayerData2(World world, @Local(argsOnly = true) EntityLivingBase entity){
+    public SRPSaveData srpmixins_getPlayerData2(World world, int id, @Local(argsOnly = true) EntityLivingBase entity){
         return SRPSaveDataInterface.get(world,null,entity.getPosition());
     }
 
