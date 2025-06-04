@@ -42,6 +42,7 @@ public class EnchantmentConfig {
         @Config.Comment("Register Parasite Slicer Enchantment")
         @Config.Name("Parasite Slicer - Enabled")
         @Config.RequiresMcRestart
+        @MixinConfig.EarlyMixin(name = "mixins.srpmixins.vanilla.enumcreatureattribute.json")
         @MixinConfig.LateMixin(name = "mixins.srpmixins.enchantment_slicer.json")
         public boolean enabled = true;
 

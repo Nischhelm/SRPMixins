@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 public abstract class BeckonInfestationFix {
     @WrapOperation(
             method = "freeDead",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPStationaryArchitect;getRSChance(B)D"),
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPStationaryArchitect;getRSChance(B)D", ordinal = 1),
             remap = false
     )
     private double srpmixins_stopBlockReversion(EntityPStationaryArchitect beckon, byte phase, Operation<Double> original) {

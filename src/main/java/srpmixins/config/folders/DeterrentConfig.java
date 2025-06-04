@@ -12,23 +12,11 @@ public class DeterrentConfig {
     @Config.Comment("Whitelist Deterrent and Nexus mobs to take dmg per second if world is in low evolution phase")
     @Config.Name("Deterrents take damage from low phase whitelist ")
     public String[] whiteListedDeterrents = {
-            "srparasites:kyphosis",
-            "srparasites:sentry",
-            "srparasites:seizer",
-            "srparasites:dispatcherten",
-            "srparasites:beckon_si",
-            "srparasites:beckon_sii",
-            "srparasites:beckon_siii",
-            "srparasites:beckon_siv",
-            "srparasites:dispatcher_si",
-            "srparasites:dispatcher_sii",
-            "srparasites:dispatcher_siii",
-            "srparasites:dispatcher_siv"
     };
 
     @Config.Comment("Set to true to use Deterrent taking dmg whitelist as blacklist")
     @Config.Name("Deterrent whitelist is blacklist")
-    public boolean blackListDeterrents = false;
+    public boolean blackListDeterrents = true;
 
     @Config.Comment("Play respective sounds when Beckons or Dispatchers of higher stages naturally spawn")
     @Config.Name("Play high stage Beckon+Dispatcher spawn sounds")
@@ -47,18 +35,6 @@ public class DeterrentConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckoninfestationfix.json")
     public boolean fixInfestedBlockReversion = true;
-
-    @Config.Comment("SRP only uses the Beckon Stage III Infestation Limits (in SRParasitesMobs.cfg) instead of limiting the infestation spread by beckon stage, essentially ignoring the stage I and stage II config values. This fixes it.")
-    @Config.Name("Fix Block Infestation Limit")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckoninfestationlimit.json")
-    public boolean fixInfestedBlockLimit = true;
-
-    @Config.Comment("When Beckons stand inside infested grass, they will not be able to propagate their new stage (after upgrade) to the infested blocks around them, making some infestation mechanics not work properly in those cases. This fixes it.")
-    @Config.Name("Fix Block Infestation Beckon Upgrade")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.aiblockinfestfix.json")
-    public boolean fixKyphosisInfestation = true;
 
     @Config.Comment("Beckon infested area grows a lot of infested grass in it. Increase this multiplier to make it more rare (default SRP is 1, default here is 8x rarer).")
     @Config.Name("Infested Grass Rarity")

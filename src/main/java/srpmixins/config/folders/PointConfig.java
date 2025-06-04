@@ -44,12 +44,6 @@ public class PointConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.noderesetfix.json")
     public boolean fixNodeResets = true;
 
-    @Config.Comment("If Adapted mobs spawn and instantly despawn again due to distance to a player, SRP still gives players point penalty. This fixes it.")
-    @Config.Name("Fix Adapted Penalty on Instant Despawn")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptedinstadespawnpenalty.json")
-    public boolean fixAdaptedPenaltyInstantDespawn = true;
-
     @Config.Comment("Finish the \"can lose points\" option inversion of v1.10 by not allowing phase -2 to lose points and by reading+writing settings from 1.9.21 inverted")
     @Config.Name("Fix Default Can Lose")
     @Config.RequiresMcRestart

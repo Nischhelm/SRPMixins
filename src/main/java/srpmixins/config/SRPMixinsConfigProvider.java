@@ -200,7 +200,7 @@ public class SRPMixinsConfigProvider {
             }
         }
     }
-
+    
     static {
         mobNameToParaIdMap.put("pri_longarms", 1);
         mobNameToParaIdMap.put("sim_bigspider", 2);
@@ -208,8 +208,8 @@ public class SRPMixinsConfigProvider {
         mobNameToParaIdMap.put("pri_yelloweye", 4);
         mobNameToParaIdMap.put("buglin", 5);
         mobNameToParaIdMap.put("sim_human", 6);
-        mobNameToParaIdMap.put("hi_blaze", 6);
-        mobNameToParaIdMap.put("hi_skeleton", 6);
+        mobNameToParaIdMap.put("hi_blaze", 302);
+        mobNameToParaIdMap.put("hi_skeleton", 303);
         mobNameToParaIdMap.put("pri_manducater", 7);
         mobNameToParaIdMap.put("pri_summoner", 8);
         mobNameToParaIdMap.put("overseer", 9);

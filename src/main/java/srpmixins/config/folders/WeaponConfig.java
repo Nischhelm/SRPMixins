@@ -10,12 +10,6 @@ public class WeaponConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.sentevodisable.json")
     public boolean disableSentientEvolution = false;
 
-    @Config.Comment("Fix parasites getting hit by sentient weapons not doing the correct things")
-    @Config.Name("Fix parasite weapon damage")
-    @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.weapondamage.json")
-    public boolean fixParasiteDmg = true;
-
     @Config.Comment("Make living weapons+armor evolving to sentient keep their NBT")
     @Config.Name("Fix parasite weapon+armor evolution NBT loss")
     @Config.RequiresMcRestart

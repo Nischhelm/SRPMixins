@@ -18,16 +18,6 @@ import srpmixins.config.SRPMixinsConfigProvider;
 
 @Mixin(SRPEffectBase.class)
 public abstract class NeedlerFix {
-    @Redirect(
-            method = "effectNeedler",
-            at = @At(value = "INVOKE", target = "Ljava/lang/Math;max(FF)F"),
-            remap = false
-    )
-    private float srpmixins_applyLimitCorrectly(float damage, float maxDamage){
-        //Fix SRP using max(a,b) instead of correctly using min(a,b)
-        return Math.min(damage,maxDamage);
-    }
-
     @ModifyReceiver(
             method = "effectNeedler",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/ResourceLocation;toString()Ljava/lang/String;")
@@ -44,8 +34,8 @@ public abstract class NeedlerFix {
             remap = false
     )
     private boolean srpmixins_dontCheckForPlayer(String mobId, String[] blackList, boolean isWhitelist, Operation<Boolean> original, @Local(argsOnly = true) EntityLivingBase entity){
-        //If it's a player, use the custom config instead of SRP blacklist
-        if(entity instanceof EntityPlayer) return !SRPMixinsConfigHandler.potions.allowPlayerNeedler;
+        //If it's a player, use the custom config instead of SRP blacklist which is always true (return false for not blacklisted) if this mixin is loaded
+        if(entity instanceof EntityPlayer) return false;
         return original.call(mobId, blackList, isWhitelist);
     }
 
