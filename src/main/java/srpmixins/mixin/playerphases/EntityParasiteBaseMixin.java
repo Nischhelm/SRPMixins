@@ -16,35 +16,19 @@ public abstract class EntityParasiteBaseMixin extends Entity {
     }
 
     @Redirect(
-            method="onKillEntity",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
+            method = {"onKillEntity", "onDeath", "onInitialSpawn", "attackEntityFrom", "attackEntityAsMob"},
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData srpmixins_getPlayerData(World world, int id){
-        return SRPSaveDataInterface.get(world,null,this.getPosition());
+    public SRPSaveData srpmixins_getPlayerData(World world, int id) {
+        return SRPSaveDataInterface.get(world, null, this.getPosition());
     }
 
     @Redirect(
-            method="onDeath",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
+            method = {"onDeathUpdateOG", "onDeathDislo"},
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
     )
-    public SRPSaveData srpmixins_getPlayerData2(World world, int id){
-        return SRPSaveDataInterface.get(world,null,this.getPosition());
-    }
-
-    @Redirect(
-            method="onDeathUpdateOG",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
-    )
-    public SRPSaveData srpmixins_getPlayerData3(World world, int id){
-        return SRPSaveDataInterface.get(world,null,this.getPosition());
-    }
-
-    @Redirect(
-            method="onInitialSpawn",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
-    )
-    public SRPSaveData srpmixins_getPlayerData4(World world, int id){
-        return SRPSaveDataInterface.get(world,null,this.getPosition());
+    public SRPSaveData srpmixins_getPlayerData2(World world, int id) {
+        return SRPSaveDataInterface.get(world, null, this.getPosition());
     }
 }

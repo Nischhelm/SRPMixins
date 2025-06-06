@@ -16,11 +16,11 @@ public abstract class EntityAINexusGrowMixin {
     @Shadow(remap = false) @Final private EntityPStationaryArchitect parent;
 
     @Redirect(
-            method="checkPhase",
+            method={"checkPhase", "spawnLeem", "upgradeV", "upgradeD", "upgradeL"},
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
     public SRPSaveData srpmixins_getPlayerData(World world, int id){
-        return SRPSaveDataInterface.get(world,null,this.parent.getPosition());
+        return SRPSaveDataInterface.get(world,null, this.parent.getPosition());
     }
 }

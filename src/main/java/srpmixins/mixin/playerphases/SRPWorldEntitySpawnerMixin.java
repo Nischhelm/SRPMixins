@@ -3,6 +3,7 @@ package srpmixins.mixin.playerphases;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
 import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,11 +14,20 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 @Mixin(SRPWorldEntitySpawner.class)
 public abstract class SRPWorldEntitySpawnerMixin {
     @Redirect(
-            method="getSpawnListEntryForTypeAt",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap=false
+            method = "getSpawnListEntryForTypeAt",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
     )
-    private static SRPSaveData srpmixins_getPlayerData(World world, int id, @Local(argsOnly = true) BlockPos blockPos){
-        return SRPSaveDataInterface.get(world,null,blockPos);
+    private static SRPSaveData srpmixins_getPlayerData(World world, int id, @Local(argsOnly = true) BlockPos blockPos) {
+        return SRPSaveDataInterface.get(world, null, blockPos);
+    }
+
+    @Redirect(
+            method = "isWithinOrigin",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    private static SRPSaveData srpmixins_getPlayerData2(World world, int id, @Local(argsOnly = true) EntityLiving entity) {
+        return SRPSaveDataInterface.get(world, null, entity.getPosition());
     }
 }

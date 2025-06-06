@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.living.LivingHealEvent;
 import net.minecraftforge.event.entity.player.ItemFishedEvent;
 import net.minecraftforge.event.entity.player.PlayerWakeUpEvent;
 import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -88,4 +89,26 @@ public abstract class SRPEventHandlerBusMixin {
 
         return SRPSaveDataInterface.get(world, playerHeal, blockPosHeal);
     }
+
+
+
+    //TODO: probably all savedata
+
+    /*@Redirect(
+            method = "serverTick",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    public SRPSaveData srpmixins_getPlayerData7(World world, int id, @Local(argsOnly = true) TickEvent.ServerTickEvent event) {
+        return SRPSaveDataInterface.get(world, event.getEntityPlayer(), null);
+    }
+
+    @Redirect(
+            method = "worldTick",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    public SRPSaveData srpmixins_getPlayerData8(World world, int id, @Local(argsOnly = true) TickEvent.WorldTickEvent event) {
+        return SRPSaveDataInterface.get(world, event.getEntityPlayer(), null);
+    }*/
 }
