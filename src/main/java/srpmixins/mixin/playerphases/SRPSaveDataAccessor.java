@@ -37,4 +37,20 @@ public interface SRPSaveDataAccessor {
     ArrayList<Integer> getSimRegIdTimes();
     @Accessor(value = "lockedParasites", remap = false)
     ArrayList<Integer> getLockedParasites();
+
+    @Accessor(value = "dimEPcurrentCodes", remap = false)
+    ArrayList<String> getDimEPcurrentCodes();
+    @Accessor(value = "dimEPcurrentCodesDur", remap = false)
+    ArrayList<String> getDimEPcurrentCodesDur();
+    @Accessor(value = "dimGeneration", remap = false)
+    ArrayList<Byte> getDimGeneration();
+    @Accessor(value = "dimGenerationTime", remap = false)
+    ArrayList<Integer> getDimGenerationTime();
+    @Accessor(value = "dimUpdates", remap = false)
+    ArrayList<Integer> getDimUpdates();
+    @Accessor(value = "dimEIVHealth", remap = false)
+    ArrayList<Integer> getDimEIVHealth();
+    @Accessor(value = "dimEIVArea", remap = false)
+    ArrayList<Integer> getDimEIVArea();
+
 }

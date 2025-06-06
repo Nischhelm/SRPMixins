@@ -60,14 +60,13 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             instance.setEvolutionPhase(dim, (byte) phase, true, world);
             if (phase == -2) {
                 instance.setGaining(false, dim);
-                instance.setLoss(true, dim);
+                instance.setLoss(false, dim);
             } else if (phase == -1)
                 instance.setTotalKills(dim, -points, false, world, true);
             else
                 instance.setTotalKills(dim, points, false, world, true);
         }
-
-        for (int dim : ((SRPSaveDataAccessor) instance).getDimEPid()) {
+            for (int dim : ((SRPSaveDataAccessor) instance).getDimEPid()) {
             boolean dimIsInList = SRPConfigProvider.dimensionCanGainPointsBlacklist.contains(dim);
             if (!SRPConfigSystems.evolutionDimGainInverted == dimIsInList)
                 instance.setGaining(false, dim);
@@ -75,6 +74,12 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             dimIsInList = SRPConfigProvider.dimensionCantLosePointsBlacklist.contains(dim);
             if (!SRPConfigSystems.evolutionDimLossInverted == dimIsInList)
                 instance.setLoss(true, dim);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : SRPConfigProvider.generationStartPerDimension.entrySet()) {
+            int dim = entry.getKey();
+            int generation = entry.getValue();
+            instance.setGeneration((byte)generation, dim);
         }
 
         return instance;
@@ -90,6 +95,15 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         ((SRPSaveDataAccessor) instance).getDimEPevolution().add(SRPConfigSystems.defaultEvoPhase);
         ((SRPSaveDataAccessor) instance).getDimEPtimeEvolution().add(0);
         ((SRPSaveDataAccessor) instance).getDimEPtotalKills().add(SRPConfigSystems.defaultEvoPoints);
+
+        ((SRPSaveDataAccessor) instance).getDimEPcurrentCodes().add("0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0");
+        ((SRPSaveDataAccessor) instance).getDimEPcurrentCodesDur().add("0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0;0");
+        ((SRPSaveDataAccessor) instance).getDimGeneration().add(SRPConfigSystems.generationDefa);
+        ((SRPSaveDataAccessor) instance).getDimGenerationTime().add(0);
+        ((SRPSaveDataAccessor) instance).getDimUpdates().add(0);
+        ((SRPSaveDataAccessor) instance).getDimEIVHealth().add(0);
+        ((SRPSaveDataAccessor) instance).getDimEIVArea().add(0);
+
         instance.markDirty();
     }
 

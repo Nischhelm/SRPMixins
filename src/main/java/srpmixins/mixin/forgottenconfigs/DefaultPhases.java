@@ -29,13 +29,13 @@ public abstract class DefaultPhases {
             if (SRPConfigSystems.evolutionDimGainInverted != dimIsInList)
                 data.setGaining(false, dim);
 
-            //Set canLoss (should be cantLose)
-            data.setLoss(false, dim);
+            //Set canLose
+            data.setLoss(true, dim);
             //is in blacklist
             dimIsInList = SRPConfigProvider.dimensionCantLosePointsBlacklist.contains(dim);
             //if (found and blacklist) or (not found and whitelist)
             if (SRPConfigSystems.evolutionDimLossInverted != dimIsInList)
-                data.setLoss(true, dim);
+                data.setLoss(false, dim);
         }
 
         //Default behavior SRPSaveData.setEvolutionPhase

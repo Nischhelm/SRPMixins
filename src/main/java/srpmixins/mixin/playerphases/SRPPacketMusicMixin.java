@@ -1,28 +1,37 @@
 package srpmixins.mixin.playerphases;
 
-import com.dhanantry.scapeandrunparasites.SRPMain;
 import com.dhanantry.scapeandrunparasites.network.SRPPacketMusic;
-import com.dhanantry.scapeandrunparasites.network.SRPPacketMusicTwo;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
+import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.server.MinecraftServer;
-import org.spongepowered.asm.mixin.Debug;
+import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Debug(export = true)
-@Mixin(SRPPacketMusic.Handler.class)
+//Looks like it doesn't work but it does work
+@Mixin(targets = "com.dhanantry.scapeandrunparasites.network.SRPPacketMusic$Handler$1")
 public class SRPPacketMusicMixin {
-    @WrapOperation(
-            method = "onMessage(Lcom/dhanantry/scapeandrunparasites/network/SRPPacketMusic;Lnet/minecraftforge/fml/common/network/simpleimpl/MessageContext;)Lnet/minecraftforge/fml/common/network/simpleimpl/IMessage;",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/server/MinecraftServer;addScheduledTask(Ljava/lang/Runnable;)Lcom/google/common/util/concurrent/ListenableFuture;"),
+    @Unique private EntityPlayerMP srpmixins$player;
+
+    @Inject(
+            method = "<init>",
+            at = @At("TAIL"),
             remap = false
     )
-    private ListenableFuture<Object> srpmixins_getPlayerData(MinecraftServer instance, Runnable runnableToSchedule, Operation<ListenableFuture<Object>> original, @Local EntityPlayerMP player){
-        return original.call(instance, (Runnable) () -> SRPMain.network.sendTo(new SRPPacketMusicTwo(SRPSaveDataInterface.get(player.world, player, null).getEvolutionPhase(player.world.provider.getDimension())), player));
+    private void srpmixins_savePlayer(SRPPacketMusic.Handler this$0, EntityPlayerMP var2, CallbackInfo ci){
+        srpmixins$player = var2;
+    }
+
+    @Redirect(
+            method = "run",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;I)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
+    )
+    private SRPSaveData srpmixins_getPlayerData(World world, int id){
+        return SRPSaveDataInterface.get(world, null, srpmixins$player.getPosition());
     }
 }

@@ -89,6 +89,7 @@ public class SRPConfigProvider {
 
     //dimensionId, [phase, points]
     public static final Map<Integer, List<Integer>> evolutionStartPerDimension = new HashMap<>();
+    public static final Map<Integer, Integer> generationStartPerDimension = new HashMap<>();
     public static final List<Integer> lockedParasites = new ArrayList<>();
 
     public static final Map<Integer, List<Triple<ItemStack, Integer, Boolean>>> lootPools = new HashMap<>();
@@ -132,6 +133,20 @@ public class SRPConfigProvider {
                 }
             } else
                 SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP \"Evolution Phases Dimension Starting Phase\" line, line has not enough entries to be valid (expected pattern: dim; phase; points), provided was: {}", s);
+        }
+
+        for (String s : SRPConfigSystems.generationDimStart) {
+            String[] split = s.split(";");
+            if(split.length >= 2) {
+                try {
+                    int dim = Integer.parseInt(split[0].trim());
+                    int generation = Integer.parseInt(split[1].trim());
+                    generationStartPerDimension.put(dim, generation);
+                } catch (Exception e){
+                    SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP \"Generation Dimension Starting List\" line, expected only integers, provided was: {}", s);
+                }
+            } else
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse SRP \"Generation Dimension Starting List\" line, line has not enough entries to be valid (expected pattern: dim; generation), provided was: {}", s);
         }
     }
 
