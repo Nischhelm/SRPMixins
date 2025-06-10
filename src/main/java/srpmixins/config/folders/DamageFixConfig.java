@@ -43,4 +43,20 @@ public class DamageFixConfig {
     @Config.Name("Fix Succor Damage - Dealt damage")
     @Config.RangeInt(min = 0)
     public float fixedSuccorDamage = 30;
+
+    @Config.Comment("Makes Arachnida Pullballs have modifiable hit range sizes")
+    @Config.Name("Fix Arachnida Pull")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.arachnidapullballhit.json")
+    public boolean changeArachnidaPull = true;
+
+    @Config.Comment("How big of an area to scan for impacts with entities for the primitive arachnidas pullball. The value is what is added on top of the actual sidelength of the projectiles bounding box, so 0 would be using only its own bounding box.")
+    @Config.Name("Fix Arachnida Pull - Primitive Range")
+    @Config.RangeDouble(min = 0)
+    public float primArachPullBallHit = 2F;
+
+    @Config.Comment("How big of an area to scan for impacts with entities for the adapted arachnidas pullball. The value is what is added on top of the actual sidelength of the projectiles bounding box, so 0 would be using only its own bounding box.")
+    @Config.Name("Fix Arachnida Pull - Adapted Range")
+    @Config.RangeInt(min = 0)
+    public float adaArachPullBallHit = 2.5F;
 }

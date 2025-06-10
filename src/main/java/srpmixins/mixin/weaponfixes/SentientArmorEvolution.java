@@ -60,7 +60,7 @@ public class SentientArmorEvolution extends ItemArmor {
     @Unique
     public Item srpmixins$getNext() {
         if (this.getArmorMaterial() != SRPItems.ARMOR_LIVING) return null;
-        switch (this.getEquipmentSlot()) {
+        switch (this.armorType) {
             case HEAD: return SRPItems.armor_helmetSentient;
             case CHEST: return SRPItems.armor_chestSentient;
             case LEGS: return SRPItems.armor_pantsSentient;
