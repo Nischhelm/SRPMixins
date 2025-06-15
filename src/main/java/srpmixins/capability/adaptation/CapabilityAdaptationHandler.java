@@ -23,10 +23,12 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.SRPMixinsConfigProvider;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class CapabilityAdaptationHandler {
@@ -90,37 +92,39 @@ public class CapabilityAdaptationHandler {
             if (!(event.getEntityLiving() instanceof EntityPlayer)) return;
 
             EntityPlayer player = (EntityPlayer) event.getEntityLiving();
+            if(player.inventory.armorInventory.stream().noneMatch(stack -> stack.getItem() instanceof WeaponToolArmorBase))
+                return;
+
             float amount = event.getAmount();
             DamageSource source = event.getSource();
             Entity immediateSource = source.getImmediateSource();
+
+            if (SRPMixinsConfigProvider.fireMultiDmgTypes.contains(source.damageType) ||
+                    SRPMixinsConfigProvider.fireMultiDmgTypes.contains("isBurning") && player.isBurning()) {
+                event.setAmount(amount * SRPConfig.firemultyplier);
+                return; //no adaptation in this case
+            }
 
             float reductionAmount = 0.0F;
 
             String damageTypeName = "";
             byte blackListType = 0;
-            boolean isFirstCheck = true;
+            if (immediateSource != null || SRPMixinsConfigHandler.adaptation.fixNullAdaptation) {
+                if (immediateSource instanceof EntityPlayer) damageTypeName = immediateSource.getName();
+                else if (immediateSource instanceof EntityLivingBase) {
+                    ResourceLocation loc = EntityList.getKey(immediateSource);
+                    if (loc != null) damageTypeName = loc.toString();
+                    else return;
+                } else {
+                    damageTypeName = source.damageType;
+                    blackListType = 2;
+                }
+            }
 
             for (ItemStack stack : player.inventory.armorInventory) {
                 if (!(stack.getItem() instanceof WeaponToolArmorBase)) continue;
                 ICapabilityAdaptation adaCap = stack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
                 if (adaCap == null) continue;
-
-                if (isFirstCheck && (immediateSource != null || SRPMixinsConfigHandler.adaptation.fixNullAdaptation)) {
-                    if (SRPMixinsConfigHandler.adaptation.fixFireDmgOnSentient && (source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE) || player.isBurning()) {
-                        event.setAmount(amount * SRPConfig.firemultyplier);
-                        return;
-                    } else if (immediateSource instanceof EntityPlayer) damageTypeName = immediateSource.getName();
-                    else if (immediateSource instanceof EntityLivingBase) {
-                        ResourceLocation loc = EntityList.getKey(immediateSource);
-                        if (loc != null) damageTypeName = loc.toString();
-                        else return;
-                    } else {
-                        damageTypeName = source.damageType;
-                        blackListType = 2;
-                    }
-
-                    isFirstCheck = false;
-                }
 
                 boolean hasAdaptation = adaCap.hasAdaptation(damageTypeName);
                 //Try to add it if it doesn't exist yet
