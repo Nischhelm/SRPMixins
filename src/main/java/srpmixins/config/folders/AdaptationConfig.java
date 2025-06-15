@@ -38,4 +38,8 @@ public class AdaptationConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adapttoindirect.json")
     public boolean fixAdaptationToIndirect = true;
+
+    @Config.Comment("Wearing Living or Sentient Armor is supposed to apply the SRP config \"Mob Fire Damage Multiplier\" to all fire dmgs that the wearing player takes. This didn't work in base SRP due to the same bug that makes armor adapt to \"\". Fixing the latter also fixed the former, making players wearing living/sentient armor take huge amounts of fire dmg. Keeping this disabled keeps the vanilla (unintended) SRP behavior of not increasing indirect fire dmg on players. Requires \"Overhaul Adaptation\". Enable this if you want to make people wearing living/sentient armor fear fire.")
+    @Config.Name("Apply Fire Dmg Multi")
+    public boolean fixFireDmgOnSentient = false;
 }

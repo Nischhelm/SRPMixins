@@ -43,14 +43,12 @@ public class CapabilityAdaptationHandler {
         @SubscribeEvent
         public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
             ItemStack stack = event.getObject();
-            if(stack.isEmpty()) return;
-            if(stack.getMaxStackSize() > 1) return;
-            if(stack.getCount() != 1) return;
-            if(!SRPMixins.completedLoading) return;
-            if(stack.hasCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null)) return;
-
             Item item = stack.getItem();
             if(!(item instanceof WeaponToolArmorBase)) return;
+
+            if(stack.getMaxStackSize() > 1 || stack.getCount() != 1) return;
+            if(!SRPMixins.completedLoading) return;
+            if(stack.hasCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null)) return;
 
             //Move the old values over if there are any
             List<String> oldNames = new ArrayList<>();
@@ -108,7 +106,7 @@ public class CapabilityAdaptationHandler {
                 if (adaCap == null) continue;
 
                 if (isFirstCheck && (immediateSource != null || SRPMixinsConfigHandler.adaptation.fixNullAdaptation)) {
-                    if (source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE || player.isBurning()) {
+                    if (SRPMixinsConfigHandler.adaptation.fixFireDmgOnSentient && (source == DamageSource.IN_FIRE || source == DamageSource.ON_FIRE) || player.isBurning()) {
                         event.setAmount(amount * SRPConfig.firemultyplier);
                         return;
                     } else if (immediateSource instanceof EntityPlayer) damageTypeName = immediateSource.getName();
