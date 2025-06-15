@@ -40,6 +40,8 @@ public class SRPMixinsConfigProvider {
 
     private static final Map<String, Map<String, Integer>> conversionPathwayLocks = new HashMap<>();
 
+    public static final List<String> fireMultiDmgTypes = new ArrayList<>();
+
     public static void init(){
         setupDimensionMultiplierMap(dimensionHealthMultipliers, SRPMixinsConfigHandler.dimension.dimensionHealthMultipliers);
         setupDimensionMultiplierMap(dimensionDmgMultipliers, SRPMixinsConfigHandler.dimension.dimensionDmgMultipliers);
@@ -119,6 +121,8 @@ public class SRPMixinsConfigProvider {
             }
         }
 
+        fireMultiDmgTypes.addAll(Arrays.asList(SRPMixinsConfigHandler.adaptation.fireMultiDmgTypes));
+
         readConversionLockConfig();
     }
 
@@ -154,6 +158,7 @@ public class SRPMixinsConfigProvider {
         blockBreakBlacklist.clear();
         foodBlacklist.clear();
         srpMobConfig.clear();
+        fireMultiDmgTypes.clear();
 
         init();
         postInit();

@@ -9,6 +9,7 @@ public class AdaptationConfig {
             "- When combining living+sentient gear, will use the point multiplier of each armor piece instead of using the last checked one.")
     @Config.Name("Overhaul Adaptation")
     @Config.RequiresMcRestart
+    @MixinConfig.EarlyMixin(name = "mixins.srpmixins.vanilla.adaptationoverhaul.json")
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationoverhaul.json")
     public boolean overhaulAdaptation = true;
 
@@ -41,7 +42,12 @@ public class AdaptationConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adapttoindirect.json")
     public boolean fixAdaptationToIndirect = true;
 
-    @Config.Comment("Wearing Living or Sentient Armor is supposed to apply the SRP config \"Mob Fire Damage Multiplier\" to all fire dmgs that the wearing player takes. This didn't work in base SRP due to the same bug that makes armor adapt to \"\". Fixing the latter also fixed the former, making players wearing living/sentient armor take huge amounts of fire dmg. Keeping this disabled keeps the vanilla (unintended) SRP behavior of not increasing indirect fire dmg on players. Requires \"Overhaul Adaptation\". Enable this if you want to make people wearing living/sentient armor fear fire.")
-    @Config.Name("Apply Fire Dmg Multi")
-    public boolean fixFireDmgOnSentient = false;
+    @Config.Comment("Wearing Living or Sentient Armor is supposed to apply the SRP config \"Mob Fire Damage Multiplier\" to any fire (inFire/onFire) dmg the player takes, as well as any dmg when the player is burning (isBurning). In those cases, adapting to the dmg is also supposed to fail. Fire dmg doing that didn't work in base SRP due to a bug. \n" +
+            "Use this list to modify how it works when \"Overhaul Adaptation\" is enabled. \n" +
+            "Originally intended would be inFire, onFire, isBurning, actual SRP behavior is just isBurning. \n" +
+            "Possible additions would be lava, hotFloor and fireworks, or just fully disabling the feature by clearing the list.")
+    @Config.Name("Fire Multiplier Dmg Types")
+    public String[] fireMultiDmgTypes = {
+            "isBurning"
+    };
 }
