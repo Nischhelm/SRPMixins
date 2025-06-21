@@ -32,9 +32,11 @@ public class SentientArmorEvolution extends ItemArmor {
         super(materialIn, renderIndexIn, equipmentSlotIn);
     }
 
-    @Override
-    public void onUpdate(@Nonnull ItemStack stack, @Nonnull World worldIn, @Nonnull Entity entityIn, int itemSlot, boolean isSelected) {
-        super.onUpdate(stack, worldIn, entityIn, itemSlot, isSelected);
+    @Inject(
+            method = "onUpdate",
+            at = @At("TAIL")
+    )
+    public void srpmixins_countKillsOnArmor(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected, CallbackInfo ci) {
         if (SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
         if (!worldIn.isRemote && entityIn.ticksExisted % 80 == 0) {
             NBTTagCompound compound = stack.getTagCompound();

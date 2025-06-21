@@ -1,5 +1,6 @@
 package srpmixins.capability.adaptation;
 
+import com.dhanantry.scapeandrunparasites.init.SRPPotions;
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolArmorBase;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import net.minecraft.entity.Entity;
@@ -139,6 +140,9 @@ public class CapabilityAdaptationHandler {
             }
 
             event.setAmount(Math.max(amount * (1 - reductionAmount), 0.0F));
+
+            if (immediateSource instanceof EntityLivingBase && SRPConfig.armorCoth)
+                SRPPotions.applyStackPotion(SRPPotions.COTH_E, (EntityLivingBase) immediateSource, 400, 2);
         }
     }
 
