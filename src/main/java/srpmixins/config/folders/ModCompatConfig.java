@@ -35,4 +35,13 @@ public class ModCompatConfig {
     @Config.Comment("LC Portals are locked until reaching this phase. Disable with -1")
     @Config.Name("LC Portal Phase Lock")
     public int portalLClockedPhase = 6;
+
+
+    @Config.Comment("SRPMixins has compat with OverLast when using custom phases (player phases or chunk phases). \n" +
+            "Use this to toggle off the compatibility.\n" +
+            "It is auto disabled anyway if you dont use custom phases or OverLast")
+    @Config.Name("Enable OverLast custom phases")
+    @Config.RequiresMcRestart
+    public boolean enableOverLastCustomPhases = true;
+
 }

@@ -1,0 +1,17 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.overlast.customphases",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "CapEvents_WorldSeason_DailyRadioMixin",
+    "EventFinalBattleMixin",
+    "ItemEvoDeviceMixin",
+    "OverUtilMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

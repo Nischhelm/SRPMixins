@@ -11,6 +11,7 @@ import java.util.List;
 
 @Mixin(EnumCreatureAttribute.class)
 public abstract class EnumCreatureAttributeMixin {
+    @SuppressWarnings("target")
     @Shadow @Final @Mutable private static EnumCreatureAttribute[] $VALUES;
     @Invoker("<init>") private static EnumCreatureAttribute srpmixins_invokeInit(String internalName, int internalId){ throw new AssertionError("SRPMixins couldn't find constructor for EnumCreatureAttribute");}
 
