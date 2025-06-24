@@ -22,6 +22,12 @@ public class VariousConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.biomespreadlimit.json")
     public boolean fixBiomeSpreadingLimit = true;
 
+    @Config.Comment("SRP keeps a single fog density value for all players at the same time. In Multiplayer this leads to desyncs with no fog appearing inside the biome, or fog appearing outside of the biome. This fixes it.")
+    @Config.Name("Fix Parasitic Biome Fog")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.fogmultiplayerfix.json")
+    public boolean fixBiomeFog = true;
+
     @Config.Comment("SRP parses its config list every single time instead of caching the result. For performance this stores the results instead.")
     @Config.Name("Fix Config List Parsing")
     @Config.RequiresMcRestart
@@ -87,4 +93,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.emptywhitelistfix.json")
     public boolean fixEmptyWhitelist = true;
+
+    @Config.Comment("Waves and Shockwaves are normal Parasite Entities and thus get lots of normal parasite behavior, for example the ability to target any mob once the phase is above phase total slaughter. This makes the wave instantly die though. This fixes it.")
+    @Config.Name("Fix Wave Entities Early Death")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.wavefix.json")
+    public boolean fixWaveRetargeting = true;
 }
