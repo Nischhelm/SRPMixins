@@ -57,4 +57,10 @@ public class SpawnConfig {
     @Config.Comment("A lot of parasites evolve into each other. Use this list to stop specific evolution pathways until a specific phase is reached. Pattern: paraIn, paraOut, minPhase")
     @Config.Name("Conversion Phase Lock Rules")
     public String[] conversionRules = {};
+    
+    @Config.Comment("If spawning ignores sunlight option is true, makes parasite spawning ignore all light levels.")
+    @Config.Name("Ignore All Light Level Spawning")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.spawninglight.json")
+    public boolean ignoreAllLightLevelSpawning = false;
 }

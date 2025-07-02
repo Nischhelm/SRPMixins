@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.crashfix",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+  ],
+  "client": [
+    "SRPLayerBipedArmorMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}
