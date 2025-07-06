@@ -99,4 +99,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.wavefix.json")
     public boolean fixWaveRetargeting = true;
+    
+    @Config.Comment("Disables non-SRP armor models from rendering in SRPLayerBipedArmor to avoid crashes")
+    @Config.Name("SRPModelBiped Render Crash Fix")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.armorcrash.json")
+    public boolean srpModelBipedRenderCrashFix = true;
 }
