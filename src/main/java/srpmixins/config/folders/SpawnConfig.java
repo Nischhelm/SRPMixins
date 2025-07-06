@@ -73,4 +73,26 @@ public class SpawnConfig {
     @Config.RequiresMcRestart
     @Config.RangeInt(min = 0, max = 16)
     public int blockLightThresholdTwo = 7;
+
+    @Config.Comment("SRPs spawning system is very confusing. \n" +
+            "First of all there is three different spawning system options (evo off, evo on with custom spawner, evo on without custom spawner).\n" +
+            "On top, a lot of spawns are cancelled late depending on various conditions (evo lock, colo lock, min assimilations etc).\n" +
+            "Also, SRP uses its own Spawning logic that is 95% copied by vanilla.\n" +
+            "All of this is overhauled and recreated here in a more readable and more performant way.\n" +
+            "The actual effect of this is not just performance increase but also faster spawns.\n" +
+            "Automatically includes the following fixes:\n" +
+            "\t- \"Fix Parasite Biome Spawns\"\n" +
+            "\t- \"Fix Colony Lock in Para Biome\"")
+    @Config.Name("Fix Spawning Entirely")
+    @Config.RequiresMcRestart
+    @MixinConfig.EarlyMixin(name = "mixins.srpmixins.vanilla.enumcreaturetype.json")
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.fixspawning.json")
+    public boolean fixSpawningEntirely = true;
+
+    @Config.Comment("If SRParasitesWorld.cfg \"Colony Parasite Values Biome\" is enabled, spawns in Parasite Biome would NEVER allow colony-locked parasites (default: preeminents) no matter how many colonies have been established in the world.\n" +
+            "This fix makes it then use the actual colony point requirements set in SRParasitesWorld.cfg \"Colony Parasite Values\" instead.")
+    @Config.Name("Fix Colony Lock in Para Biome")
+    @Config.RequiresMcRestart
+    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.colofixinbiome.json")
+    public boolean fixColoLockInParaBiome = true;
 }

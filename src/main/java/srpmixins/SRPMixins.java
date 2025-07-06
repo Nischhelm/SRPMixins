@@ -18,10 +18,7 @@ import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
-import srpmixins.handlers.NexusSpawnSounds;
-import srpmixins.handlers.ParasiteDropChance;
-import srpmixins.handlers.SRPArmorBowEvolutionHandler;
-import srpmixins.handlers.WriteConversionPathways;
+import srpmixins.handlers.*;
 import srpmixins.util.compat.CompatUtil;
 import srpmixins.util.compat.LycanitesMobsCompat;
 
@@ -61,6 +58,7 @@ public class SRPMixins {
         registerEventSubscriberIf(ParasiteDropChance.class, SRPMixinsConfigHandler.dimension.doMultipliers);
         registerEventSubscriberIf(SRPArmorBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addArmorBowEvolution);
         registerEventSubscriberIf(WriteConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
+        registerEventSubscriberIf(SpawnPotentialsHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
     }
 
     private static void registerEventSubscriberIf(Object subscriber, boolean condition){

@@ -3,6 +3,7 @@ package srpmixins.mixin.spawning;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.init.SRPBiomes;
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
+import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasite;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.biome.Biome;
@@ -18,6 +19,6 @@ public abstract class BiomeSpawnFixNoCustomSpawner {
     )
     private static boolean srpmixins_onlyCheckIfNotBiome(byte evPhase, EntityParasiteBase parasite, Operation<Boolean> original){
         Biome currBiome = parasite.world.getBiome(parasite.getPosition());
-        return currBiome.equals(SRPBiomes.biomeInfested) || original.call(evPhase, parasite);
+        return currBiome instanceof BiomeParasite || original.call(evPhase, parasite);
     }
 }

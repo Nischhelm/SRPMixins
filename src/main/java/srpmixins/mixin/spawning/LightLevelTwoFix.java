@@ -24,6 +24,7 @@ public abstract class LightLevelTwoFix extends EntityLivingBase {
     @Inject(
             method = "isValidLightLevelTwo",
             at = @At("HEAD"),
+            remap = false,
             cancellable = true
     )
     private void srpmixins_earlyReturn(CallbackInfoReturnable<Boolean> cir){
@@ -33,7 +34,8 @@ public abstract class LightLevelTwoFix extends EntityLivingBase {
 
     @WrapOperation(
             method = "isValidLightLevelTwo",
-            at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 1)
+            at = @At(value = "INVOKE", target = "Ljava/util/Random;nextInt(I)I", ordinal = 1),
+            remap = false
     )
     private int srpmixins_dontCheckLater(Random instance, int i, Operation<Integer> original){
         return 0;

@@ -1,9 +1,9 @@
 package srpmixins.mixin.parabiome;
 
 import com.dhanantry.scapeandrunparasites.SRPMain;
-import com.dhanantry.scapeandrunparasites.init.SRPBiomes;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
+import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasite;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -41,7 +41,7 @@ public abstract class SendBiomePacket {
             remap = false
     )
     private static boolean srpmixins_dontAddIfAlreadyParaBiome(String biomeName, String[] biomeBlacklist, boolean isWhitelist, Operation<Boolean> original){
-        if(srpmixins$biome == SRPBiomes.biomeInfested)
+        if(srpmixins$biome instanceof BiomeParasite)
             return true; //fail check, don't add block if its already para biome
         return original.call(biomeName, biomeBlacklist, isWhitelist);
     }
