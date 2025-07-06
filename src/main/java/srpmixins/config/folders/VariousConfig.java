@@ -22,7 +22,9 @@ public class VariousConfig {
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.biomespreadlimit.json")
     public boolean fixBiomeSpreadingLimit = true;
 
-    @Config.Comment("SRP keeps a single fog density value for all players at the same time. In Multiplayer this leads to desyncs with no fog appearing inside the biome, or fog appearing outside of the biome. This fixes it.")
+    @Config.Comment("SRP keeps a single fog density value for all players at the same time. " +
+            "In Multiplayer this leads to desyncs with no fog appearing inside the biome, or fog appearing outside of the biome. " +
+            "This fixes it.")
     @Config.Name("Fix Parasitic Biome Fog")
     @Config.RequiresMcRestart
     @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.fogmultiplayerfix.json")

@@ -58,9 +58,19 @@ public class SpawnConfig {
     @Config.Name("Conversion Phase Lock Rules")
     public String[] conversionRules = {};
     
-    @Config.Comment("If spawning ignores sunlight option is true, makes parasite spawning ignore all light levels.")
-    @Config.Name("Ignore All Light Level Spawning")
+    @Config.Comment("In situations where parasite spawns should ignore light levels, they are still prevented by blocklight (torches and other light sources).\n" +
+            "These situations are:\n" +
+            "\t- when the phase is above the \"Phase Parasites Ignore Sunlight\"\n" +
+            "\t- when inside a parasite biome\n" +
+            "\t- or if \"Mobs Ignore Sun\" option is true (and evo phases off)\n" +
+            "This config varies that behavior:\n" +
+            "--- Parasites will only spawn if the blocklight is lower or equal to the given value. ---\n" +
+            "Examples: Set to 16 to make light sources not affect spawning at all.\n" +
+            "Or set to 0 to prevent any spawning if there is any blocklight on a block.\n" +
+            "Default value of 7 is how SRP handles it.\n" +
+            "NOTE: this config replaces the old RLMixins \"Parasite Light Level (SRParasites)\" mixin toggle (enabled = set to 16)")
+    @Config.Name("Min Blocklight Threshold")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.spawninglight.json")
-    public boolean ignoreAllLightLevelSpawning = false;
+    @Config.RangeInt(min = 0, max = 16)
+    public int blockLightThresholdTwo = 7;
 }
