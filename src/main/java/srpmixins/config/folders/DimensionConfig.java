@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class DimensionConfig {
     @Config.Comment("Set to false to fully disable dimension stat+drop+mobcap multipliers")
     @Config.Name("Parasite Stat+Drop Multiplier: Global switch")

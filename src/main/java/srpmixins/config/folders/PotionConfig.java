@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class PotionConfig {
     @Config.Comment("SRP soft crashes whenever Needler tries to apply dmg to players. This is fixed if \"Needler Fix\" is enabled. Enable this config to finally make players suffer the fixed Needler effect.")
     @Config.Name("Needler Fix - Allow on Players")

@@ -2,6 +2,7 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
 public class EnchantmentConfig {
     @Config.Comment("Parasite Piercer Enchantment")
@@ -12,6 +13,7 @@ public class EnchantmentConfig {
     @Config.Name("Parasite Slicer")
     public SlicerConfig slicer = new SlicerConfig();
 
+    @MixinConfig(name = SRPMixins.MODID)
     public static class PiercerConfig{
         @Config.Comment("Register Parasite Piercer Enchantment")
         @Config.Name("Parasite Piercer - Enabled")
@@ -36,6 +38,7 @@ public class EnchantmentConfig {
         public boolean incompatible = true;
     }
 
+    @MixinConfig(name = SRPMixins.MODID)
     public static class SlicerConfig {
         @Config.Comment("Register Parasite Slicer Enchantment")
         @Config.Name("Parasite Slicer - Enabled")

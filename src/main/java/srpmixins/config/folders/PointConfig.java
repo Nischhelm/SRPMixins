@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class PointConfig {
     @Config.Comment("Bloody Clock also displays progress to next phase in percent")
     @Config.Name("Bloody Clock percentage")

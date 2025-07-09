@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class MorePhasesConfig {
     @Config.Comment("SRP uses a fixed max phase of 10. Increase or decrease it with this value. If using this for the first time, the SRPMixins config will look awful on first start, fixes itself on restart. Using this will disable the base SRP configs for the values that are listed here.")
     @Config.Name("Enable More Phases")

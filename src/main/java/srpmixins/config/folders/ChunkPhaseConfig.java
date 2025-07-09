@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class ChunkPhaseConfig {
     @Config.Comment("Do Evolution mechanic by chunk. World areas that are inhabited longer will have higher phases. Can't be used together with player phases.")
     @Config.Name("Use Chunk Phases")

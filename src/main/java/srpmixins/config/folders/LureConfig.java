@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class LureConfig {
     @Config.Comment("Make Carcass point reduction amount be based on current phase, see multipliers below")
     @Config.Name("Carcass Phase dependent ")

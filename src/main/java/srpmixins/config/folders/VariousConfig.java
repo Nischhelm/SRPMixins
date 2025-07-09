@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class VariousConfig {
     @Config.Comment("Disables the automatic debug log spam for Scent Entities")
     @Config.Name("Disable Scent Debug")

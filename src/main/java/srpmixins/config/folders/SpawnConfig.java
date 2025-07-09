@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class SpawnConfig {
     @Config.Comment("Parasites can't spawn from spawners in base SRP. This fixes it. Reintroduced after moving it to RLMixins")
     @Config.Name("Fix Spawner Block spawning")

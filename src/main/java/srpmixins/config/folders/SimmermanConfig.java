@@ -3,7 +3,9 @@ package srpmixins.config.folders;
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 import org.spongepowered.asm.mixin.Mixin;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class SimmermanConfig {
     @Config.Comment("Distance from which Assimilated and Feral Endermen search for mobs to tp, default 64 (performance)")
     @Config.Name("Assimilated/Feral Endermen tp radius")

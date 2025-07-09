@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class AdaptationConfig {
     @Config.Comment("Overhaul Living/Sentient Armor adaptation, making it more performant and fixing some issues.\n" +
             "Fixes that are included without a toggle: \n" +

@@ -2,7 +2,9 @@ package srpmixins.config.folders;
 
 import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
+import srpmixins.SRPMixins;
 
+@MixinConfig(name = SRPMixins.MODID)
 public class DamageFixConfig {
     @Config.Comment("Set to false to disable all fixes for parasite damages")
     @Config.Name("Damage Fix: Global switch")
