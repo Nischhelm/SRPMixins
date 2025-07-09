@@ -6,17 +6,21 @@ import net.minecraftforge.common.config.Config;
 public class ModCompatConfig {
     @Config.Comment("Set to false to disable all bloodmoon related tweaks")
     @Config.Name("Enable Bloodmoon tweaks")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.bloodmoon.json", defaultValue = false)
+    @MixinConfig.CompatHandling(modid = "bloodmoon", desired = true, reason = "Mod Compat for Bloodmoon, requires Bloodmoon")
+    @MixinConfig.CompatHandling(modid = "lostcities", desired = true, reason = "Mod Compat for Lost Cities, requires Lost Cities")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.bloodmoon.json")
-    @MixinConfig.CompatHandling(modid = "bloodmoon")
-    @MixinConfig.CompatHandling(modid = "lostcities")
     public boolean enableBloodmoon = false;
 
     @Config.Comment("Set to false to disable all lost cities related tweaks. This also disables the bloodmoon tweaks as they only work inside the lost cities")
     @Config.Name("Enable Lost Cities tweaks")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.lostcities.json", defaultValue = false)
+    @MixinConfig.CompatHandling(
+            modid = "lostcities",
+            desired = true,
+            reason = "Mod Compat for Lost Cities, requires Lost Cities"
+    )
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.lostcities.json")
-    @MixinConfig.CompatHandling(modid = "lostcities")
     public boolean enableLostCities = false;
 
     @Config.Comment("Disable Lures in LC and instead spawn a Dispatcher Nidus")
@@ -35,7 +39,6 @@ public class ModCompatConfig {
     @Config.Comment("LC Portals are locked until reaching this phase. Disable with -1")
     @Config.Name("LC Portal Phase Lock")
     public int portalLClockedPhase = 6;
-
 
     @Config.Comment("SRPMixins has compat with OverLast when using custom phases (player phases or chunk phases). \n" +
             "Use this to toggle off the compatibility.\n" +

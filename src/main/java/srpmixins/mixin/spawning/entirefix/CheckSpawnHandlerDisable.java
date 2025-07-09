@@ -1,4 +1,4 @@
-package srpmixins.mixin.spawning;
+package srpmixins.mixin.spawning.entirefix;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
@@ -10,6 +10,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Slice;
 
 import java.util.Collections;
 import java.util.List;
@@ -20,13 +21,17 @@ public abstract class CheckSpawnHandlerDisable {
             method = "onSpawn",
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;loadedEntityList:Ljava/util/List;")
     )
-    private static List<Entity> srpmixins_disableDimensionBlacklistCheck(List<Entity> original){
+    private static List<Entity> srpmixins_disableMobCapCheck(List<Entity> original){
         return Collections.emptyList(); //Don't run dimension blacklist check
     }
 
     @ModifyExpressionValue(
             method = "onSpawn",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z", ordinal = 1),
+            slice = @Slice(
+                    from = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I"),
+                    to = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;blackListedDimensionsWhite:Z", ordinal = 0)
+            ),
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;useEvolution:Z"),
             remap = false
     )
     private static boolean srpmixins_disableDimensionBlacklistCheck(boolean original){
@@ -48,7 +53,7 @@ public abstract class CheckSpawnHandlerDisable {
             remap = false
     )
     private static boolean srpmixins_disableEvoLockCheck(int in, SRPSaveData data, Operation<Boolean> original){
-        return true; //Don't run evo lock check
+        return false; //Don't run evo lock check
     }
 
     @WrapOperation(
@@ -57,6 +62,6 @@ public abstract class CheckSpawnHandlerDisable {
             remap = false
     )
     private static boolean srpmixins_disableColoLockCheck(int i, SRPWorldData in, EntityParasiteBase data, Operation<Boolean> original){
-        return true; //Don't run colo lock check
+        return false; //Don't run colo lock check
     }
 }

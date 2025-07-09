@@ -13,7 +13,7 @@ public class SimmermanConfig {
     @Config.Comment("Make Assimilated Endermen be able to despawn if they got converted in the end (performance)")
     @Config.Name("End Simmermen despawn")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.simmermandespawn.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.simmermandespawn.json", defaultValue = true)
     public boolean despawnEndSimmermen = true;
 
     @Config.Comment("Max amount of Assimilated Endermen that can spawn via assimilation in the end (Disable with -1, requires MC restart for full disable)")
@@ -24,7 +24,7 @@ public class SimmermanConfig {
     @Config.Comment("Disable this to not use min and max target tp radius config on Simmermen and Feral Endermen.")
     @Config.Name("Modify Assim/Feral Endermen target tp radius")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.simmermantptarget.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.simmermantptarget.json", defaultValue = true)
     public boolean simmermenUseTargetTpRadius = true;
 
     @Config.Comment("Min Distance from target at which Assimilated Endermen will tp themselves and other mobs for mobs to, default 1. Set to 0 to disable")

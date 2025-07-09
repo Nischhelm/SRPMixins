@@ -7,7 +7,7 @@ public class SpawnConfig {
     @Config.Comment("Parasites can't spawn from spawners in base SRP. This fixes it. Reintroduced after moving it to RLMixins")
     @Config.Name("Fix Spawner Block spawning")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.spawnerspawnfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.spawnerspawnfix.json", defaultValue = true)
     public boolean fixSpawnerSpawns = true;
 
     @Config.Comment("Blacklist of biomes and dimensions in which no parasites will spawn. \n" +
@@ -29,25 +29,26 @@ public class SpawnConfig {
             "WARNING: SRP has preeminents in the default phase spawning lists for phase 3 and beyond. If you enable this fix, you will need to change your SRP defaults. Preeminents should only spawn in parasite biomes and/or late phases like 9/10.")
     @Config.Name("Fix Colony Lock - requires SRP config change")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.cololockfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.cololockfix.json", defaultValue = false)
+    //TODO: maybe just delete that
     public boolean fixColonyLock = false;
 
     @Config.Comment("SRP allows to disable certain parasites until a certain phase in a certain dimension is reached. This also happens though if phases aren't even activated, fully locking away certain parasites. This makes SRP ignore the evolution lock if evolution is disabled.")
     @Config.Name("Fix Evolution Lock")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.evolockfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.evolockfix.json", defaultValue = true)
     public boolean fixEvolutionLock = true;
 
     @Config.Comment("If custom phase spawner is disabled, SRP checks for min and max type id of parasites per phase to spawn them. Different than with the custom spawner though, it also checks those ids for parasite biome spawns, which can make parasite biomes feel very empty. This makes the parasite biome ignore the min and max id and instead just spawn its config-set parasites no matter the phase.")
     @Config.Name("Fix Parasite Biome Spawns")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.parabiomespawns.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.parabiomespawns.json", defaultValue = true)
     public boolean fixBiomeSpawnsNoCustom = true;
 
     @Config.Comment("Colony Carrier has type id 31, making it equal to primitive mobs for phases enabled but custom phase spawner disabled. This will fix it to have a type id of 63, making it equal to other ground preeminents, making it spawn in phases 8-10 by default.")
     @Config.Name("Fix Colony Carrier Type Id")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.colocarriertypefix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.colocarriertypefix.json", defaultValue = true)
     public boolean fixColonyCarrierTypeId = true;
 
     @Config.Comment("Auto fill the conversion rules with existing conversion pathways when they happen. Will be updated on logout.")
@@ -74,7 +75,7 @@ public class SpawnConfig {
     @Config.RangeInt(min = 0, max = 16)
     public int blockLightThresholdTwo = 7;
 
-    @Config.Comment("SRPs spawning system is very confusing. \n" +
+    /*@Config.Comment("SRPs spawning system is very confusing. \n" +
             "First of all there is three different spawning system options (evo off, evo on with custom spawner, evo on without custom spawner).\n" +
             "On top, a lot of spawns are cancelled late depending on various conditions (evo lock, colo lock, min assimilations etc).\n" +
             "Also, SRP uses its own Spawning logic that is 95% copied by vanilla.\n" +
@@ -85,14 +86,13 @@ public class SpawnConfig {
             "\t- \"Fix Colony Lock in Para Biome\"")
     @Config.Name("Fix Spawning Entirely")
     @Config.RequiresMcRestart
-    @MixinConfig.EarlyMixin(name = "mixins.srpmixins.vanilla.enumcreaturetype.json")
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.fixspawning.json")
-    public boolean fixSpawningEntirely = true;
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.srpmixins.vanilla.enumcreaturetype.json", lateMixin = "mixins.srpmixins.srp.fixspawning.json", defaultValue = true)
+    public boolean fixSpawningEntirely = true;*/
 
     @Config.Comment("If SRParasitesWorld.cfg \"Colony Parasite Values Biome\" is enabled, spawns in Parasite Biome would NEVER allow colony-locked parasites (default: preeminents) no matter how many colonies have been established in the world.\n" +
             "This fix makes it then use the actual colony point requirements set in SRParasitesWorld.cfg \"Colony Parasite Values\" instead.")
     @Config.Name("Fix Colony Lock in Para Biome")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.colofixinbiome.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.colofixinbiome.json", defaultValue = true)
     public boolean fixColoLockInParaBiome = true;
 }

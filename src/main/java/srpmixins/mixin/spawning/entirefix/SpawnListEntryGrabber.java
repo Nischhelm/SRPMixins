@@ -1,4 +1,4 @@
-package srpmixins.mixin.spawning;
+package srpmixins.mixin.spawning.entirefix;
 
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;

@@ -7,7 +7,7 @@ public class MorePhasesConfig {
     @Config.Comment("SRP uses a fixed max phase of 10. Increase or decrease it with this value. If using this for the first time, the SRPMixins config will look awful on first start, fixes itself on restart. Using this will disable the base SRP configs for the values that are listed here.")
     @Config.Name("Enable More Phases")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.morephases.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.morephases.json", defaultValue = false)
     public boolean enableMorePhases = false;
 
     @Config.Comment("SRP uses a fixed max phase of 10. Increase or decrease it with this value.")

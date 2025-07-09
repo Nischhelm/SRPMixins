@@ -1,4 +1,4 @@
-package srpmixins.mixin.spawning;
+package srpmixins.mixin.spawning.entirefix;
 
 import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
 import net.minecraftforge.fml.common.gameevent.TickEvent;

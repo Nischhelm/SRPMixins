@@ -19,7 +19,8 @@ public abstract class BeckonCooldownIgnore {
 
     @Inject(
             method = "<init>",
-            at = @At(value = "RETURN")
+            at = @At(value = "RETURN"),
+            remap = false
     )
     private void srpmixins_beckonCooldown_init(EntityPStationaryArchitect venkrol, int limit, int cooldown, int stage, int CAV, double CAM, CallbackInfo ci){
         if(SRPConfigSystems.useEvolution && !venkrol.world.isRemote)

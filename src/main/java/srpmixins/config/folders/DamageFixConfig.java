@@ -7,7 +7,7 @@ public class DamageFixConfig {
     @Config.Comment("Set to false to disable all fixes for parasite damages")
     @Config.Name("Damage Fix: Global switch")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.damagefix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.damagefix.json", defaultValue = true)
     public boolean doDamageFixes = true;
 
     @Config.Comment("Ancient Overlord homing missile base damage. Will be increased by various multipliers (parasite specific, global, dimensionspecific)")
@@ -47,7 +47,7 @@ public class DamageFixConfig {
     @Config.Comment("Makes Arachnida Pullballs have modifiable hit range sizes")
     @Config.Name("Fix Arachnida Pull")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.arachnidapullballhit.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.arachnidapullballhit.json", defaultValue = true)
     public boolean changeArachnidaPull = true;
 
     @Config.Comment("How big of an area to scan for impacts with entities for the primitive arachnidas pullball. The value is what is added on top of the actual sidelength of the projectiles bounding box, so 0 would be using only its own bounding box.")

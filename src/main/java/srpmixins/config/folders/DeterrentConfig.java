@@ -38,26 +38,26 @@ public class DeterrentConfig {
     @Config.Comment("Deny Stage 3 Beckons growing up if a Stage 4 Beckon is already nearby (20 blocks distance)")
     @Config.Name("Limit Stage 4 Beckons")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckonupgradedeny.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.beckonupgradedeny.json", defaultValue = true)
     public boolean limitStage4Beckons = true;
 
     @Config.Comment("Fix beckons reverting all the infested blocks around them on stage increase if evolution is disabled.\n" +
             "This also fixes dying higher stage beckons reverting infested blocks (if evolution is disabled) ignoring the SRP config \"Reinforcement System Block Revert Stage\" value, which would only allow reversion if the infested blocks were made by beckons with stage lower or equal to the config value.")
     @Config.Name("Fix Infested Block Reversion")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckoninfestationfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.beckoninfestationfix.json", defaultValue = true)
     public boolean fixInfestedBlockReversion = true;
 
     @Config.Comment("SRP only uses the Beckon Stage III Infestation Limits (in SRParasitesMobs.cfg) instead of limiting the infestation spread by beckon stage, essentially ignoring the stage I and stage II config values. This fixes it.")
     @Config.Name("Fix Block Infestation Limit")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.beckoninfestationlimit.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.beckoninfestationlimit.json", defaultValue = true)
     public boolean fixInfestedBlockLimit = true;
 
     @Config.Comment("When Beckons stand inside infested grass, they will not be able to propagate their new stage (after upgrade) to the infested blocks around them, making some infestation mechanics not work properly in those cases. This fixes it.")
     @Config.Name("Fix Block Infestation Beckon Upgrade")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.aiblockinfestfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.aiblockinfestfix.json", defaultValue = true)
     public boolean fixKyphosisInfestation = true;
 
     @Config.Comment("Beckon infested area grows a lot of infested grass in it. Increase this multiplier to make it more rare (default SRP is 1, default here is 8x rarer).")
@@ -67,6 +67,6 @@ public class DeterrentConfig {
     @Config.Comment("Beckons infest blocks in a square shaped area. This makes the area circular instead, looks better.")
     @Config.Name("Circular Infestation Area")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.circularinfestationarea.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.circularinfestationarea.json", defaultValue = true)
     public boolean infestationAreaIsCircular = true;
 }

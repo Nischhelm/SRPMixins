@@ -7,7 +7,7 @@ public class PlayerPhaseConfig {
     @Config.Comment("Do Phase+Point functionalities per player, allowing better Multiplayer")
     @Config.Name("Use Player Phases")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.customphasemechanics.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.customphasemechanics.json", defaultValue = false)
     public boolean enabled = false;
 
     @Config.Comment("Send logs when methods try to find a player to do player phase stuff with and not finding one")

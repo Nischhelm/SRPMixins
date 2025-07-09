@@ -7,7 +7,6 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 
-@Debug(export = true)
 @Mixin(value = {
         EntityWaveShock.class,
         EntityWave.class

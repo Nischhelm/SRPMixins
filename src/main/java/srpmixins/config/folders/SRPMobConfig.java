@@ -8,7 +8,7 @@ public class SRPMobConfig {
             "NOTE: You need to restart the game after first enable to have the ingame list be filled.")
     @Config.Name("Enable Mob Configs")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.mobconfigs.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.mobconfigs.json", defaultValue = false)
     public boolean enableMobConfig = false;
 
     @Config.Comment("List for SRP Mob configs, gathered from SRParasitesMobs.cfg for easier and ingame access. \n" +

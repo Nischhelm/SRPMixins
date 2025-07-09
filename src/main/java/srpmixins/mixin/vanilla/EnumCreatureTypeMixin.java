@@ -28,7 +28,7 @@ public abstract class EnumCreatureTypeMixin {
     private static EnumCreatureType srpmixins$addParasiteCreatureAttribute(){
         List<EnumCreatureType> variants = new ArrayList<>(Arrays.asList($VALUES));
         //Can't set mob cap to SRPConfig value here, gotta do in WorldEntitySpawnerMixin
-        EnumCreatureType newEnumCreatureAttribute = srpmixins_invokeInit("PARASITE", variants.get(variants.size()-1).ordinal()+1, IParasite.class, 0, Material.AIR, false, false);
+        EnumCreatureType newEnumCreatureAttribute = srpmixins_invokeInit("PARASITE", variants.get(variants.size()-1).ordinal()+1, IParasite.class, 1, Material.AIR, false, false);
         variants.add(newEnumCreatureAttribute);
         $VALUES = variants.toArray(new EnumCreatureType[0]);
         return newEnumCreatureAttribute;

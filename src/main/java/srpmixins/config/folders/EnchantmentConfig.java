@@ -6,19 +6,17 @@ import net.minecraftforge.common.config.Config;
 public class EnchantmentConfig {
     @Config.Comment("Parasite Piercer Enchantment")
     @Config.Name("Parasite Piercer")
-    @MixinConfig.SubInstance
     public PiercerConfig piercer = new PiercerConfig();
 
     @Config.Comment("Parasite Slicer Enchantment")
     @Config.Name("Parasite Slicer")
-    @MixinConfig.SubInstance
     public SlicerConfig slicer = new SlicerConfig();
 
     public static class PiercerConfig{
         @Config.Comment("Register Parasite Piercer Enchantment")
         @Config.Name("Parasite Piercer - Enabled")
         @Config.RequiresMcRestart
-        @MixinConfig.LateMixin(name = "mixins.srpmixins.enchantment_piercer.json")
+        @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.enchantment_piercer.json", defaultValue = true)
         public boolean enabled = true;
 
         @Config.Comment("Max Lvl of Parasite Piercer Enchantment")
@@ -42,8 +40,7 @@ public class EnchantmentConfig {
         @Config.Comment("Register Parasite Slicer Enchantment")
         @Config.Name("Parasite Slicer - Enabled")
         @Config.RequiresMcRestart
-        @MixinConfig.EarlyMixin(name = "mixins.srpmixins.vanilla.enumcreatureattribute.json")
-        @MixinConfig.LateMixin(name = "mixins.srpmixins.enchantment_slicer.json")
+        @MixinConfig.MixinToggle(earlyMixin = "mixins.srpmixins.vanilla.enumcreatureattribute.json", lateMixin = "mixins.srpmixins.enchantment_slicer.json", defaultValue = true)
         public boolean enabled = true;
 
         @Config.Comment("Max Lvl of Parasite Slicer Enchantment")

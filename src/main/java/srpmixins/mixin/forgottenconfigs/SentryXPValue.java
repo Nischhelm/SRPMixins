@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 public class SentryXPValue {
     @ModifyExpressionValue(
             method = "<init>",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;XP_ADAPTED:I", remap = false)
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/SRPAttributes;XP_ADAPTED:I"),
+            remap = false
     )
     private int srpmixins_usePreeminentRemainValue(int original){
         return SRPConfig.turretXPValue;

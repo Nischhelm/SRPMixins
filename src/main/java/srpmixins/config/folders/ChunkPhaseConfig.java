@@ -7,7 +7,7 @@ public class ChunkPhaseConfig {
     @Config.Comment("Do Evolution mechanic by chunk. World areas that are inhabited longer will have higher phases. Can't be used together with player phases.")
     @Config.Name("Use Chunk Phases")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.customphasemechanics.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.customphasemechanics.json", defaultValue = false)
     public boolean enabled = false;
 
     @Config.Comment("If using chunk phases, how many regions around the current region should get updated when points or lure cooldown of a chunk change? It's a radius, so it will update a square of (2 x radius + 1)² regions. Default 3, so 7x7 regions")

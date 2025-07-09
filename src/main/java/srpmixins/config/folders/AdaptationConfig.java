@@ -9,8 +9,7 @@ public class AdaptationConfig {
             "- When combining living+sentient gear, will use the point multiplier of each armor piece instead of using the last checked one.")
     @Config.Name("Overhaul Adaptation")
     @Config.RequiresMcRestart
-    @MixinConfig.EarlyMixin(name = "mixins.srpmixins.vanilla.adaptationoverhaul.json")
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationoverhaul.json")
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.srpmixins.vanilla.adaptationoverhaul.json", lateMixin = "mixins.srpmixins.srp.adaptationoverhaul.json", defaultValue = true)
     public boolean overhaulAdaptation = true;
 
     @Config.Comment("In SRP, adaptable Parasites will have a chance to fail adapting to a damage type if they got hit by inFire or onFire dmg maximum 10 ticks (half a second) before the current hit. \n" +
@@ -19,7 +18,7 @@ public class AdaptationConfig {
             "Warning: this makes any burn inflicting method to deal with parasites about twice as useful against their adaptation")
     @Config.Name("Fix Adaptation While Burning")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptwhileburningfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.adaptwhileburningfix.json", defaultValue = true)
     public boolean fixAdaptationWhileBurning = true;
 
     @Config.Comment("If adapting during an attack with no immediate attacker entity, SRP adapts to \"\". This fixes that bug. Requires \"Overhaul Adaptation\".")
@@ -33,13 +32,13 @@ public class AdaptationConfig {
     @Config.Comment("SRPConfig has a list \"Adaptation Bonus\" which isn't read properly and will crash if filled with entries. This fixes it.")
     @Config.Name("Fix Adaptation Bonus Config")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adaptationbonusfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.adaptationbonusfix.json", defaultValue = true)
     public boolean fixAdaptationBonusList = true;
 
     @Config.Comment("Adaptable parasites will adapt to the players mainhand weapon when hit by indirect dmgs (harming splash potions, arrows, modded indirect dmg sources). Enable this to make them adapt to the indirect dmg source instead (so magic, arrow etc). Moved from RLMixins (thanks Kotlin!)")
     @Config.Name("Fix Adaptation to Indirect Damages")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.adapttoindirect.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.adapttoindirect.json", defaultValue = true)
     public boolean fixAdaptationToIndirect = true;
 
     @Config.Comment("Wearing Living or Sentient Armor is supposed to apply the SRP config \"Mob Fire Damage Multiplier\" to any fire (inFire/onFire) dmg the player takes, as well as any dmg when the player is burning (isBurning). In those cases, adapting to the dmg is also supposed to fail. Fire dmg doing that didn't work in base SRP due to a bug. \n" +

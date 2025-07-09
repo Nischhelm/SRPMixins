@@ -22,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Debug(export = true)
 @Mixin(value = ParasiteEventEntity.class, priority = 1001)
 public abstract class SpawnNextPhaseLock {
     @WrapMethod(

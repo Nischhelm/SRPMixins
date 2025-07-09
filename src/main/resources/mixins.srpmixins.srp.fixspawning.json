@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.spawning",
+  "package": "srpmixins.mixin.spawning.entirefix",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
@@ -9,7 +9,7 @@
     "SpawnListEntryGrabber",
     "NoMoreCustomSpawnLogic",
     "CheckSpawnHandlerDisable",
-    "entirefix.EntityParasiteBaseMixin"
+    "EntityParasiteBaseMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

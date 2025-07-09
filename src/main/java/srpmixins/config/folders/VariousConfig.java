@@ -7,19 +7,20 @@ public class VariousConfig {
     @Config.Comment("Disables the automatic debug log spam for Scent Entities")
     @Config.Name("Disable Scent Debug")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.disablescentdebug.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.disablescentdebug.json", defaultValue = true)
     public boolean disableScentDebug = true;
 
     @Config.Comment("Make SRP Blacklists/Whitelists use wildcards to dis/enable whole mods (*). WARNING: this forces you to change all current SRP config lists that use full mod names without wildcards")
     @Config.Name("SRP Blacklists are Wildcard-able")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.wildcardablelists.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.wildcardablelists.json", defaultValue = false)
+    //TODO: prob just delete
     public boolean blacklistsWildcardable = false;
 
     @Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
     @Config.Name("Fix Parasitic Biome spreading limit")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.biomespreadlimit.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.biomespreadlimit.json", defaultValue = true)
     public boolean fixBiomeSpreadingLimit = true;
 
     @Config.Comment("SRP keeps a single fog density value for all players at the same time. " +
@@ -27,13 +28,13 @@ public class VariousConfig {
             "This fixes it.")
     @Config.Name("Fix Parasitic Biome Fog")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.fogmultiplayerfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.fogmultiplayerfix.json", defaultValue = true)
     public boolean fixBiomeFog = true;
 
     @Config.Comment("SRP parses its config list every single time instead of caching the result. For performance this stores the results instead.")
     @Config.Name("Fix Config List Parsing")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.configlistfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.configlistfix.json", defaultValue = true)
     public boolean fixConfigListParse = true;
 
     @Config.Comment("SRP has a bunch of configs that are not used. This toggle makes them all do what they are supposed to do. List of affected configs:\n" +
@@ -48,7 +49,7 @@ public class VariousConfig {
             "- Min phase for Beckons ignoring summoning cooldown")
     @Config.Name("Use Forgotten Configs")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.forgottenconfigs.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.forgottenconfigs.json", defaultValue = true)
     public boolean useForgottenConfigs = true;
 
     @Config.Comment("Adaptable mobs can steal food from the players inventory via attacks or scary orbs. Use this blacklist to disable them from stealing certain foods. Pattern: modid:itemname, optional metadata")
@@ -69,42 +70,42 @@ public class VariousConfig {
     @Config.Comment("All crafting ingredient parasite drops stack to 16 except for strange bones. This makes them also stack to 16. Reintroduced after moving it to RLMixins")
     @Config.Name("Make Strange Bones stack to 16")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.strangebonestacking.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.strangebonestacking.json", defaultValue = true)
     public boolean strangeBoneStacking = true;
 
     @Config.Comment("Parasite Bush and Vines will force load chunks when a parasite biome is growing. This stops the force loading. Moved from RLMixins (thanks fonny!)")
     @Config.Name("Fix Parasite Bush Generation Lag")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.parasitebushgen.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.parasitebushgen.json", defaultValue = true)
     public boolean fixBiomeBushLag = true;
 
     @Config.Comment("SRP Commands don't have proper autocompletion. This fixes it. Also fixes the /help command for them.")
     @Config.Name("Fix SRP Command Autocompletion")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.commandfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.commandfix.json", defaultValue = true)
     public boolean fixCommandOverrides = true;
 
     @Config.Comment("SRP sends a new network packet for every individual block position that gets turned into parasitic biome or back to plains. This fix sends one bigger packet instead, for performance.")
     @Config.Name("Fix SRP Biome Packet")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.biomepacket.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.biomepacket.json", defaultValue = true)
     public boolean fixBiomePacket = true;
 
     @Config.Comment("SRP always uses the same method to treat its various config blacklists. In the case of an empty whitelist (list empty & treatAsWhitelist = true) the list is incorrectly treated as an empty BLACKlist, so instead of \"deny all\" its treated as \"allow all\". This fixes it.")
     @Config.Name("Fix Empty Whitelists read as Blacklists")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.emptywhitelistfix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.emptywhitelistfix.json", defaultValue = true)
     public boolean fixEmptyWhitelist = true;
 
     @Config.Comment("Waves and Shockwaves are normal Parasite Entities and thus get lots of normal parasite behavior, for example the ability to target any mob once the phase is above phase total slaughter. This makes the wave instantly die though. This fixes it.")
     @Config.Name("Fix Wave Entities Early Death")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.wavefix.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.wavefix.json", defaultValue = true)
     public boolean fixWaveRetargeting = true;
     
     @Config.Comment("Disables non-SRP armor models from rendering in SRPLayerBipedArmor to avoid crashes")
     @Config.Name("SRPModelBiped Render Crash Fix")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.armorcrash.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.armorcrash.json", defaultValue = true)
     public boolean srpModelBipedRenderCrashFix = true;
 }

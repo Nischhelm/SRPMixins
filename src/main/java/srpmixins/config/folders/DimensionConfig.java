@@ -7,7 +7,7 @@ public class DimensionConfig {
     @Config.Comment("Set to false to fully disable dimension stat+drop+mobcap multipliers")
     @Config.Name("Parasite Stat+Drop Multiplier: Global switch")
     @Config.RequiresMcRestart
-    @MixinConfig.LateMixin(name = "mixins.srpmixins.srp.dimensionmultis.json")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.dimensionmultis.json", defaultValue = true)
     public boolean doMultipliers = true;
 
     @Config.Comment("Changes the global health multiplier of SRP config to be dimension specific. This happens on top of the SRP global multiplier! Pattern: dimension, multiplier")

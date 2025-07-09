@@ -10,6 +10,7 @@ import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasite;
 import com.google.common.base.Functions;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.world.WorldEvent;
@@ -40,7 +41,7 @@ public class SpawnPotentialsHandler {
 
     public static Map<Biome.SpawnListEntry, Integer> getPhaseSpawnListCustom(byte phaseChecked) {
         return phaseIdSpawnsCustom.computeIfAbsent(phaseChecked,
-                phase -> SRPSpawning.getSpawns(phase).stream()
+                phase -> phase >= 0 ? SRPSpawning.getSpawns(phase).stream()
                         .collect(Collectors.toMap(
                             Functions.identity(), //Key is just the SpawnListEntry itself
                             entry -> {            //Value is the para id assigned to the mob
@@ -49,7 +50,7 @@ public class SpawnPotentialsHandler {
                                 String mobid = loc.getPath();
                                 return SRPMixinsConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
                             })
-                        )
+                        ) : Collections.emptyMap()
         );
     }
 

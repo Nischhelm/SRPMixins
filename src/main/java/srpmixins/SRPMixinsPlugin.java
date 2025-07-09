@@ -15,8 +15,6 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 	public SRPMixinsPlugin() {
 		MixinBootstrap.init();
 
-		FermiumRegistryAPI.registerAnnotatedMixinConfig(SRPMixinsConfigHandler.class, null);
-
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.biomespawnblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.deterrentlowphasedmg.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infestedgrassrarity.json");
