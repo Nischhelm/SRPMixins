@@ -4,7 +4,6 @@ import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.entity.monster.EntityWave;
 import com.dhanantry.scapeandrunparasites.entity.monster.EntityWaveShock;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(value = {

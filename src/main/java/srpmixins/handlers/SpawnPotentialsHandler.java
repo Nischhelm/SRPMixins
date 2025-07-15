@@ -10,7 +10,6 @@ import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasite;
 import com.google.common.base.Functions;
 import net.minecraft.entity.EntityList;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.world.WorldEvent;

@@ -5,14 +5,11 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Cancellable;
 import com.llamalad7.mixinextras.sugar.Local;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.config.SRPMixinsConfigProvider;
 
 import java.util.Collections;
 import java.util.HashMap;

@@ -1,7 +1,6 @@
 package srpmixins.mixin.spawning;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
-import com.dhanantry.scapeandrunparasites.init.SRPBiomes;
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasite;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

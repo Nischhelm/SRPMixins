@@ -1,9 +1,6 @@
 package srpmixins.mixin.vanilla;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.WorldEntitySpawner;

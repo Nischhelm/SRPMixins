@@ -6,10 +6,10 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "SpawnListEntryGrabber",
-    "NoMoreCustomSpawnLogic",
     "CheckSpawnHandlerDisable",
-    "EntityParasiteBaseMixin"
+    "EntityParasiteBaseMixin",
+    "NoMoreCustomSpawnLogic",
+    "SpawnListEntryGrabber"
   ],
   "injectors": {
     "maxShiftBy": 10
