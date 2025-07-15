@@ -70,4 +70,23 @@ public class PointConfig {
             "NOTE: similar to phase cooldowns this also counts the time that is slept away, not just actually played time.")
     @Config.Name("Min/Max Days per Phase/Dimension")
     public String[] minMaxDaysPerPhase = {};
+
+    @Config.Comment("SRP has an option for parasites to stop dropping XP from a certain phase onwards. \n" +
+            "To make this option a bit less intrusive, this list can be used to slowly decrease (or increase) the amount of xp dropped.\n" +
+            "Starts with phase 0, can be used beyond phase 10 if \"More Phases\" is enabled.\n" +
+            "WARNING: This does not disable the original SRP option, so if that is enabled and phase is high enough, parasites will drop 0 xp no matter what")
+    @Config.Name("XP Phase Multipliers")
+    public float[] xpMultis = {
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+    };
 }

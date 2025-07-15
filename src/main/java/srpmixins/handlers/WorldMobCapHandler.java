@@ -16,6 +16,9 @@ import srpmixins.util.MobCapRule;
 import srpmixins.util.ParasiteCreatureType;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class WorldMobCapHandler {
 
     @SubscribeEvent
@@ -59,10 +62,9 @@ public class WorldMobCapHandler {
         if (multi != 1) event.setMobCap((int) (event.getMobCap() * multi));
     }
 
-    //TODO !!! this has to be per dimension
-    public static final ThreadLocal<Integer> nexusCount = ThreadLocal.withInitial(() -> -1);
-    public static final ThreadLocal<Integer> waterCount = ThreadLocal.withInitial(() -> -1);
-    public static final ThreadLocal<Integer> gnatCount = ThreadLocal.withInitial(() -> -1);
+    public static final Map<Integer, Integer> nexusCount = new HashMap<>();
+    public static final Map<Integer, Integer> waterCount = new HashMap<>();
+    public static final Map<Integer, Integer> gnatCount = new HashMap<>();
 
     @SubscribeEvent
     public static void onWorldServerTick(TickEvent.WorldTickEvent event){
@@ -70,9 +72,9 @@ public class WorldMobCapHandler {
         if(event.phase != TickEvent.Phase.START) return;
 
         if (SRPMixinsConfigHandler.deterrents.nexusCap >= 0)
-            nexusCount.set(event.world.countEntities(EntityPStationaryArchitect.class));
+            nexusCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityPStationaryArchitect.class));
         if (SRPMixinsConfigHandler.waterparas.waterParasiteCap >= 0)
-            waterCount.set(event.world.countEntities(EntityInfSquid.class) + event.world.countEntities(EntityLum.class));
-        gnatCount.set(event.world.countEntities(EntityAta.class));
+            waterCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityInfSquid.class) + event.world.countEntities(EntityLum.class));
+        gnatCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityAta.class));
     }
 }

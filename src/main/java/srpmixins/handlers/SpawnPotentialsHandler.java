@@ -91,7 +91,7 @@ public class SpawnPotentialsHandler {
         //Para Biome has its own handling independent on phase
         //Auto includes SRPMixins "Fix Parasite Biome Spawns"
         if (world.getBiome(event.getPos()) instanceof BiomeParasite){
-            event.getList().addAll(filterSpawnEntries(biomeSpawns, data, worlddata, true));
+            event.getList().addAll(filterSpawnEntries(biomeSpawns, data, worlddata, true, currDim));
         } else {
             byte evophase = data.getEvolutionPhase(currDim);
 
@@ -100,39 +100,39 @@ public class SpawnPotentialsHandler {
 
             //Default: phases + custom spawner
             if (SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner)
-                event.getList().addAll(filterSpawnEntries(getPhaseSpawnListCustom(evophase), data, worlddata, false));
+                event.getList().addAll(filterSpawnEntries(getPhaseSpawnListCustom(evophase), data, worlddata, false, currDim));
 
             //Phases + no custom spawner
             else if (SRPConfigSystems.useEvolution) //&& !SRPConfigSystems.phaseCustomSpawner
-                event.getList().addAll(filterSpawnEntries(phaseIdSpawns.get(evophase), data, worlddata, false));
+                event.getList().addAll(filterSpawnEntries(phaseIdSpawns.get(evophase), data, worlddata, false, currDim));
 
             //Phases off
             else /*if (!SRPConfigSystems.useEvolution)*/
-                event.getList().addAll(filterSpawnEntries(allPhaseSpawns, data, worlddata, false));
+                event.getList().addAll(filterSpawnEntries(allPhaseSpawns, data, worlddata, false, currDim));
         }
     }
 
-    private static List<Biome.SpawnListEntry> filterSpawnEntries(Map<Biome.SpawnListEntry, Integer> original, SRPSaveData data, SRPWorldData worldData, boolean isParaBiome){
+    private static List<Biome.SpawnListEntry> filterSpawnEntries(Map<Biome.SpawnListEntry, Integer> original, SRPSaveData data, SRPWorldData worldData, boolean isParaBiome, int dimId){
         return original.entrySet().stream()
                 .filter(entry -> entry.getValue() != -1)
                 .filter(entry -> !data.checkParasiteID(entry.getValue())) //is not in evolution phase lock
                 .filter(entry -> !isColonyLocked(entry.getValue(), worldData, isParaBiome)) //is not in evolution phase lock
-                .filter(entry -> !isSubCapLocked(entry.getKey().entityClass))
+                .filter(entry -> !isSubCapLocked(entry.getKey().entityClass, dimId))
                 .map(Map.Entry::getKey)
                 .collect(Collectors.toList());
     }
 
-    private static boolean isSubCapLocked(Class<? extends EntityLiving> entityClass) {
+    private static boolean isSubCapLocked(Class<? extends EntityLiving> entityClass, int dimId) {
         if(entityClass == EntityLum.class || entityClass == EntityInfSquid.class){
             if(SRPMixinsConfigHandler.waterparas.waterParasiteCap < 0) return false;
-            return WorldMobCapHandler.waterCount.get() >= SRPMixinsConfigHandler.waterparas.waterParasiteCap;
+            return WorldMobCapHandler.waterCount.getOrDefault(dimId, 0) >= SRPMixinsConfigHandler.waterparas.waterParasiteCap;
         }
         else if(EntityPStationaryArchitect.class.isAssignableFrom(entityClass)){
             if(SRPMixinsConfigHandler.deterrents.nexusCap < 0) return false;
-            return WorldMobCapHandler.nexusCount.get() >= SRPMixinsConfigHandler.deterrents.nexusCap;
+            return WorldMobCapHandler.nexusCount.getOrDefault(dimId,0) >= SRPMixinsConfigHandler.deterrents.nexusCap;
         }
         else if(entityClass == EntityAta.class)
-            return WorldMobCapHandler.gnatCount.get() >= SRPConfig.worldGnatCap;
+            return WorldMobCapHandler.gnatCount.getOrDefault(dimId, 0) >= SRPConfig.worldGnatCap;
         //SRP Incomplete cap is never used for spawn checks
         //SRPMixins end simmermen cap is also only for conversions
         return false;

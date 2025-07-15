@@ -1,8 +1,8 @@
 package srpmixins.mixin.spawning.entirefix;
 
+import com.dhanantry.scapeandrunparasites.init.SRPBiomes;
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
-import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasite;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -59,7 +59,8 @@ public abstract class SpawnListEntryGrabber {
         int paraId = SRPMixinsConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
         if(paraId == -1) return false;
 
-        if(biome instanceof BiomeParasite) SpawnPotentialsHandler.biomeSpawns.put(newEntry, paraId);
+        //This is intended to be equality check, not instanceof
+        if(biome == SRPBiomes.biomeInfested) SpawnPotentialsHandler.biomeSpawns.put(newEntry, paraId);
 
         else {
             //This whole part is only called if evo phase off or phase on and custom spawner off
