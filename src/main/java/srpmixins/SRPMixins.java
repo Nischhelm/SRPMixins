@@ -19,6 +19,8 @@ import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.*;
+import srpmixins.util.MinMaxDayPerPhaseRule;
+import srpmixins.util.MobCapRule;
 import srpmixins.util.compat.CompatUtil;
 import srpmixins.util.compat.LycanitesMobsCompat;
 
@@ -43,6 +45,8 @@ public class SRPMixins {
         CONFIG.load();
 
         SRPMixinsConfigProvider.init();
+        MobCapRule.init();
+        MinMaxDayPerPhaseRule.init();
 
         if(SRPMixinsConfigHandler.chunkphases.enabled && SRPConfigSystems.useEvolution) {
             CapabilityEvoPointsHandler.registerCapability();
@@ -59,6 +63,7 @@ public class SRPMixins {
         registerEventSubscriberIf(SRPArmorBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addArmorBowEvolution);
         registerEventSubscriberIf(WriteConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
         registerEventSubscriberIf(SpawnPotentialsHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
+        registerEventSubscriberIf(WorldMobCapHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
     }
 
     private static void registerEventSubscriberIf(Object subscriber, boolean condition){

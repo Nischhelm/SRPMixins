@@ -21,5 +21,6 @@ public class WaterParaConfig {
 
     @Config.Comment("After there is this many Assimilated Squid or Primitive Devourers loaded, no more will spawn from conversion or spawning. Disable with -1, needs restart. Only works using SRP Phase Custom Spawner + Evo Phases")
     @Config.Name("Water Parasite Mob Cap")
+    @Config.RangeInt(min = -1)
     public int waterParasiteCap = 10;
 }

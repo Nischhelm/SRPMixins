@@ -104,14 +104,14 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
             }
 
             //Check if phase got changed. Don't reduce further than phase 0 or increase above phase 10
-            if (canChangePhase && !(addedPoints < 0 && this.evoPhase <= 0) && !(addedPoints > 0 && this.evoPhase >= SRPMixinsConfigHandler.morephases.getMaxPhase())) {
+            if (canChangePhase && !(addedPoints < 0 && this.evoPhase <= 0) && !(addedPoints > 0 && this.evoPhase >= SRPConfigProvider.getMaxPhase())) {
                 //checking this before going through the whole list is just for performance
                 //Phase can also reduce multiple phases at once, so we can't just -- or ++
                 if (isOutsideCurrRange(this.evoPoints)) {
                     byte newPhase = -1;
                     //newPhase is always one lower than the phase belonging to current phasePointMin
                     //so when the comparison fails we're already at the correct phase
-                    for (byte phase = 0; phase <= SRPMixinsConfigHandler.morephases.maxEvolutionPhase; phase++)
+                    for (byte phase = 0; phase <= SRPConfigProvider.getMaxPhase(); phase++)
                         if (this.evoPoints >= SRPConfigProvider.getPhaseMinPoints(phase)) newPhase++;
                         else break;
                     if (this.evoPhase != newPhase) //In theory unnecessary
@@ -136,7 +136,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         nextPhaseMin = SRPConfigProvider.getPhaseMinPoints((byte) (this.evoPhase + 1));
         if(this.evoPhase < 0) currPhaseMin = null;
         if(this.evoPhase == -2) nextPhaseMin = null;
-        if(this.evoPhase == SRPMixinsConfigHandler.morephases.getMaxPhase()) nextPhaseMin = SRPConfigSystems.phaseTenTotalPoints+1;
+        if(this.evoPhase == SRPConfigProvider.getMaxPhase()) nextPhaseMin = SRPConfigSystems.phaseTenTotalPoints+1;
 
         // Cooldown, only for the current chunk
         int phaseCooldownSeconds = SRPConfigProvider.getPhaseCooldown(this.evoPhase);

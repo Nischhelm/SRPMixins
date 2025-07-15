@@ -14,6 +14,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 import static java.lang.Math.min;
@@ -42,7 +43,7 @@ public abstract class ModifiedBloodyClock {
         }
 
         int pointsThis = SRPCommandEvolution.getNeededPoints(evoPhase);
-        int pointsNext = SRPCommandEvolution.getNeededPoints((byte) min(evoPhase + 1, SRPMixinsConfigHandler.morephases.enableMorePhases ? SRPMixinsConfigHandler.morephases.maxEvolutionPhase : 10));
+        int pointsNext = SRPCommandEvolution.getNeededPoints((byte) min(evoPhase + 1, SRPConfigProvider.getMaxPhase()));
         int perc = (int) round((100. * ((double) pointsCurr - pointsThis)) / ((double) pointsNext - pointsThis));
         if (pointsNext == pointsThis) perc = 0;
 

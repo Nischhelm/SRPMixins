@@ -6,11 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "features.DimensionStatMultiplier",
-    "mobcapmulti.EntityParasiticScentMixin",
-    "mobcapmulti.SRPCommandEvolutionMixin",
-    "mobcapmulti.SRPCommandRootMixin",
-    "mobcapmulti.SRPSpawningDimensionHandlerMixin"
+    "features.DimensionStatMultiplier"
   ],
   "injectors": {
     "maxShiftBy": 10

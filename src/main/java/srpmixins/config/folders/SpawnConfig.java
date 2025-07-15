@@ -13,6 +13,7 @@ public class SpawnConfig {
     public boolean fixSpawnerSpawns = true;
 
     @Config.Comment("Blacklist of biomes and dimensions in which no parasites will spawn. \n" +
+            "This works only for phases on + custom spawner on, except if \"Fix Spawning Entirely\" is enabled, in which case it always works.\n" +
             "Pattern: dimensionId, modid:biomename \n" +
             "Disable full mods with dimid, modid \n" +
             "Disable full dimensions with dimid, no biomes for that dimension in any line\n" +
@@ -85,7 +86,7 @@ public class SpawnConfig {
             "This fix puts the whole spawning logic into one place, auto fixes some bugs and fixes the aforementioned issues.\n" +
             "Automatically includes the following fixes (and probably others i haven't even spotted):\n" +
             "\t- \"Fix Parasite Biome Spawns\"\n" +
-            "\t- \"Fix Colony Lock in Para Biome\"" +
+            "\t- \"Fix Colony Lock in Para Biome\"\n" +
             "Nerd info: This is done by adding a whole new spawning group PARASITE on top of the existing HOSTILE, PASSIVE, AMBIENT and WATER_CREATURE spawning groups, \n" +
             "and modifying the potentialSpawnEvent instead of the checkSpawnEvent."
     )
@@ -93,6 +94,22 @@ public class SpawnConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(earlyMixin = "mixins.srpmixins.vanilla.enumcreaturetype.json", lateMixin = "mixins.srpmixins.srp.fixspawning.json", defaultValue = true)
     public boolean fixSpawningEntirely = true;
+
+    @Config.Comment("Requires \"Fix Spawning Entirely\"\n" +
+            "Parasite Mob Cap multipliers per phase and dimension (and bloodmoon). \n" +
+            "Format: [dim = xxx] [phase><= xxx] [bloodmoon = true/false] mobCapMulti\n" +
+            "Where all [] entries are optional and are handled with an AND connection if multiple are present.\n" +
+            "For phase the operator options are =, <, >, <= and >= \n" +
+            "To define a specific area of phases, you can also use the \"phase\" keyword twice\n" +
+            "All rules that fit to the current state will be applied as a multiplicator on the current mobCap\n" +
+            "If phases are disabled, rules using phases will be ignored. The same happens if bloodmoon is disabled and a rule includes bloodmoons.")
+    @Config.Name("Parasite Mob Cap Rules")
+    public String[] mobCapRules = {
+            "[dim = 0] [bloodmoon = true] 2",
+            "[dim = 111] [bloodmoon = true] 4",
+            "[phase < 0] 0",
+            "[phase >= 0] [phase <= 10] 1"
+    };
 
     @Config.Comment("If SRParasitesWorld.cfg \"Colony Parasite Values Biome\" is enabled, spawns in Parasite Biome would NEVER allow colony-locked parasites (default: preeminents) no matter how many colonies have been established in the world.\n" +
             "This fix makes it then use the actual colony point requirements set in SRParasitesWorld.cfg \"Colony Parasite Values\" instead.")

@@ -12,10 +12,10 @@ import srpmixins.util.IParasite;
 import srpmixins.util.ParasiteCreatureType;
 
 @Mixin(EntityParasiteBase.class)
-public abstract class EntityParasiteBaseMixin extends EntityLiving implements IParasite {
+public abstract class CountParasiteBaseMobs extends EntityLiving implements IParasite {
     //makes all paras IParasite and fix the isCreatureType override
 
-    public EntityParasiteBaseMixin(World worldIn) {
+    public CountParasiteBaseMobs(World worldIn) {
         super(worldIn);
     }
 

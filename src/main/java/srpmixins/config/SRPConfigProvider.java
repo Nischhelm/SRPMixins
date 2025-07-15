@@ -60,6 +60,10 @@ public class SRPConfigProvider {
         }
         return phasePointThresholds.get(MathHelper.clamp(phase, 0, 10));
     }
+    public static byte getMaxPhase(){
+        if(SRPMixinsConfigHandler.morephases.enableMorePhases) return SRPMixinsConfigHandler.morephases.maxEvolutionPhase;
+        return 10;
+    }
 
     private static List<Double> reinforcementChancePerPhase;
     public static double getReinforcementChance(byte phase){

@@ -33,7 +33,8 @@ public class ModCompatConfig {
     @Config.Name("Do Blood Moons in LC")
     public boolean bloodmoonInLC = true;
 
-    @Config.Comment("Multiply Parasite Mob Cap by this much during Blood Moons (if using SRP custom spawner)")
+    @Config.Comment("Multiply Parasite Mob Cap by this much during Blood Moons (if using SRP custom spawner). \n" +
+            "Doesn't work if \"Fix Spawning Entirely\" is enabled, use \"Parasite Mob Cap Rules\" for that")
     @Config.Name("Bloodmoon Parasite Cap Multiplier")
     @Config.RangeInt(min = 0)
     public float bloodmoonInLCmobCapMultiplier = 4;

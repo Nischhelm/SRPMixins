@@ -80,8 +80,4 @@ public class MorePhasesConfig {
     @Config.Comment("Chance for crop grow to be stunned (first entry for phase 0)")
     @Config.Name("Crop Grow Stunned")
     public double[] cropGrowStunned = {};
-
-    public byte getMaxPhase(){
-        return enableMorePhases ? maxEvolutionPhase : 10;
-    }
 }

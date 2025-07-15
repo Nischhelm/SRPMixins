@@ -167,8 +167,8 @@ public class SRPMixinsConfigProvider {
 
     public static int getLurePhaseMultiplier(byte phase){
         if(!SRPMixinsConfigHandler.lures.variableCarcassValues) return 1;
-        if(SRPMixinsConfigHandler.lures.carcassPhaseMultis.length != SRPMixinsConfigHandler.morephases.getMaxPhase()+1) return 1;
-        if(phase < 0 || phase > SRPMixinsConfigHandler.morephases.getMaxPhase()) return 1;
+        if(SRPMixinsConfigHandler.lures.carcassPhaseMultis.length != SRPConfigProvider.getMaxPhase()+1) return 1;
+        if(phase < 0 || phase > SRPConfigProvider.getMaxPhase()) return 1;
         return SRPMixinsConfigHandler.lures.carcassPhaseMultis[phase];
     }
 

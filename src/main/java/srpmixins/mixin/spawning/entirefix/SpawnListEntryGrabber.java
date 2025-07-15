@@ -13,6 +13,7 @@ import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.SpawnPotentialsHandler;
@@ -29,12 +30,10 @@ public abstract class SpawnListEntryGrabber {
     @Unique
     private static boolean srpmixins$canSpawnInPhase(byte phase, byte type) {
         if(phase < 0) return false;
+        if(phase > SRPConfigProvider.getMaxPhase()) return false;
         if(SRPMixinsConfigHandler.morephases.enableMorePhases) {
-            if (phase > SRPMixinsConfigHandler.morephases.maxEvolutionPhase) return false;
-
             return SRPMixinsConfigHandler.morephases.phaseMinParasiteID[phase] < type && type < SRPMixinsConfigHandler.morephases.phaseMaxParasiteID[phase];
         } else {
-            if (phase > 10) return false;
             if(srpmixins$phaseMinParasiteID == null) {
                 srpmixins$phaseMinParasiteID = new int[]{SRPConfigSystems.phaseCancelParasiteIDZero, SRPConfigSystems.phaseCancelParasiteIDOne, SRPConfigSystems.phaseCancelParasiteIDTwo, SRPConfigSystems.phaseCancelParasiteIDThree, SRPConfigSystems.phaseCancelParasiteIDFour, SRPConfigSystems.phaseCancelParasiteIDFive, SRPConfigSystems.phaseCancelParasiteIDSix, SRPConfigSystems.phaseCancelParasiteIDSeven, SRPConfigSystems.phaseCancelParasiteIDEight, SRPConfigSystems.phaseCancelParasiteIDNine, SRPConfigSystems.phaseCancelParasiteIDTen};
                 srpmixins$phaseMaxParasiteID = new int[]{SRPConfigSystems.phaseMaxParasiteIDZero, SRPConfigSystems.phaseMaxParasiteIDOne, SRPConfigSystems.phaseMaxParasiteIDTwo, SRPConfigSystems.phaseMaxParasiteIDThree, SRPConfigSystems.phaseMaxParasiteIDFour, SRPConfigSystems.phaseMaxParasiteIDFive, SRPConfigSystems.phaseMaxParasiteIDSix, SRPConfigSystems.phaseMaxParasiteIDSeven, SRPConfigSystems.phaseMaxParasiteIDEight, SRPConfigSystems.phaseMaxParasiteIDNine, SRPConfigSystems.phaseMaxParasiteIDTen};
@@ -70,7 +69,7 @@ public abstract class SpawnListEntryGrabber {
             if(SRPMixinsConfigHandler.spawns.fixColonyCarrierTypeId && paraId == 88) //colony_carrier
                 paraType = (byte) 63;
 
-            for(int phase = 0; phase <= (SRPMixinsConfigHandler.morephases.enableMorePhases ? SRPMixinsConfigHandler.morephases.maxEvolutionPhase : 10); phase++)
+            for(int phase = 0; phase <= SRPConfigProvider.getMaxPhase(); phase++)
                 if(srpmixins$canSpawnInPhase((byte) phase, paraType)) {
                     Map<Biome.SpawnListEntry, Integer> listPerPhase = SpawnPotentialsHandler.phaseIdSpawns.computeIfAbsent((byte) phase, HashMap::new);
                     listPerPhase.put(newEntry, paraId);

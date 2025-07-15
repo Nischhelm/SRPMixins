@@ -52,7 +52,8 @@ public class DimensionConfig {
             "1,1"
     };
 
-    @Config.Comment("Increases parasite mob cap and per player cap by this multiplier per dimension")
+    @Config.Comment("Increases parasite mob cap and per player cap by this multiplier per dimension.\n" +
+            "Doesn't work if \"Fix Spawning Entirely\" is enabled, use \"Parasite Mob Cap Rules\" for that")
     @Config.Name("Parasite mob cap Multipliers")
     public String[] dimensionMobCapMultipliers = {
             "-1,1",

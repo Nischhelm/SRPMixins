@@ -57,4 +57,17 @@ public class PointConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.adaptedinstadespawnpenalty.json", defaultValue = true)
     public boolean fixAdaptedPenaltyInstantDespawn = true;
+
+    @Config.Comment("Define how many ingame days each phase is allowed to take. Can be varied per dimension.\n" +
+            "Setting a minimum means a phase will take at least that amount of ingame days.\n" +
+            "Setting a maximum means the phase will automatically increase once the set amount of days has elapsed.\n" +
+            "Setting both to the same value will fully ignore the point system and just increase the phase after the set amount of days.\n" +
+            "Pattern: [dim = xxx] [phase =<> xxx] [min = xxx] [max = xxx] in any order with all of them optional\n" +
+            "With phases being allowed to use operations =, >, <, >=, <=\n" +
+            "To set a range of phases, you can also write the phase twice, ie [phase >= 5] [phase <= 7] for phases 5 to 7\n" +
+            "Setting no dimension or no phase will make it work for all of them respectively.\n" +
+            "If more than one rule should apply, the one with the smallest min / biggest max value will take effect.\n" +
+            "NOTE: similar to phase cooldowns this also counts the time that is slept away, not just actually played time.")
+    @Config.Name("Min/Max Days per Phase/Dimension")
+    public String[] minMaxDaysPerPhase = {};
 }

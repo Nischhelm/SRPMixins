@@ -7,9 +7,13 @@
   "minVersion": "0.8",
   "mixins": [
     "CheckSpawnHandlerDisable",
-    "EntityParasiteBaseMixin",
+    "CountParasiteBaseMobs",
     "NoMoreCustomSpawnLogic",
-    "SpawnListEntryGrabber"
+    "PrimVerminSummonFix",
+    "SpawnListEntryGrabber",
+    "SRPBiomesMixin",
+    "SRPCommandEvolutionMixin",
+    "SRPCommandRootMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

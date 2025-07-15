@@ -8,7 +8,7 @@ import srpmixins.SRPMixins;
 public class DeterrentConfig {
     @Config.Comment("Custom Mob Cap for Nexus Parasites (Dispatcher+Beckon) using SRP Phase Custom Spawner. Nexus Parasites still count to the global SRP Mob Cap. Disable with -1, requires MC restart for full disable")
     @Config.Name("Nexus Mob Cap")
-    @Config.RangeInt(min = 0)
+    @Config.RangeInt(min = -1)
     public int nexusCap = 15;
 
     @Config.Comment("Whitelist Deterrent and Nexus mobs to take dmg per second if world is in low evolution phase")
@@ -71,4 +71,10 @@ public class DeterrentConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.circularinfestationarea.json", defaultValue = true)
     public boolean infestationAreaIsCircular = true;
+
+    @Config.Comment("If set to true, fully disables the infestation reversion mechanic where killing a Beckon above certain infested blocks with low enough internal \"stage\" they will turn back to various non-infested blocks.")
+    @Config.Name("Disable Infestation Reversion")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationreversiontoggle.json", defaultValue = false)
+    public boolean infestationReversionToggle = false;
 }

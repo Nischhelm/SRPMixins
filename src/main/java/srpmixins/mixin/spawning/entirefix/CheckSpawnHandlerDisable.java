@@ -22,7 +22,7 @@ public abstract class CheckSpawnHandlerDisable {
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;loadedEntityList:Ljava/util/List;")
     )
     private static List<Entity> srpmixins_disableMobCapCheck(List<Entity> original){
-        return Collections.emptyList(); //Don't run mob cap checks (disabled gnat cap check but those shouldnt spawn anyway)
+        return Collections.emptyList(); //Don't run mob cap checks
     }
 
     @ModifyExpressionValue(
@@ -64,4 +64,12 @@ public abstract class CheckSpawnHandlerDisable {
     private static boolean srpmixins_disableColoLockCheck(int i, SRPWorldData in, EntityParasiteBase data, Operation<Boolean> original){
         return false; //Don't run colo lock check
     }
+
+    //What's left enabled from the big CheckSpawn method is:
+    // - Min Assimilations/Feralisations
+    // - unused canspawnspawn check
+    // - negative phase check (already done in PotentialSpawns)
+    // - Architect checks for nearest colony existing
+    // - Mobs get their phase created field set
+    // - Full spawn deny for normal mobs after phase x (already done in PotentialSpawns if no player/chunk phases)
 }

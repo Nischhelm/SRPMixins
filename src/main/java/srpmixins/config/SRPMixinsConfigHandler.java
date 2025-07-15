@@ -8,6 +8,8 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.config.folders.*;
+import srpmixins.util.MinMaxDayPerPhaseRule;
+import srpmixins.util.MobCapRule;
 
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
@@ -95,6 +97,8 @@ public class SRPMixinsConfigHandler {
 			if(event.getModID().equals(SRPMixins.MODID)) {
 				ConfigManager.sync(SRPMixins.MODID, Config.Type.INSTANCE);
 				SRPMixinsConfigProvider.reset();
+				MobCapRule.reset();
+				MinMaxDayPerPhaseRule.reset();
 				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig) {
 					SRPAttributes.reset();
 					SRPAttributes.init();

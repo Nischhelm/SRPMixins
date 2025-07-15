@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.util.compat.overlast.IStatBar;
 
 @Mixin(RenderHUD.class)
@@ -49,11 +48,11 @@ public abstract class RenderHUDMixin {
             else if(phase == -1) ((IStatBar) EVOLUTION_BAR).srpmixins$setMinValue(-100);
             EVOLUTION_BAR.setMaxValue(0);
         }
-        else if(phase < SRPMixinsConfigHandler.morephases.maxEvolutionPhase) {
+        else if(phase < SRPConfigProvider.getMaxPhase()) {
             ((IStatBar) EVOLUTION_BAR).srpmixins$setMinValue(SRPConfigProvider.getPhaseMinPoints((byte) phase));
             EVOLUTION_BAR.setMaxValue(SRPConfigProvider.getPhaseMinPoints((byte) (phase + 1)));
         } else {
-            ((IStatBar) EVOLUTION_BAR).srpmixins$setMinValue(SRPConfigProvider.getPhaseMinPoints(SRPMixinsConfigHandler.morephases.maxEvolutionPhase));
+            ((IStatBar) EVOLUTION_BAR).srpmixins$setMinValue(SRPConfigProvider.getPhaseMinPoints(SRPConfigProvider.getMaxPhase()));
             EVOLUTION_BAR.setMaxValue(SRPConfigSystems.phaseTenTotalPoints);
         }
     }
