@@ -13,12 +13,15 @@ import net.minecraft.world.biome.Biome;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.handlers.SpawnPotentialsHandler;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -41,6 +44,28 @@ public abstract class SpawnListEntryGrabber {
 
             return srpmixins$phaseMinParasiteID[phase] < type && type < srpmixins$phaseMaxParasiteID[phase];
         }
+    }
+
+    @Unique private static boolean srpmixins$hasDoneFirstBiome = false;
+
+    @WrapOperation(
+            method = "init",
+            at = @At(value = "INVOKE", target = "Ljava/util/Iterator;hasNext()Z")
+    )
+    private static boolean srpmixins_onlyRegisterForFirstBiome(Iterator<?> instance, Operation<Boolean> original){
+        if(!srpmixins$hasDoneFirstBiome){
+            srpmixins$hasDoneFirstBiome = true;
+            return original.call(instance); //returns true except if there are no biomes, but that should never happen
+        }
+        return false;
+    }
+
+    @Inject(
+            method = "init",
+            at = @At("TAIL")
+    )
+    private static void srpmixins_resetFlag(CallbackInfo ci){
+        srpmixins$hasDoneFirstBiome = false;
     }
 
     @WrapOperation(
