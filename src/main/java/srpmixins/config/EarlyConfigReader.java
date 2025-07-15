@@ -14,11 +14,11 @@ import java.util.stream.Stream;
 //Inspired by fonnymunkey RLMixins, altered
 public class EarlyConfigReader {
 	private static File configFile = null;
-	//private static String configBooleanString = null;
+	private static String configBooleanString = null;
 	private static String configIntString = null;
 	//private static String configStringArrayString = null; //TODO WIP
 
-	/*public static boolean getBoolean(String name, boolean defaultValue) {
+	public static boolean getBoolean(String name, boolean defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
 
 		if (configBooleanString == null) {
@@ -36,7 +36,7 @@ public class EarlyConfigReader {
 			return configBooleanString.contains("B:\"" + name + "\"=true");
 		//If config is not generated yet or missing entries, we use the default value that would be written into it
 		else return defaultValue;
-	}*/
+	}
 
 	public static int getInt(String name, int defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");

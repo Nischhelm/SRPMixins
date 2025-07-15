@@ -6,10 +6,7 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "full.CapEvents_WorldSeason_DailyRadioMixin",
-    "full.EventFinalBattleMixin",
-    "full.ItemEvoDeviceMixin",
-    "full.OverUtilMixin"
+    "lite.CapEventsMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

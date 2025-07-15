@@ -1,13 +1,10 @@
-package srpmixins.mixin.overlast.customphases;
+package srpmixins.mixin.overlast.customphases.full;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.overlast.cap.CapEvents;
 import com.overlast.item.ItemEvoDevice;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;

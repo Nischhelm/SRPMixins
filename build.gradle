@@ -60,7 +60,10 @@ dependencies {
     implementation fg.deobf("curse.maven:lostcity-${lostcity_version}")
     implementation fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
     implementation fg.deobf("libs:SRParasites:${srparasites_version}") // Third party distro disabled
+    implementation fg.deobf("curse.maven:parasites-addon-overlastlite-${srpoverlastlite_version}")
     implementation fg.deobf("curse.maven:parasites-addon-overlast-${srpoverlast_version}")
+
+    implementation "libs:CraftTweaker2-${ct_version}"
 }
 
 mixin {

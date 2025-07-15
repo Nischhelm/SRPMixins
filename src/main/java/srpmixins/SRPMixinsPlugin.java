@@ -6,6 +6,7 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import srpmixins.config.EarlyConfigReader;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.util.compat.overlast.OverLastCompat;
 
 import java.util.Map;
 
@@ -34,7 +35,20 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermancap.json", () -> EarlyConfigReader.getInt("End Simmermen Conversion Cap", SRPMixinsConfigHandler.simmermen.endSimmermenCap) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.spawninglight.json", () -> EarlyConfigReader.getInt("Min Blocklight Threshold", SRPMixinsConfigHandler.spawns.blockLightThresholdTwo) != 7);
 
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast_customphases.json", () -> Loader.isModLoaded("overlast") && (SRPMixinsConfigHandler.playerphases.enabled || SRPMixinsConfigHandler.chunkphases.enabled) && SRPMixinsConfigHandler.modcompat.enableOverLastCustomPhases);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast.json", () -> Loader.isModLoaded("overlast"));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast_customphases.json", () -> shouldEnqueueOverLastMixins(OverLastCompat.OverLastVersion.FULL));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlastlite_customphases.json", () -> shouldEnqueueOverLastMixins(OverLastCompat.OverLastVersion.LITE));
+	}
+
+	private boolean shouldEnqueueOverLastMixins(OverLastCompat.OverLastVersion versionCompare) {
+		OverLastCompat.OverLastVersion version = OverLastCompat.getOverLastVersion();
+		if(version != versionCompare) return false;
+
+		boolean playerPhases = EarlyConfigReader.getBoolean("Use Player Phases", SRPMixinsConfigHandler.playerphases.enabled);
+		boolean chunkPhases = EarlyConfigReader.getBoolean("Use Chunk Phases", SRPMixinsConfigHandler.chunkphases.enabled);
+		boolean overlastEnabled = EarlyConfigReader.getBoolean("Enable OverLast custom phases",SRPMixinsConfigHandler.modcompat.enableOverLastCustomPhases);
+
+		return (playerPhases || chunkPhases) && overlastEnabled;
 	}
 
 	@Override

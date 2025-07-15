@@ -44,7 +44,8 @@ public class ModCompatConfig {
 
     @Config.Comment("SRPMixins has compat with OverLast when using custom phases (player phases or chunk phases). \n" +
             "Use this to toggle off the compatibility.\n" +
-            "It is auto disabled anyway if you dont use custom phases or OverLast")
+            "It is auto disabled anyway if you dont use custom phases or OverLast.\n" +
+            "Works with both OverLast and OverLastLite (only HUD)")
     @Config.Name("Enable OverLast custom phases")
     @Config.RequiresMcRestart
     public boolean enableOverLastCustomPhases = true;
