@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import srpmixins.SRPMixins;
 import srpmixins.util.ParasiteCreatureType;
 
 @Debug(export = true)
@@ -20,10 +19,9 @@ public abstract class WorldEntitySpawnerMixin {
             name = "k4"
     )
     private int srpmixins_addFlatParasiteMobCap(int original, @Local EnumCreatureType type){
-        SRPMixins.LOGGER.info("mobcap {} actual count: {}", type.toString(), original);
         if(type != ParasiteCreatureType.PARASITE) return original;
         return original - SRPConfig.worldMobCap; //effectively increases mobcap per player by this flat amount by subtracting this from actual count
-        //actualCount - worldMobCap <= worldMobCapPlusPlayer * chunksCounted / magicNumber
+        //actualCount <= worldMobCap + ( worldMobCapPlusPlayer * chunksCounted / magicNumber )
     }
 
     @ModifyVariable(
@@ -33,7 +31,6 @@ public abstract class WorldEntitySpawnerMixin {
     )
     private int srpmixins_setParasiteMobCapPerPlayer(int original, @Local EnumCreatureType type){
         if(type != ParasiteCreatureType.PARASITE) return original;
-        SRPMixins.LOGGER.info("max count: {}", original * SRPConfig.worldMobCapPlusPlayer + SRPConfig.worldMobCap);
         return original * SRPConfig.worldMobCapPlusPlayer;
     }
 

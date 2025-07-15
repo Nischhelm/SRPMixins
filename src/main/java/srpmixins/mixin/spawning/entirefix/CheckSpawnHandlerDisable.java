@@ -22,7 +22,7 @@ public abstract class CheckSpawnHandlerDisable {
             at = @At(value = "FIELD", target = "Lnet/minecraft/world/World;loadedEntityList:Ljava/util/List;")
     )
     private static List<Entity> srpmixins_disableMobCapCheck(List<Entity> original){
-        return Collections.emptyList(); //Don't run dimension blacklist check
+        return Collections.emptyList(); //Don't run mob cap checks (disabled gnat cap check but those shouldnt spawn anyway)
     }
 
     @ModifyExpressionValue(

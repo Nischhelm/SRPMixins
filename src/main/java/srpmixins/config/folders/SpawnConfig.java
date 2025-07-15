@@ -77,19 +77,22 @@ public class SpawnConfig {
     @Config.RangeInt(min = 0, max = 16)
     public int blockLightThresholdTwo = 7;
 
-    /*@Config.Comment("SRPs spawning system is very confusing. \n" +
-            "First of all there is three different spawning system options (evo off, evo on with custom spawner, evo on without custom spawner).\n" +
-            "On top, a lot of spawns are cancelled late depending on various conditions (evo lock, colo lock, min assimilations etc).\n" +
-            "Also, SRP uses its own Spawning logic that is 95% copied by vanilla.\n" +
-            "All of this is overhauled and recreated here in a more readable and more performant way.\n" +
-            "The actual effect of this is not just performance increase but also faster spawns.\n" +
-            "Automatically includes the following fixes:\n" +
+    @Config.Comment("Fully overhauls the SRP spawning system.\n" +
+            "SRP spawns parasites just to cancel the spawns right afterwards in various situations.\n" +
+            "This slows down hostile mob spawning and takes up performance for no reason, even in dimensions where parasites aren't even allowed to spawn.\n" +
+            "It also does mob cap counts for every single spawn instead of doing what vanilla does and doing a mob cap check for every spawn attempt (which can include multiple spawn packs).\n" +
+            "It's also just very hard to read and includes various oversights due to being so spread out throughout the SRP code.\n" +
+            "This fix puts the whole spawning logic into one place, auto fixes some bugs and fixes the aforementioned issues.\n" +
+            "Automatically includes the following fixes (and probably others i haven't even spotted):\n" +
             "\t- \"Fix Parasite Biome Spawns\"\n" +
-            "\t- \"Fix Colony Lock in Para Biome\"")
+            "\t- \"Fix Colony Lock in Para Biome\"" +
+            "Nerd info: This is done by adding a whole new spawning group PARASITE on top of the existing HOSTILE, PASSIVE, AMBIENT and WATER_CREATURE spawning groups, \n" +
+            "and modifying the potentialSpawnEvent instead of the checkSpawnEvent."
+    )
     @Config.Name("Fix Spawning Entirely")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(earlyMixin = "mixins.srpmixins.vanilla.enumcreaturetype.json", lateMixin = "mixins.srpmixins.srp.fixspawning.json", defaultValue = true)
-    public boolean fixSpawningEntirely = true;*/
+    public boolean fixSpawningEntirely = true;
 
     @Config.Comment("If SRParasitesWorld.cfg \"Colony Parasite Values Biome\" is enabled, spawns in Parasite Biome would NEVER allow colony-locked parasites (default: preeminents) no matter how many colonies have been established in the world.\n" +
             "This fix makes it then use the actual colony point requirements set in SRParasitesWorld.cfg \"Colony Parasite Values\" instead.")

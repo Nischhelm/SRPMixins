@@ -23,7 +23,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SpawnPotentialsHandler {
-    public static final Map<Byte, Map<Biome.SpawnListEntry, Integer>> phaseIdSpawnsCustom = new HashMap<>(); //don't reset cause it doesnt get rewritten
+    //This is basically just Lists but since getting parasite id is not a static method, we cache those too
+    public static final Map<Byte, Map<Biome.SpawnListEntry, Integer>> phaseIdSpawnsCustom = new HashMap<>(); //don't reset cause it doesn't get rewritten
     public static final Map<Byte, Map<Biome.SpawnListEntry, Integer>> phaseIdSpawns = new HashMap<>();
     public static final Map<Biome.SpawnListEntry, Integer> allPhaseSpawns = new HashMap<>();
     public static final Map<Biome.SpawnListEntry, Integer> biomeSpawns = new HashMap<>();
@@ -75,11 +76,16 @@ public class SpawnPotentialsHandler {
         } else {
             byte evophase = data.getEvolutionPhase(currDim);
 
-            if (SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner) //Default: phases + custom spawner
+            //Default: phases + custom spawner
+            if (SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner)
                 event.getList().addAll(filterSpawnEntries(getPhaseSpawnListCustom(evophase), data, worlddata, false));
-            else if (SRPConfigSystems.useEvolution /*&& !SRPConfigSystems.phaseCustomSpawner*/) //Phases + no custom spawner
+
+            //Phases + no custom spawner
+            else if (SRPConfigSystems.useEvolution /*&& !SRPConfigSystems.phaseCustomSpawner*/)
                 event.getList().addAll(filterSpawnEntries(phaseIdSpawns.get(evophase), data, worlddata, false));
-            else /*if (!SRPConfigSystems.useEvolution)*/ //Phases off
+
+            //Phases off
+            else /*if (!SRPConfigSystems.useEvolution)*/
                 event.getList().addAll(filterSpawnEntries(allPhaseSpawns, data, worlddata, false));
         }
     }
@@ -94,11 +100,13 @@ public class SpawnPotentialsHandler {
     }
 
     private static boolean isColonyLocked(int paraIdToCheck, SRPWorldData data, boolean isParaBiome) {
+        //Architects only if colonies are enabled
+        if(paraIdToCheck == 90 && !SRPConfigWorld.coloniesActivated) return false;
+
         //ColonyLockFix: don't check for colony points if colonies are not enabled
         if(SRPMixinsConfigHandler.spawns.fixColonyLock && !SRPConfigWorld.coloniesActivated) return false;
 
         //This already includes the ColonyLockFix_ParaBiome
-
         if (isParaBiome && !SRPConfigWorld.preeValuesBiome)
             return false; //No colony lock in parasite biomes if srp config "Colony Parasite Values Biome" is on false
 
