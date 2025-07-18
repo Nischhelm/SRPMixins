@@ -1,4 +1,4 @@
-package srpmixins.mixin.overlast.hudrender;
+package srpmixins.mixin.modcompat.overlast.hudrender;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

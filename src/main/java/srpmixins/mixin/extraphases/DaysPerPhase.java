@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import srpmixins.SRPMixins;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.util.MinMaxDayPerPhaseRule;
 
@@ -92,16 +93,19 @@ public abstract class DaysPerPhase extends WorldSavedData {
 
         int minDays = MinMaxDayPerPhaseRule.getTotalMin(dimId, currentPhase);
         int maxDays = MinMaxDayPerPhaseRule.getTotalMax(dimId, currentPhase);
-        if(maxDays != 0 || minDays != Integer.MAX_VALUE) {
+        if(maxDays != 0 || minDays != Integer.MAX_VALUE) { // a rule exists for the current situation
             long ticksElapsed = world.getWorldTime() - srpmixins$lastPhaseChangeTick.getOrDefault(dimId, 0L);
             int days = (int) (ticksElapsed / SRPConfig.dayTickValue);
 
             int newPoints = SRPConfigProvider.getPhaseMinPoints((byte) (currentPhase + 1));
-            if (minDays != Integer.MAX_VALUE && days < minDays) {
+
+            //SRPMixins.LOGGER.info("currDays {} minDays {} maxDays {} currPhase {} nextPhase {} nextPoints {}", days, minDays, maxDays, currentPhase, currentPhase + 1, newPoints);
+
+            if (minDays != Integer.MAX_VALUE && days < minDays && pointsRef.get() >= newPoints) {
                 canChangeRef.set(false);
                 //Set points back to below limit
                 pointsRef.set(newPoints - 1);
-                this.dimEPtotalKills.set(idx, newPoints - 1);
+                this.dimEPtotalKills.set(idx, newPoints -1);
             }
             else if (maxDays != 0 && days >= maxDays) {
                 pointsRef.set(newPoints + 1);

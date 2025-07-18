@@ -1,13 +1,12 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.modcompat.lostcitytweaks",
+  "package": "srpmixins.mixin.modcompat.swparasites",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "LCLureDisable",
-    "LCPortalPhaseLock"
+    "EntityParasiteBaseMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

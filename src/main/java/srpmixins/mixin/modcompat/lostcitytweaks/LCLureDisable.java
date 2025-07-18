@@ -1,4 +1,4 @@
-package srpmixins.mixin.lostcitytweaks;
+package srpmixins.mixin.modcompat.lostcitytweaks;
 
 import com.dhanantry.scapeandrunparasites.block.BlockBase;
 import com.dhanantry.scapeandrunparasites.block.BlockEvolutionLure;

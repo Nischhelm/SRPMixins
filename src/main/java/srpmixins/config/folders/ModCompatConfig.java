@@ -51,4 +51,15 @@ public class ModCompatConfig {
     @Config.RequiresMcRestart
     public boolean enableOverLastCustomPhases = true;
 
+    @Config.Comment("Set to true to make \"Scape and Spartan\" weapons also ignore parasite damage caps.")
+    @Config.Name("Scape and Parasites Compat - Ignore Dmg Cap")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.swparasites.json", defaultValue = false)
+    @MixinConfig.CompatHandling(
+            modid = "swparasites",
+            desired = true,
+            reason = "Mod Compat for Spartan and Parasites, requires Spartan and Parasites"
+    )
+    @Config.RequiresMcRestart
+    public boolean enableSWParasitesCompat = false;
+
 }

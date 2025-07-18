@@ -1,4 +1,4 @@
-package srpmixins.mixin.overlast.hudrender;
+package srpmixins.mixin.modcompat.overlast.hudrender;
 
 import com.overlast.gui.StatBar;
 import org.spongepowered.asm.mixin.Mixin;

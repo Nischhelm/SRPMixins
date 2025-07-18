@@ -1,4 +1,4 @@
-package srpmixins.mixin.lostcitytweaks.bloodmoon;
+package srpmixins.mixin.modcompat.lostcitytweaks.bloodmoon;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldEntitySpawner;
@@ -36,7 +36,7 @@ public abstract class BloodmoonHandlerMixin {
     )
     private void srpmixins_spawnParasites(TickEvent.WorldTickEvent event, CallbackInfo ci, @Local World world) {
         if (!SRPMixinsConfigHandler.modcompat.bloodmoonInLC) return;
-        if (!event.world.isRemote && SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner)
+        if (!event.world.isRemote && SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner && !SRPMixinsConfigHandler.spawns.fixSpawningEntirely)
             SRPWorldEntitySpawner.findChunksForSpawning((WorldServer) world, true, false, world.getTotalWorldTime() % 400L == 0L);
     }
 

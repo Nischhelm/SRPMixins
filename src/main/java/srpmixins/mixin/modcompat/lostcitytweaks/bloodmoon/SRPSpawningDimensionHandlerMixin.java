@@ -1,4 +1,4 @@
-package srpmixins.mixin.lostcitytweaks.bloodmoon;
+package srpmixins.mixin.modcompat.lostcitytweaks.bloodmoon;
 
 import com.dhanantry.scapeandrunparasites.init.SRPSpawning;
 import lumien.bloodmoon.server.BloodmoonHandler;

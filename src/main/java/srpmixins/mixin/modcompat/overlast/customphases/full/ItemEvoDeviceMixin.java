@@ -1,4 +1,4 @@
-package srpmixins.mixin.overlast.customphases.full;
+package srpmixins.mixin.modcompat.overlast.customphases.full;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

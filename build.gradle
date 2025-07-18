@@ -56,12 +56,27 @@ dependencies {
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
     implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
+    implementation fg.deobf("libs:SRParasites:${srparasites_version}") // Third party distro disabled
     implementation fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
     implementation fg.deobf("curse.maven:lostcity-${lostcity_version}")
     implementation fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
-    implementation fg.deobf("libs:SRParasites:${srparasites_version}") // Third party distro disabled
     implementation fg.deobf("curse.maven:parasites-addon-overlastlite-${srpoverlastlite_version}")
     implementation fg.deobf("curse.maven:parasites-addon-overlast-${srpoverlast_version}")
+    implementation fg.deobf("curse.maven:scape-and-spartan-parasites-${swparasites_version}")
+    implementation fg.deobf("curse.maven:spartan-weaponry-${spartanweaponry_version}")
+    implementation fg.deobf("curse.maven:quark-${quark_version}")
+
+    //Addons
+    //implementation fg.deobf("curse.maven:scape-and-run-parasite-dimension-1037060:5965078")
+    //implementation fg.deobf("curse.maven:scape-and-run-parasites-meteorite-1124012:6533192")
+    //implementation fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")
+    //implementation fg.deobf("curse.maven:scape-and-run-parasites-extra-1140227:6765279")
+    //implementation fg.deobf("curse.maven:scape-and-run-parasites-mutant-beasts-1214567:6551866")
+    //implementation fg.deobf("curse.maven:scape-and-run-parasites-quark-1174245:6548138")
+    //implementation fg.deobf("curse.maven:scape-and-run-parasites-deep-sea-danger-1268838:6764503")
+    //implementation fg.deobf("curse.maven:nebula-parasites-1246704:6439940")
+    //implementation fg.deobf("libs:SRRevenants:1.12.2v1.0.2")
+    //implementation fg.deobf("libs:SRMonstress:1.12.2v1.0.2")
 
     implementation "libs:CraftTweaker2-${ct_version}"
 }

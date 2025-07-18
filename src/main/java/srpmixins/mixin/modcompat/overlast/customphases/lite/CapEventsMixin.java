@@ -1,4 +1,4 @@
-package srpmixins.mixin.overlast.customphases.full;
+package srpmixins.mixin.modcompat.overlast.customphases.lite;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -7,22 +7,16 @@ import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.Share;
 import com.llamalad7.mixinextras.sugar.ref.LocalRef;
 import com.overlast.cap.CapEvents;
-import com.overlast.season.DailyRadio;
-import com.overlast.season.WorldSeason;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Mixin({
-        DailyRadio.class,
-        CapEvents.class,
-        WorldSeason.class
-})
-public abstract class CapEvents_WorldSeason_DailyRadioMixin {
+@Mixin(CapEvents.class)
+public abstract class CapEventsMixin {
     @WrapOperation(
-            method = "onPlayerUpdate",
+            method = {"onPlayerLogsIn", "onPlayerUpdate"},
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap = false
     )

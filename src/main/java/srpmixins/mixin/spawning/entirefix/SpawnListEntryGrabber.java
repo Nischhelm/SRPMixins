@@ -50,7 +50,8 @@ public abstract class SpawnListEntryGrabber {
 
     @WrapOperation(
             method = "init",
-            at = @At(value = "INVOKE", target = "Ljava/util/Iterator;hasNext()Z")
+            at = @At(value = "INVOKE", target = "Ljava/util/Iterator;hasNext()Z"),
+            remap = false
     )
     private static boolean srpmixins_onlyRegisterForFirstBiome(Iterator<?> instance, Operation<Boolean> original){
         if(!srpmixins$hasDoneFirstBiome){
@@ -62,7 +63,8 @@ public abstract class SpawnListEntryGrabber {
 
     @Inject(
             method = "init",
-            at = @At("TAIL")
+            at = @At("TAIL"),
+            remap = false
     )
     private static void srpmixins_resetFlag(CallbackInfo ci){
         srpmixins$hasDoneFirstBiome = false;

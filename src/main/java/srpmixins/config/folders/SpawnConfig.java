@@ -87,6 +87,7 @@ public class SpawnConfig {
             "Automatically includes the following fixes (and probably others i haven't even spotted):\n" +
             "\t- \"Fix Parasite Biome Spawns\"\n" +
             "\t- \"Fix Colony Lock in Para Biome\"\n" +
+            "\t- Auto fixes Quark Soul Beads being effectively incompat with SRP\n" +
             "Nerd info: This is done by adding a whole new spawning group PARASITE on top of the existing HOSTILE, PASSIVE, AMBIENT and WATER_CREATURE spawning groups, \n" +
             "and modifying the potentialSpawnEvent instead of the checkSpawnEvent."
     )

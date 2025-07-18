@@ -1,4 +1,4 @@
-package srpmixins.mixin.lostcitytweaks.bloodmoon;
+package srpmixins.mixin.modcompat.lostcitytweaks.bloodmoon;
 
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import lumien.bloodmoon.client.ClientBloodmoonHandler;

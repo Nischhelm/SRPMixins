@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.overlast.customphases",
+  "package": "srpmixins.mixin.modcompat.overlast.customphases",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
