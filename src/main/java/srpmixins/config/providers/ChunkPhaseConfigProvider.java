@@ -3,7 +3,10 @@ package srpmixins.config.providers;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ChunkPhaseConfigProvider {
     public static final Map<String, Byte> biomeStartPhases = new HashMap<>();

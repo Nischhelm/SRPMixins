@@ -17,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.SpawnPotentialsHandler;
 
