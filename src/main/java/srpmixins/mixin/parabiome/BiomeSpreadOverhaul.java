@@ -77,9 +77,9 @@ public abstract class BiomeSpreadOverhaul {
 
             if (SRPConfigSystems.useEvolution){
                 SRPSaveData data = SRPSaveDataInterface.get(worldIn, null, startPos);
-                if(SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase >= 0  && data.getEvolutionPhase(worldIn.provider.getDimension()) >= SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase)
-                    return;
-                data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount, true, worldIn, true);
+                int lock = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
+                if (lock < 0 || data.getEvolutionPhase(worldIn.provider.getDimension()) >= lock)
+                    data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount, true, worldIn, true);
             }
         }
     }
@@ -131,9 +131,9 @@ public abstract class BiomeSpreadOverhaul {
             blockParasiteCount += convertedCount;
             if (SRPConfigSystems.useEvolution) {
                 SRPSaveData data = SRPSaveDataInterface.get(worldIn, null, startPos);
-                if (SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase >= 0 && data.getEvolutionPhase(worldIn.provider.getDimension()) >= SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase)
-                    return;
-                data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount, true, worldIn, true);
+                int lock = SRPMixinsConfigHandler.phasepoints.biomeSpreadingPenaltyPhase;
+                if (lock < 0 || data.getEvolutionPhase(worldIn.provider.getDimension()) >= lock)
+                    data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount, true, worldIn, true);
             }
         }
     }

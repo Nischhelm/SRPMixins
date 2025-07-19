@@ -148,6 +148,9 @@ public abstract class InfestationOverhaul {
             blockInfestedCount += convertedCount;
             if (SRPConfigSystems.useEvolution) {
                 SRPSaveData data = SRPSaveDataInterface.get(worldIn, null, startPos);
+
+                if(SRPMixinsConfigHandler.phasepoints.infestationPenaltyPhase >= 0 && data.getEvolutionPhase(worldIn.provider.getDimension()) < SRPMixinsConfigHandler.phasepoints.infestationPenaltyPhase) return;
+
                 if (maxPivotLvl != 0) data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount * SRPConfigSystems.pivotPointMultiplier * maxPivotLvl, true, worldIn, true);
                 else data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount, true, worldIn, true);
             }
