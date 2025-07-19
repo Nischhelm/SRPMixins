@@ -27,7 +27,8 @@ public abstract class ParasiteEventEntityMixin {
     @ModifyVariable(
             method = "leaveScent",
             name = "count",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;scentCap:I")
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;scentCap:I"),
+            remap = false
     )
     private static int srpmixins_useOtherCounter(int original, @Local(argsOnly = true) World world){
         return WorldMobCapHandler.scentCount.getOrDefault(world.provider.getDimension(), 0);

@@ -23,7 +23,10 @@ import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.util.TransformationRule;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 @Mixin(ParasiteEventWorld.class)
 public abstract class BiomeSpreadOverhaul {

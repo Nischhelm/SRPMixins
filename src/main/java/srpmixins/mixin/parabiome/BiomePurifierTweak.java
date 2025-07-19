@@ -33,7 +33,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 import javax.annotation.Nonnull;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
 
 @Mixin(BlockBiomePurifier.class)
 public abstract class BiomePurifierTweak extends Block {

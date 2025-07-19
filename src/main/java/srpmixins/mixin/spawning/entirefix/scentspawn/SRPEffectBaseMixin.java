@@ -27,7 +27,8 @@ public abstract class SRPEffectBaseMixin {
     @ModifyVariable(
             method = "effectPrey",
             name = "count",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;scentCap:I")
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;scentCap:I"),
+            remap = false
     )
     private int srpmixins_useOtherCounter(int original, @Local(argsOnly = true)EntityLivingBase entity){
         return WorldMobCapHandler.scentCount.getOrDefault(entity.world.provider.getDimension(), 0);

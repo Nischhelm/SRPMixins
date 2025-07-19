@@ -30,7 +30,7 @@ public abstract class EntityHeed_SooMixin extends Entity {
     @ModifyVariable(
             method = "onLivingUpdate",
             name = "count",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;scentCap:I")
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;scentCap:I", remap = false)
     )
     private int srpmixins_useOtherCounter(int original){
         return WorldMobCapHandler.scentCount.getOrDefault(this.world.provider.getDimension(), 0);
