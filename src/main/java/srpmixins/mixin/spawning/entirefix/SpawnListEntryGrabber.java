@@ -18,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.SpawnPotentialsHandler;
 
 import java.util.HashMap;
@@ -83,7 +84,7 @@ public abstract class SpawnListEntryGrabber {
         ResourceLocation loc = EntityList.getKey(newEntry.entityClass);
         if(loc == null) return false;
         String mobid = loc.getPath();
-        int paraId = SRPMixinsConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
+        int paraId = SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
         if(paraId == -1) return false;
 
         //This is intended to be equality check, not instanceof
@@ -93,7 +94,7 @@ public abstract class SpawnListEntryGrabber {
             //This whole part is only called if evo phase off or phase on and custom spawner off
             SpawnPotentialsHandler.allPhaseSpawns.put(newEntry, paraId);
 
-            byte paraType = SRPMixinsConfigProvider.mobNameToParaTypeMap.getOrDefault(mobid, (byte) 0);
+            byte paraType = SRPMobConfigProvider.mobNameToParaTypeMap.getOrDefault(mobid, (byte) 0);
             if(SRPMixinsConfigHandler.spawns.fixColonyCarrierTypeId && paraId == 88) //colony_carrier
                 paraType = (byte) 63;
 

@@ -13,7 +13,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.event.WorldMobCapEvent;
-import srpmixins.util.MobCapRule;
+import srpmixins.rules.MobCapRule;
 import srpmixins.util.ParasiteCreatureType;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 

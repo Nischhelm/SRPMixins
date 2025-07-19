@@ -1,10 +1,16 @@
 package srpmixins.mixin.playerphases;
 
+import com.dhanantry.scapeandrunparasites.SRPMain;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
+import com.dhanantry.scapeandrunparasites.init.SRPPotions;
+import com.dhanantry.scapeandrunparasites.network.SRPPacketMovingSound;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -16,7 +22,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.util.customphasemechanics.PlayerPhases_AlertOnePlayer;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 import java.util.List;
@@ -170,7 +175,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     )
     private void srpmixins_sendWarningToOnePlayer(World world, String message, int warning, Operation<Void> original){
         if(SRPMixinsConfigHandler.playerphases.enabled && this.srpmixins$playerUUID !=null)
-            PlayerPhases_AlertOnePlayer.alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
+            srpmixins$alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
         else
             original.call(world, message, warning);
     }
@@ -186,5 +191,17 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             if(player != null) player.sendMessage(new TextComponentString(message));
         } else
             original.call(message, world);
+    }
+
+    @Unique
+    private static void srpmixins$alertOnePlayer(World worldIn, UUID playerUUID, String message, int warning) {
+        EntityPlayer player = worldIn.getPlayerEntityByUUID(playerUUID);
+        if (player == null) return;
+        player.sendMessage(new TextComponentString(message));
+        SRPMain.network.sendTo(new SRPPacketMovingSound(warning), (EntityPlayerMP) player);
+
+        if (warning == -7 && message.equals("Phase decreased"))
+            for (EntityParasiteBase entity : worldIn.getEntities(EntityParasiteBase.class, ent -> ent.getDistanceSq(player) <= 65536))
+                entity.addPotionEffect(new PotionEffect(SRPPotions.RAGE_E, 2400, 1, false, false));
     }
 }

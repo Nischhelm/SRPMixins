@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.MorePhasesConfigProvider;
 
 @Mixin(EntityAINexusGrow.class)
 public abstract class EntityAINexusGrowMixin {
@@ -28,7 +29,7 @@ public abstract class EntityAINexusGrowMixin {
 
         this.canGrow =
                 phase >= 0 && phase <= SRPMixinsConfigHandler.morephases.maxEvolutionPhase &&
-                this.parent.getRNG().nextFloat() >= SRPMixinsConfigProvider.nexusGrowStunChance.get(phase).get(this.venkrolCurrentStage-1);
+                this.parent.getRNG().nextFloat() >= MorePhasesConfigProvider.nexusGrowStunChance.get(phase).get(this.venkrolCurrentStage-1);
 
         ci.cancel();
         return phase;

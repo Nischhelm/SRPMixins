@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.util.MinMaxDayPerPhaseRule;
+import srpmixins.rules.MinMaxDayPerPhaseRule;
 
 import java.util.ArrayList;
 import java.util.HashMap;

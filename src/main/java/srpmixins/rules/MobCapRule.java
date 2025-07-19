@@ -1,4 +1,4 @@
-package srpmixins.util;
+package srpmixins.rules;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import srpmixins.config.SRPMixinsConfigHandler;

@@ -1,14 +1,13 @@
-package srpmixins.util.customphasemechanics;
+package srpmixins.capability.chunkphases;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
-import srpmixins.capability.chunkphases.ICapabilityEvoPoints;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.ChunkPhaseConfigProvider;
 
 public class ChunkPhasesUtil {
     //With even spacing, we end up in the chunk south-east (++) of the chunk corner that would be the center of the region
@@ -49,7 +48,7 @@ public class ChunkPhasesUtil {
     public static SRPSaveData getDataForPosition(BlockPos blockPos, World world, SRPSaveData defaultData){
         //Dimension has chunk phases enabled
         int dimension = world.provider.getDimension();
-        boolean isInList = SRPMixinsConfigProvider.chunkPhasesDimensionBlacklist.contains(dimension);
+        boolean isInList = ChunkPhaseConfigProvider.chunkPhasesDimensionBlacklist.contains(dimension);
         if(isInList != SRPMixinsConfigHandler.chunkphases.dimensionBlacklistIsWhitelist) return defaultData;
 
         //Get region center chunk

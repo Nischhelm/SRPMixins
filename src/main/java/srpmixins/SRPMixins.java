@@ -18,9 +18,12 @@ import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.MorePhasesConfigProvider;
+import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.*;
-import srpmixins.util.MinMaxDayPerPhaseRule;
-import srpmixins.util.MobCapRule;
+import srpmixins.rules.ConversionPathways;
+import srpmixins.rules.MinMaxDayPerPhaseRule;
+import srpmixins.rules.MobCapRule;
 import srpmixins.util.compat.CompatUtil;
 import srpmixins.util.compat.LycanitesMobsCompat;
 
@@ -45,6 +48,7 @@ public class SRPMixins {
         CONFIG.load();
 
         SRPMixinsConfigProvider.init();
+        ConversionPathways.readConversionLockConfig();
         MobCapRule.init();
         MinMaxDayPerPhaseRule.init();
 
@@ -61,7 +65,7 @@ public class SRPMixins {
         registerEventSubscriberIf(NexusSpawnSounds.class, SRPMixinsConfigHandler.deterrents.playsounds);
         registerEventSubscriberIf(ParasiteDropChance.class, SRPMixinsConfigHandler.dimension.doMultipliers);
         registerEventSubscriberIf(SRPArmorBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addArmorBowEvolution);
-        registerEventSubscriberIf(WriteConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
+        registerEventSubscriberIf(ConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
         registerEventSubscriberIf(SpawnPotentialsHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
         registerEventSubscriberIf(WorldMobCapHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
         registerEventSubscriberIf(XpPerPhaseHandler.class, true); //TODO: maybe a toggle idk
@@ -76,9 +80,9 @@ public class SRPMixins {
         SRPConfigProvider.init();
 
         if(SRPMixinsConfigHandler.morephases.enableMorePhases && SRPMixinsConfigHandler.morephases.phaseKills.length == 0)
-            SRPMixinsConfigProvider.initMorePhasesConfig();
+            MorePhasesConfigProvider.initMorePhasesConfig();
         if (SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length == 0)
-            SRPMixinsConfigProvider.initMobConfigs();
+            SRPMobConfigProvider.initMobConfigs();
     }
 
     @Mod.EventHandler
@@ -87,7 +91,7 @@ public class SRPMixins {
             LycanitesMobsCompat.reloadLycaniteSpawnerManager();
 
         SRPConfigProvider.postInit();
-        SRPMixinsConfigProvider.postInit();
+        MorePhasesConfigProvider.postInit();
 
         completedLoading = true;
 

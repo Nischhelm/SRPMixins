@@ -58,7 +58,9 @@ public class SpawnConfig {
     @Config.Name("Conversion Phase Lock Rules - Auto fill")
     public boolean autoFillConversionRules = false;
 
-    @Config.Comment("A lot of parasites evolve into each other. Use this list to stop specific evolution pathways until a specific phase is reached. Pattern: paraIn, paraOut, minPhase")
+    @Config.Comment("A lot of parasites evolve into each other. Use this list to stop specific evolution pathways until a specific phase is reached. Pattern: paraIn, paraOut, minPhase\n" +
+            "Note: this also works for COTH conversions (assim/feral/hijack/incomplete forms), use modid:mobname in that case. For SRP mobs you don't need to note the modid.\n" +
+            "Special case: for incomplete forms use incompleteform without _small or _medium.")
     @Config.Name("Conversion Phase Lock Rules")
     public String[] conversionRules = {};
     

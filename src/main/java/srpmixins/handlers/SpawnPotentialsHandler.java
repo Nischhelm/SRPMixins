@@ -22,6 +22,7 @@ import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.util.ParasiteCreatureType;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
@@ -54,7 +55,7 @@ public class SpawnPotentialsHandler {
                                 ResourceLocation loc = EntityList.getKey(entry.entityClass);
                                 if (loc == null) return -1;
                                 String mobid = loc.getPath();
-                                return SRPMixinsConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
+                                return SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
                             })
                         ) : Collections.emptyMap()
         );

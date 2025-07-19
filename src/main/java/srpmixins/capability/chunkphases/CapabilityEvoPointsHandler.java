@@ -15,8 +15,7 @@ import net.minecraftforge.common.capabilities.ICapabilitySerializable;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
-import srpmixins.config.SRPMixinsConfigProvider;
-import srpmixins.util.customphasemechanics.ChunkPhasesUtil;
+import srpmixins.config.providers.ChunkPhaseConfigProvider;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -45,10 +44,10 @@ public class CapabilityEvoPointsHandler {
             
             //Set starting phase for biome at center block of region
             byte startPhase = -9;
-            if(!SRPMixinsConfigProvider.biomeStartPhases.isEmpty()) {
+            if(!ChunkPhaseConfigProvider.biomeStartPhases.isEmpty()) {
                 BlockPos regionCenter = ChunkPhasesUtil.getRegionChunkCenterBlock(chunkPos);
                 ResourceLocation biomeId = chunk.getBiome(regionCenter, chunk.getWorld().provider.getBiomeProvider()).getRegistryName();
-                if (biomeId != null) startPhase = SRPMixinsConfigProvider.biomeStartPhases.getOrDefault(biomeId.toString(), (byte) -9);
+                if (biomeId != null) startPhase = ChunkPhaseConfigProvider.biomeStartPhases.getOrDefault(biomeId.toString(), (byte) -9);
             }
 
             event.addCapability(CAP_EVOPOINTS_KEY, new CapabilityEvoPointsHandler.Provider(chunk, startPhase));

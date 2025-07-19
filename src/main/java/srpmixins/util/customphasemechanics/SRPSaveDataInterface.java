@@ -4,6 +4,7 @@ import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import srpmixins.capability.chunkphases.ChunkPhasesUtil;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 import javax.annotation.Nullable;

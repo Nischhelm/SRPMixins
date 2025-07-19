@@ -1,4 +1,4 @@
-package srpmixins.util;
+package srpmixins.rules;
 
 import srpmixins.config.SRPMixinsConfigHandler;
 

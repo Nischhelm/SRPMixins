@@ -3,6 +3,7 @@ package srpmixins.mixin.features;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
@@ -11,18 +12,22 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.SRPMobConfigProvider;
+import srpmixins.rules.ConversionPathways;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 @Mixin(value = ParasiteEventEntity.class, priority = 1001)
 public abstract class SpawnNextPhaseLock {
+
     @WrapMethod(
             method = "spawnNext",
             remap = false
@@ -59,7 +64,7 @@ public abstract class SpawnNextPhaseLock {
     }
 
     @WrapOperation(
-            method = {"convertEntityFeral","hijackEntity"},
+            method = {"convertEntityFeral", "hijackEntity"},
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityList;createEntityByIDFromName(Lnet/minecraft/util/ResourceLocation;Lnet/minecraft/world/World;)Lnet/minecraft/entity/Entity;")
     )
     private static Entity srpmixins_conversionPhaseLockFeralAndHijack(ResourceLocation locOut, World worldIn, Operation<Entity> original, @Local(argsOnly = true) EntityLivingBase entityIn, @Local(ordinal = 0) String mobIn, @Cancellable CallbackInfoReturnable<Boolean> cir){
@@ -99,11 +104,29 @@ public abstract class SpawnNextPhaseLock {
         return original.call(mergeListEntry, sep);
     }
 
+    @Inject(
+            method = "spawnInsider",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/monster/crude/EntityInhooS;<init>(Lnet/minecraft/world/World;)V"),
+            remap = false,
+            cancellable = true
+    )
+    private static void srpmixins_incompleteFormPhaseLock(EntityLivingBase entity, World world, NBTTagCompound tags, CallbackInfo ci){
+        if(entity.world.isRemote || !SRPConfigSystems.useEvolution) return;
+
+        ResourceLocation locIn = EntityList.getKey(entity);
+        if(locIn == null) return;
+
+        String mobIn = srpmixins$getNameForEntity(entity);
+        String mobOut = "incompleteform";
+
+        if(srpmixins$conversionIsPhaseLocked(entity, mobIn, mobOut)) ci.cancel(); //Don't convert
+    }
+
     @Unique
     private static String srpmixins$getNameForEntity(Entity entity){
         if(entity instanceof EntityParasiteBase){
             int paraId = ((EntityParasiteBase) entity).getParasiteIDRegister();
-            return SRPMixinsConfigProvider.paraIdToMobName.getOrDefault(paraId,"");
+            return SRPMobConfigProvider.paraIdToMobName.getOrDefault(paraId,"");
         } else {
             ResourceLocation locIn = EntityList.getKey(entity);
             if(locIn != null) return locIn.toString();
@@ -114,7 +137,7 @@ public abstract class SpawnNextPhaseLock {
     @Unique
     private static boolean srpmixins$conversionIsPhaseLocked(Entity entityIn, String mobIn, String mobOut){
         int currPhase = SRPSaveDataInterface.get(entityIn.world, null, entityIn.getPosition()).getEvolutionPhase(entityIn.world.provider.getDimension());
-        int phaseLock = SRPMixinsConfigProvider.getConversionPhaseLock(mobIn, mobOut);
+        int phaseLock = ConversionPathways.getConversionPhaseLock(mobIn, mobOut);
         return currPhase < phaseLock;
     }
 }

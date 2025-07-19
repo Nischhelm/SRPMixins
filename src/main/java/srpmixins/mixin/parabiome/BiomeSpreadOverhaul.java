@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.util.TransformationRule;
+import srpmixins.rules.BlockTransformationRule;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 import java.util.Arrays;
@@ -60,7 +60,7 @@ public abstract class BiomeSpreadOverhaul {
                 continue;
             }
 
-            TransformationRule rule = TransformationRule.getFirstApplicableRule(material, block);
+            BlockTransformationRule rule = BlockTransformationRule.getFirstApplicableRule(material, block);
             if(rule == null) continue;
             if(rule.getResultState() == null) continue;
 

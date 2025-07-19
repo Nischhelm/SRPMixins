@@ -8,8 +8,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.config.folders.*;
-import srpmixins.util.MinMaxDayPerPhaseRule;
-import srpmixins.util.MobCapRule;
+import srpmixins.config.providers.ChunkPhaseConfigProvider;
+import srpmixins.config.providers.MorePhasesConfigProvider;
+import srpmixins.config.providers.SRPMobConfigProvider;
+import srpmixins.rules.ConversionPathways;
+import srpmixins.rules.MinMaxDayPerPhaseRule;
+import srpmixins.rules.MobCapRule;
 
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
@@ -100,14 +104,20 @@ public class SRPMixinsConfigHandler {
 		public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
 			if(event.getModID().equals(SRPMixins.MODID)) {
 				ConfigManager.sync(SRPMixins.MODID, Config.Type.INSTANCE);
+
 				SRPMixinsConfigProvider.reset();
+				MorePhasesConfigProvider.reset();
+				ChunkPhaseConfigProvider.reset();
+
 				MobCapRule.reset();
 				MinMaxDayPerPhaseRule.reset();
-				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig) {
+				ConversionPathways.readConversionLockConfig();
+
+				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length > 0) {
+					SRPMobConfigProvider.reset();
 					SRPAttributes.reset();
 					SRPAttributes.init();
 				}
-				SRPMixinsConfigProvider.readConversionLockConfig();
 			}
 		}
 	}

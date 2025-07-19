@@ -8,6 +8,7 @@ import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.MathHelper;
 import srpmixins.SRPMixins;
+import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.util.configparse.ParaOrbEffect;
 import srpmixins.util.configparse.Triple;
 
@@ -111,10 +112,10 @@ public class SRPConfigProvider {
                         int id = Integer.parseInt(mobIdOrName);
                         lockedParasites.add(id);
                     } catch (Exception e){
-                        if(SRPMixinsConfigProvider.mobNameToParaIdMap.containsKey(mobIdOrName))
-                            lockedParasites.add(SRPMixinsConfigProvider.mobNameToParaIdMap.get(mobIdOrName));
-                        else if(SRPMixinsConfigProvider.mobNameToParaIdMap.containsKey(mobIdOrName.replace("srparasites:","")))
-                            lockedParasites.add(SRPMixinsConfigProvider.mobNameToParaIdMap.get(mobIdOrName.replace("srparasites:","")));
+                        if(SRPMobConfigProvider.mobNameToParaIdMap.containsKey(mobIdOrName))
+                            lockedParasites.add(SRPMobConfigProvider.mobNameToParaIdMap.get(mobIdOrName));
+                        else if(SRPMobConfigProvider.mobNameToParaIdMap.containsKey(mobIdOrName.replace("srparasites:","")))
+                            lockedParasites.add(SRPMobConfigProvider.mobNameToParaIdMap.get(mobIdOrName.replace("srparasites:","")));
                         else
                             SRPMixins.LOGGER.warn("SRPMixins unable to parse \"SRP Evolution Parasite Lock\" entry, expected parasite id or name in last entry, provided was {}", s);
                     }
