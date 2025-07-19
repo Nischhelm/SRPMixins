@@ -27,7 +27,12 @@ public class ConversionPathways {
         conversionPathwayLocks.computeIfAbsent(mobIn, mob -> new HashMap<>()).put(mobOut, defaultValue);
     }
 
-    public static void readConversionLockConfig(){
+    public static void reset(){
+        conversionPathwayLocks.clear();
+        init();
+    }
+
+    public static void init(){
         for(String s : SRPMixinsConfigHandler.spawns.conversionRules){
             String[] split = s.split(",");
             if(split.length < 3)

@@ -17,11 +17,9 @@ public class SRPMobConfigProvider {
 
     public static void reset(){
         srpMobConfig.clear();
-        initMobConfigs();
     }
 
-    //The bottom part only runs once to grab all the SRP mob configs and put them into a list
-    public static boolean readMobConfigs() {
+    public static boolean init() {
         String unused = "---";
         for (String s : SRPMixinsConfigHandler.mobConfig.mobConfig) {
             List<String> split = Arrays.stream(s.split("\t")).map(String::trim).collect(Collectors.toList());
@@ -45,6 +43,7 @@ public class SRPMobConfigProvider {
         return !srpMobConfig.isEmpty();
     }
 
+    //This only runs once on first startup with config enabled
     public static void initMobConfigs() {
         srpMobConfig.put("anc_dreadnaut", new SRPMobConfig(SRPConfigMobs.oroncoEnabled, SRPConfigMobs.oroncoDamageMultiplier, SRPConfigMobs.oroncoArmorMultiplier, SRPConfigMobs.oroncoHealthMultiplier, SRPConfigMobs.oroncoKDResistanceMultiplier, SRPConfigMobs.oroncoSpawnRate));
         srpMobConfig.put("anc_overlord", new SRPMobConfig(SRPConfigMobs.terlaEnabled, SRPConfigMobs.terlaDamageMultiplier, SRPConfigMobs.terlaArmorMultiplier, SRPConfigMobs.terlaHealthMultiplier, SRPConfigMobs.terlaKDResistanceMultiplier, SRPConfigMobs.terlaSpawnRate));

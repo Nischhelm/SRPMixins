@@ -7,7 +7,7 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.command.ICommandSender;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(value = {SRPCommandEvolution.class, SRPCommandRoot.class})
 public abstract class SRPCommandsMixin {
@@ -16,7 +16,7 @@ public abstract class SRPCommandsMixin {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCap:I", remap = false)
     )
     private int srpmixins_increaseParasiteMobCap(int original, @Local(argsOnly = true) ICommandSender sender) {
-        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(sender.getEntityWorld().provider.getDimension(),1.0F);
+        float dimensionMultiplier = DimensionMultiConfigProvider.dimensionMobCapMultipliers.getOrDefault(sender.getEntityWorld().provider.getDimension(),1.0F);
         if (dimensionMultiplier != 1.0F)
             return (int) (original * dimensionMultiplier);
         return original;
@@ -27,7 +27,7 @@ public abstract class SRPCommandsMixin {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;worldMobCapPlusPlayer:I", remap = false)
     )
     private int srpmixins_increaseParasiteMobCapPerPlayer(int original, @Local(argsOnly = true) ICommandSender sender) {
-        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(sender.getEntityWorld().provider.getDimension(),1.0F);
+        float dimensionMultiplier = DimensionMultiConfigProvider.dimensionMobCapMultipliers.getOrDefault(sender.getEntityWorld().provider.getDimension(),1.0F);
         if (dimensionMultiplier != 1.0F)
             return (int) (original * dimensionMultiplier);
         return original;

@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.config.folders.*;
 import srpmixins.config.providers.ChunkPhaseConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 import srpmixins.config.providers.MorePhasesConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.rules.ConversionPathways;
@@ -108,15 +109,16 @@ public class SRPMixinsConfigHandler {
 				SRPMixinsConfigProvider.reset();
 				MorePhasesConfigProvider.reset();
 				ChunkPhaseConfigProvider.reset();
+				DimensionMultiConfigProvider.reset();
 
 				MobCapRule.reset();
 				MinMaxDayPerPhaseRule.reset();
-				ConversionPathways.readConversionLockConfig();
+				ConversionPathways.reset();
 
 				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length > 0) {
 					SRPMobConfigProvider.reset();
 					SRPAttributes.reset();
-					SRPAttributes.init();
+					SRPAttributes.init(); // runs SRPMobConfigProvider.init() via mixin
 				}
 			}
 		}

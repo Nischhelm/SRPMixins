@@ -13,6 +13,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 public class ParasiteDropChance {
 
@@ -21,8 +22,8 @@ public class ParasiteDropChance {
         EntityLivingBase victim = event.getEntityLiving();
         if(!(victim instanceof EntityParasiteBase)) return;
         int dim = victim.world.provider.getDimension();
-        if(!SRPMixinsConfigProvider.dimensionDropMultipliers.containsKey(dim)) return;
-        float dropChance = SRPMixinsConfigProvider.dimensionDropMultipliers.get(dim);
+        if(!DimensionMultiConfigProvider.dimensionDropMultipliers.containsKey(dim)) return;
+        float dropChance = DimensionMultiConfigProvider.dimensionDropMultipliers.get(dim);
 
         for (EntityItem drop : event.getDrops()) {
             Item droppedItem = drop.getItem().getItem();

@@ -18,6 +18,8 @@ import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.ChunkPhaseConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 import srpmixins.config.providers.MorePhasesConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.*;
@@ -48,9 +50,11 @@ public class SRPMixins {
         CONFIG.load();
 
         SRPMixinsConfigProvider.init();
-        ConversionPathways.readConversionLockConfig();
+        ConversionPathways.init();
         MobCapRule.init();
         MinMaxDayPerPhaseRule.init();
+        ChunkPhaseConfigProvider.init();
+        DimensionMultiConfigProvider.init();
 
         if(SRPMixinsConfigHandler.chunkphases.enabled && SRPConfigSystems.useEvolution) {
             CapabilityEvoPointsHandler.registerCapability();
@@ -63,12 +67,12 @@ public class SRPMixins {
         }
 
         registerEventSubscriberIf(NexusSpawnSounds.class, SRPMixinsConfigHandler.deterrents.playsounds);
-        registerEventSubscriberIf(ParasiteDropChance.class, SRPMixinsConfigHandler.dimension.doMultipliers);
+        registerEventSubscriberIf(ParasiteDropChance.class, SRPMixinsConfigHandler.dimension.doMultipliers && SRPMixinsConfigHandler.dimension.dimensionDropMultipliers.length > 0);
         registerEventSubscriberIf(SRPArmorBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addArmorBowEvolution);
         registerEventSubscriberIf(ConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
         registerEventSubscriberIf(SpawnPotentialsHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
         registerEventSubscriberIf(WorldMobCapHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
-        registerEventSubscriberIf(XpPerPhaseHandler.class, true); //TODO: maybe a toggle idk
+        registerEventSubscriberIf(XpPerPhaseHandler.class, SRPMixinsConfigHandler.phasepoints.xpMultis.length > 0); //TODO: maybe a toggle idk
     }
 
     private static void registerEventSubscriberIf(Object subscriber, boolean condition){
@@ -79,6 +83,7 @@ public class SRPMixins {
     public void init(FMLInitializationEvent event) {
         SRPConfigProvider.init();
 
+        //These only run once on the first startup when ppl enabled more phases or mob config
         if(SRPMixinsConfigHandler.morephases.enableMorePhases && SRPMixinsConfigHandler.morephases.phaseKills.length == 0)
             MorePhasesConfigProvider.initMorePhasesConfig();
         if (SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length == 0)

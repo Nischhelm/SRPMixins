@@ -158,7 +158,7 @@ public class SpawnPotentialsHandler {
 
     private static boolean isBiomeBlacklisted(World world, BlockPos pos){
         int dim = world.provider.getDimension();
-        List<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(dim);
+        Set<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(dim);
         if(biomeBlacklist == null) return false;
 
         ResourceLocation biome = world.getBiome(pos).getRegistryName();

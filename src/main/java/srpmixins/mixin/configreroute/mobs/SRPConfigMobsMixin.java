@@ -16,7 +16,7 @@ public class SRPConfigMobsMixin {
             remap = false
     )
     private static void srpmixins_overwriteMobConfigs(CallbackInfo ci){
-        if(SRPMobConfigProvider.readMobConfigs()) {
+        if(SRPMobConfigProvider.init()) {
             SRPConfigMobs.alafhaDamageMultiplier = SRPMobConfigProvider.getMobConfigDamage("overseer");
             SRPConfigMobs.angedDamageMultiplier = SRPMobConfigProvider.getMobConfigDamage("vigilante");
             SRPConfigMobs.arachnidaDamageMultiplier = SRPMobConfigProvider.getMobConfigDamage("pri_arachnida");

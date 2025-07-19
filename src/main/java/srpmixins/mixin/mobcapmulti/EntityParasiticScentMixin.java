@@ -7,6 +7,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(EntityParasiticScent.class)
 public abstract class EntityParasiticScentMixin extends Entity {
@@ -21,7 +22,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
     )
     private int srpmixins_increaseParasiteMobCap_checkNearby(int original) {
         int dimension = this.world.provider.getDimension();
-        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = DimensionMultiConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
             return (int) (original * dimensionMultiplier);
         return original;
@@ -34,7 +35,7 @@ public abstract class EntityParasiticScentMixin extends Entity {
     )
     private int srpmixins_increaseParasiteMobCapPerPlayer_checkNearby(int original) {
         int dimension = this.world.provider.getDimension();
-        float dimensionMultiplier = SRPMixinsConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
+        float dimensionMultiplier = DimensionMultiConfigProvider.dimensionMobCapMultipliers.getOrDefault(dimension,1.0F);
         if (dimensionMultiplier != 1.0F)
             return (int) (original * dimensionMultiplier);
         return original;

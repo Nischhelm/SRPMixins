@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 import javax.annotation.Nullable;
 
@@ -25,6 +26,6 @@ public abstract class BombFix {
         if(tntPlacedBy == null) return in;
         if(tntPlacedBy instanceof EntityJinjo) return in;
         int dimension = tntPlacedBy.dimension;
-        return in * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+        return in * DimensionMultiConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
     }
 }

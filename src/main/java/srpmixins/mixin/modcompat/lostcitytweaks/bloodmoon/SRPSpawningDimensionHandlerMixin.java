@@ -10,6 +10,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(SRPSpawning.DimensionHandler.class)
 public abstract class SRPSpawningDimensionHandlerMixin {
@@ -22,11 +23,11 @@ public abstract class SRPSpawningDimensionHandlerMixin {
             remap = false
     )
     private static void srpmixins_overwriteMobCapMultiplier(LivingSpawnEvent.CheckSpawn event, CallbackInfo ci) {
-        if (!SRPMixinsConfigProvider.dimensionMobCapMultipliers.containsKey(111)) return;
+        if (!DimensionMultiConfigProvider.dimensionMobCapMultipliers.containsKey(111)) return;
         int dimension = event.getWorld().provider.getDimension();
         if (SRPMixinsConfigHandler.modcompat.bloodmoonInLC && BloodmoonHandler.INSTANCE.isBloodmoonActive() && dimension == 111) {
-            srpmixins$currentMulti = SRPMixinsConfigProvider.dimensionMobCapMultipliers.get(111);
-            SRPMixinsConfigProvider.dimensionMobCapMultipliers.put(111, srpmixins$currentMulti * SRPMixinsConfigHandler.modcompat.bloodmoonInLCmobCapMultiplier);
+            srpmixins$currentMulti = DimensionMultiConfigProvider.dimensionMobCapMultipliers.get(111);
+            DimensionMultiConfigProvider.dimensionMobCapMultipliers.put(111, srpmixins$currentMulti * SRPMixinsConfigHandler.modcompat.bloodmoonInLCmobCapMultiplier);
         }
     }
 
@@ -37,10 +38,10 @@ public abstract class SRPSpawningDimensionHandlerMixin {
     )
     private static void srpmixins_resetMobCapMultiplier(LivingSpawnEvent.CheckSpawn event, CallbackInfo ci) {
         if (srpmixins$currentMulti == null) return;
-        if (!SRPMixinsConfigProvider.dimensionMobCapMultipliers.containsKey(111)) return;
+        if (!DimensionMultiConfigProvider.dimensionMobCapMultipliers.containsKey(111)) return;
         int dimension = event.getWorld().provider.getDimension();
         if (SRPMixinsConfigHandler.modcompat.bloodmoonInLC && BloodmoonHandler.INSTANCE.isBloodmoonActive() && dimension == 111) {
-            SRPMixinsConfigProvider.dimensionMobCapMultipliers.put(111, srpmixins$currentMulti);
+            DimensionMultiConfigProvider.dimensionMobCapMultipliers.put(111, srpmixins$currentMulti);
             srpmixins$currentMulti = null;
         }
     }

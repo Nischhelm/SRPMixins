@@ -7,6 +7,7 @@ import net.minecraft.world.chunk.Chunk;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.ChunkPhaseConfigProvider;
 import srpmixins.mixin.playerphases.SRPSaveDataAccessor;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class CapabilityEvoPoints extends SRPSaveData implements ICapabilityEvoPo
         recursionStarted = true;
 
         int chunkRadius = SRPMixinsConfigHandler.chunkphases.regionUpdateRadius;
-        int chunkSpacing = SRPMixinsConfigProvider.chunkPhasesSpacing;
+        int chunkSpacing = ChunkPhaseConfigProvider.chunkPhasesSpacing;
         for (int i = -chunkRadius; i <= chunkRadius; i++) {
             for (int j = -chunkRadius; j <= chunkRadius; j++) {
                 if(i == 0 && j == 0) continue; //Don't update the current chunk again

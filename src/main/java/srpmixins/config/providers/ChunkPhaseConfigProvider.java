@@ -12,6 +12,11 @@ public class ChunkPhaseConfigProvider {
     public static final Map<String, Byte> biomeStartPhases = new HashMap<>();
     public static final List<Integer> chunkPhasesDimensionBlacklist = new ArrayList<>();
 
+    //Deliberately copied/initialised here to stop ppl from changing it in game
+    public static int chunkPhasesSpacing = SRPMixinsConfigHandler.chunkphases.chunkSpacing;
+    public static int chunkPhasesHalfSpacing = chunkPhasesSpacing >> 1; //Spacing divided by two and truncated (so it's different for odd vs even spacing)
+    public static boolean chunkPhasesSpacingIsOdd = (chunkPhasesSpacing & 1) == 1;
+
     public static void reset(){
         biomeStartPhases.clear();
         chunkPhasesDimensionBlacklist.clear();

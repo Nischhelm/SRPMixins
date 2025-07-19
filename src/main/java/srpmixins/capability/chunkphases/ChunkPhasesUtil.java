@@ -23,7 +23,7 @@ public class ChunkPhasesUtil {
         //Divide chunkCoord by spacing, floor towards -inf (north-west),
         // multiply again with spacing to stay in chunk coord units,
         // add half the spacing to get to center
-        return Math.floorDiv(chunkCoord, SRPMixinsConfigProvider.chunkPhasesSpacing) * SRPMixinsConfigProvider.chunkPhasesSpacing + SRPMixinsConfigProvider.chunkPhasesHalfSpacing;
+        return Math.floorDiv(chunkCoord, ChunkPhaseConfigProvider.chunkPhasesSpacing) * ChunkPhaseConfigProvider.chunkPhasesSpacing + ChunkPhaseConfigProvider.chunkPhasesHalfSpacing;
     }
 
     //This is only called from region center chunks, to determine the biome at center of region
@@ -32,7 +32,7 @@ public class ChunkPhasesUtil {
     public static BlockPos getRegionChunkCenterBlock(ChunkPos pos) {
         int x = pos.x << 4; // * 16
         int z = pos.z << 4;
-        if(SRPMixinsConfigProvider.chunkPhasesSpacingIsOdd){
+        if(ChunkPhaseConfigProvider.chunkPhasesSpacingIsOdd){
             x += 8;
             z += 8;
         }

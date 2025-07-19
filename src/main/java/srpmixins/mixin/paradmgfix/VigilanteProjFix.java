@@ -7,6 +7,7 @@ import net.minecraft.util.math.RayTraceResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigProvider;
+import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(EntityProjectileAngedball.class)
 public abstract class VigilanteProjFix {
@@ -17,7 +18,7 @@ public abstract class VigilanteProjFix {
     private double srpmixins_fixProjDmg(double original, @Local(argsOnly = true) RayTraceResult result){
         if(result.entityHit != null) {
             int dimension = result.entityHit.dimension;
-            return original * SRPMixinsConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+            return original * DimensionMultiConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
         }
         return original;
     }

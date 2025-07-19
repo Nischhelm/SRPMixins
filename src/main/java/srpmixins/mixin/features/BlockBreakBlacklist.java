@@ -9,6 +9,7 @@ import srpmixins.config.SRPMixinsConfigProvider;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Mixin(EntityParasiteBase.class)
 public abstract class BlockBreakBlacklist {
@@ -19,7 +20,7 @@ public abstract class BlockBreakBlacklist {
     )
     private boolean srpmixins_blacklistBlockByParasite(EntityParasiteBase parasite, String blockId, Operation<Boolean> original) {
         int paraId = parasite.getParasiteIDRegister();
-        List<Integer> listedParaIds = SRPMixinsConfigProvider.blockBreakBlacklist.getOrDefault(blockId, Collections.emptyList());
+        Set<Integer> listedParaIds = SRPMixinsConfigProvider.blockBreakBlacklist.getOrDefault(blockId, Collections.emptySet());
         //fail test if block is blacklisted for this parasite
         if(listedParaIds.contains(paraId)) return true;
         return original.call(parasite, blockId);
