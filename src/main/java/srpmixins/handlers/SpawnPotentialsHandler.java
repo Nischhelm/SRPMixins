@@ -63,11 +63,11 @@ public class SpawnPotentialsHandler {
 
     public static Map<Integer, Integer> getParaIdToColoPointLockMap(){
         if (paraIdToColoPointLock == null) paraIdToColoPointLock = Arrays.stream(SRPConfigWorld.preeValues)
-                .map(s -> s.split(";"))
-                .collect(Collectors.toMap(
-                        split -> Integer.parseInt(split[0].trim()), //Key
-                        split -> Integer.parseInt(split[1].trim())  //Value
-                ));
+                    .map(s -> s.split(";"))
+                    .collect(Collectors.toMap(
+                            split -> Integer.parseInt(split[0].trim()), //Key
+                            split -> Integer.parseInt(split[1].trim())  //Value
+                    ));
         return paraIdToColoPointLock;
     }
 

@@ -185,7 +185,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerSer(Ljava/lang/String;Lnet/minecraft/world/World;)V"),
             remap = false
     )
-    private void srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world, Operation<Void> original){
+    private void srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world, Operation<Void> original) {
         if(SRPMixinsConfigHandler.playerphases.enabled) {
             EntityPlayer player = world.getPlayerEntityByUUID(srpmixins$playerUUID);
             if(player != null) player.sendMessage(new TextComponentString(message));

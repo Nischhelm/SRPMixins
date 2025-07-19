@@ -6,7 +6,6 @@ import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.ChunkPhaseConfigProvider;
 
 public class ChunkPhasesUtil {

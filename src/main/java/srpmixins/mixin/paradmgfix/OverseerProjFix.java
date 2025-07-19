@@ -6,7 +6,6 @@ import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.util.math.RayTraceResult;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(EntityProjectileAlafhaBall.class)

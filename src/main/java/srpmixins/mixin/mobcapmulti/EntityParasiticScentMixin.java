@@ -6,7 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(EntityParasiticScent.class)

@@ -76,6 +76,13 @@ public class PointConfig {
     @Config.Name("Min/Max Days per Phase/Dimension")
     public String[] minMaxDaysPerPhase = {};
 
+    @Config.Comment("Allows using parasite names instead of ids for the SRParasitesSystems.cfg \"Evolution Parasite Lock List\".\n" +
+            "Also checks for currphase >= lockphase instead of only currphase == lockphase as SRP does (only matters when using commands or high dim starting phases).")
+    @Config.Name("Fix Parasites Unlocking")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.fixparaunlocking.json", defaultValue = true)
+    public boolean unlockOnHigherPhases = true;
+
     @Config.Comment("SRP has an option for parasites to stop dropping XP from a certain phase onwards. \n" +
             "To make this option a bit less intrusive, this list can be used to slowly decrease (or increase) the amount of xp dropped.\n" +
             "Starts with phase 0, can be used beyond phase 10 if \"More Phases\" is enabled.\n" +

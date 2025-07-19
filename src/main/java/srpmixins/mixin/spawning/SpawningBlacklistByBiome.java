@@ -12,7 +12,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 
-import java.util.List;
 import java.util.Set;
 
 @Mixin(SRPWorldEntitySpawner.class)

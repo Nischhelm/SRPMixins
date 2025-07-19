@@ -11,9 +11,7 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.event.WorldMobCapEvent;
 import srpmixins.util.ParasiteCreatureType;
 
@@ -22,22 +20,6 @@ import java.util.Set;
 @Mixin(WorldEntitySpawner.class)
 public abstract class WorldEntitySpawnerMixin {
     @Shadow @Final private Set<ChunkPos> eligibleChunksForSpawning;
-
-    @Inject(
-            method = "findChunksForSpawning",
-            at = @At("HEAD")
-    )
-    private void srpmixins_toggleParaSpawningOn(CallbackInfoReturnable<Integer> cir){
-        ParasiteCreatureType.paraMobCapToggle = 1;
-    }
-
-    @Inject(
-            method = "findChunksForSpawning",
-            at = @At("RETURN")
-    )
-    private void srpmixins_toggleParaSpawningOff(CallbackInfoReturnable<Integer> cir){
-        ParasiteCreatureType.paraMobCapToggle = 0;
-    }
 
     @ModifyVariable(
             method = "findChunksForSpawning",

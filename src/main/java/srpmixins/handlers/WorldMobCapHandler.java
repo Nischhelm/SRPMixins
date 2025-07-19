@@ -45,6 +45,7 @@ public class WorldMobCapHandler {
                 counter++;
             }
             if (counter != 0) multi /= counter;
+            else multi = 1;
         } else if (SRPMixinsConfigHandler.chunkphases.enabled) {
             //Avg over all loaded chunks
             int counter = 0;
@@ -54,6 +55,7 @@ public class WorldMobCapHandler {
                 counter++;
             }
             if (counter != 0) multi /= counter;
+            else multi = 1;
         } else {
             byte phase = SRPSaveData.get(event.getWorld()).getEvolutionPhase(dimId);
             multi = MobCapRule.getTotalMulti(dimId, phase);

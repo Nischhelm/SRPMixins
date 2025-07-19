@@ -12,7 +12,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 public class ParasiteDropChance {

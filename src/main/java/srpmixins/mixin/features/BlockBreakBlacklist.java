@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigProvider;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 @Mixin(EntityParasiteBase.class)
