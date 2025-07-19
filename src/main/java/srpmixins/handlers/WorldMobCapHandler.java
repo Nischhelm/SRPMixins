@@ -1,5 +1,6 @@
 package srpmixins.handlers;
 
+import com.dhanantry.scapeandrunparasites.entity.EntityParasiticScent;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationaryArchitect;
 import com.dhanantry.scapeandrunparasites.entity.monster.inborn.EntityAta;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfSquid;
@@ -65,6 +66,7 @@ public class WorldMobCapHandler {
     public static final Map<Integer, Integer> nexusCount = new HashMap<>();
     public static final Map<Integer, Integer> waterCount = new HashMap<>();
     public static final Map<Integer, Integer> gnatCount = new HashMap<>();
+    public static final Map<Integer, Integer> scentCount = new HashMap<>();
 
     @SubscribeEvent
     public static void onWorldServerTick(TickEvent.WorldTickEvent event){
@@ -76,5 +78,6 @@ public class WorldMobCapHandler {
         if (SRPMixinsConfigHandler.waterparas.waterParasiteCap >= 0)
             waterCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityInfSquid.class) + event.world.countEntities(EntityLum.class));
         gnatCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityAta.class));
+        scentCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityParasiticScent.class));
     }
 }

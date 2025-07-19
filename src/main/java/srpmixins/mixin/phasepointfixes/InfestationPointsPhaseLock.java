@@ -9,10 +9,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(ParasiteEventWorld.class)
-public abstract class BiomeSpreadingPointsPhaseLock {
+public abstract class InfestationPointsPhaseLock {
 
     @WrapWithCondition(
-            method = {"spreadBiomeBlockStain", "spreadBiomeBlockTrunk"},
+            method = "canInfestBlock",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;setTotalKills(IIZLnet/minecraft/world/World;Z)Z"),
             remap = false
     )

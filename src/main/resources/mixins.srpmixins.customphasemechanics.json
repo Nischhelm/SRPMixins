@@ -8,9 +8,7 @@
   "mixins": [
     "BlockEvolutionLureMixin",
     "BlockInfestedRemainMixin",
-    "BlockInfestedRubbleMixin",
-    "BlockInfestedStainMixin",
-    "BlockInfestedTrunkMixin",
+    "BlockInfestedRemovalMixin",
     "EntityAINexusGrowMixin",
     "EntityMudoMixin",
     "EntityPAdaptedMixin",
@@ -27,8 +25,7 @@
     "SRPSaveDataMixin",
     "SRPSpawningDimensionMixin",
     "SRPWorldEntitySpawnerMixin",
-    "TileEntityCanisterMixin",
-    "TileEntityDodMixin"
+    "TileEntityCanisterDodMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

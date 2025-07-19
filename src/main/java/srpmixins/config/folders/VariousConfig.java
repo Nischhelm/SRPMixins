@@ -19,20 +19,6 @@ public class VariousConfig {
     //TODO: prob just delete
     public boolean blacklistsWildcardable = false;
 
-    @Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
-    @Config.Name("Fix Parasitic Biome spreading limit")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.biomespreadlimit.json", defaultValue = true)
-    public boolean fixBiomeSpreadingLimit = true;
-
-    @Config.Comment("SRP keeps a single fog density value for all players at the same time. " +
-            "In Multiplayer this leads to desyncs with no fog appearing inside the biome, or fog appearing outside of the biome. " +
-            "This fixes it.")
-    @Config.Name("Fix Parasitic Biome Fog")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.fogmultiplayerfix.json", defaultValue = true)
-    public boolean fixBiomeFog = true;
-
     @Config.Comment("SRP parses its config list every single time instead of caching the result. For performance this stores the results instead.")
     @Config.Name("Fix Config List Parsing")
     @Config.RequiresMcRestart
@@ -75,23 +61,11 @@ public class VariousConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.strangebonestacking.json", defaultValue = true)
     public boolean strangeBoneStacking = true;
 
-    @Config.Comment("Parasite Bush and Vines will force load chunks when a parasite biome is growing. This stops the force loading. Moved from RLMixins (thanks fonny!)")
-    @Config.Name("Fix Parasite Bush Generation Lag")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.parasitebushgen.json", defaultValue = true)
-    public boolean fixBiomeBushLag = true;
-
     @Config.Comment("SRP Commands don't have proper autocompletion. This fixes it. Also fixes the /help command for them.")
     @Config.Name("Fix SRP Command Autocompletion")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.commandfix.json", defaultValue = true)
     public boolean fixCommandOverrides = true;
-
-    @Config.Comment("SRP sends a new network packet for every individual block position that gets turned into parasitic biome or back to plains. This fix sends one bigger packet instead, for performance.")
-    @Config.Name("Fix SRP Biome Packet")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.biomepacket.json", defaultValue = true)
-    public boolean fixBiomePacket = true;
 
     @Config.Comment("SRP always uses the same method to treat its various config blacklists. In the case of an empty whitelist (list empty & treatAsWhitelist = true) the list is incorrectly treated as an empty BLACKlist, so instead of \"deny all\" its treated as \"allow all\". This fixes it.")
     @Config.Name("Fix Empty Whitelists read as Blacklists")

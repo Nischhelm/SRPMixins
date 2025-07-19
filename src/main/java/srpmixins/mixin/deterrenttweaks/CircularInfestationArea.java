@@ -34,7 +34,7 @@ public class CircularInfestationArea {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPStationaryArchitect;getPosition()Lnet/minecraft/util/math/BlockPos;")
     )
     private static BlockPos srpmixins_saveClosestDistance(BlockPos original, @Local(argsOnly = true) BlockPos infestationPos) {
-        srpmixins$distClosest = original.distanceSq(infestationPos);
+        srpmixins$distClosest = Math.min(srpmixins$distClosest, original.distanceSq(infestationPos));
         return original;
     }
 

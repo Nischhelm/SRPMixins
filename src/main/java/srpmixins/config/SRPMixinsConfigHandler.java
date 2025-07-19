@@ -53,6 +53,10 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("More Phases")
 	public static final MorePhasesConfig morephases = new MorePhasesConfig();
 
+	@Config.Comment("Parasite Biome Options")
+	@Config.Name("Parasite Biome")
+	public static ParaBiomeConfig parabiome = new ParaBiomeConfig();
+
 	@Config.Comment("Player Phases Options - incompatible with chunk phases")
 	@Config.Name("Player Phases")
 	public static final PlayerPhaseConfig playerphases = new PlayerPhaseConfig();

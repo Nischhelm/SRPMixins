@@ -1,6 +1,8 @@
 package srpmixins.mixin.playerphases;
 
+import com.dhanantry.scapeandrunparasites.block.BlockInfestedRubble;
 import com.dhanantry.scapeandrunparasites.block.BlockInfestedStain;
+import com.dhanantry.scapeandrunparasites.block.BlockInfestedTrunk;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,8 +12,8 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Mixin(BlockInfestedStain.class)
-public abstract class BlockInfestedStainMixin {
+@Mixin(value = {BlockInfestedStain.class, BlockInfestedRubble.class, BlockInfestedTrunk.class})
+public abstract class BlockInfestedRemovalMixin {
     @Redirect(
             method="removedByPlayer",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),

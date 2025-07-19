@@ -1,23 +1,23 @@
 package srpmixins.mixin.playerphases;
 
-import com.dhanantry.scapeandrunparasites.block.BlockInfestedRubble;
+import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Mixin(BlockInfestedRubble.class)
-public abstract class BlockInfestedRubbleMixin {
+@Mixin(ParasiteEventWorld.class)
+public abstract class ParasiteEventWorldMixin_BiomeSpread {
     @Redirect(
-            method="removedByPlayer",
+            method={"spreadBiomeBlockStain","spreadBiomeBlockTrunk"},
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
-            remap = false
+            remap=false
     )
-    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityPlayer player){
-        return SRPSaveDataInterface.get(world,player,null);
+    private static SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) BlockPos blockPos){
+        return SRPSaveDataInterface.get(world,null,blockPos);
     }
 }

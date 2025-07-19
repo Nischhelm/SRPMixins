@@ -52,8 +52,6 @@ public class DeterrentConfig {
 
     @Config.Comment("SRP only uses the Beckon Stage III Infestation Limits (in SRParasitesMobs.cfg) instead of limiting the infestation spread by beckon stage, essentially ignoring the stage I and stage II config values. This fixes it.")
     @Config.Name("Fix Block Infestation Limit")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.beckoninfestationlimit.json", defaultValue = true)
     public boolean fixInfestedBlockLimit = true;
 
     @Config.Comment("When Beckons stand inside infested grass, they will not be able to propagate their new stage (after upgrade) to the infested blocks around them, making some infestation mechanics not work properly in those cases. This fixes it.")
@@ -68,8 +66,6 @@ public class DeterrentConfig {
 
     @Config.Comment("Beckons infest blocks in a square shaped area. This makes the area circular instead, looks better.")
     @Config.Name("Circular Infestation Area")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.circularinfestationarea.json", defaultValue = true)
     public boolean infestationAreaIsCircular = true;
 
     @Config.Comment("If set to true, fully disables the infestation reversion mechanic where killing a Beckon above certain infested blocks with low enough internal \"stage\" they will turn back to various non-infested blocks.")
@@ -77,4 +73,13 @@ public class DeterrentConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationreversiontoggle.json", defaultValue = false)
     public boolean infestationReversionToggle = false;
+
+    @Config.Comment("Fully overhauls the beckon infestation spread logic to make it more performant. If there are other mods that use mixins with the infestation system, there will be incompatibilities.\n" +
+            "Since there are also specific mixins into that logic from SRPMixins itself, you'll have to disable those.\n" +
+            "\t- Circular Infestation Area\n" +
+            "\t- Fix Block Infestation Limit\n")
+    @Config.Name("Infestation Performance Overhaul")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationoverhaul.json", defaultValue = true)
+    public boolean infestationOverhaul = true;
 }

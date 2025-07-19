@@ -26,9 +26,13 @@ public class PointConfig {
     @Config.Name("Adapted Despawn Penalty First Phase")
     public int adaptedDespawnPenaltyPhase = 4;
 
-    @Config.Comment("Players can only get point penalty from parasitic biome spreading (disable with -1, needs MC restart for full disable)")
+    @Config.Comment("Players can only get point penalty from parasitic biome spreading from this phase on (disable with -1, needs MC restart for full disable)")
     @Config.Name("Biome Spreading Penalty First Phase")
     public byte biomeSpreadingPenaltyPhase = 5;
+
+    @Config.Comment("Players can only get point penalty from beckon infestation spreading from this phase on (disable with -1, needs MC restart for full disable)")
+    @Config.Name("Infestation Penalty First Phase")
+    public byte infestationPenaltyPhase = 5;
 
     @Config.Comment("Send logs when phase or nodes would get accidentally reset (gets prevented by SRPMixins, but should still be fixed directly)")
     @Config.Name("Phases reset debug mode")
@@ -67,7 +71,8 @@ public class PointConfig {
             "To set a range of phases, you can also write the phase twice, ie [phase >= 5] [phase <= 7] for phases 5 to 7\n" +
             "Setting no dimension or no phase will make it work for all of them respectively.\n" +
             "If more than one rule should apply, the one with the smallest min / biggest max value will take effect.\n" +
-            "NOTE: similar to phase cooldowns this also counts the time that is slept away, not just actually played time.")
+            "NOTE: similar to phase cooldowns this also counts the time that is slept away, not just actually played time.\n" +
+            "Another NOTE: If playing with player phases or chunk phases, the mob cap is averaged over all players or chunks. Can't do player/chunk specific mob caps since mc 1.12.2 doesn't have local mob caps.")
     @Config.Name("Min/Max Days per Phase/Dimension")
     public String[] minMaxDaysPerPhase = {};
 

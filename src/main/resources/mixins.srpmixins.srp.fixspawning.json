@@ -13,7 +13,10 @@
     "SpawnListEntryGrabber",
     "SRPBiomesMixin",
     "SRPCommandEvolutionMixin",
-    "SRPCommandRootMixin"
+    "SRPCommandRootMixin",
+    "scentspawn.EntityHeed_SooMixin",
+    "scentspawn.ParasiteEventEntityMixin",
+    "scentspawn.SRPEffectBaseMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
