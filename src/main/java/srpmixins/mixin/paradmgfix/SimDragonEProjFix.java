@@ -17,7 +17,7 @@ public abstract class SimDragonEProjFix {
     private double srpmixins_fixProjDmg(double original, @Local(argsOnly = true) RayTraceResult result){
         if(result.entityHit != null) {
             int dimension = result.entityHit.dimension;
-            return original * DimensionMultiConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+            return original * DimensionMultiConfigProvider.getDmgMap().getOrDefault(dimension,1F);
         }
         return original;
     }

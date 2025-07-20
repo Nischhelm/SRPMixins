@@ -8,10 +8,12 @@ import srpmixins.SRPMixins;
 public class ParaBiomeConfig {
 
     @Config.Comment("Fully overhauls the parasite biome spread logic to make it more performant. If there are other mods that use mixins with the biome spread system, there will be incompatibilities.\n" +
-            "Includes a fix for ore blocks turning into Pestilent Ore Blocks.")
+            "Includes a fix for ore blocks turning into Pestilent Ore Blocks.\n" +
+            "Incompatible with Cotesia Glomerata")
     @Config.Name("Biome Spread Performance Overhaul")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.biomespreadoverhaul.json", defaultValue = true)
+    @MixinConfig.CompatHandling(modid = "srpcotesia", desired = false, reason = "Disable \"Biome Spread Performance Overhaul\"!")
     public boolean biomeSpreadOverhaul = true;
 
     @Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
@@ -42,7 +44,7 @@ public class ParaBiomeConfig {
             "Included fixes without a toggle:\n" +
             "\t- Applies potion effects (glowing/rage) in the whole chunk column (down to bedrock) instead of just in 32 blocks cube distance\n" +
             "\t- Reverts infestation on block place instead of on random tick\n" +
-            "\t- Applies potion effects on block interact instead of on random tick\n")
+            "\t- Applies potion effects on block interact instead of on random tick")
     @Config.Name("Biome Purifier - Tweak+Fix")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.biomepurifier.json", defaultValue = true)

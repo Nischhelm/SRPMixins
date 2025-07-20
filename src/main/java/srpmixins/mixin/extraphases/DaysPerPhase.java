@@ -98,8 +98,6 @@ public abstract class DaysPerPhase extends WorldSavedData {
 
             int newPoints = SRPConfigProvider.getPhaseMinPoints((byte) (currentPhase + 1));
 
-            //SRPMixins.LOGGER.info("currDays {} minDays {} maxDays {} currPhase {} nextPhase {} nextPoints {}", days, minDays, maxDays, currentPhase, currentPhase + 1, newPoints);
-
             if (minDays != Integer.MAX_VALUE && days < minDays && pointsRef.get() >= newPoints) {
                 canChangeRef.set(false);
                 //Set points back to below limit

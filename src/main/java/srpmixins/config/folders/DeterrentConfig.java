@@ -77,9 +77,11 @@ public class DeterrentConfig {
     @Config.Comment("Fully overhauls the beckon infestation spread logic to make it more performant. If there are other mods that use mixins with the infestation system, there will be incompatibilities.\n" +
             "Since there are also specific mixins into that logic from SRPMixins itself, you'll have to disable those.\n" +
             "\t- Circular Infestation Area\n" +
-            "\t- Fix Block Infestation Limit\n")
+            "\t- Fix Block Infestation Limit\n" +
+            "Incompatible with Cotesia Glomerata")
     @Config.Name("Infestation Performance Overhaul")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationoverhaul.json", defaultValue = true)
+    @MixinConfig.CompatHandling(modid = "srpcotesia", desired = false, reason = "Disable \"Infestation Performance Overhaul\"!")
     public boolean infestationOverhaul = true;
 }

@@ -28,6 +28,6 @@ public abstract class OverlordHaunterRangedFix {
     private void srpmixins_fixRangedDmg(World worldIn, EntityLivingBase ownerIn, Entity targetIn, float damage, CallbackInfo ci){
         if (this.owner instanceof EntityTerla) this.damage = SRPMixinsConfigHandler.dmgfix.overlordProjectileDamage * SRPConfig.globalDamageMultiplier;
         if (this.owner instanceof EntityPheon) this.damage = SRPMixinsConfigHandler.dmgfix.haunterProjectileDamage * SRPConfig.globalDamageMultiplier;
-        this.damage *= DimensionMultiConfigProvider.dimensionDmgMultipliers.getOrDefault(this.owner.world.provider.getDimension(),1F);
+        this.damage *= DimensionMultiConfigProvider.getDmgMap().getOrDefault(this.owner.world.provider.getDimension(),1F);
     }
 }

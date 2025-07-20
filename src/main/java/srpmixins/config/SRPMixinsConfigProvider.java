@@ -8,6 +8,14 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SRPMixinsConfigProvider {
+    // ---- these belong to DimensionMultiConfigProvider but SRPCotesia already expects them here woops ----
+    public static final Map<Integer,Float> dimensionHealthMultipliers = new HashMap<>();
+    public static final Map<Integer,Float> dimensionDmgMultipliers = new HashMap<>();
+    public static final Map<Integer,Float> dimensionArmorMultipliers = new HashMap<>();
+    public static final Map<Integer,Float> dimensionKBResMultipliers = new HashMap<>();
+    // -----------------------------------------------------------------------------------------------------
+
+
     public static final Map<Integer, Set<String>> biomeSpawningBlacklists = new HashMap<>();
     public static float playerNeedlerMulti = 0.4F;
     public static List<Integer> whiteListedDeterrents;

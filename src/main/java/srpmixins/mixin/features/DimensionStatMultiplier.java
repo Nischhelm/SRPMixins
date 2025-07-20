@@ -25,10 +25,10 @@ public abstract class DimensionStatMultiplier extends EntityMob {
     protected void applyEntityAttributes() {
         super.applyEntityAttributes();
         if (world.isRemote) return;
-        float hp_multiplier = DimensionMultiConfigProvider.dimensionHealthMultipliers.getOrDefault(dimension, 1F) - 1F;
-        float dmg_multiplier = DimensionMultiConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension, 1F) - 1F;
-        float armor_multiplier = DimensionMultiConfigProvider.dimensionArmorMultipliers.getOrDefault(dimension, 1F) - 1F;
-        float kbres_multiplier = DimensionMultiConfigProvider.dimensionKBResMultipliers.getOrDefault(dimension, 1F) - 1F;
+        float hp_multiplier = DimensionMultiConfigProvider.getHPMap().getOrDefault(dimension, 1F) - 1F;
+        float dmg_multiplier = DimensionMultiConfigProvider.getDmgMap().getOrDefault(dimension, 1F) - 1F;
+        float armor_multiplier = DimensionMultiConfigProvider.getArmorMap().getOrDefault(dimension, 1F) - 1F;
+        float kbres_multiplier = DimensionMultiConfigProvider.getKBResMap().getOrDefault(dimension, 1F) - 1F;
         //multiplier--;    //op2 uses x(1+multiplier), so need to -1
 
         if (Math.abs(hp_multiplier) > 1e-3) {  //if it's close to 0 (x1) we don't need to bother

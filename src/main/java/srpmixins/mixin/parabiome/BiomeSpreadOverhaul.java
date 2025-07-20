@@ -21,6 +21,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.rules.BlockTransformationRule;
+import srpmixins.util.compat.CompatUtil;
+import srpmixins.util.compat.CotesiaCompat;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 import java.util.Arrays;
@@ -40,6 +42,8 @@ public abstract class BiomeSpreadOverhaul {
      */
     @Overwrite(remap = false)
     public static void spreadBiomeBlockStain(World worldIn, BlockPos startPos, Random rand) {
+        if(CompatUtil.isCotesiaLoaded()) if(CotesiaCompat.spreadBiomeInject(worldIn, startPos, rand)) return;
+
         if(SRPMixinsConfigHandler.parabiome.fixBiomeSpreadingLimit && blockParasiteCount > SRPConfig.BlockParasiteLimit) return;
 
         int convertedCount = 0;
@@ -97,6 +101,9 @@ public abstract class BiomeSpreadOverhaul {
                 block instanceof BlockHorizontal ||
                 block instanceof BlockTNT ||
                 block instanceof IPlantable) return true;
+
+        if(CompatUtil.isCotesiaLoaded() && CotesiaCompat.isUncorruptible(block)) return true;
+
         else {
             if(srpmixins$listedBlocks.contains(block)) return !SRPConfigWorld.blockBBiomeListWhite;
             ResourceLocation loc = block.getRegistryName();
@@ -115,6 +122,8 @@ public abstract class BiomeSpreadOverhaul {
      */
     @Overwrite(remap = false)
     public static void spreadBiomeBlockTrunk(World worldIn, BlockPos startPos, Random rand) {
+        if(CompatUtil.isCotesiaLoaded()) if(CotesiaCompat.spreadBiomeInject(worldIn, startPos, rand)) return;
+
         int convertedCount = 0;
         for (BlockPos.MutableBlockPos blockPos : BlockPos.getAllInBoxMutable(startPos.add(-1, -1, -1), startPos.add(1,1,1))) {
             IBlockState lookingState = worldIn.getBlockState(blockPos);

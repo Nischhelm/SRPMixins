@@ -25,6 +25,6 @@ public abstract class BombFix {
         if(tntPlacedBy == null) return in;
         if(tntPlacedBy instanceof EntityJinjo) return in;
         int dimension = tntPlacedBy.dimension;
-        return in * DimensionMultiConfigProvider.dimensionDmgMultipliers.getOrDefault(dimension,1F);
+        return in * DimensionMultiConfigProvider.getDmgMap().getOrDefault(dimension,1F);
     }
 }

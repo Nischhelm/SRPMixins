@@ -31,6 +31,8 @@ import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.util.compat.CompatUtil;
+import srpmixins.util.compat.CotesiaCompat;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 import java.util.*;
@@ -48,7 +50,7 @@ public abstract class InfestationOverhaul {
     @Overwrite(remap = false)
     public static void canInfestBlock(World worldIn, BlockPos startPos, Random rand, int beckonStage, boolean alwaysTrue) {
         if(beckonStage >= 4){ //stage 4 never actually happens
-            infestationReversionLogic(worldIn, startPos, beckonStage);
+            srpmixins$infestationReversionLogic(worldIn, startPos, beckonStage);
             return;
         }
 
@@ -149,16 +151,21 @@ public abstract class InfestationOverhaul {
             if (SRPConfigSystems.useEvolution) {
                 SRPSaveData data = SRPSaveDataInterface.get(worldIn, null, startPos);
 
-                if(SRPMixinsConfigHandler.phasepoints.infestationPenaltyPhase >= 0 && data.getEvolutionPhase(worldIn.provider.getDimension()) < SRPMixinsConfigHandler.phasepoints.infestationPenaltyPhase) return;
+                int dimId = worldIn.provider.getDimension();
+                if(SRPMixinsConfigHandler.phasepoints.infestationPenaltyPhase >= 0 && data.getEvolutionPhase(dimId) < SRPMixinsConfigHandler.phasepoints.infestationPenaltyPhase) return;
 
-                if (maxPivotLvl != 0) data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount * SRPConfigSystems.pivotPointMultiplier * maxPivotLvl, true, worldIn, true);
-                else data.setTotalKills(worldIn.provider.getDimension(), SRPConfigSystems.valueBlock * convertedCount, true, worldIn, true);
+                int pointsToAdd = SRPConfigSystems.valueBlock * convertedCount;
+                if (maxPivotLvl != 0) pointsToAdd *= SRPConfigSystems.pivotPointMultiplier * maxPivotLvl;
+
+                if(CompatUtil.isCotesiaLoaded()) CotesiaCompat.countInfestationPointsToPlayer(data, dimId, pointsToAdd, true, worldIn, true, true);
+
+                data.setTotalKills(dimId, pointsToAdd, true, worldIn, true);
             }
         }
     }
 
     @Unique
-    private static void infestationReversionLogic(World worldIn, BlockPos startPos, int beckonStage) {
+    private static void srpmixins$infestationReversionLogic(World worldIn, BlockPos startPos, int beckonStage) {
         BlockPos blockPosAbove = startPos.up();
         Block blockAboveStartPos = worldIn.getBlockState(blockPosAbove).getBlock();
 
@@ -205,10 +212,11 @@ public abstract class InfestationOverhaul {
         if (worldIn.getLightBrightness(blockPosAbove) > 0.46666667F) return;
         if (worldIn.getLightFor(EnumSkyBlock.BLOCK, blockPosAbove) > 7) return;
 
-        EntityVenkrol out = new EntityVenkrol(worldIn);
-        out.setLocationAndAngles(startPos.getX(), startPos.getY() + 1, startPos.getZ(), 0.0F, 0.0F);
-        worldIn.spawnEntity(out);
-        out.cannotDespawn(true);
+        EntityVenkrol newBeckon = new EntityVenkrol(worldIn);
+        newBeckon.setLocationAndAngles(startPos.getX(), startPos.getY() + 1, startPos.getZ(), 0.0F, 0.0F);
+        worldIn.spawnEntity(newBeckon);
+        newBeckon.cannotDespawn(true);
+        if(CompatUtil.isCotesiaLoaded()) CotesiaCompat.handleSpawnedBeckon(worldIn, true, newBeckon);
     }
 
     @Unique private static final Set<Block> srpmixins$listedBlocks = new HashSet<>();
