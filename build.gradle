@@ -45,9 +45,6 @@ minecraft {
 repositories {
     flatDir { dirs 'libs' }
 
-    maven { // Game stages
-        url = "https://maven.mcmoddev.com/"
-    }
     maven { url = 'https://www.cursemaven.com' }
 }
 
@@ -69,8 +66,8 @@ dependencies {
     implementation fg.deobf("curse.maven:scape-and-spartan-parasites-${swparasites_version}")
     implementation fg.deobf("curse.maven:spartan-weaponry-${spartanweaponry_version}")
     implementation fg.deobf("curse.maven:in-control-${incontrol_version}")
+    implementation fg.deobf("libs:mcjtytools:${mcjtytools_version}") //recompiled bc old af gradle https://github.com/McJtyMods/McJtyTools/pull/2
 
-    //implementation "com.github.mcjty:mcjtytools:${mcjtytools_version}"
 
     //Addons
     implementation fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")

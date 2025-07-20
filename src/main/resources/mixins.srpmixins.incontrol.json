@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.modcompat.incontrol",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "RulesMixin",
+    "GenericRuleEvaluatorMixin"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

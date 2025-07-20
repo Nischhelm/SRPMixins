@@ -51,15 +51,29 @@ public class ModCompatConfig {
     @Config.RequiresMcRestart
     public boolean enableOverLastCustomPhases = true;
 
-    @Config.Comment("Set to true to make \"Scape and Spartan\" weapons also ignore parasite damage caps.")
-    @Config.Name("Scape and Parasites Compat - Ignore Dmg Cap")
+    @Config.Comment("Set to true to make \"Scape and Spartan: Parasites\" weapons also ignore parasite damage caps.")
+    @Config.Name("Scape and Spartan: Parasites Compat - Ignore Dmg Cap")
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.swparasites.json", defaultValue = false)
     @MixinConfig.CompatHandling(
             modid = "swparasites",
             desired = true,
-            reason = "Mod Compat for Spartan and Parasites, requires Spartan and Parasites"
+            reason = "Mod Compat for Scape and Spartan: Parasites, requires Scape and Spartan: Parasites"
     )
     @Config.RequiresMcRestart
     public boolean enableSWParasitesCompat = false;
+
+    @Config.Comment("This allows using some additional rules in InControl specifically for SRP\n" +
+            "New Rules: \"srp_minphase\", \"srp_maxphase\", \"srp_minnodes\", \"srp_maxnodes\", \"srp_mincolos\", \"srp_maxcolos\"\n" +
+            "All rules take a single integer number as comparison and can be used in any incontrol json.\n" +
+            "Note: Nodes and Colonies are counted over all dimensions, thats just how SRP works")
+    @Config.Name("In Control Compat - Add Rules")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.incontrol.json", defaultValue = false)
+    @MixinConfig.CompatHandling(
+            modid = "incontrol",
+            desired = true,
+            reason = "Mod Compat for In Control, requires In Control"
+    )
+    @Config.RequiresMcRestart
+    public boolean enableInControlCompat = false;
 
 }
