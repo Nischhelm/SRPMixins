@@ -1,4 +1,4 @@
-package srpmixins.util.compat.overlast;
+package srpmixins.compat.overlast;
 
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;

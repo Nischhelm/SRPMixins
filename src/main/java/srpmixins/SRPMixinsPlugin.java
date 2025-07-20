@@ -6,7 +6,7 @@ import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
 import srpmixins.config.EarlyConfigReader;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.util.compat.overlast.OverLastCompat;
+import srpmixins.compat.overlast.OverLastCompat;
 
 import java.util.Map;
 

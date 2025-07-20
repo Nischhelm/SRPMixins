@@ -1,4 +1,4 @@
-package srpmixins.util.compat;
+package srpmixins.compat;
 
 import net.minecraftforge.fml.common.Loader;
 

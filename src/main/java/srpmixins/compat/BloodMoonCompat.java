@@ -1,4 +1,4 @@
-package srpmixins.util.compat;
+package srpmixins.compat;
 
 import lumien.bloodmoon.server.BloodmoonHandler;
 

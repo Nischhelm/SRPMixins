@@ -26,8 +26,8 @@ import srpmixins.handlers.*;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.MinMaxDayPerPhaseRule;
 import srpmixins.rules.MobCapRule;
-import srpmixins.util.compat.CompatUtil;
-import srpmixins.util.compat.LycanitesMobsCompat;
+import srpmixins.compat.CompatUtil;
+import srpmixins.compat.LycanitesMobsCompat;
 
 @Mod(
         modid = SRPMixins.MODID,

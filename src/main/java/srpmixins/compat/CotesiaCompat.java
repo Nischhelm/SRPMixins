@@ -1,4 +1,4 @@
-package srpmixins.util.compat;
+package srpmixins.compat;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationaryArchitect;
 import com.dhanantry.scapeandrunparasites.entity.monster.deterrent.nexus.EntityVenkrol;

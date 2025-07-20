@@ -21,8 +21,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.rules.BlockTransformationRule;
-import srpmixins.util.compat.CompatUtil;
-import srpmixins.util.compat.CotesiaCompat;
+import srpmixins.compat.CompatUtil;
+import srpmixins.compat.CotesiaCompat;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 import java.util.Arrays;

@@ -1,4 +1,4 @@
-package srpmixins.util.compat.crafttweaker;
+package srpmixins.compat.crafttweaker;
 
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import crafttweaker.annotations.ZenRegister;

@@ -1,4 +1,4 @@
-package srpmixins.util.compat.overlast;
+package srpmixins.compat.overlast;
 
 public interface IStatBar {
     void srpmixins$setMinValue(float minValue);

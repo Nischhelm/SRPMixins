@@ -1,4 +1,4 @@
-package srpmixins.util.compat;
+package srpmixins.compat;
 
 import com.lycanitesmobs.core.spawner.SpawnerManager;
 

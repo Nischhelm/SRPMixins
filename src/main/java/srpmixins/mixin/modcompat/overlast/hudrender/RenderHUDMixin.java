@@ -17,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.util.compat.overlast.IStatBar;
+import srpmixins.compat.overlast.IStatBar;
 
 @Mixin(RenderHUD.class)
 public abstract class RenderHUDMixin {

@@ -44,6 +44,10 @@ minecraft {
 
 repositories {
     flatDir { dirs 'libs' }
+
+    maven { // Game stages
+        url = "https://maven.mcmoddev.com/"
+    }
     maven { url = 'https://www.cursemaven.com' }
 }
 
@@ -64,7 +68,9 @@ dependencies {
     implementation fg.deobf("curse.maven:parasites-addon-overlast-${srpoverlast_version}")
     implementation fg.deobf("curse.maven:scape-and-spartan-parasites-${swparasites_version}")
     implementation fg.deobf("curse.maven:spartan-weaponry-${spartanweaponry_version}")
-    implementation fg.deobf("curse.maven:quark-${quark_version}")
+    implementation fg.deobf("curse.maven:in-control-${incontrol_version}")
+
+    //implementation "com.github.mcjty:mcjtytools:${mcjtytools_version}"
 
     //Addons
     implementation fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")
