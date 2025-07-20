@@ -12,6 +12,7 @@ public class SRPMobConfigProvider {
     public static final Map<String, Byte> mobNameToParaTypeMap = new HashMap<>();
     public static final Map<Integer, String> paraIdToMobName;
     public static final Map<String, List<Integer>> mobGroupToParaIdMap = new HashMap<>();
+    public static final Map<String, List<Integer>> mobNameToVariantsMap = new HashMap<>();
 
     private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
 
@@ -395,5 +396,38 @@ public class SRPMobConfigProvider {
         mobNameToParaTypeMap.put("haunter", (byte) 63);
         mobNameToParaTypeMap.put("movingflesh", (byte) 100);
         mobNameToParaTypeMap.put("biomass", (byte) 100);
+
+        mobNameToVariantsMap.put("ada_arachnida", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("ada_bolster", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("ada_longarms", Arrays.asList(1, 5, 6, 7));
+        mobNameToVariantsMap.put("ada_manducater", Arrays.asList(7));
+        mobNameToVariantsMap.put("ada_reeker", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("ada_summoner", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("ada_yelloweye", Arrays.asList(7));
+        mobNameToVariantsMap.put("pri_arachnida", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("pri_bolster", Arrays.asList(5, 7));
+        mobNameToVariantsMap.put("pri_devourer", Arrays.asList(7));
+        mobNameToVariantsMap.put("pri_longarms", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("pri_manducater", Arrays.asList(7));
+        mobNameToVariantsMap.put("pri_reeker", Arrays.asList(1, 5, 6, 7));
+        mobNameToVariantsMap.put("pri_summoner", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("pri_yelloweye", Arrays.asList(7));
+        mobNameToVariantsMap.put("rupter", Arrays.asList(5, 6));
+        mobNameToVariantsMap.put("mangler", Arrays.asList(5, 6));
+        mobNameToVariantsMap.put("thrall", Arrays.asList(1));
+        mobNameToVariantsMap.put("carrier_flying", Arrays.asList(1));
+        mobNameToVariantsMap.put("carrier_light", Arrays.asList(1));
+        mobNameToVariantsMap.put("carrier_heavy", Arrays.asList(1));
+        mobNameToVariantsMap.put("sim_enderman", Arrays.asList(-1));
+        mobNameToVariantsMap.put("sim_squid", Arrays.asList(7));
+        mobNameToVariantsMap.put("overseer", Arrays.asList(7));
+        mobNameToVariantsMap.put("vigilante", Arrays.asList(7));
+        mobNameToVariantsMap.put("marauder", Arrays.asList(7));
+        mobNameToVariantsMap.put("grunt", Arrays.asList(5, 6, 7));
+        mobNameToVariantsMap.put("warden", Arrays.asList(7));
+        mobNameToVariantsMap.put("bomber_light", Arrays.asList(7));
+        mobNameToVariantsMap.put("monarch", Arrays.asList(1, 7));
+        mobNameToVariantsMap.put("haunter", Arrays.asList(1));
+        mobNameToVariantsMap.put("carrier_colony", Arrays.asList(1));
     }
 }

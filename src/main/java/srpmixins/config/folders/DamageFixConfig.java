@@ -61,4 +61,22 @@ public class DamageFixConfig {
     @Config.Name("Fix Arachnida Pull - Adapted Range")
     @Config.RangeInt(min = 0)
     public float adaArachPullBallHit = 2.5F;
+
+    /*@Config.Comment("Add rules for parasite variants. You can specify mob groups (PRIMITIVE, ADAPTED, PURE, PREEMINENT, INBORN, ASSIMILATED, CRUDE), specific mobs, specific variants (VIRAL, BLEEDING, BREACHER, SPECIAL), dimension id, minphase and maxphase, optional HP, ARMOR, DMG, SPEED attribute multipliers and mainly weights.\n" +
+            "So to fully disable breachers you just do \"[variant = BREACHER] [weight = 0]\"\n" +
+            "or to disable viral rupters until phase 4 you write \"[para = rupter] [variant = VIRAL] [phase <= 3] [weight = 0]\".\n" +
+            "Default entries show what variants SRP has set up. Variants that don't exist in SRP will be ignored.")
+    @Config.Name("Variant Weights")
+    @Config.RangeInt(min = 0)
+    public String[] variantRules = {
+            "[para = ada_longarms] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 2]",
+            "[para = carrier_colony] [variant = SPECIAL] [weight = 1] [armor = 1.5] [speed = 0.25]",
+            "[para = pri_reeker] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
+            "[para = monarch] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
+            "[para = haunter] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
+            "[para = thrall] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
+            "[variant = VIRAL] [weight = 1]",
+            "[variant = BLEEDING] [weight = 1]",
+            "[variant = BREACHER] [weight = 1]"
+    };*/
 }
