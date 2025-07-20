@@ -54,6 +54,8 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         srpmixins$uuidtmp = "";
         storage.setData("srparasites_global_data" + playerUUID, instance);
 
+        ((SRPSaveDataMixin) (Object) instance).srpmixins$setUUID(playerUUID);
+
         instance.getLockedList().addAll(SRPConfigProvider.lockedParasites);
 
         for (Map.Entry<Integer, List<Integer>> entry : SRPConfigProvider.evolutionStartPerDimension.entrySet()) {
@@ -103,10 +105,8 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         if(playerUUID!=null) {
             MapStorage storage = world.getPerWorldStorage();
             SRPSaveData instancePlayer = (SRPSaveData) storage.getOrLoadData(SRPSaveData.class, "srparasites_global_data" + playerUUID);
-            if (instancePlayer == null) {
-                instancePlayer = srpmixins$createForPlayer(world,playerUUID, storage);
-            }
-            ((SRPSaveDataInterface) instancePlayer).srpmixins$setUUID(playerUUID);
+            if (instancePlayer == null) instancePlayer = srpmixins$createForPlayer(world,playerUUID, storage);
+            ((SRPSaveDataInterface) instancePlayer).srpmixins$setUUID(playerUUID); //idk why this is here but it shouldnt be an issue
             return instancePlayer;
         }
         if(SRPMixinsConfigHandler.playerphases.playerPhaseDebugMode)

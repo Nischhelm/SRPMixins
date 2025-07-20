@@ -42,7 +42,7 @@ public class SRPConfigProvider {
     private static List<Integer> phasePointThresholds = null;
     public static int getPhaseMinPoints(byte phase){
         if(SRPMixinsConfigHandler.morephases.enableMorePhases)
-            return SRPMixinsConfigHandler.morephases.phaseKills[phase];
+            return SRPMixinsConfigHandler.morephases.phaseKills[MathHelper.clamp(phase, 0, getMaxPhase())];
 
         if(phasePointThresholds == null) {
             phasePointThresholds = Arrays.asList(

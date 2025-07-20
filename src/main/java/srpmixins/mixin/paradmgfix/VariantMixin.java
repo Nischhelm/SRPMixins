@@ -62,7 +62,7 @@ public abstract class VariantMixin extends EntityParasiteBase {
 
     @ModifyExpressionValue(
             method = "onInitialSpawn",
-            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;variantChance:D")
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;variantChance:D", remap = false)
     )
     private double srpmixins_changeVariants(double original){
         if(this.phaseCreated >= SRPConfigSystems.evolutionParasiteAlwaysVariant || this.canChangeVariant) return 0;
