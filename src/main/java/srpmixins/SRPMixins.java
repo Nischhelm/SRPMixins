@@ -15,6 +15,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
 import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
+import srpmixins.compat.CompatUtil;
+import srpmixins.compat.LycanitesMobsCompat;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
@@ -26,8 +28,6 @@ import srpmixins.handlers.*;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.MinMaxDayPerPhaseRule;
 import srpmixins.rules.MobCapRule;
-import srpmixins.compat.CompatUtil;
-import srpmixins.compat.LycanitesMobsCompat;
 
 @Mod(
         modid = SRPMixins.MODID,

@@ -1,9 +1,9 @@
 package srpmixins.rules;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
-import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.compat.BloodMoonCompat;
 import srpmixins.compat.CompatUtil;
+import srpmixins.config.SRPMixinsConfigHandler;
 
 import java.util.ArrayList;
 import java.util.HashMap;
