@@ -22,7 +22,7 @@ public abstract class SRPSaveDataMixin {
         //Phase up
         if(currPhase >= -1 && currPhase < SRPMixinsConfigHandler.morephases.maxEvolutionPhase && currPoints >= SRPMixinsConfigHandler.morephases.phaseKills[currPhase+1]) {
             if(setEvolutionPhase(dimId, (byte) (currPhase + 1), false, worldIn, canChangePhase)) { //will always be true if increasing
-                ParasiteEventEntity.alertAllPlayerDim(worldIn, SRPMixinsConfigHandler.morephases.phaseWarning[currPhase+1], 0);
+                ParasiteEventEntity.alertAllPlayerDim(worldIn, SRPMixinsConfigHandler.morephases.phaseWarning[currPhase+1], currPhase+1);
                 return false;
             }
         }
