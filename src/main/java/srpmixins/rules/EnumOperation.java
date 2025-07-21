@@ -29,4 +29,15 @@ public enum EnumOperation {
         }
         return null;
     }
+
+    public String toString(){
+        switch (this) {
+            case EQUAL: return "=";
+            case LESS: return "<";
+            case GREATER: return ">";
+            case LESS_EQUAL: return "<=";
+            case GREATER_EQUAL: return ">=";
+            default: return "";
+        }
+    }
 }

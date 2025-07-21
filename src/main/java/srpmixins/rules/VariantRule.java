@@ -1,6 +1,7 @@
 package srpmixins.rules;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.providers.SRPMobConfigProvider;
 
@@ -26,19 +27,19 @@ public class VariantRule {
                 break;
             }
 
-        List<EnumVariant> availableVariants = SRPMobConfigProvider.mobNameToVariantsMap.get(mobName);
+        List<EnumVariant> availableVariants = new ArrayList<>(SRPMobConfigProvider.mobNameToVariantsMap.get(mobName));
         if(availableVariants.isEmpty()) return null;
 
         for(VariantRule rule : allRules) rule.disableVariants(availableVariants, paraId, group, dimId, currPhase);
 
         if(availableVariants.isEmpty()) return null;
-        return availableVariants.get(rand.nextInt(availableVariants.size())); //rand
+        return availableVariants.get(rand.nextInt(availableVariants.size()));
     }
     public static boolean hasNoRules() {
         return allRules.isEmpty();
     }
 
-    private final List<EnumVariant> variantsToDisable = new ArrayList<>();
+    private final Set<EnumVariant> variantsToDisable = new HashSet<>();
     private final List<Integer> mobids = new ArrayList<>();
     private final Map<Integer, EnumOperation> phaseRules = new HashMap<>();
     private Integer dimId = null;
@@ -63,6 +64,25 @@ public class VariantRule {
             else if(s.contains("dim")) dimId = Integer.parseInt(s.replaceFirst("dim *=","").trim());
             else if(s.contains("group")) group = s.replaceFirst("group *=","").trim();
         }
+    }
+
+    public String toString(){
+        StringBuilder s = new StringBuilder();
+        if(dimId != null) s.append("[dim = ").append(dimId).append("] ");
+        if(!phaseRules.isEmpty()) for (Map.Entry<Integer, EnumOperation> entry : phaseRules.entrySet())
+            s.append("[phase ").append(entry.getValue().toString()).append(" ").append(entry.getKey()).append("] ");
+        if(!mobids.isEmpty()){
+            s.append("[mob =");
+            for(int paraId : mobids) s.append(" ").append(SRPMobConfigProvider.paraIdToMobName.get(paraId));
+            s.append("] ");
+        }
+        if(group != null) s.append("[group = ").append(group).append("] ");
+
+        s.append("[variant =");
+        for(EnumVariant var : variantsToDisable) s.append(" ").append(var.toString());
+        s.append("]");
+
+        return s.toString();
     }
 
     public void disableVariants(List<EnumVariant> availableVariants, int paraId, String group, int dimId, byte phase) {

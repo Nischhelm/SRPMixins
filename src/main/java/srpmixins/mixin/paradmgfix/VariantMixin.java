@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.rules.VariantRule;
 
 @Mixin(value = {
@@ -62,18 +63,27 @@ public abstract class VariantMixin extends EntityParasiteBase {
 
     @ModifyExpressionValue(
             method = "onInitialSpawn",
+            at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;evolutionParasiteAlwaysVariant:B", remap = false)
+    )
+    private byte srpmixins_ignoreOriginalHandling(byte original){
+        if(VariantRule.hasNoRules()) return original; //Soft-disable mixin if no rules
+        return (byte) (SRPConfigProvider.getMaxPhase() + 1);
+    }
+
+    @ModifyExpressionValue(
+            method = "onInitialSpawn",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;variantChance:D", remap = false)
     )
     private double srpmixins_changeVariants(double original){
-        if(this.canChangeVariant) return SRPConfig.variantChance;
-        if(VariantRule.hasNoRules()) return SRPConfig.variantChance;
+        if(VariantRule.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
+        if(this.canChangeVariant) return 0; //afaik just for variant staff but idk
         if(this.phaseCreated < SRPConfigSystems.evolutionParasiteAlwaysVariant && this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0;
 
         int paraId = this.getParasiteIDRegister();
-        VariantRule.EnumVariant variant = VariantRule.getRandomVariant(paraId, this.world.provider.getDimension(), this.phaseCreated, this.getRNG());
-        if(variant == null) return 0; //all variants disabled
+        VariantRule.EnumVariant chosenVariant = VariantRule.getRandomVariant(paraId, this.world.provider.getDimension(), this.phaseCreated, this.getRNG());
+        if(chosenVariant == null) return 0; //all variants disabled
 
-        if(variant.skinId == 1) {
+        if(chosenVariant.skinId == 1) {
             switch (paraId){
                 case 88: //carrier_colony
                     this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("ARMORED", +0.5, 2));
@@ -92,7 +102,7 @@ public abstract class VariantMixin extends EntityParasiteBase {
             }
         }
 
-        this.setSkin(variant.skinId);
-        return 0;
+        this.setSkin(chosenVariant.skinId);
+        return 0; //Original code will not run
     }
 }
