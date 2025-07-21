@@ -12,13 +12,13 @@ import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityV
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import srpmixins.config.providers.SRPMobConfigProvider;
-
-import java.util.List;
+import srpmixins.rules.VariantRule;
 
 @Mixin(value = {
         EntityBanoAdapted.class,
@@ -65,17 +65,34 @@ public abstract class VariantMixin extends EntityParasiteBase {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;variantChance:D", remap = false)
     )
     private double srpmixins_changeVariants(double original){
-        if(this.phaseCreated >= SRPConfigSystems.evolutionParasiteAlwaysVariant || this.canChangeVariant) return 0;
-
-        if(this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0;
+        if(this.canChangeVariant) return SRPConfig.variantChance;
+        if(VariantRule.hasNoRules()) return SRPConfig.variantChance;
+        if(this.phaseCreated < SRPConfigSystems.evolutionParasiteAlwaysVariant && this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0;
 
         int paraId = this.getParasiteIDRegister();
-        String mobName = SRPMobConfigProvider.paraIdToMobName.get(paraId);
-        List<Integer> availableVariants = SRPMobConfigProvider.mobNameToVariantsMap.get(mobName);
-        String mobGroup = "";
-        byte phaseCreated = this.phaseCreated;
-        int dimId = this.world.provider.getDimension();
+        VariantRule.EnumVariant variant = VariantRule.getRandomVariant(paraId, this.world.provider.getDimension(), this.phaseCreated, this.getRNG());
+        if(variant == null) return 0; //all variants disabled
 
+        if(variant.skinId == 1) {
+            switch (paraId){
+                case 88: //carrier_colony
+                    this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("ARMORED", +0.5, 2));
+                    this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("ARMORED", -0.75, 2));
+                    break;
+                case 51: //ada_longarms
+                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("TYRANT", +1, 2));
+                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("TYRANT", -0.5, 2));
+                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
+                    break;
+                case 10: case 80: case 84: case 87: //pri_reeker, thrall, monarch, haunter
+                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("SPECIAL", +0.5, 2));
+                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("SPECIAL", -0.5, 2));
+                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
+                    break;
+            }
+        }
+
+        this.setSkin(variant.skinId);
         return 0;
     }
 }

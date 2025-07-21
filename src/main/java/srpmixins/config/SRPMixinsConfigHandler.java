@@ -15,6 +15,7 @@ import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.MinMaxDayPerPhaseRule;
 import srpmixins.rules.MobCapRule;
+import srpmixins.rules.VariantRule;
 
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
@@ -114,6 +115,7 @@ public class SRPMixinsConfigHandler {
 				MobCapRule.reset();
 				MinMaxDayPerPhaseRule.reset();
 				ConversionPathways.reset();
+				VariantRule.reset();
 
 				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length > 0) {
 					SRPMobConfigProvider.reset();

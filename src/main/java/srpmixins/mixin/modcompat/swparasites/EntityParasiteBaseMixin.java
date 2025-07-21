@@ -24,7 +24,7 @@ public abstract class EntityParasiteBaseMixin extends EntityMob {
             method = "attackEntityFrom",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getItem()Lnet/minecraft/item/Item;", ordinal = 0)
     )
-    private Item srpmixins(
+    private Item srpmixins_uncappedSWPItems(
             Item original,
             @Cancellable CallbackInfoReturnable<Boolean> cir,
             @Local(argsOnly = true) DamageSource source,

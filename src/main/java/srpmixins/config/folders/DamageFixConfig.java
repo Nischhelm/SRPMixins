@@ -62,21 +62,25 @@ public class DamageFixConfig {
     @Config.RangeInt(min = 0)
     public float adaArachPullBallHit = 2.5F;
 
-    /*@Config.Comment("Add rules for parasite variants. You can specify mob groups (PRIMITIVE, ADAPTED, PURE, PREEMINENT, INBORN, ASSIMILATED, CRUDE), specific mobs, specific variants (VIRAL, BLEEDING, BREACHER, SPECIAL), dimension id, minphase and maxphase, optional HP, ARMOR, DMG, SPEED attribute multipliers and mainly weights.\n" +
-            "So to fully disable breachers you just do \"[variant = BREACHER] [weight = 0]\"\n" +
-            "or to disable viral rupters until phase 4 you write \"[para = rupter] [variant = VIRAL] [phase <= 3] [weight = 0]\".\n" +
-            "Default entries show what variants SRP has set up. Variants that don't exist in SRP will be ignored.")
-    @Config.Name("Variant Weights")
-    @Config.RangeInt(min = 0)
+    @Config.Comment("Add rules to disable parasite variants. You can specify:\n" +
+            "\t- group: mob group (INBORN, PRIMITIVE, ADAPTED, PURE, PREEMINENT)\n" +
+            "\t- mob: specific mob or spacebar-separated list of mobs\n" +
+            "\t- dim: dimension id\n" +
+            "\t- phase: minphase and/or maxphase using operations >,<,=,<=,>=\n" +
+            "\t- variant: VIRULENT (green), BERSERKER (red), BREACHER (purple/dark) or SPECIAL (see below), can be multiple spacebar-separated ones" +
+            "In situations where a rule is applicable, the named variant will be disabled.\n" +
+            "Example: To disable all breacher parasites until phase 5 you do \"[phase <= 5] [variant = BREACHER]\"\n" +
+            "Available variants:\n" +
+            "Parasites that have VIRULENT, BERSERKER and BREACHER variants: ada_arachnida, ada_bolster, ada_longarms, ada_reeker, ada_summoner, pri_arachnida, pri_longarms, pri_reeker, pri_summoner, grunt\n" +
+            "Parasites that have a BREACHER variant but no VIRULENT/BERSERKER: ada_manducater, ada_yelloweye, pri_devourer, pri_manducater, pri_yelloweye, all pures except grunt (light_bomber, marauder, monarch, overseer, vigilante, warden)\n" +
+            "Rupters and Manglers only have VIRULENT and BERSERKER variants, but no BREACHER.\n" +
+            "Primitive Bolsters only have VIRULENT and BREACHER variants, but no BERSERKER\n" +
+            "SPECIAL cases: \n" +
+            "\t- Variants with changed stats: ada_longarms (tyrant), carrier_colony (armored), haunter (armored), pri_reeker (pale), monarch (deviantive), thrall (unnamed, no skin change)\n" +
+            "\t- All three carriers (light_carrier, heavy_carrier, flying_carrier) have empty variant\n" +
+            "\t- sim_enderman has crawling variant"
+    )
+    @Config.Name("Variant Disable Rules")
     public String[] variantRules = {
-            "[para = ada_longarms] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 2]",
-            "[para = carrier_colony] [variant = SPECIAL] [weight = 1] [armor = 1.5] [speed = 0.25]",
-            "[para = pri_reeker] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
-            "[para = monarch] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
-            "[para = haunter] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
-            "[para = thrall] [variant = SPECIAL] [weight = 1] [hp = 0.5] [dmg = 1.5]",
-            "[variant = VIRAL] [weight = 1]",
-            "[variant = BLEEDING] [weight = 1]",
-            "[variant = BREACHER] [weight = 1]"
-    };*/
+    };
 }

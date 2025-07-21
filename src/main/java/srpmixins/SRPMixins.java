@@ -28,6 +28,7 @@ import srpmixins.handlers.*;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.MinMaxDayPerPhaseRule;
 import srpmixins.rules.MobCapRule;
+import srpmixins.rules.VariantRule;
 
 @Mod(
         modid = SRPMixins.MODID,
@@ -53,6 +54,7 @@ public class SRPMixins {
         ConversionPathways.init();
         MobCapRule.init();
         MinMaxDayPerPhaseRule.init();
+        VariantRule.init();
         ChunkPhaseConfigProvider.init();
         DimensionMultiConfigProvider.init();
 
