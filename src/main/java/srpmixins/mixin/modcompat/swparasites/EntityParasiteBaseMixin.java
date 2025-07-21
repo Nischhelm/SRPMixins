@@ -1,13 +1,11 @@
 package srpmixins.mixin.modcompat.swparasites;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
-import com.existingeevee.swparasites.init.weapons.ParasiteSWLiving;
-import com.existingeevee.swparasites.init.weapons.ParasiteSWSentient;
+import com.existingeevee.swparasites.init.ParasiteSWProperties;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Cancellable;
 import com.llamalad7.mixinextras.sugar.Local;
-import com.oblivioussp.spartanweaponry.api.ToolMaterialEx;
-import com.oblivioussp.spartanweaponry.item.ItemSwordBase;
+import com.oblivioussp.spartanweaponry.api.IWeaponPropertyContainer;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.item.Item;
 import net.minecraft.util.DamageSource;
@@ -31,12 +29,12 @@ public abstract class EntityParasiteBaseMixin extends EntityMob {
             @Cancellable CallbackInfoReturnable<Boolean> cir,
             @Local(argsOnly = true) DamageSource source,
             @Local(argsOnly = true) float amount
-    ){
-        if(!(original instanceof ItemSwordBase)) return original; //Default handling
-
-        ToolMaterialEx mat = ((ItemSwordBase) original).getMaterialEx();
-        if(mat == ParasiteSWLiving.livingMaterial || mat == ParasiteSWSentient.sentientMaterial)
-            cir.setReturnValue(super.attackEntityFrom(source, amount));
+    ) {
+        if (original instanceof IWeaponPropertyContainer) {
+            IWeaponPropertyContainer<?> container = (IWeaponPropertyContainer<?>) original;
+            if (container.hasWeaponProperty(ParasiteSWProperties.UNCAPPED))
+                cir.setReturnValue(super.attackEntityFrom(source, amount));
+        }
         return original;
     }
 }

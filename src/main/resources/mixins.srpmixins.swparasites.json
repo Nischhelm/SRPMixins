@@ -6,7 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "EntityParasiteBaseMixin"
+    "EntityParasiteBaseMixin",
+    "SRPSpartanWeaponryMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
