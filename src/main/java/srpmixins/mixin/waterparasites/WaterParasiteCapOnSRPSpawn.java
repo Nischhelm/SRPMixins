@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(SRPWorldEntitySpawner.class)
-public abstract class WaterParasiteCap {
+public abstract class WaterParasiteCapOnSRPSpawn {
 
     @WrapOperation(
             method = "findChunksForSpawning",

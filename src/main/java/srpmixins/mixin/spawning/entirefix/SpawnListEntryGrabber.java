@@ -83,8 +83,8 @@ public abstract class SpawnListEntryGrabber {
         ResourceLocation loc = EntityList.getKey(newEntry.entityClass);
         if(loc == null) return false;
         String mobid = loc.getPath();
-        int paraId = SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
-        if(paraId == -1) return false;
+        int paraId = SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, Integer.MIN_VALUE);
+        if(paraId == Integer.MIN_VALUE) return false;
 
         //This is intended to be equality check, not instanceof
         if(biome == SRPBiomes.biomeInfested) SpawnPotentialsHandler.biomeSpawns.put(newEntry, paraId);

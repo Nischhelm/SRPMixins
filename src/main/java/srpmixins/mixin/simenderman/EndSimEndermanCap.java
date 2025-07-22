@@ -11,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.handlers.WorldMobCapHandler;
 
 @Mixin(ParasiteEventEntity.class)
 public abstract class EndSimEndermanCap {
@@ -21,10 +22,14 @@ public abstract class EndSimEndermanCap {
     private static boolean srpmixins_simmermanCap(World world, Entity entity, Operation<Boolean> original){
         if(srpmixins$isSimmerman(entity))
             if(world.provider.getDimension() == 1) {
-                int simmermancount = (int) world.loadedEntityList.stream().filter(EndSimEndermanCap::srpmixins$isSimmerman).count();
-                if(simmermancount >= SRPMixinsConfigHandler.simmermen.endSimmermenCap) return false;
+                if (SRPMixinsConfigHandler.spawns.fixSpawningEntirely)
+                    if (WorldMobCapHandler.end_simmermanCount >= SRPMixinsConfigHandler.simmermen.endSimmermenCap)
+                        return false;
+                    else {
+                        int simmermancount = (int) world.loadedEntityList.stream().filter(EndSimEndermanCap::srpmixins$isSimmerman).count();
+                        if (simmermancount >= SRPMixinsConfigHandler.simmermen.endSimmermenCap) return false;
+                    }
             }
-
         return original.call(world, entity); //world.spawnEntity(entity)
     }
 

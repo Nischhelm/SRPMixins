@@ -2,15 +2,28 @@ package srpmixins.handlers;
 
 import com.dhanantry.scapeandrunparasites.entity.EntityParasiticScent;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationaryArchitect;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.entity.monster.inborn.EntityAta;
+import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnderman;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfSquid;
+import com.dhanantry.scapeandrunparasites.entity.monster.infected.head.EntityInfEndermanHead;
 import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityLum;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.World;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
+import net.minecraftforge.event.entity.living.LivingSpawnEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
+import srpmixins.compat.CompatUtil;
+import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.event.WorldMobCapEvent;
 import srpmixins.rules.MobCapRule;
@@ -69,17 +82,47 @@ public class WorldMobCapHandler {
     public static final Map<Integer, Integer> waterCount = new HashMap<>();
     public static final Map<Integer, Integer> gnatCount = new HashMap<>();
     public static final Map<Integer, Integer> scentCount = new HashMap<>();
+    public static int end_simmermanCount = 0;
 
     @SubscribeEvent
     public static void onWorldServerTick(TickEvent.WorldTickEvent event){
         if(event.world.isRemote) return;
         if(event.phase != TickEvent.Phase.START) return;
 
+        int dimId = event.world.provider.getDimension();
+
         if (SRPMixinsConfigHandler.deterrents.nexusCap >= 0)
-            nexusCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityPStationaryArchitect.class));
+            nexusCount.put(dimId, event.world.countEntities(EntityPStationaryArchitect.class));
         if (SRPMixinsConfigHandler.waterparas.waterParasiteCap >= 0)
-            waterCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityInfSquid.class) + event.world.countEntities(EntityLum.class));
-        gnatCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityAta.class));
-        scentCount.put(event.world.provider.getDimension(), event.world.countEntities(EntityParasiticScent.class));
+            waterCount.put(dimId,
+                    event.world.countEntities(EntityInfSquid.class) +
+                    event.world.countEntities(EntityLum.class) +
+                    (CompatUtil.srpextra.isLoaded() ? SRPExtraCompat.countWaterParasites(event.world) : 0)
+            );
+        gnatCount.put(dimId, event.world.countEntities(EntityAta.class));
+        scentCount.put(dimId, event.world.countEntities(EntityParasiticScent.class));
+
+        if(SRPMixinsConfigHandler.simmermen.endSimmermenCap > 0 && dimId == 1)
+            end_simmermanCount = event.world.countEntities(EntityInfEnderman.class) + event.world.countEntities(EntityInfEndermanHead.class);
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onJoinWorld(EntityJoinWorldEvent event){
+        //Keeping the cached mobCaps up to date during a tick
+        World world = event.getWorld();
+        if(world.isRemote) return;
+        if(event.isCanceled()) return;
+        if(!(event.getEntity() instanceof EntityParasiteBase)) return;
+        EntityParasiteBase parasite = (EntityParasiteBase) event.getEntity();
+        int dimId = event.getWorld().provider.getDimension();
+
+        if (SRPMixinsConfigHandler.deterrents.nexusCap >= 0 && parasite instanceof EntityPStationaryArchitect)
+            nexusCount.put(dimId, nexusCount.getOrDefault(dimId, 0));
+        else if (SRPMixinsConfigHandler.waterparas.waterParasiteCap >= 0 && (parasite instanceof EntityInfSquid || parasite instanceof EntityLum || (CompatUtil.srpextra.isLoaded() && SRPExtraCompat.isWaterParasite(parasite))))
+            waterCount.put(dimId, waterCount.getOrDefault(dimId, 0));
+        else if(parasite instanceof EntityAta)
+            gnatCount.put(dimId, gnatCount.getOrDefault(dimId, 0));
+        else if(dimId == 1 && parasite instanceof EntityInfEnderman || parasite instanceof EntityInfEndermanHead)
+            end_simmermanCount++;
     }
 }

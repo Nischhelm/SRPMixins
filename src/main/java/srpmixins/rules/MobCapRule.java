@@ -58,7 +58,7 @@ public class MobCapRule {
 
     public double getMulti(int dimId, byte phase){
         if(dimRule != null && dimId != dimRule) return 1;
-        if(bloodMoonRule != null && (!CompatUtil.isBloodMoonLoaded() || BloodMoonCompat.isBloodMoonActive() != bloodMoonRule)) return 1; //Ignores all lines that have bloodmoon mention if bloodmoon isn't loaded
+        if(bloodMoonRule != null && (!CompatUtil.bloodMoon.isLoaded() || BloodMoonCompat.isBloodMoonActive() != bloodMoonRule)) return 1; //Ignores all lines that have bloodmoon mention if bloodmoon isn't loaded
         if(!SRPConfigSystems.useEvolution && !phaseRules.isEmpty()) return 1; //Ignores all lines that mention phases if phases are disabled
         else if(SRPConfigSystems.useEvolution) //If any phase rule doesnt match, ignore the rule
             for(Map.Entry<Integer, EnumOperation> entry : phaseRules.entrySet())

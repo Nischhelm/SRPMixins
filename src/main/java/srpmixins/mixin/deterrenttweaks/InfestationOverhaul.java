@@ -157,7 +157,7 @@ public abstract class InfestationOverhaul {
                 int pointsToAdd = SRPConfigSystems.valueBlock * convertedCount;
                 if (maxPivotLvl != 0) pointsToAdd *= SRPConfigSystems.pivotPointMultiplier * maxPivotLvl;
 
-                if(CompatUtil.isCotesiaLoaded()) CotesiaCompat.countInfestationPointsToPlayer(data, dimId, pointsToAdd, true, worldIn, true, true);
+                if(CompatUtil.cotesia.isLoaded()) CotesiaCompat.countInfestationPointsToPlayer(data, dimId, pointsToAdd, true, worldIn, true, true);
 
                 data.setTotalKills(dimId, pointsToAdd, true, worldIn, true);
             }
@@ -216,7 +216,7 @@ public abstract class InfestationOverhaul {
         newBeckon.setLocationAndAngles(startPos.getX(), startPos.getY() + 1, startPos.getZ(), 0.0F, 0.0F);
         worldIn.spawnEntity(newBeckon);
         newBeckon.cannotDespawn(true);
-        if(CompatUtil.isCotesiaLoaded()) CotesiaCompat.handleSpawnedBeckon(worldIn, true, newBeckon);
+        if(CompatUtil.cotesia.isLoaded()) CotesiaCompat.handleSpawnedBeckon(worldIn, true, newBeckon);
     }
 
     @Unique private static final Set<Block> srpmixins$listedBlocks = new HashSet<>();

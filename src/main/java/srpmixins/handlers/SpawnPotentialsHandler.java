@@ -20,6 +20,9 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import srpmixins.SRPMixins;
+import srpmixins.compat.CompatUtil;
+import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
@@ -53,9 +56,9 @@ public class SpawnPotentialsHandler {
                             Functions.identity(), //Key is just the SpawnListEntry itself
                             entry -> {            //Value is the para id assigned to the mob
                                 ResourceLocation loc = EntityList.getKey(entry.entityClass);
-                                if (loc == null) return -1;
+                                if (loc == null) return Integer.MIN_VALUE;
                                 String mobid = loc.getPath();
-                                return SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, -1);
+                                return SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, Integer.MIN_VALUE);
                             })
                         ) : Collections.emptyMap()
         );
@@ -115,7 +118,7 @@ public class SpawnPotentialsHandler {
 
     private static List<Biome.SpawnListEntry> filterSpawnEntries(Map<Biome.SpawnListEntry, Integer> original, SRPSaveData data, SRPWorldData worldData, boolean isParaBiome, int dimId){
         return original.entrySet().stream()
-                .filter(entry -> entry.getValue() != -1)
+                .filter(entry -> entry.getValue() != Integer.MIN_VALUE)
                 .filter(entry -> !data.checkParasiteID(entry.getValue())) //is not in evolution phase lock
                 .filter(entry -> !isColonyLocked(entry.getValue(), worldData, isParaBiome)) //is not in evolution phase lock
                 .filter(entry -> !isSubCapLocked(entry.getKey().entityClass, dimId))
@@ -124,7 +127,7 @@ public class SpawnPotentialsHandler {
     }
 
     private static boolean isSubCapLocked(Class<? extends EntityLiving> entityClass, int dimId) {
-        if(entityClass == EntityLum.class || entityClass == EntityInfSquid.class){
+        if(entityClass == EntityLum.class || entityClass == EntityInfSquid.class || CompatUtil.srpextra.isLoaded() && SRPExtraCompat.isWaterParasite(entityClass)){
             if(SRPMixinsConfigHandler.waterparas.waterParasiteCap < 0) return false;
             return WorldMobCapHandler.waterCount.getOrDefault(dimId, 0) >= SRPMixinsConfigHandler.waterparas.waterParasiteCap;
         }

@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
@@ -17,6 +18,8 @@ import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
 import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
 import srpmixins.compat.CompatUtil;
 import srpmixins.compat.LycanitesMobsCompat;
+import srpmixins.compat.SRPDeepSeaCompat;
+import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
@@ -49,6 +52,9 @@ public class SRPMixins {
     public void preInit(FMLPreInitializationEvent event) {
         CONFIG = new Configuration(event.getSuggestedConfigurationFile());
         CONFIG.load();
+
+        if(Loader.isModLoaded("srpextra")) SRPExtraCompat.init();
+        if(Loader.isModLoaded("srpdeepseadanger")) SRPDeepSeaCompat.init();
 
         SRPMixinsConfigProvider.init();
         ConversionPathways.init();
@@ -94,7 +100,7 @@ public class SRPMixins {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        if(CompatUtil.isLycanitesMobsLoaded())
+        if(CompatUtil.lycanitesmobs.isLoaded())
             LycanitesMobsCompat.reloadLycaniteSpawnerManager();
 
         SRPConfigProvider.postInit();
@@ -106,5 +112,6 @@ public class SRPMixins {
             EntitySpawnPlacementRegistry.setPlacementType(EntityInfSquid.class, EntityLiving.SpawnPlacementType.IN_WATER);
             EntitySpawnPlacementRegistry.setPlacementType(EntityLum.class, EntityLiving.SpawnPlacementType.IN_WATER);
         }
+        if(Loader.isModLoaded("srpdeepseadanger")) SRPDeepSeaCompat.postInit();
     }
 }

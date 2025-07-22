@@ -5,6 +5,7 @@ import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.rules.VariantRule;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -174,6 +175,22 @@ public class SRPMobConfigProvider {
         return srpMobConfig.get(paraName).enabled;
     }
 
+    public static void registerParasite(String name, int paraId){
+        registerParasite(name, paraId, null, null);
+    }
+    public static void registerParasite(String name, int paraId, @Nullable String group){
+        registerParasite(name, paraId, group, null);
+    }
+    public static void registerParasite(String name, int paraId, @Nullable List<String> variants){
+        registerParasite(name, paraId, null, variants);
+    }
+    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable List<String> variants){
+        mobNameToParaIdMap.put(name, paraId);
+        paraIdToMobName.put(paraId, name);
+        if(group != null) mobGroupToParaIdMap.get(group).add(paraId);
+        if(variants != null) mobNameToVariantsMap.put(name, variants.stream().map(VariantRule.EnumVariant::valueOf).collect(Collectors.toList()));
+    }
+
     static {
         mobNameToParaIdMap.put("pri_longarms", 1);
         mobNameToParaIdMap.put("sim_bigspider", 2);
@@ -282,18 +299,18 @@ public class SRPMobConfigProvider {
 
         paraIdToMobName = mobNameToParaIdMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
 
-        mobGroupToParaIdMap.put("ADAPTED", Arrays.asList(51, 52, 53, 54, 55, 56, 58));
-        mobGroupToParaIdMap.put("ANCIENT", Arrays.asList(20, 24, 35));
-        mobGroupToParaIdMap.put("ASSIMILATED", Arrays.asList(2, 6, 13, 14, 15, 21, 22, 26, 27, 28, 31, 32, 40, 44, 45, 46, 49, 59, 64, 69, 70, 71, 307));
-        mobGroupToParaIdMap.put("CRUDE", Arrays.asList(23, 39, 43, 48, 62, 63, 75, 80));
-        mobGroupToParaIdMap.put("DETERRENT", Arrays.asList(29, 30, 72, 74, 308));
-        mobGroupToParaIdMap.put("FERAL", Arrays.asList(93, 94, 95, 96, 97, 98, 99, 300, 306));
-        mobGroupToParaIdMap.put("HIJACKED", Collections.singletonList(301));
-        mobGroupToParaIdMap.put("INBORN", Arrays.asList(3, 5, 11, 12, 36, 76, 91, 304));
-        mobGroupToParaIdMap.put("NEXUS", Arrays.asList(16, 18, 19, 41, 73, 77, 78, 79));
-        mobGroupToParaIdMap.put("PREEMINENT", Arrays.asList(65, 82, 85, 86, 87, 88, 89, 90));
-        mobGroupToParaIdMap.put("PRIMITIVE", Arrays.asList(1, 4, 7, 8, 10, 17, 37, 38, 66, 92));
-        mobGroupToParaIdMap.put("PURE", Arrays.asList(9, 25, 33, 47, 50, 60, 84));
+        mobGroupToParaIdMap.put("ADAPTED", new ArrayList<>(Arrays.asList(51, 52, 53, 54, 55, 56, 58)));
+        mobGroupToParaIdMap.put("ANCIENT", new ArrayList<>(Arrays.asList(20, 24, 35)));
+        mobGroupToParaIdMap.put("ASSIMILATED", new ArrayList<>(Arrays.asList(2, 6, 13, 14, 15, 21, 22, 26, 27, 28, 31, 32, 40, 44, 45, 46, 49, 59, 64, 69, 70, 71, 307)));
+        mobGroupToParaIdMap.put("CRUDE", new ArrayList<>(Arrays.asList(23, 39, 43, 48, 62, 63, 75, 80)));
+        mobGroupToParaIdMap.put("DETERRENT", new ArrayList<>(Arrays.asList(29, 30, 72, 74, 308)));
+        mobGroupToParaIdMap.put("FERAL", new ArrayList<>(Arrays.asList(93, 94, 95, 96, 97, 98, 99, 300, 306)));
+        mobGroupToParaIdMap.put("HIJACKED", new ArrayList<>(Collections.singletonList(301)));
+        mobGroupToParaIdMap.put("INBORN", new ArrayList<>(Arrays.asList(3, 5, 11, 12, 36, 76, 91, 304)));
+        mobGroupToParaIdMap.put("NEXUS", new ArrayList<>(Arrays.asList(16, 18, 19, 41, 73, 77, 78, 79)));
+        mobGroupToParaIdMap.put("PREEMINENT", new ArrayList<>(Arrays.asList(65, 82, 85, 86, 87, 88, 89, 90)));
+        mobGroupToParaIdMap.put("PRIMITIVE", new ArrayList<>(Arrays.asList(1, 4, 7, 8, 10, 17, 37, 38, 66, 92)));
+        mobGroupToParaIdMap.put("PURE", new ArrayList<>(Arrays.asList(9, 25, 33, 47, 50, 60, 84)));
 
         mobNameToParaTypeMap.put("beckon_si", (byte) 0);
         mobNameToParaTypeMap.put("beckon_sii", (byte) 0);
