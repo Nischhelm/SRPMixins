@@ -1,6 +1,7 @@
 package srpmixins.rules;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import srpmixins.SRPMixins;
 import srpmixins.compat.BloodMoonCompat;
 import srpmixins.compat.CompatUtil;
 import srpmixins.config.SRPMixinsConfigHandler;
@@ -38,16 +39,20 @@ public class MobCapRule {
 
         String[] split = rule.split(",");
         for(String s : split){
-            if(s.contains("phase")){
-                s = s.replaceFirst("phase","").trim();
+            try {
+                if (s.contains("phase")) {
+                    s = s.replaceFirst("phase", "").trim();
 
-                int phase = Integer.parseInt(s.replaceAll("[><=]","").trim());
-                String opSign = s.replaceAll("\\d+","").trim();
-                phaseRules.put(phase, EnumOperation.getBySign(opSign));
+                    int phase = Integer.parseInt(s.replaceAll("[><=]", "").trim());
+                    String opSign = s.replaceAll("\\d+", "").trim();
+                    phaseRules.put(phase, EnumOperation.getBySign(opSign));
+                } else if (s.contains("dim")) dimRule = Integer.parseInt(s.replaceFirst("dim *=", "").trim());
+                else if (s.contains("bloodmoon"))
+                    bloodMoonRule = Boolean.parseBoolean(s.replaceFirst("bloodmoon *=", "").trim());
+                else multi = Double.parseDouble(s.trim());
+            } catch (Exception e){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse Mob Cap Rule {}", s);
             }
-            else if(s.contains("dim")) dimRule = Integer.parseInt(s.replaceFirst("dim *=","").trim());
-            else if(s.contains("bloodmoon")) bloodMoonRule = Boolean.parseBoolean(s.replaceFirst("bloodmoon *=","").trim());
-            else multi = Double.parseDouble(s.trim());
         }
     }
 

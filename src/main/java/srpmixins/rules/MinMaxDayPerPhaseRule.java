@@ -1,5 +1,6 @@
 package srpmixins.rules;
 
+import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 import java.util.ArrayList;
@@ -39,18 +40,21 @@ public class MinMaxDayPerPhaseRule {
 
         String[] split = rule.split(",");
         for(String s : split){
-            if(s.contains("phase")){
-                s = s.replaceFirst("phase","").trim();
+            try {
+                if (s.contains("phase")) {
+                    s = s.replaceFirst("phase", "").trim();
 
-                int phase = Integer.parseInt(s.replaceAll("[><=]","").trim());
-                String opSign = s.replaceAll("\\d+","").trim();
-                phaseRules.put(phase, EnumOperation.getBySign(opSign));
+                    int phase = Integer.parseInt(s.replaceAll("[><=]", "").trim());
+                    String opSign = s.replaceAll("\\d+", "").trim();
+                    phaseRules.put(phase, EnumOperation.getBySign(opSign));
+                } else if (s.contains("dim")) dimRule = Integer.parseInt(s.replaceFirst("dim *=", "").trim());
+                else if (s.contains("min")) min = Integer.parseInt(s.replaceFirst("min *=", "").trim());
+                else if (s.contains("max")) max = Integer.parseInt(s.replaceFirst("max *=", "").trim());
+
+                if (min != Integer.MAX_VALUE && max != 0 && min > max) max = min; //If min > max, set them equal
+            } catch (Exception e){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse Days Per Phase Rule {}", s);
             }
-            else if(s.contains("dim")) dimRule = Integer.parseInt(s.replaceFirst("dim *=","").trim());
-            else if(s.contains("min")) min = Integer.parseInt(s.replaceFirst("min *=","").trim());
-            else if(s.contains("max")) max = Integer.parseInt(s.replaceFirst("max *=","").trim());
-
-            if(min != Integer.MAX_VALUE && max != 0 && min > max) max = min; //If min > max, set them equal
         }
     }
 

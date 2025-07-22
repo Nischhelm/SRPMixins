@@ -52,17 +52,22 @@ public class VariantRule {
 
         String[] split = rule.split(",");
         for(String s : split){
-            if(s.contains("phase")){
-                s = s.replaceFirst("phase","").trim();
+            try {
+                if (s.contains("phase")) {
+                    s = s.replaceFirst("phase", "").trim();
 
-                int phase = Integer.parseInt(s.replaceAll("[><=]","").trim());
-                String opSign = s.replaceAll("\\d+","").trim();
-                phaseRules.put(phase, EnumOperation.getBySign(opSign));
+                    int phase = Integer.parseInt(s.replaceAll("[><=]", "").trim());
+                    String opSign = s.replaceAll("\\d+", "").trim();
+                    phaseRules.put(phase, EnumOperation.getBySign(opSign));
+                } else if (s.contains("variant"))
+                    variantsToDisable.addAll(Arrays.stream(s.replaceFirst("variant *= *", "").trim().split(" +")).map(EnumVariant::valueOf).collect(Collectors.toList()));
+                else if (s.contains("mob"))
+                    mobids.addAll(Arrays.stream(s.replaceFirst("mob *= *", "").trim().split(" +")).map(SRPMobConfigProvider.mobNameToParaIdMap::get).collect(Collectors.toList()));
+                else if (s.contains("dim")) dimId = Integer.parseInt(s.replaceFirst("dim *=", "").trim());
+                else if (s.contains("group")) group = s.replaceFirst("group *=", "").trim();
+            } catch (Exception e){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Rule {}", s);
             }
-            else if(s.contains("variant")) variantsToDisable.addAll(Arrays.stream(s.replaceFirst("variant *= *","").trim().split(" +")).map(EnumVariant::valueOf).collect(Collectors.toList()));
-            else if(s.contains("mob")) mobids.addAll(Arrays.stream(s.replaceFirst("mob *= *","").trim().split(" +")).map(SRPMobConfigProvider.mobNameToParaIdMap::get).collect(Collectors.toList()));
-            else if(s.contains("dim")) dimId = Integer.parseInt(s.replaceFirst("dim *=","").trim());
-            else if(s.contains("group")) group = s.replaceFirst("group *=","").trim();
         }
     }
 
