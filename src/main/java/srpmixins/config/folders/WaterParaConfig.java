@@ -19,7 +19,8 @@ public class WaterParaConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.squidtargeting.json", defaultValue = true)
     public boolean parasTargetSquids = true;
 
-    @Config.Comment("After there is this many Assimilated Squid or Primitive Devourers loaded, no more will spawn from conversion or spawning. Disable with -1, needs restart. Only works using SRP Phase Custom Spawner + Evo Phases")
+    @Config.Comment("After there is this many Water Parasites (including Deep Sea Danger) loaded, no more will spawn from conversion or spawning. Disable with -1, needs restart.\n" +
+            "Parasites spawned from conversion have a 1.5x higher cap so the assimilation doesnt always fail directly")
     @Config.Name("Water Parasite Mob Cap")
     @Config.RangeInt(min = -1)
     public int waterParasiteCap = 10;

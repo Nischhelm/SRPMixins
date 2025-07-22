@@ -22,7 +22,7 @@ public abstract class WaterParasiteCapOnConversion {
     private static boolean srpmixins_infSquidCap(World world, Entity entity){
         if(srpmixins$isWaterPara(entity)) {
             if(SRPMixinsConfigHandler.spawns.fixSpawningEntirely)
-                return WorldMobCapHandler.waterCount.get(world.provider.getDimension()) < SRPMixinsConfigHandler.waterparas.waterParasiteCap;
+                return WorldMobCapHandler.waterCount.get(world.provider.getDimension()) < SRPMixinsConfigHandler.waterparas.waterParasiteCap * 1.5;
             else {
                 int infSquidCount = (int) world.loadedEntityList.stream().filter(e -> e instanceof EntityInfSquid).count();
                 return infSquidCount < SRPMixinsConfigHandler.waterparas.waterParasiteCap;
