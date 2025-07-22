@@ -11,18 +11,18 @@ import energon.srpextra.util.config.SRPEConfigMobs;
 public class SRPExtraCompat {
     public static void init(){
         SRPMobConfigProvider.registerParasite("hijacked_creeper", -1, "HIJACKED");
-        SRPMobConfigProvider.registerParasite("hijacked_creeper_head", -10001, "HIJACKED"); //tmp id
+        SRPMobConfigProvider.registerParasite("hijacked_creeper_head", -257, "HIJACKED"); //Not actually like that in code yet
         SRPMobConfigProvider.registerParasite("hijacked_skeleton", -2, "HIJACKED");
-        SRPMobConfigProvider.registerParasite("hijacked_skeleton_head", -2, "HIJACKED"); //tmp id
-        SRPMobConfigProvider.registerParasite("hijacked_skeleton_stray", -10003, "HIJACKED");
+        SRPMobConfigProvider.registerParasite("hijacked_skeleton_head", -258, "HIJACKED"); //Not actually like that in code yet
+        SRPMobConfigProvider.registerParasite("hijacked_skeleton_stray", -3, "HIJACKED");
         SRPMobConfigProvider.registerParasite("stalker", -4, "PRIMITIVE");
         SRPMobConfigProvider.registerParasite("sim_witch", -5, "ASSIMILATED");
-        SRPMobConfigProvider.registerParasite("sim_witch_head", -10005, "ASSIMILATED"); //tmp id
+        SRPMobConfigProvider.registerParasite("sim_witch_head", -261, "ASSIMILATED"); //Not actually like that in code yet
         SRPMobConfigProvider.registerParasite("sim_vindicator", -6, "ASSIMILATED");
-        SRPMobConfigProvider.registerParasite("sim_vindicator_head", -10006, "ASSIMILATED"); //tmp id
+        SRPMobConfigProvider.registerParasite("sim_vindicator_head", -262, "ASSIMILATED"); //Not actually like that in code yet
         SRPMobConfigProvider.registerParasite("sim_evoker", -7, "ASSIMILATED");
         SRPMobConfigProvider.registerParasite("sim_ocelot", -8, "ASSIMILATED");
-        SRPMobConfigProvider.registerParasite("sim_ocelot_head", -10008, "ASSIMILATED"); //tmp id
+        SRPMobConfigProvider.registerParasite("sim_ocelot_head", -264, "ASSIMILATED"); //Not actually like that in code yet
         SRPMobConfigProvider.registerParasite("ada_vermin", -9, "ADAPTED");
 
         if(SRPEConfigMobs.activeFeralWolf) {

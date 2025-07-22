@@ -28,13 +28,11 @@ public class SRPDeepSeaCompat {
         SRPMobConfigProvider.registerParasite("leecher", -11, "INBORN");
         SRPMobConfigProvider.registerParasite("sim_drowned", -23, "ASSIMILATED");
         SRPMobConfigProvider.registerParasite("sim_dolphin", -24, "ASSIMILATED");
-        SRPMobConfigProvider.registerParasite("sim_dolphin_head", -1000241, "ASSIMILATED"); //temp id bc duplicate
+        SRPMobConfigProvider.registerParasite("sim_dolphin_head", -280, "ASSIMILATED"); //Not actually like that in code yet
         SRPMobConfigProvider.registerParasite("sim_fish", -25, "ASSIMILATED");
-        SRPMobConfigProvider.registerParasite("fer_dolphin", -100024, "FERAL"); //temp id bc duplicate
-        SRPMobConfigProvider.registerParasite("fer_fish", -100025, "FERAL"); //temp id bc duplicate
+        SRPMobConfigProvider.registerParasite("fer_dolphin", -536, "FERAL"); //Not actually like that in code yet
         SRPMobConfigProvider.registerParasite("pri_hammerhead", -26, "PRIMITIVE");
         SRPMobConfigProvider.registerParasite("ada_hammerhead", -27, "ADAPTED");
-        SRPMobConfigProvider.registerParasite("ada_devourer", -991, "ADAPTED");
         SRPMobConfigProvider.registerParasite("sprouter_si", -28, "NEXUS");
         SRPMobConfigProvider.registerParasite("sprouter_sii", -29, "NEXUS");
         SRPMobConfigProvider.registerParasite("sprouter_siii", -30, "NEXUS");
@@ -45,6 +43,8 @@ public class SRPDeepSeaCompat {
         SRPMobConfigProvider.registerParasite("supporter", -35, "PURE");
         SRPMobConfigProvider.registerParasite("hi_guardian", -38, "HIJACKED");
         SRPMobConfigProvider.registerParasite("hi_elder_guardian", -39, "HIJACKED");
+        SRPMobConfigProvider.registerParasite("fer_fish", -40, "FERAL"); //Not actually like that in code yet
+        SRPMobConfigProvider.registerParasite("ada_devourer", -41, "ADAPTED"); //Not actually like that in code yet
         SRPMobConfigProvider.registerParasite("tendril_hammerhead", -283);
     }
 
