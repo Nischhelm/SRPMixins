@@ -73,6 +73,7 @@ dependencies {
     implementation fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")
     implementation fg.deobf("curse.maven:scape-and-run-parasites-extra-1140227:6765279")
     implementation fg.deobf("curse.maven:scape-and-run-parasites-deep-sea-danger-1268838:6764503")
+    implementation fg.deobf("curse.maven:oceanic-expanse-840576:5294096")
     //implementation fg.deobf("curse.maven:scape-and-run-parasite-dimension-1037060:5965078")
     //implementation fg.deobf("curse.maven:scape-and-run-parasites-meteorite-1124012:6533192")
     //implementation fg.deobf("curse.maven:scape-and-run-parasites-mutant-beasts-1214567:6551866")

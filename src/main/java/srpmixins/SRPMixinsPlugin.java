@@ -18,6 +18,8 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.scentperformance.json"); //TODO: overhaul scents and make toggles
 
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.oe.json", () -> Loader.isModLoaded("oe"));
+
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.biomespawnblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.deterrentlowphasedmg.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infestedgrassrarity.json");
