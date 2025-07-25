@@ -1,4 +1,4 @@
-package srpmixins.mixin.playerphases;
+package srpmixins.mixin.customphases;
 
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 @Mixin(ParasiteEventWorld.class)
-public abstract class ParasiteEventWorldMixin_Infestation {
+public abstract class ParasiteEventWorldMixin_BiomeSpread {
     @Redirect(
-            method="canInfestBlock",
+            method={"spreadBiomeBlockStain","spreadBiomeBlockTrunk"},
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData srpmixins_getPlayerData2(World world, @Local(argsOnly = true) BlockPos blockPos){
+    private static SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) BlockPos blockPos){
         return SRPSaveDataInterface.get(world,null,blockPos);
     }
 }

@@ -1,6 +1,6 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.playerphases",
+  "package": "srpmixins.mixin.customphases",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",

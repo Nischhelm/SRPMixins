@@ -1,12 +1,16 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.customphases",
+  "package": "srpmixins.mixin.modcompat.srpextra.customphases",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "ParasiteEventWorldMixin_Infestation"
+    "EntityInjectMixin",
+    "SRPEWorldSpawnMobMixin",
+    "SRPExtraCommandMixin",
+    "SRPStructuresCommandMixin",
+    "WorldGenCenterMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

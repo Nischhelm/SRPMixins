@@ -1,4 +1,4 @@
-package srpmixins.mixin.playerphases;
+package srpmixins.mixin.customphases;
 
 import com.dhanantry.scapeandrunparasites.SRPMain;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;

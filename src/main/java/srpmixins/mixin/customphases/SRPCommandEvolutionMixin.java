@@ -1,4 +1,4 @@
-package srpmixins.mixin.playerphases;
+package srpmixins.mixin.customphases;
 
 import com.dhanantry.scapeandrunparasites.network.SRPCommandEvolution;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;

@@ -1,6 +1,6 @@
-package srpmixins.mixin.playerphases;
+package srpmixins.mixin.customphases;
 
-import com.dhanantry.scapeandrunparasites.entity.EntityParasiticScent;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationary;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
@@ -9,14 +9,14 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Mixin(EntityParasiticScent.class)
-public abstract class EntityParasiticScentMixin extends Entity {
-    public EntityParasiticScentMixin(World worldIn) {
+@Mixin(EntityPStationary.class)
+public abstract class EntityPStationaryMixin extends Entity {
+    public EntityPStationaryMixin(World worldIn) {
         super(worldIn);
     }
 
     @Redirect(
-            method="onUpdate",
+            method="onLivingUpdate",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
     public SRPSaveData srpmixins_getPlayerData(World world){

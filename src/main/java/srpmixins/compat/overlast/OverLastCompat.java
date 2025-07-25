@@ -2,6 +2,7 @@ package srpmixins.compat.overlast;
 
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import srpmixins.compat.CompatUtil;
 import srpmixins.config.EarlyConfigReader;
 import srpmixins.config.SRPMixinsConfigHandler;
 
@@ -26,10 +27,9 @@ public class OverLastCompat {
         OverLastVersion version = getOverLastVersion();
         if(version != versionCompare) return false;
 
-        boolean playerPhases = EarlyConfigReader.getBoolean("Use Player Phases", SRPMixinsConfigHandler.playerphases.enabled);
-        boolean chunkPhases = EarlyConfigReader.getBoolean("Use Chunk Phases", SRPMixinsConfigHandler.chunkphases.enabled);
+        boolean customPhases = CompatUtil.areCustomPhasesEnabled();
         boolean overlastEnabled = EarlyConfigReader.getBoolean("Enable OverLast custom phases",SRPMixinsConfigHandler.modcompat.enableOverLastCustomPhases);
 
-        return (playerPhases || chunkPhases) && overlastEnabled;
+        return customPhases && overlastEnabled;
     }
 }

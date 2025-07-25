@@ -8,7 +8,7 @@ import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.ChunkPhaseConfigProvider;
-import srpmixins.mixin.playerphases.SRPSaveDataAccessor;
+import srpmixins.mixin.customphases.SRPSaveDataAccessor;
 
 import java.util.ArrayList;
 import java.util.List;

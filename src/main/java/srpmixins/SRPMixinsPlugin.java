@@ -4,6 +4,7 @@ import fermiumbooter.FermiumRegistryAPI;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
+import srpmixins.compat.CompatUtil;
 import srpmixins.compat.overlast.OverLastCompat;
 import srpmixins.config.EarlyConfigReader;
 import srpmixins.config.SRPMixinsConfigHandler;
@@ -48,6 +49,8 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast.json", () -> Loader.isModLoaded("overlast"));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast_customphases.json", () -> OverLastCompat.shouldEnqueueOverLastMixins(OverLastCompat.OverLastVersion.FULL));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlastlite_customphases.json", () -> OverLastCompat.shouldEnqueueOverLastMixins(OverLastCompat.OverLastVersion.LITE));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.deepseadanger_customphases.json", () -> Loader.isModLoaded("srpdeepseadanger") && CompatUtil.areCustomPhasesEnabled());
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srpextra_customphases.json", () -> Loader.isModLoaded("srpextra") && CompatUtil.areCustomPhasesEnabled());
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.bloodmoon.entirespawnfix.json", () -> Loader.isModLoaded("bloodmoon") && EarlyConfigReader.getBoolean("Fix Spawning Entirely", SRPMixinsConfigHandler.spawns.fixSpawningEntirely));
 

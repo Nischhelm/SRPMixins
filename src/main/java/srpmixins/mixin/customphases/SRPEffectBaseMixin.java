@@ -1,23 +1,23 @@
-package srpmixins.mixin.playerphases;
+package srpmixins.mixin.customphases;
 
-import com.dhanantry.scapeandrunparasites.util.ParasiteEventWorld;
+import com.dhanantry.scapeandrunparasites.potion.SRPEffectBase;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Mixin(ParasiteEventWorld.class)
-public abstract class ParasiteEventWorldMixin_BiomeSpread {
+@Mixin(SRPEffectBase.class)
+public abstract class SRPEffectBaseMixin {
     @Redirect(
-            method={"spreadBiomeBlockStain","spreadBiomeBlockTrunk"},
+            method={"effectCOTH", "effectPrey"},
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
             remap=false
     )
-    private static SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) BlockPos blockPos){
-        return SRPSaveDataInterface.get(world,null,blockPos);
+    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) EntityLivingBase entity){
+        return SRPSaveDataInterface.get(world,null,entity.getPosition());
     }
 }

@@ -1,12 +1,13 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.customphases",
+  "package": "srpmixins.mixin.modcompat.srpdeepseadanger.customphases",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "ParasiteEventWorldMixin_Infestation"
+    "EntityInjectMixin",
+    "EntityVeruMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

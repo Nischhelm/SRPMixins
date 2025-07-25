@@ -1,4 +1,4 @@
-package srpmixins.mixin.playerphases;
+package srpmixins.mixin.customphases;
 
 import com.dhanantry.scapeandrunparasites.block.BlockInfestedRemain;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
