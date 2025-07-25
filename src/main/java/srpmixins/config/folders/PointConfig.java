@@ -102,4 +102,12 @@ public class PointConfig {
             1,
             1
     };
+
+    @Config.Comment("SRP gives parasites potion effects depending on how many nodes and/or colonies exist in the world. \n" +
+            "This tweak only applies those bonuses if the current phase is equal or higher than the phase from which on nodes or colonies are allowed.\n" +
+            "Intended for custom phases where otherwise players/chunks with low phase would still experience stronger parasites from nodes/colonies at other spots in the world.")
+    @Config.Name("Phaselocked Node/Colony Bonuses")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.customphasemechanics_nodecolonyphaselock.json", defaultValue = false)
+    public boolean nodeColonyPhaseLock = false;
 }

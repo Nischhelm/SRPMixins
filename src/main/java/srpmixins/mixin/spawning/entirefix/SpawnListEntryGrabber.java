@@ -94,8 +94,6 @@ public abstract class SpawnListEntryGrabber {
             SpawnPotentialsHandler.allPhaseSpawns.put(newEntry, paraId);
 
             byte paraType = SRPMobConfigProvider.mobNameToParaTypeMap.getOrDefault(mobid, (byte) 0);
-            if(SRPMixinsConfigHandler.spawns.fixColonyCarrierTypeId && paraId == 88) //colony_carrier
-                paraType = (byte) 63;
 
             for(int phase = 0; phase <= SRPConfigProvider.getMaxPhase(); phase++)
                 if(srpmixins$canSpawnInPhase((byte) phase, paraType)) {
