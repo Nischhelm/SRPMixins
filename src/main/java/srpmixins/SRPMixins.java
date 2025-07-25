@@ -16,10 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
 import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
-import srpmixins.compat.CompatUtil;
-import srpmixins.compat.LycanitesMobsCompat;
-import srpmixins.compat.SRPDeepSeaCompat;
-import srpmixins.compat.SRPExtraCompat;
+import srpmixins.compat.*;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
@@ -53,8 +50,7 @@ public class SRPMixins {
         CONFIG = new Configuration(event.getSuggestedConfigurationFile());
         CONFIG.load();
 
-        if(Loader.isModLoaded("srpextra")) SRPExtraCompat.init();
-        if(Loader.isModLoaded("srpdeepseadanger")) SRPDeepSeaCompat.init();
+        SRPMobConfigProvider.registerMobs();
 
         SRPMixinsConfigProvider.init();
         ConversionPathways.init();
@@ -112,6 +108,6 @@ public class SRPMixins {
             EntitySpawnPlacementRegistry.setPlacementType(EntityInfSquid.class, EntityLiving.SpawnPlacementType.IN_WATER);
             EntitySpawnPlacementRegistry.setPlacementType(EntityLum.class, EntityLiving.SpawnPlacementType.IN_WATER);
         }
-        if(Loader.isModLoaded("srpdeepseadanger")) SRPDeepSeaCompat.postInit();
+        if(Loader.isModLoaded("srpdeepseadanger")) SRPDeepSeaCompat.setPlacementTypesToWater();
     }
 }

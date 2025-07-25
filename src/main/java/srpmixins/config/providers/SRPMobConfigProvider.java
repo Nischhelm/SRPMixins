@@ -1,7 +1,9 @@
 package srpmixins.config.providers;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigMobs;
+import net.minecraftforge.fml.common.Loader;
 import srpmixins.SRPMixins;
+import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.rules.VariantRule;
 
@@ -14,7 +16,7 @@ import static srpmixins.rules.VariantRule.EnumVariant.*;
 public class SRPMobConfigProvider {
     public static final Map<String, Integer> mobNameToParaIdMap = new HashMap<>();
     public static final Map<String, Byte> mobNameToParaTypeMap = new HashMap<>();
-    public static final Map<Integer, String> paraIdToMobName;
+    public static final Map<Integer, String> paraIdToMobName = new HashMap<>();
     public static final Map<String, List<Integer>> mobGroupToParaIdMap = new HashMap<>();
     public static final Map<String, List<VariantRule.EnumVariant>> mobNameToVariantsMap = new HashMap<>();
 
@@ -176,278 +178,189 @@ public class SRPMobConfigProvider {
     }
 
     public static void registerParasite(String name, int paraId){
-        registerParasite(name, paraId, null, null);
+        registerParasite(name, paraId, null, null, null);
     }
     public static void registerParasite(String name, int paraId, @Nullable String group){
-        registerParasite(name, paraId, group, null);
+        registerParasite(name, paraId, group, null, null);
     }
-    public static void registerParasite(String name, int paraId, @Nullable List<String> variants){
-        registerParasite(name, paraId, null, variants);
+    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId){
+        registerParasite(name, paraId, group, typeId, null);
     }
-    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable List<String> variants){
+    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId, @Nullable List<VariantRule.EnumVariant> variants){
         mobNameToParaIdMap.put(name, paraId);
         paraIdToMobName.put(paraId, name);
         if(group != null) mobGroupToParaIdMap.get(group).add(paraId);
-        if(variants != null) mobNameToVariantsMap.put(name, variants.stream().map(VariantRule.EnumVariant::valueOf).collect(Collectors.toList()));
+        if(typeId != null) mobNameToParaTypeMap.put(name, typeId);
+        if(variants != null) mobNameToVariantsMap.put(name, variants);
     }
 
-    static {
-        mobNameToParaIdMap.put("pri_longarms", 1);
-        mobNameToParaIdMap.put("sim_bigspider", 2);
-        mobNameToParaIdMap.put("carrier_heavy", 3);
-        mobNameToParaIdMap.put("pri_yelloweye", 4);
-        mobNameToParaIdMap.put("buglin", 5);
-        mobNameToParaIdMap.put("sim_human", 6);
-        mobNameToParaIdMap.put("hi_blaze", 9960);  //TODO: placeholder id
-        mobNameToParaIdMap.put("hi_skeleton", 9961); //TODO: placeholder id
-        mobNameToParaIdMap.put("pri_manducater", 7);
-        mobNameToParaIdMap.put("pri_summoner", 8);
-        mobNameToParaIdMap.put("overseer", 9);
-        mobNameToParaIdMap.put("pri_reeker", 10);
-        mobNameToParaIdMap.put("carrier_flying", 11);
-        mobNameToParaIdMap.put("rupter", 12);
-        mobNameToParaIdMap.put("sim_cow", 13);
-        mobNameToParaIdMap.put("sim_sheep", 14);
-        mobNameToParaIdMap.put("sim_wolf", 15);
-        mobNameToParaIdMap.put("beckon_si", 16);
-        mobNameToParaIdMap.put("pri_bolster", 17);
-        mobNameToParaIdMap.put("beckon_sii", 18);
-        mobNameToParaIdMap.put("beckon_siii", 19);
-        mobNameToParaIdMap.put("anc_overlord", 20);
-        mobNameToParaIdMap.put("sim_wolfhead", 21);
-        mobNameToParaIdMap.put("sim_sheephead", 22);
-        mobNameToParaIdMap.put("movingflesh", 23);
-        mobNameToParaIdMap.put("anc_dreadnaut", 24);
-        mobNameToParaIdMap.put("vigilante", 25);
-        mobNameToParaIdMap.put("sim_pig", 26);
-        mobNameToParaIdMap.put("sim_villager", 27);
-        mobNameToParaIdMap.put("sim_cowhead", 28);
-        mobNameToParaIdMap.put("kyphosis", 29);
-        mobNameToParaIdMap.put("sentry", 30);
-        mobNameToParaIdMap.put("sim_pighead", 31);
-        mobNameToParaIdMap.put("sim_villagerhead", 32);
-        mobNameToParaIdMap.put("warden", 33);
-        mobNameToParaIdMap.put("anc_pod", 34);
-        mobNameToParaIdMap.put("anc_dreadnaut_ten", 35);
-        mobNameToParaIdMap.put("worker", 36);
-        mobNameToParaIdMap.put("pri_tozoon", 37);
-        mobNameToParaIdMap.put("pri_arachnida", 38);
-        mobNameToParaIdMap.put("incompleteform_small", 39);
-        mobNameToParaIdMap.put("sim_adventurer", 40);
-        mobNameToParaIdMap.put("beckon_siv", 41);
-        mobNameToParaIdMap.put("incompleteform_medium", 43);
-        mobNameToParaIdMap.put("sim_horse", 44);
-        mobNameToParaIdMap.put("sim_horsehead", 45);
-        mobNameToParaIdMap.put("sim_humanhead", 46);
-        mobNameToParaIdMap.put("bomber_light", 47);
-        mobNameToParaIdMap.put("host", 48);
-        mobNameToParaIdMap.put("sim_bear", 49);
-        mobNameToParaIdMap.put("marauder", 50);
-        mobNameToParaIdMap.put("ada_longarms", 51);
-        mobNameToParaIdMap.put("ada_manducater", 52);
-        mobNameToParaIdMap.put("ada_summoner", 53);
-        mobNameToParaIdMap.put("ada_reeker", 54);
-        mobNameToParaIdMap.put("ada_yelloweye", 55);
-        mobNameToParaIdMap.put("ada_bolster", 56);
-        mobNameToParaIdMap.put("ada_arachnida", 58);
-        mobNameToParaIdMap.put("sim_enderman", 59);
-        mobNameToParaIdMap.put("grunt", 60);
-        mobNameToParaIdMap.put("crux", 62);
-        mobNameToParaIdMap.put("heed", 63);
-        mobNameToParaIdMap.put("sim_dragone", 64);
-        mobNameToParaIdMap.put("bomber_heavy", 65);
-        mobNameToParaIdMap.put("pri_devourer", 66);
-        mobNameToParaIdMap.put("sim_endermanhead", 69);
-        mobNameToParaIdMap.put("sim_dragonehead", 70);
-        mobNameToParaIdMap.put("sim_adventurerhead", 71);
-        mobNameToParaIdMap.put("seizer", 72);
-        mobNameToParaIdMap.put("dispatcher_si", 73);
-        mobNameToParaIdMap.put("dispatcherten", 74);
-        mobNameToParaIdMap.put("hostii", 75);
-        mobNameToParaIdMap.put("mangler", 76);
-        mobNameToParaIdMap.put("dispatcher_sii", 77);
-        mobNameToParaIdMap.put("dispatcher_siii", 78);
-        mobNameToParaIdMap.put("dispatcher_siv", 79);
-        mobNameToParaIdMap.put("thrall", 80);
-        mobNameToParaIdMap.put("seeker", 82);
-        mobNameToParaIdMap.put("monarch", 84);
-        mobNameToParaIdMap.put("wraith", 85);
-        mobNameToParaIdMap.put("bogle", 86);
-        mobNameToParaIdMap.put("haunter", 87);
-        mobNameToParaIdMap.put("carrier_colony", 88);
-        mobNameToParaIdMap.put("succor", 89);
-        mobNameToParaIdMap.put("architect", 90);
-        mobNameToParaIdMap.put("gnat", 91);
-        mobNameToParaIdMap.put("pri_vermin", 92);
-        mobNameToParaIdMap.put("fer_cow", 93);
-        mobNameToParaIdMap.put("fer_enderman", 94);
-        mobNameToParaIdMap.put("fer_horse", 95);
-        mobNameToParaIdMap.put("fer_human", 96);
-        mobNameToParaIdMap.put("fer_pig", 97);
-        mobNameToParaIdMap.put("fer_sheep", 98);
-        mobNameToParaIdMap.put("fer_villager", 99);
-        mobNameToParaIdMap.put("tendril", 202);
-        mobNameToParaIdMap.put("biomass", 205);
-        mobNameToParaIdMap.put("wave", 211);
-        mobNameToParaIdMap.put("waveshock", 213);
-        mobNameToParaIdMap.put("fer_wolf", 300);
-        mobNameToParaIdMap.put("hi_golem", 301);
-        mobNameToParaIdMap.put("carrier_light", 304);
-        mobNameToParaIdMap.put("fer_bear", 306);
-        mobNameToParaIdMap.put("sim_squid", 307);
-        mobNameToParaIdMap.put("worm", 308);
+    public static void registerMobs() {
+        registerParasite("pri_longarms", 1, "PRIMITIVE", (byte) 31, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("sim_bigspider", 2, "ASSIMILATED", (byte) 14);
+        registerParasite("carrier_heavy", 3, "INBORN", (byte) 41, Collections.singletonList(SPECIAL));
+        registerParasite("pri_yelloweye", 4, "PRIMITIVE", (byte) 31, Collections.singletonList(BREACHER));
+        registerParasite("buglin", 5, "INBORN", (byte) 1);
+        registerParasite("sim_human", 6, "ASSIMILATED", (byte) 11);
+        registerParasite("hi_blaze", 9960, "HIJACKED", (byte) 11); //TODO: temp para id
+        registerParasite("hi_skeleton", 9961, "HIJACKED", (byte) 11); //TODO: temp para id
+        registerParasite("pri_manducater", 7, "PRIMITIVE", (byte) 31, Collections.singletonList(BREACHER));
+        registerParasite("pri_summoner", 8, "PRIMITIVE", (byte) 31, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("overseer", 9, "PURE", (byte) 51, Collections.singletonList(BREACHER));
+        registerParasite("pri_reeker", 10, "PRIMITIVE", (byte) 31, Arrays.asList(SPECIAL, VIRULENT, BERSERKER, BREACHER));
+        registerParasite("carrier_flying", 11, "INBORN", (byte) 31, Collections.singletonList(SPECIAL));
+        registerParasite("rupter", 12, "INBORN", (byte) 5, Arrays.asList(VIRULENT, BERSERKER));
+        registerParasite("sim_cow", 13, "ASSIMILATED", (byte) 11);
+        registerParasite("sim_sheep", 14, "ASSIMILATED", (byte) 12);
+        registerParasite("sim_wolf", 15, "ASSIMILATED", (byte) 13);
+        registerParasite("beckon_si", 16, "NEXUS", (byte) 0);
+        registerParasite("pri_bolster", 17, "PRIMITIVE", (byte) 31, Arrays.asList(VIRULENT, BREACHER));
+        registerParasite("beckon_sii", 18, "NEXUS", (byte) 0);
+        registerParasite("beckon_siii", 19, "NEXUS", (byte) 0);
+        registerParasite("anc_overlord", 20, "ANCIENT", (byte) 63);
+        registerParasite("sim_wolfhead", 21, "ASSIMILATED", (byte) 0);
+        registerParasite("sim_sheephead", 22, "ASSIMILATED", (byte) 0);
+        registerParasite("movingflesh", 23, "CRUDE", (byte) 100);
+        registerParasite("anc_dreadnaut", 24, "ANCIENT", (byte) 62);
+        registerParasite("vigilante", 25, "PURE", (byte) 51, Collections.singletonList(BREACHER));
+        registerParasite("sim_pig", 26, "ASSIMILATED", (byte) 15);
+        registerParasite("sim_villager", 27, "ASSIMILATED", (byte) 11);
+        registerParasite("sim_cowhead", 28, "ASSIMILATED", (byte) 0);
+        registerParasite("kyphosis", 29, "DETERRENT", (byte) 40);
+        registerParasite("sentry", 30, "DETERRENT", (byte) 40);
+        registerParasite("sim_pighead", 31, "ASSIMILATED", (byte) 0);
+        registerParasite("sim_villagerhead", 32, "ASSIMILATED", (byte) 0);
+        registerParasite("warden", 33, "PURE", (byte) 51, Collections.singletonList(BREACHER));
+        registerParasite("anc_pod", 34, null, (byte) 61);
+        registerParasite("anc_dreadnaut_ten", 35, "ANCIENT", (byte) 62);
+        registerParasite("worker", 36, "INBORN", (byte) 7);
+        registerParasite("pri_tozoon", 37, "PRIMITIVE", (byte) 31);
+        registerParasite("pri_arachnida", 38, "PRIMITIVE", (byte) 31, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("incompleteform_small", 39, "CRUDE", (byte) 11);
+        registerParasite("sim_adventurer", 40, "ASSIMILATED", (byte) 11);
+        registerParasite("beckon_siv", 41, "NEXUS", (byte) 0);
+        registerParasite("incompleteform_medium", 43, "CRUDE", (byte) 11);
+        registerParasite("sim_horse", 44, "ASSIMILATED", (byte) 11);
+        registerParasite("sim_horsehead", 45, "ASSIMILATED", (byte) 0);
+        registerParasite("sim_humanhead", 46, "ASSIMILATED", (byte) 0);
+        registerParasite("bomber_light", 47, "PURE", (byte) 51, Collections.singletonList(BREACHER));
+        registerParasite("host", 48, "CRUDE", (byte) 11);
+        registerParasite("sim_bear", 49, "ASSIMILATED", (byte) 11);
+        registerParasite("marauder", 50, "PURE", (byte) 51, Collections.singletonList(BREACHER));
+        registerParasite("ada_longarms", 51, "ADAPTED", (byte) 41, Arrays.asList(SPECIAL, VIRULENT, BERSERKER, BREACHER));
+        registerParasite("ada_manducater", 52, "ADAPTED", (byte) 41, Collections.singletonList(BREACHER));
+        registerParasite("ada_summoner", 53, "ADAPTED", (byte) 41, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("ada_reeker", 54, "ADAPTED", (byte) 41, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("ada_yelloweye", 55, "ADAPTED", (byte) 41, Collections.singletonList(BREACHER));
+        registerParasite("ada_bolster", 56, "ADAPTED", (byte) 41, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("ada_arachnida", 58, "ADAPTED", (byte) 41, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("sim_enderman", 59, "ASSIMILATED", (byte) 14, Collections.singletonList(SPECIAL));
+        registerParasite("grunt", 60, "PURE", (byte) 51, Arrays.asList(VIRULENT, BERSERKER, BREACHER));
+        registerParasite("crux", 62, "CRUDE", (byte) 41);
+        registerParasite("heed", 63, "CRUDE", (byte) 31);
+        registerParasite("sim_dragone", 64, "ASSIMILATED", (byte) 14);
+        registerParasite("bomber_heavy", 65, "PREEMINENT", (byte) 61);
+        registerParasite("pri_devourer", 66, "PRIMITIVE", (byte) 31, Collections.singletonList(BREACHER));
+        registerParasite("sim_endermanhead", 69, "ASSIMILATED", (byte) 0);
+        registerParasite("sim_dragonehead", 70, "ASSIMILATED", (byte) 0);
+        registerParasite("sim_adventurerhead", 71, "ASSIMILATED", (byte) 0);
+        registerParasite("seizer", 72, "DETERRENT", (byte) 40);
+        registerParasite("dispatcher_si", 73, "NEXUS", (byte) 0);
+        registerParasite("dispatcherten", 74, "DETERRENT", (byte) 40);
+        registerParasite("hostii", 75, "CRUDE", (byte) 41);
+        registerParasite("mangler", 76, "INBORN", (byte) 51, Arrays.asList(VIRULENT, BERSERKER));
+        registerParasite("dispatcher_sii", 77, "NEXUS", (byte) 0);
+        registerParasite("dispatcher_siii", 78, "NEXUS", (byte) 0);
+        registerParasite("dispatcher_siv", 79, "NEXUS", (byte) 0);
+        registerParasite("thrall", 80, "CRUDE", (byte) 31, Collections.singletonList(SPECIAL));
+        registerParasite("seeker", 82, null, (byte) 51);
+        registerParasite("monarch", 84, "PURE", (byte) 51, Arrays.asList(SPECIAL, BREACHER));
+        registerParasite("wraith", 85, "PREEMINENT", (byte) 61);
+        registerParasite("bogle", 86, "PREEMINENT", (byte) 61);
+        registerParasite("haunter", 87, "PREEMINENT", (byte) 63, Collections.singletonList(SPECIAL));
+        registerParasite("carrier_colony", 88, "PREEMINENT", SRPMixinsConfigHandler.spawns.fixColonyCarrierTypeId ? (byte) 63 : (byte) 31, Collections.singletonList(SPECIAL));
+        registerParasite("succor", 89, "PREEMINENT", (byte) 61);
+        registerParasite("architect", 90, "PREEMINENT", (byte) 51);
+        registerParasite("gnat", 91, "INBORN", (byte) 5);
+        registerParasite("pri_vermin", 92, "PRIMITIVE", (byte) 31);
+        registerParasite("fer_cow", 93, "FERAL", (byte) 11);
+        registerParasite("fer_enderman", 94, "FERAL", (byte) 11);
+        registerParasite("fer_horse", 95, "FERAL", (byte) 11);
+        registerParasite("fer_human", 96, "FERAL", (byte) 11);
+        registerParasite("fer_pig", 97, "FERAL", (byte) 11);
+        registerParasite("fer_sheep", 98, "FERAL", (byte) 11);
+        registerParasite("fer_villager", 99, "FERAL", (byte) 11);
+        registerParasite("tendril", 202, null, (byte) 0);
+        registerParasite("biomass", 205, null, (byte) 100);
+        registerParasite("wave", 211, null, (byte) 0);
+        registerParasite("waveshock", 213, null, (byte) 0);
+        registerParasite("fer_wolf", 300, "FERAL", (byte) 11);
+        registerParasite("hi_golem", 301, "HIJACKED", (byte) 11);
+        registerParasite("carrier_light", 304, "INBORN", (byte) 41, Collections.singletonList(SPECIAL));
+        registerParasite("fer_bear", 306, "FERAL", (byte) 11);
+        registerParasite("sim_squid", 307, "ASSIMILATED", (byte) 15, Collections.singletonList(BREACHER));
+        registerParasite("worm", 308, "DETERRENT", (byte) 40);
 
-        paraIdToMobName = mobNameToParaIdMap.entrySet().stream().collect(Collectors.toMap(Map.Entry::getValue, Map.Entry::getKey));
-
-        mobGroupToParaIdMap.put("ADAPTED", new ArrayList<>(Arrays.asList(51, 52, 53, 54, 55, 56, 58)));
-        mobGroupToParaIdMap.put("ANCIENT", new ArrayList<>(Arrays.asList(20, 24, 35)));
-        mobGroupToParaIdMap.put("ASSIMILATED", new ArrayList<>(Arrays.asList(2, 6, 13, 14, 15, 21, 22, 26, 27, 28, 31, 32, 40, 44, 45, 46, 49, 59, 64, 69, 70, 71, 307)));
-        mobGroupToParaIdMap.put("CRUDE", new ArrayList<>(Arrays.asList(23, 39, 43, 48, 62, 63, 75, 80)));
-        mobGroupToParaIdMap.put("DETERRENT", new ArrayList<>(Arrays.asList(29, 30, 72, 74, 308)));
-        mobGroupToParaIdMap.put("FERAL", new ArrayList<>(Arrays.asList(93, 94, 95, 96, 97, 98, 99, 300, 306)));
-        mobGroupToParaIdMap.put("HIJACKED", new ArrayList<>(Collections.singletonList(301)));
-        mobGroupToParaIdMap.put("INBORN", new ArrayList<>(Arrays.asList(3, 5, 11, 12, 36, 76, 91, 304)));
-        mobGroupToParaIdMap.put("NEXUS", new ArrayList<>(Arrays.asList(16, 18, 19, 41, 73, 77, 78, 79)));
-        mobGroupToParaIdMap.put("PREEMINENT", new ArrayList<>(Arrays.asList(65, 82, 85, 86, 87, 88, 89, 90)));
-        mobGroupToParaIdMap.put("PRIMITIVE", new ArrayList<>(Arrays.asList(1, 4, 7, 8, 10, 17, 37, 38, 66, 92)));
-        mobGroupToParaIdMap.put("PURE", new ArrayList<>(Arrays.asList(9, 25, 33, 47, 50, 60, 84)));
-
-        mobNameToParaTypeMap.put("beckon_si", (byte) 0);
-        mobNameToParaTypeMap.put("beckon_sii", (byte) 0);
-        mobNameToParaTypeMap.put("beckon_siii", (byte) 0);
-        mobNameToParaTypeMap.put("sim_wolfhead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_sheephead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_cowhead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_pighead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_villagerhead", (byte) 0);
-        mobNameToParaTypeMap.put("beckon_siv", (byte) 0);
-        mobNameToParaTypeMap.put("sim_horsehead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_humanhead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_endermanhead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_dragonehead", (byte) 0);
-        mobNameToParaTypeMap.put("sim_adventurerhead", (byte) 0);
-        mobNameToParaTypeMap.put("dispatcher_si", (byte) 0);
-        mobNameToParaTypeMap.put("dispatcher_sii", (byte) 0);
-        mobNameToParaTypeMap.put("dispatcher_siii", (byte) 0);
-        mobNameToParaTypeMap.put("dispatcher_siv", (byte) 0);
-        mobNameToParaTypeMap.put("tendril", (byte) 0);
-        mobNameToParaTypeMap.put("wave", (byte) 0);
-        mobNameToParaTypeMap.put("waveshock", (byte) 0);
-        mobNameToParaTypeMap.put("buglin", (byte) 1);
-        mobNameToParaTypeMap.put("rupter", (byte) 5);
-        mobNameToParaTypeMap.put("gnat", (byte) 5);
-        mobNameToParaTypeMap.put("worker", (byte) 7);
-        mobNameToParaTypeMap.put("sim_human", (byte) 11);
-        mobNameToParaTypeMap.put("hi_blaze", (byte) 11);
-        mobNameToParaTypeMap.put("hi_skeleton", (byte) 11);
-        mobNameToParaTypeMap.put("sim_cow", (byte) 11);
-        mobNameToParaTypeMap.put("sim_villager", (byte) 11);
-        mobNameToParaTypeMap.put("incompleteform_small", (byte) 11);
-        mobNameToParaTypeMap.put("sim_adventurer", (byte) 11);
-        mobNameToParaTypeMap.put("incompleteform_medium", (byte) 11);
-        mobNameToParaTypeMap.put("sim_horse", (byte) 11);
-        mobNameToParaTypeMap.put("host", (byte) 11);
-        mobNameToParaTypeMap.put("sim_bear", (byte) 11);
-        mobNameToParaTypeMap.put("fer_cow", (byte) 11);
-        mobNameToParaTypeMap.put("fer_enderman", (byte) 11);
-        mobNameToParaTypeMap.put("fer_horse", (byte) 11);
-        mobNameToParaTypeMap.put("fer_human", (byte) 11);
-        mobNameToParaTypeMap.put("fer_pig", (byte) 11);
-        mobNameToParaTypeMap.put("fer_sheep", (byte) 11);
-        mobNameToParaTypeMap.put("fer_villager", (byte) 11);
-        mobNameToParaTypeMap.put("fer_wolf", (byte) 11);
-        mobNameToParaTypeMap.put("hi_golem", (byte) 11);
-        mobNameToParaTypeMap.put("fer_bear", (byte) 11);
-        mobNameToParaTypeMap.put("sim_sheep", (byte) 12);
-        mobNameToParaTypeMap.put("sim_wolf", (byte) 13);
-        mobNameToParaTypeMap.put("sim_bigspider", (byte) 14);
-        mobNameToParaTypeMap.put("sim_enderman", (byte) 14);
-        mobNameToParaTypeMap.put("sim_dragone", (byte) 14);
-        mobNameToParaTypeMap.put("sim_pig", (byte) 15);
-        mobNameToParaTypeMap.put("sim_squid", (byte) 15);
-        mobNameToParaTypeMap.put("pri_longarms", (byte) 31);
-        mobNameToParaTypeMap.put("pri_yelloweye", (byte) 31);
-        mobNameToParaTypeMap.put("pri_manducater", (byte) 31);
-        mobNameToParaTypeMap.put("pri_summoner", (byte) 31);
-        mobNameToParaTypeMap.put("pri_reeker", (byte) 31);
-        mobNameToParaTypeMap.put("carrier_flying", (byte) 31);
-        mobNameToParaTypeMap.put("pri_bolster", (byte) 31);
-        mobNameToParaTypeMap.put("pri_tozoon", (byte) 31);
-        mobNameToParaTypeMap.put("pri_arachnida", (byte) 31);
-        mobNameToParaTypeMap.put("heed", (byte) 31);
-        mobNameToParaTypeMap.put("pri_devourer", (byte) 31);
-        mobNameToParaTypeMap.put("thrall", (byte) 31);
-        mobNameToParaTypeMap.put("carrier_colony", (byte) 31);
-        mobNameToParaTypeMap.put("pri_vermin", (byte) 31);
-        mobNameToParaTypeMap.put("kyphosis", (byte) 40);
-        mobNameToParaTypeMap.put("sentry", (byte) 40);
-        mobNameToParaTypeMap.put("seizer", (byte) 40);
-        mobNameToParaTypeMap.put("dispatcherten", (byte) 40);
-        mobNameToParaTypeMap.put("worm", (byte) 40);
-        mobNameToParaTypeMap.put("carrier_heavy", (byte) 41);
-        mobNameToParaTypeMap.put("ada_longarms", (byte) 41);
-        mobNameToParaTypeMap.put("ada_manducater", (byte) 41);
-        mobNameToParaTypeMap.put("ada_summoner", (byte) 41);
-        mobNameToParaTypeMap.put("ada_reeker", (byte) 41);
-        mobNameToParaTypeMap.put("ada_yelloweye", (byte) 41);
-        mobNameToParaTypeMap.put("ada_bolster", (byte) 41);
-        mobNameToParaTypeMap.put("ada_arachnida", (byte) 41);
-        mobNameToParaTypeMap.put("crux", (byte) 41);
-        mobNameToParaTypeMap.put("hostii", (byte) 41);
-        mobNameToParaTypeMap.put("carrier_light", (byte) 41);
-        mobNameToParaTypeMap.put("overseer", (byte) 51);
-        mobNameToParaTypeMap.put("vigilante", (byte) 51);
-        mobNameToParaTypeMap.put("warden", (byte) 51);
-        mobNameToParaTypeMap.put("bomber_light", (byte) 51);
-        mobNameToParaTypeMap.put("marauder", (byte) 51);
-        mobNameToParaTypeMap.put("grunt", (byte) 51);
-        mobNameToParaTypeMap.put("mangler", (byte) 51);
-        mobNameToParaTypeMap.put("seeker", (byte) 51);
-        mobNameToParaTypeMap.put("monarch", (byte) 51);
-        mobNameToParaTypeMap.put("architect", (byte) 51);
-        mobNameToParaTypeMap.put("anc_pod", (byte) 61);
-        mobNameToParaTypeMap.put("bomber_heavy", (byte) 61);
-        mobNameToParaTypeMap.put("wraith", (byte) 61);
-        mobNameToParaTypeMap.put("bogle", (byte) 61);
-        mobNameToParaTypeMap.put("succor", (byte) 61);
-        mobNameToParaTypeMap.put("anc_dreadnaut", (byte) 62);
-        mobNameToParaTypeMap.put("anc_dreadnaut_ten", (byte) 62);
-        mobNameToParaTypeMap.put("anc_overlord", (byte) 63);
-        mobNameToParaTypeMap.put("haunter", (byte) 63);
-        mobNameToParaTypeMap.put("movingflesh", (byte) 100);
-        mobNameToParaTypeMap.put("biomass", (byte) 100);
-
-        mobNameToVariantsMap.put("ada_arachnida", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("ada_bolster", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("ada_longarms", Arrays.asList(SPECIAL, VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("ada_manducater", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("ada_reeker", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("ada_summoner", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("ada_yelloweye", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("pri_arachnida", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("pri_bolster", Arrays.asList(VIRULENT, BREACHER));
-        mobNameToVariantsMap.put("pri_devourer", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("pri_longarms", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("pri_manducater", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("pri_reeker", Arrays.asList(SPECIAL, VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("pri_summoner", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("pri_yelloweye", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("rupter", Arrays.asList(VIRULENT, BERSERKER));
-        mobNameToVariantsMap.put("mangler", Arrays.asList(VIRULENT, BERSERKER));
-        mobNameToVariantsMap.put("thrall", Collections.singletonList(SPECIAL));
-        mobNameToVariantsMap.put("carrier_flying", Collections.singletonList(SPECIAL));
-        mobNameToVariantsMap.put("carrier_light", Collections.singletonList(SPECIAL));
-        mobNameToVariantsMap.put("carrier_heavy", Collections.singletonList(SPECIAL));
-        mobNameToVariantsMap.put("sim_enderman", Collections.singletonList(SPECIAL));
-        mobNameToVariantsMap.put("sim_squid", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("overseer", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("vigilante", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("marauder", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("grunt", Arrays.asList(VIRULENT, BERSERKER, BREACHER));
-        mobNameToVariantsMap.put("warden", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("bomber_light", Collections.singletonList(BREACHER));
-        mobNameToVariantsMap.put("monarch", Arrays.asList(SPECIAL, BREACHER));
-        mobNameToVariantsMap.put("haunter", Collections.singletonList(SPECIAL));
-        mobNameToVariantsMap.put("carrier_colony", Collections.singletonList(SPECIAL));
+        if(Loader.isModLoaded("srpextra")){
+            SRPExtraCompat.init();
+            registerSRPExtraMobs();
+        }
+        if(Loader.isModLoaded("srpdeepseadanger")) registerSRPDeepSeaDangerMobs();
+        if(Loader.isModLoaded("srpquark")) registerSRPQuarkMobs();
+        if(Loader.isModLoaded("srpmutantbeasts")) registerSRPMutantBeastsMobs();
+    }
+    
+    public static void registerSRPExtraMobs(){
+        registerParasite("hijacked_creeper", -1, "HIJACKED");
+        registerParasite("hijacked_creeper_head", -257, "HIJACKED"); //Not actually like that in code yet
+        registerParasite("hijacked_skeleton", -2, "HIJACKED");
+        registerParasite("hijacked_skeleton_head", -258, "HIJACKED"); //Not actually like that in code yet
+        registerParasite("hijacked_skeleton_stray", -3, "HIJACKED");
+        registerParasite("stalker", -4, "PRIMITIVE");
+        registerParasite("sim_witch", -5, "ASSIMILATED");
+        registerParasite("sim_witch_head", -261, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("sim_vindicator", -6, "ASSIMILATED");
+        registerParasite("sim_vindicator_head", -262, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("sim_evoker", -7, "ASSIMILATED");
+        registerParasite("sim_ocelot", -8, "ASSIMILATED");
+        registerParasite("sim_ocelot_head", -264, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("ada_vermin", -9, "ADAPTED");
+    }
+    public static void registerSRPDeepSeaDangerMobs(){
+        registerParasite("swimmer", -10, "INBORN");
+        registerParasite("leecher", -11, "INBORN");
+        registerParasite("sim_drowned", -23, "ASSIMILATED");
+        registerParasite("sim_dolphin", -24, "ASSIMILATED");
+        registerParasite("sim_dolphin_head", -280, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("sim_fish", -25, "ASSIMILATED");
+        registerParasite("fer_dolphin", -536, "FERAL"); //Not actually like that in code yet
+        registerParasite("pri_hammerhead", -26, "PRIMITIVE");
+        registerParasite("ada_hammerhead", -27, "ADAPTED");
+        registerParasite("sprouter_si", -28, "NEXUS");
+        registerParasite("sprouter_sii", -29, "NEXUS");
+        registerParasite("sprouter_siii", -30, "NEXUS");
+        registerParasite("sprouter_siv", -31, "NEXUS");
+        registerParasite("plankton", -32, "INBORN");
+        registerParasite("carrier_sea", -33, "INBORN");
+        registerParasite("bomber_mini", -34, "INBORN");
+        registerParasite("supporter", -35, "PURE");
+        registerParasite("hi_guardian", -38, "HIJACKED");
+        registerParasite("hi_elder_guardian", -39, "HIJACKED");
+        registerParasite("fer_fish", -40, "FERAL"); //Not actually like that in code yet
+        registerParasite("ada_devourer", -41, "ADAPTED"); //Not actually like that in code yet
+        registerParasite("tendril_hammerhead", -283);
+    }
+    public static void registerSRPQuarkMobs(){
+        registerParasite("hijacked_skeleton_pirate", -71, "HIJACKED");
+        registerParasite("hijacked_skeleton_ashen", -72, "HIJACKED");
+        registerParasite("sim_dweller", -73, "ASSIMILATED");
+        registerParasite("sim_archaeologist", -74, "ASSIMILATED");
+        registerParasite("sim_stoneling", -75, "ASSIMILATED");
+        registerParasite("sim_crab", -76, "ASSIMILATED");
+        registerParasite("sim_frog", -77, "ASSIMILATED");
+    }
+    public static void registerSRPMutantBeastsMobs(){
+        registerParasite("assimilated_mutant_zombie", -81, "ASSIMILATED");
+        registerParasite("assimilated_mutant_enderman", -82, "ASSIMILATED");
+        registerParasite("hijacked_mutant_skeleton", -83, "HIJACKED");
     }
 }
