@@ -19,9 +19,9 @@ import srpmixins.rules.VariantRule;
 
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
-	@Config.Comment("Test Map")
+	/*@Config.Comment("Test Map")
 	@Config.Name("Test")
-	public static MapWrapper testMap = new MapWrapper("test,1") {{}};
+	public static MapWrapper testMap = new MapWrapper("test,1") {{}};*/
 
 	@Config.Comment("Adaptation Options")
 	@Config.Name("Adaptation")

@@ -14,7 +14,8 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public abstract class EntityInjectMixin {
     @Redirect(
             method = "playerFishing",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;")
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
     )
     private SRPSaveData srpmixins_useCustomPhases(World world, @Local(argsOnly = true) ItemFishedEvent event){
         return SRPSaveDataInterface.get(world, event.getEntityPlayer(), null);

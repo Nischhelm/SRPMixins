@@ -17,7 +17,8 @@ public abstract class EntityVeruMixin extends Entity {
 
     @Redirect(
             method = "getGrowChance",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;")
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;"),
+            remap = false
     )
     private SRPSaveData srpmixins_useCustomPhases(World world){
         return SRPSaveDataInterface.get(world, null, this.getPosition());

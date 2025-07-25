@@ -20,10 +20,7 @@ import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.SpawnPotentialsHandler;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Mixin(SRPSpawning.class)
 public abstract class SpawnListEntryGrabber {
@@ -87,22 +84,32 @@ public abstract class SpawnListEntryGrabber {
         if(paraId == Integer.MIN_VALUE) return false;
 
         //This is intended to be equality check, not instanceof
-        if(biome == SRPBiomes.biomeInfested) SpawnPotentialsHandler.biomeSpawns.put(newEntry, paraId);
+        if(biome == SRPBiomes.biomeInfested) SpawnPotentialsHandler.biomeSpawns.add(new SpawnPotentialsHandler.BiomeSpawnListEntryWrapper(newEntry, paraId));
 
         else {
             //This whole part is only called if evo phase off or phase on and custom spawner off
-            SpawnPotentialsHandler.allPhaseSpawns.put(newEntry, paraId);
+            SpawnPotentialsHandler.allPhaseSpawns.add(new SpawnPotentialsHandler.BiomeSpawnListEntryWrapper(newEntry, paraId));
 
             byte paraType = SRPMobConfigProvider.mobNameToParaTypeMap.getOrDefault(mobid, (byte) 0);
 
             for(int phase = 0; phase <= SRPConfigProvider.getMaxPhase(); phase++)
                 if(srpmixins$canSpawnInPhase((byte) phase, paraType)) {
-                    Map<Biome.SpawnListEntry, Integer> listPerPhase = SpawnPotentialsHandler.phaseIdSpawns.computeIfAbsent((byte) phase, HashMap::new);
-                    listPerPhase.put(newEntry, paraId);
+                    List<SpawnPotentialsHandler.BiomeSpawnListEntryWrapper> listPerPhase = SpawnPotentialsHandler.phaseIdSpawns.computeIfAbsent((byte) phase, ArrayList::new);
+                    listPerPhase.add(new SpawnPotentialsHandler.BiomeSpawnListEntryWrapper(newEntry, paraId));
                 }
         }
 
         return false; //don't add to original biome spawnlist
+    }
+
+    @Inject(
+            method = "init",
+            at = @At("TAIL"),
+            remap = false
+    )
+    private static void srpmixins_clearOwnCache(CallbackInfo ci){
+        srpmixins$phaseMinParasiteID = null;
+        srpmixins$phaseMaxParasiteID = null;
     }
 
     @ModifyExpressionValue(
@@ -111,11 +118,7 @@ public abstract class SpawnListEntryGrabber {
             remap = false
     )
     private static boolean srpmixins_resetSpawnLists(boolean useEvo){
-        if(!useEvo){
-            SpawnPotentialsHandler.resetCaches();
-            srpmixins$phaseMinParasiteID = null;
-            srpmixins$phaseMaxParasiteID = null;
-        }
+        if(!useEvo) SpawnPotentialsHandler.resetCaches();
         return useEvo;
     }
 }

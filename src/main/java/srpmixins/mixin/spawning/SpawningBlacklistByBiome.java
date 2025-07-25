@@ -27,14 +27,18 @@ public abstract class SpawningBlacklistByBiome {
         int dim = worldServerIn.provider.getDimension();
         Set<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(dim);
         if(biomeBlacklist == null) return;
+        if(biomeBlacklist.isEmpty()) {
+            if(!SRPMixinsConfigHandler.spawns.biomeBlacklistIsWhitelist)
+                cir.setReturnValue(null);
+            return;
+        }
 
         ResourceLocation biome = worldServerIn.getBiome(pos).getRegistryName();
         if(biome == null) return;
         String currBiome = biome.toString();
         String currBiomeMod = biome.getNamespace();
         boolean isInList = biomeBlacklist.contains(currBiome) ||
-                biomeBlacklist.contains(currBiomeMod) ||
-                biomeBlacklist.isEmpty();
+                biomeBlacklist.contains(currBiomeMod);
 
         if(isInList != SRPMixinsConfigHandler.spawns.biomeBlacklistIsWhitelist)
             cir.setReturnValue(null);

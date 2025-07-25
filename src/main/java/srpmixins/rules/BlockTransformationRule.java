@@ -5,6 +5,7 @@ import com.dhanantry.scapeandrunparasites.block.BlockParasiteRubble;
 import com.dhanantry.scapeandrunparasites.block.BlockParasiteStain;
 import com.dhanantry.scapeandrunparasites.init.SRPBlocks;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockObsidian;
 import net.minecraft.block.BlockOre;
 import net.minecraft.block.BlockStone;
 import net.minecraft.block.material.Material;
@@ -102,7 +103,7 @@ public class BlockTransformationRule {
             /*LAPIS_ORE*/	new BlockTransformationRule(Material.ROCK, block -> block == Blocks.LAPIS_ORE, SRPBlocks.InfestedOre.getDefaultState().withProperty(BlockInfestedOre.VARIANT, BlockInfestedOre.EnumType.LAP)).setGeneratesBelow();
             /*REDS_ORE*/	new BlockTransformationRule(Material.ROCK, block -> block == Blocks.REDSTONE_ORE, SRPBlocks.InfestedOre.getDefaultState().withProperty(BlockInfestedOre.VARIANT, BlockInfestedOre.EnumType.RED)).setGeneratesBelow();
             /*OTHER_ORE*/	new BlockTransformationRule(Material.ROCK, block -> block instanceof BlockOre, SRPBlocks.InfestedOre.getDefaultState().withProperty(BlockInfestedOre.VARIANT, BlockInfestedOre.EnumType.UN)).setGeneratesBelow();
-            /*OBSIDIAN*/	new BlockTransformationRule(Material.ROCK, block -> block == Blocks.OBSIDIAN, SRPBlocks.ParasiteRubble.getDefaultState().withProperty(BlockParasiteRubble.VARIANT, BlockParasiteRubble.EnumType.OBSIDIAN)).setGeneratesBelow().setGeneratesAbove();
+            /*OBSIDIAN*/	new BlockTransformationRule(Material.ROCK, block -> block instanceof BlockObsidian, SRPBlocks.ParasiteRubble.getDefaultState().withProperty(BlockParasiteRubble.VARIANT, BlockParasiteRubble.EnumType.OBSIDIAN)).setGeneratesBelow().setGeneratesAbove();
             /*NOCORE*/	new BlockTransformationRule(Material.ROCK, block -> block == SRPBlocks.BiomeHeart || block == SRPBlocks.ColonyHeart, null).setNoPoints();
             /*BRICK*/	new BlockTransformationRule(Material.ROCK, block -> block.getRegistryName().toString().contains("brick"), SRPBlocks.ParasiteRubble.getDefaultState().withProperty(BlockParasiteRubble.VARIANT, BlockParasiteRubble.EnumType.BRICKS)).setGeneratesBelow().setGeneratesAbove();
             /*OTHERROCK*/	new BlockTransformationRule(Material.ROCK, null, SRPBlocks.ParasiteRubble.getDefaultState().withProperty(BlockParasiteRubble.VARIANT, BlockParasiteRubble.EnumType.STONE)).setGeneratesBelow().setGeneratesAbove();

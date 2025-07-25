@@ -14,7 +14,8 @@ public abstract class SRPEWorldSpawnMobMixin {
     //Bit of a bruh
     @ModifyReceiver(
             method = "playerSpawn",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;getEvolutionPhase(I)B")
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;getEvolutionPhase(I)B"),
+            remap = false
     )
     private SRPSaveData srpmixins_useCustomPhases(SRPSaveData instance, int i, @Local(argsOnly = true) EntityPlayer player){
         return SRPSaveDataInterface.get(player.world, player, null);

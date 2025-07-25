@@ -14,7 +14,7 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 public abstract class SRPExtraCommandMixin {
     @Redirect(
             method = "getTabCompletions",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;")
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
     private SRPSaveData srpmixins_useCustomPhases(World world, @Local(argsOnly = true) ICommandSender sender){
         return SRPSaveDataInterface.get(world, null, sender.getPosition());

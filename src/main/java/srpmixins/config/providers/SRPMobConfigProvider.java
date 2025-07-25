@@ -189,7 +189,7 @@ public class SRPMobConfigProvider {
     public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId, @Nullable List<VariantRule.EnumVariant> variants){
         mobNameToParaIdMap.put(name, paraId);
         paraIdToMobName.put(paraId, name);
-        if(group != null) mobGroupToParaIdMap.get(group).add(paraId);
+        if(group != null) mobGroupToParaIdMap.computeIfAbsent(group, newGroup -> new ArrayList<>()).add(paraId);
         if(typeId != null) mobNameToParaTypeMap.put(name, typeId);
         if(variants != null) mobNameToVariantsMap.put(name, variants);
     }

@@ -11,18 +11,16 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigWorld;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
 import com.dhanantry.scapeandrunparasites.world.biome.BiomeParasite;
-import com.google.common.base.Functions;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import srpmixins.SRPMixins;
 import srpmixins.compat.CompatUtil;
 import srpmixins.compat.SRPExtraCompat;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
@@ -33,35 +31,41 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SpawnPotentialsHandler {
-    //This is basically just Lists but since getting parasite id is not a static method, we cache those too
-    public static final Map<Byte, Map<Biome.SpawnListEntry, Integer>> phaseIdSpawnsCustom = new HashMap<>(); //don't reset cause it doesn't get rewritten
-    public static final Map<Byte, Map<Biome.SpawnListEntry, Integer>> phaseIdSpawns = new HashMap<>();
-    public static final Map<Biome.SpawnListEntry, Integer> allPhaseSpawns = new HashMap<>();
-    public static final Map<Biome.SpawnListEntry, Integer> biomeSpawns = new HashMap<>();
+    public static final Map<Byte, List<BiomeSpawnListEntryWrapper>> phaseIdSpawnsCustom = new HashMap<>(); //don't reset cause it doesn't get rewritten
+    public static final Map<Byte, List<BiomeSpawnListEntryWrapper>> phaseIdSpawns = new HashMap<>();
+    public static final List<BiomeSpawnListEntryWrapper> allPhaseSpawns = new ArrayList<>();
+    public static final List<BiomeSpawnListEntryWrapper> biomeSpawns = new ArrayList<>();
 
     private static Map<Integer, Integer> paraIdToColoPointLock = null;
 
     public static void resetCaches(){
-        phaseIdSpawnsCustom.clear();
         phaseIdSpawns.clear();
         allPhaseSpawns.clear();
         biomeSpawns.clear();
         paraIdToColoPointLock = null;
     }
 
-    public static Map<Biome.SpawnListEntry, Integer> getPhaseSpawnListCustom(byte phaseChecked) {
-        return phaseIdSpawnsCustom.computeIfAbsent(phaseChecked,
-                phase -> phase >= 0 ? SRPSpawning.getSpawns(phase).stream()
-                        .collect(Collectors.toMap(
-                            Functions.identity(), //Key is just the SpawnListEntry itself
-                            entry -> {            //Value is the para id assigned to the mob
-                                ResourceLocation loc = EntityList.getKey(entry.entityClass);
-                                if (loc == null) return Integer.MIN_VALUE;
-                                String mobid = loc.getPath();
-                                return SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(mobid, Integer.MIN_VALUE);
-                            })
-                        ) : Collections.emptyMap()
-        );
+    public static List<BiomeSpawnListEntryWrapper> getPhaseSpawnListCustom(byte phaseChecked) {
+        if(phaseIdSpawnsCustom.containsKey(phaseChecked)) return phaseIdSpawnsCustom.get(phaseChecked);
+
+        List<BiomeSpawnListEntryWrapper> freshList;
+        if(phaseChecked > SRPConfigProvider.getMaxPhase())
+            freshList = Collections.emptyList();
+        else {
+            List<Biome.SpawnListEntry> srpList = SRPSpawning.getSpawns(phaseChecked);
+            if (srpList == null || srpList.isEmpty()) freshList = Collections.emptyList();
+            else {
+                freshList = srpList.stream().map(entry -> {
+                    ResourceLocation loc = EntityList.getKey(entry.entityClass);
+                    if (loc == null) return new BiomeSpawnListEntryWrapper(entry, Integer.MIN_VALUE);
+                    int paraId = SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(loc.getPath(), Integer.MIN_VALUE);
+                    return new BiomeSpawnListEntryWrapper(entry, paraId);
+                }).collect(Collectors.toList());
+            }
+        }
+
+        phaseIdSpawnsCustom.put(phaseChecked, freshList);
+        return freshList;
     }
 
     public static Map<Integer, Integer> getParaIdToColoPointLockMap(){
@@ -87,20 +91,22 @@ public class SpawnPotentialsHandler {
             if(isInList != SRPConfig.blackListedDimensionsWhite) return;
         }
 
-        if (isBiomeBlacklisted(world, event.getPos())) return;
+        Set<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(currDim);
+        if(biomeBlacklist != null && isDimensionBlacklisted(biomeBlacklist)) return;
+
+        Biome biome = world.getBiome(event.getPos());
+        if(biomeBlacklist != null && isBiomeBlacklisted(biomeBlacklist, biome)) return;
 
         SRPSaveData data = SRPSaveDataInterface.get(world, null, event.getPos());
         SRPWorldData worlddata = SRPWorldData.get(world);
 
         //Para Biome has its own handling independent on phase
         //Auto includes SRPMixins "Fix Parasite Biome Spawns"
-        if (world.getBiome(event.getPos()) instanceof BiomeParasite){
+        if (biome instanceof BiomeParasite)
             event.getList().addAll(filterSpawnEntries(biomeSpawns, data, worlddata, true, currDim));
-        } else {
+        else {
             byte evophase = data.getEvolutionPhase(currDim);
-
-            //No spawns in phase -1 and phase -2
-            if(SRPConfigSystems.useEvolution && evophase < 0) return;
+            if(SRPConfigSystems.useEvolution && evophase < 0) return; //faster than checking each one
 
             //Default: phases + custom spawner
             if (SRPConfigSystems.useEvolution && SRPConfigSystems.phaseCustomSpawner)
@@ -108,7 +114,7 @@ public class SpawnPotentialsHandler {
 
             //Phases + no custom spawner
             else if (SRPConfigSystems.useEvolution) //&& !SRPConfigSystems.phaseCustomSpawner
-                event.getList().addAll(filterSpawnEntries(phaseIdSpawns.get(evophase), data, worlddata, false, currDim));
+                event.getList().addAll(filterSpawnEntries(phaseIdSpawns.getOrDefault(evophase, Collections.emptyList()), data, worlddata, false, currDim));
 
             //Phases off
             else /*if (!SRPConfigSystems.useEvolution)*/
@@ -116,14 +122,16 @@ public class SpawnPotentialsHandler {
         }
     }
 
-    private static List<Biome.SpawnListEntry> filterSpawnEntries(Map<Biome.SpawnListEntry, Integer> original, SRPSaveData data, SRPWorldData worldData, boolean isParaBiome, int dimId){
-        return original.entrySet().stream()
-                .filter(entry -> entry.getValue() != Integer.MIN_VALUE)
-                .filter(entry -> !data.checkParasiteID(entry.getValue())) //is not in evolution phase lock
-                .filter(entry -> !isColonyLocked(entry.getValue(), worldData, isParaBiome)) //is not in evolution phase lock
-                .filter(entry -> !isSubCapLocked(entry.getKey().entityClass, dimId))
-                .map(Map.Entry::getKey)
-                .collect(Collectors.toList());
+    private static List<Biome.SpawnListEntry> filterSpawnEntries(List<BiomeSpawnListEntryWrapper> original, SRPSaveData data, SRPWorldData worldData, boolean isParaBiome, int dimId){
+        List<Biome.SpawnListEntry> returnList = new ArrayList<>();
+        for(BiomeSpawnListEntryWrapper wrapper : original){
+            if(wrapper.paraId == Integer.MIN_VALUE) continue;
+            if(data.checkParasiteID(wrapper.paraId)) continue;
+            if(isColonyLocked(wrapper.paraId, worldData, isParaBiome)) continue;
+            if(isSubCapLocked(wrapper.entry.entityClass, dimId)) continue;
+            returnList.add(wrapper.entry);
+        }
+        return returnList;
     }
 
     private static boolean isSubCapLocked(Class<? extends EntityLiving> entityClass, int dimId) {
@@ -159,19 +167,28 @@ public class SpawnPotentialsHandler {
         return currColoPoints < minColoPointsRequired;
     }
 
-    private static boolean isBiomeBlacklisted(World world, BlockPos pos){
-        int dim = world.provider.getDimension();
-        Set<String> biomeBlacklist = SRPMixinsConfigProvider.biomeSpawningBlacklists.get(dim);
-        if(biomeBlacklist == null) return false;
+    private static boolean isDimensionBlacklisted(Set<String> biomeBlacklist){
+        if(biomeBlacklist.isEmpty()) //early return to not do string manipulation if whole dimension is disabled
+            return !SRPMixinsConfigHandler.spawns.biomeBlacklistIsWhitelist;
+        else return false;
+    }
 
-        ResourceLocation biome = world.getBiome(pos).getRegistryName();
-        if(biome == null) return false;
-        String currBiome = biome.toString();
-        String currBiomeMod = biome.getNamespace();
-        boolean isInList = biomeBlacklist.contains(currBiome) ||
-                biomeBlacklist.contains(currBiomeMod) ||
-                biomeBlacklist.isEmpty();
+    private static boolean isBiomeBlacklisted(Set<String> biomeBlacklist, Biome biome){
+        ResourceLocation biomeLoc = biome.getRegistryName();
+        if(biomeLoc == null) return false;
+        String biomeId = biomeLoc.toString();
+        String biomeModId = biomeLoc.getNamespace();
+        boolean isInList = biomeBlacklist.contains(biomeId) || biomeBlacklist.contains(biomeModId);
 
         return isInList != SRPMixinsConfigHandler.spawns.biomeBlacklistIsWhitelist;
+    }
+
+    public static class BiomeSpawnListEntryWrapper {
+        final Biome.SpawnListEntry entry;
+        final int paraId;
+        public BiomeSpawnListEntryWrapper(Biome.SpawnListEntry entry, int paraId){
+            this.entry = entry;
+            this.paraId = paraId;
+        }
     }
 }

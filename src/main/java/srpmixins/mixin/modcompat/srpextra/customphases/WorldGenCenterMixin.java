@@ -14,7 +14,8 @@ public abstract class WorldGenCenterMixin {
     @ModifyVariable(
             method = "generate",
             name = "phase",
-            at = @At(value = "FIELD", target = "Lenergon/srpextra/world/WorldGenCenter;tierTwo:I", ordinal = 0)
+            at = @At(value = "FIELD", target = "Lenergon/srpextra/world/WorldGenCenter;tierTwo:I", ordinal = 0),
+            remap = false
     )
     private int srpmixins_useCustomPhases(
             int value,
