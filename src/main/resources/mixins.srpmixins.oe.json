@@ -6,7 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "EntityDrownedMixin"
+    "EntityDrownedMixin",
+    "GeneratorFrozenOceanMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
