@@ -26,6 +26,7 @@ public abstract class CountParasiteBaseMobs extends EntityLiving implements IPar
             remap = false
     )
     private boolean srpmixins_countForParaMobCap(boolean original, @Local(argsOnly = true) EnumCreatureType type){
+        //Overlaps with srpmixins.mixin.vanilla.WorldMixin
         return original && type != ParasiteCreatureType.PARASITE;
     }
 }

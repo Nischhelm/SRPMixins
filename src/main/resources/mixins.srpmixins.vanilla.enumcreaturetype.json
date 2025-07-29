@@ -7,7 +7,8 @@
   "minVersion": "0.8",
   "mixins": [
     "EnumCreatureTypeMixin",
-    "WorldEntitySpawnerMixin"
+    "WorldEntitySpawnerMixin",
+    "WorldMixin"
   ],
   "injectors": {
     "maxShiftBy": 10
