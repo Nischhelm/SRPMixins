@@ -14,7 +14,6 @@ import srpmixins.handlers.WorldMobCapHandler;
 import java.util.Collections;
 import java.util.List;
 
-@Debug(export = true)
 @Mixin(targets = "com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityIki.AIBomb")
 public abstract class PrimVerminSummonFix {
     @Shadow(remap = false) @Final private EntityParasiteBase parent;

@@ -13,6 +13,8 @@ import java.util.UUID;
 public interface SRPSaveDataInterface {
 
     void srpmixins$setUUID(UUID uuid);
+    boolean srpmixins$getIsLegacy();
+    void srpmixins$setIsLegacy();
 
     //For player phases
     SRPSaveData srpmixins$getByPlayer(World world, UUID playerUUID);

@@ -15,4 +15,11 @@ public class PlayerPhaseConfig {
     @Config.Comment("Send logs when methods try to find a player to do player phase stuff with and not finding one")
     @Config.Name("Player Phases debug mode")
     public boolean playerPhaseDebugMode = false;
+
+    @Config.Comment("Worlds saved using player phases in SRPMixins 2.8.5 and earlier have their phase+point data accidentally spread out over multiple data files (one per dimension).\n" +
+            "This patch loads old data and puts it into the global file in /data.\n" +
+            "You can disable this patch to save a minimal amount of performance if you don't have worlds that were saved in SRPMixins 2.8.5 or older using player phases.\n" +
+            "In an existing world it's enough to enter all dimensions once to have the patch be fully applied and allowing to disable this patch.")
+    @Config.Name("Player Phases Legacy Patch")
+    public boolean playerPhaseLegacyPatch = true;
 }

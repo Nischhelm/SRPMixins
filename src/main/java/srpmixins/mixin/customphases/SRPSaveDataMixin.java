@@ -6,10 +6,10 @@ import com.dhanantry.scapeandrunparasites.init.SRPPotions;
 import com.dhanantry.scapeandrunparasites.network.SRPPacketMovingSound;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
@@ -18,11 +18,14 @@ import net.minecraft.world.storage.MapStorage;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
+import srpmixins.util.customphasemechanics.SRPSaveDataPlayerLegacyPatch;
 
 import java.util.List;
 import java.util.Map;
@@ -30,18 +33,7 @@ import java.util.UUID;
 
 @Mixin(SRPSaveData.class)
 public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
-    @ModifyArg(
-            method = "<init>()V",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/storage/WorldSavedData;<init>(Ljava/lang/String;)V"),
-            remap = false
-    )
-    private static String srpmixins_changeDataName(String name){
-        return name+ srpmixins$uuidtmp;
-    }
-
-    @Unique private static String srpmixins$uuidtmp = "";
     @Unique private UUID srpmixins$playerUUID;
-    @Override
     public void srpmixins$setUUID(UUID uuid){
         srpmixins$playerUUID = uuid;
     }
@@ -49,12 +41,10 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     @Unique
     private static SRPSaveData srpmixins$createForPlayer(World world, UUID playerUUID, MapStorage storage) {
         SRPMixins.LOGGER.info("Creating new SRPSaveData for dim{} and player{}", world.provider.getDimension(),playerUUID.toString());
-        srpmixins$uuidtmp = playerUUID.toString();
-        SRPSaveData instance = new SRPSaveData();
-        srpmixins$uuidtmp = "";
-        storage.setData("srparasites_global_data" + playerUUID, instance);
 
-        ((SRPSaveDataMixin) (Object) instance).srpmixins$setUUID(playerUUID);
+        String dataName = "srparasites_global_data" + playerUUID;
+        SRPSaveData instance = new SRPSaveData(dataName);
+        storage.setData(dataName, instance);
 
         instance.getLockedList().addAll(SRPConfigProvider.lockedParasites);
 
@@ -84,6 +74,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
                 instance.setLoss(true, dim);
         }
 
+        instance.markDirty();
         return instance;
     }
 
@@ -97,15 +88,18 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         ((SRPSaveDataAccessor) instance).getDimEPevolution().add(SRPConfigSystems.defaultEvoPhase);
         ((SRPSaveDataAccessor) instance).getDimEPtimeEvolution().add(0);
         ((SRPSaveDataAccessor) instance).getDimEPtotalKills().add(SRPConfigSystems.defaultEvoPoints);
-        instance.markDirty();
     }
 
     @Override
     public SRPSaveData srpmixins$getByPlayer(World world, UUID playerUUID) {
-        if(playerUUID!=null) {
-            MapStorage storage = world.getPerWorldStorage();
+        if(playerUUID != null) {
+            MapStorage storage = world.getMapStorage();
             SRPSaveData instancePlayer = (SRPSaveData) storage.getOrLoadData(SRPSaveData.class, "srparasites_global_data" + playerUUID);
-            if (instancePlayer == null) instancePlayer = srpmixins$createForPlayer(world,playerUUID, storage);
+            if (instancePlayer == null) instancePlayer = srpmixins$createForPlayer(world, playerUUID, storage);
+
+            //legacy garbage
+            srpmixins$patchIfAvailable(world, playerUUID, instancePlayer);
+
             ((SRPSaveDataInterface) instancePlayer).srpmixins$setUUID(playerUUID); //idk why this is here but it shouldnt be an issue
             return instancePlayer;
         }
@@ -168,29 +162,29 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         return Math.max(xD,zD);
     }
 
-    @WrapOperation(
+    @WrapWithCondition(
             method = "checkKills",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerDim(Lnet/minecraft/world/World;Ljava/lang/String;I)V"),
             remap = false
     )
-    private void srpmixins_sendWarningToOnePlayer(World world, String message, int warning, Operation<Void> original){
-        if(SRPMixinsConfigHandler.playerphases.enabled && this.srpmixins$playerUUID !=null)
-            srpmixins$alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
-        else
-            original.call(world, message, warning);
+    private boolean srpmixins_sendWarningToOnePlayer(World world, String message, int warning){
+        if(!SRPMixinsConfigHandler.playerphases.enabled || this.srpmixins$playerUUID == null) return true;
+
+        srpmixins$alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
+        return false;
     }
 
-    @WrapOperation(
+    @WrapWithCondition(
             method = "checkForUnlock",
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerSer(Ljava/lang/String;Lnet/minecraft/world/World;)V"),
             remap = false
     )
-    private void srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world, Operation<Void> original) {
-        if(SRPMixinsConfigHandler.playerphases.enabled) {
-            EntityPlayer player = world.getPlayerEntityByUUID(srpmixins$playerUUID);
-            if(player != null) player.sendMessage(new TextComponentString(message));
-        } else
-            original.call(message, world);
+    private boolean srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world) {
+        if(!SRPMixinsConfigHandler.playerphases.enabled || srpmixins$playerUUID == null) return true;
+
+        EntityPlayer player = world.getPlayerEntityByUUID(srpmixins$playerUUID);
+        if(player != null) player.sendMessage(new TextComponentString(message));
+        return false;
     }
 
     @Unique
@@ -203,5 +197,42 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         if (warning == -7 && message.equals("Phase decreased"))
             for (EntityParasiteBase entity : worldIn.getEntities(EntityParasiteBase.class, ent -> ent.getDistanceSq(player) <= 65536))
                 entity.addPotionEffect(new PotionEffect(SRPPotions.RAGE_E, 2400, 1, false, false));
+    }
+
+
+    // ---------------- LEGACY GARBAGE -----------------------
+    @Unique private static final String srpmixins$legacyDontReadKey = "srpmixins_legacydata_dont_read";
+    @Unique private boolean srpmixins$isLegacyPerDimSaveData = false;
+    @Inject(method = "readFromNBT", at = @At("TAIL"))
+    private void srpmixins_readLegacyTag(NBTTagCompound compound, CallbackInfo ci){
+        if(compound.hasKey(srpmixins$legacyDontReadKey)) this.srpmixins$isLegacyPerDimSaveData = true;
+    }
+    @Inject(method = "writeToNBT", at = @At("TAIL"))
+    private void srpmixins_writeLegacyTag(NBTTagCompound compound, CallbackInfoReturnable<NBTTagCompound> cir){
+        if(this.srpmixins$isLegacyPerDimSaveData) compound.setBoolean(srpmixins$legacyDontReadKey, true);
+    }
+    public boolean srpmixins$getIsLegacy(){
+        return this.srpmixins$isLegacyPerDimSaveData;
+    }
+    public void srpmixins$setIsLegacy(){
+        this.srpmixins$isLegacyPerDimSaveData = true;
+    }
+    @Unique
+    private static void srpmixins$patchIfAvailable(World world, UUID playerUUID, SRPSaveData actualData){
+        int dimId = world.provider.getDimension();
+        if(SRPMixinsConfigHandler.playerphases.playerPhaseLegacyPatch && dimId != 0){
+            MapStorage storagePerWorld = world.getPerWorldStorage();
+            SRPSaveData instancePlayerLegacy = (SRPSaveData) storagePerWorld.getOrLoadData(SRPSaveData.class, "srparasites_global_data" + playerUUID);
+            if(instancePlayerLegacy != null && !((SRPSaveDataInterface) instancePlayerLegacy).srpmixins$getIsLegacy()) {
+                ((SRPSaveDataInterface) instancePlayerLegacy).srpmixins$setIsLegacy(); //Don't read this data ever again after this
+                instancePlayerLegacy.markDirty();
+
+                // we gotta get the saved data just from that one dimension
+                // and then write it into the actual data object
+                new SRPSaveDataPlayerLegacyPatch(dimId, (SRPSaveDataAccessor) instancePlayerLegacy).patchWithLegacyData((SRPSaveDataAccessor) actualData);
+
+                actualData.markDirty();
+            }
+        }
     }
 }
