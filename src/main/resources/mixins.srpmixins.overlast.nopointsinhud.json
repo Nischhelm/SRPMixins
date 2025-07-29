@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.modcompat.overlast.hudrender",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "injectors": {
+    "maxShiftBy": 10
+  },
+  "client": [
+    "RenderHUDMixin_NoPoints"
+  ]
+}

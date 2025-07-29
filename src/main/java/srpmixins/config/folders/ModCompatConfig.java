@@ -51,6 +51,17 @@ public class ModCompatConfig {
     @Config.RequiresMcRestart
     public boolean enableOverLastCustomPhases = true;
 
+    @Config.Comment("Remove point display from overlast phase HUD for more immersion and uncertainty.")
+    @Config.Name("OverLast HUD Without Points")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.overlast.nopointsinhud.json", defaultValue = true)
+    @MixinConfig.CompatHandling(
+            modid = "overlast",
+            desired = true,
+            reason = "Mod Compat for OverLast, requires OverLast"
+    )
+    @Config.RequiresMcRestart
+    public boolean overlastHUDnoPoints = true;
+
     @Config.Comment("Set to true to make \"Scape and Spartan: Parasites\" weapons with the Uncapped property ignore parasite damage caps.\n" +
             "NOTE: This property works without SRPMixins as well, this just streamlines the handling a bit. \n" +
             "I kinda thought it didn't work - without actually testing it...")
