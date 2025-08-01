@@ -98,22 +98,6 @@ public class SpawnConfig {
     @MixinConfig.MixinToggle(earlyMixin = "mixins.srpmixins.vanilla.enumcreaturetype.json", lateMixin = "mixins.srpmixins.srp.fixspawning.json", defaultValue = true)
     public boolean fixSpawningEntirely = true;
 
-    @Config.Comment("Requires \"Fix Spawning Entirely\"\n" +
-            "Parasite Mob Cap multipliers per phase and dimension (and bloodmoon). \n" +
-            "Format: [dim = xxx] [phase><= xxx] [bloodmoon = true/false] mobCapMulti\n" +
-            "Where all [] entries are optional and are handled with an AND connection if multiple are present.\n" +
-            "For phase the operator options are =, <, >, <= and >= \n" +
-            "To define a specific area of phases, you can also use the \"phase\" keyword twice\n" +
-            "All rules that fit to the current state will be applied as a multiplicator on the current mobCap\n" +
-            "If phases are disabled, rules using phases will be ignored. The same happens if bloodmoon is disabled and a rule includes bloodmoons.")
-    @Config.Name("Parasite Mob Cap Rules")
-    public String[] mobCapRules = {
-            "[dim = 0] [bloodmoon = true] 2",
-            "[dim = 111] [bloodmoon = true] 4",
-            "[phase < 0] 0",
-            "[phase >= 0] [phase <= 10] 1"
-    };
-
     @Config.Comment("If SRParasitesWorld.cfg \"Colony Parasite Values Biome\" is enabled, spawns in Parasite Biome would NEVER allow colony-locked parasites (default: preeminents) no matter how many colonies have been established in the world.\n" +
             "This fix makes it then use the actual colony point requirements set in SRParasitesWorld.cfg \"Colony Parasite Values\" instead.")
     @Config.Name("Fix Colony Lock in Para Biome")

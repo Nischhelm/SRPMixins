@@ -21,7 +21,7 @@ import srpmixins.compat.CompatUtil;
 import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.event.WorldMobCapEvent;
-import srpmixins.rules.MobCapRule;
+import srpmixins.rules.rulesetholder.MobCapRuleSetHolder;
 import srpmixins.util.ParasiteCreatureType;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
@@ -42,6 +42,8 @@ public class WorldMobCapHandler {
             return;
         }
 
+        if(MobCapRuleSetHolder.INSTANCE.hasNoRules()) return; //no rules set
+
         double multi = 0;
         if (SRPMixinsConfigHandler.playerphases.enabled) {
             //Avg over all players
@@ -49,7 +51,7 @@ public class WorldMobCapHandler {
             for (EntityPlayer player : event.getWorld().playerEntities) {
                 if (player.isSpectator()) continue;
                 byte phase = SRPSaveDataInterface.get(event.getWorld(), player, null).getEvolutionPhase(dimId);
-                multi += MobCapRule.getTotalMulti(dimId, phase);
+                multi += MobCapRuleSetHolder.INSTANCE.getTotalMulti(dimId, phase);
                 counter++;
             }
             if (counter != 0) multi /= counter;
@@ -59,14 +61,14 @@ public class WorldMobCapHandler {
             int counter = 0;
             for (ChunkPos pos : event.getEligibleChunks()) {
                 byte phase = SRPSaveDataInterface.get(event.getWorld(), null, pos.getBlock(8, 0, 8)).getEvolutionPhase(dimId);
-                multi += MobCapRule.getTotalMulti(dimId, phase);
+                multi += MobCapRuleSetHolder.INSTANCE.getTotalMulti(dimId, phase);
                 counter++;
             }
             if (counter != 0) multi /= counter;
             else multi = 1;
         } else {
             byte phase = SRPSaveData.get(event.getWorld()).getEvolutionPhase(dimId);
-            multi = MobCapRule.getTotalMulti(dimId, phase);
+            multi = MobCapRuleSetHolder.INSTANCE.getTotalMulti(dimId, phase);
         }
 
         //Set mob cap

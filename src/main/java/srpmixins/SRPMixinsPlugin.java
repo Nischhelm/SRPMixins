@@ -28,6 +28,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.minmaxphasedays.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.conversionpathways.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.variantrules.json");
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.despawntimer.json");
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.blockbreakblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.foodstealblacklist.json");

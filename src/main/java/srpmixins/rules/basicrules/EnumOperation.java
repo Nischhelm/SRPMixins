@@ -1,9 +1,10 @@
-package srpmixins.rules;
+package srpmixins.rules.basicrules;
 
 import java.util.function.BiFunction;
 
 public enum EnumOperation {
     EQUAL((v1, v2) -> v1 == v2),
+    NOT_EQUAL((v1, v2) -> v1 != v2),
     LESS((v1, v2) -> v1 < v2),
     GREATER((v1, v2) -> v1 > v2),
     LESS_EQUAL((v1, v2) -> v1 <= v2),
@@ -19,9 +20,10 @@ public enum EnumOperation {
         return function.apply(v1, v2);
     }
 
-    static EnumOperation getBySign(String sign) {
+    public static EnumOperation getBySign(String sign) {
         switch (sign) {
             case "=": return EQUAL;
+            case "!=": return NOT_EQUAL;
             case "<": return LESS;
             case ">": return GREATER;
             case "<=": return LESS_EQUAL;
@@ -33,6 +35,7 @@ public enum EnumOperation {
     public String toString(){
         switch (this) {
             case EQUAL: return "=";
+            case NOT_EQUAL: return "!=";
             case LESS: return "<";
             case GREATER: return ">";
             case LESS_EQUAL: return "<=";

@@ -5,20 +5,20 @@ import net.minecraftforge.fml.common.Loader;
 import srpmixins.SRPMixins;
 import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.rules.VariantRule;
+import srpmixins.rules.rulesets.VariantDisableRuleSet;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static srpmixins.rules.VariantRule.EnumVariant.*;
+import static srpmixins.rules.rulesets.VariantDisableRuleSet.EnumVariant.*;
 
 public class SRPMobConfigProvider {
     public static final Map<String, Integer> mobNameToParaIdMap = new HashMap<>();
     public static final Map<String, Byte> mobNameToParaTypeMap = new HashMap<>();
     public static final Map<Integer, String> paraIdToMobName = new HashMap<>();
     public static final Map<String, List<Integer>> mobGroupToParaIdMap = new HashMap<>();
-    public static final Map<String, List<VariantRule.EnumVariant>> mobNameToVariantsMap = new HashMap<>();
+    public static final Map<String, List<VariantDisableRuleSet.EnumVariant>> mobNameToVariantsMap = new HashMap<>();
 
     private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
 
@@ -177,6 +177,14 @@ public class SRPMobConfigProvider {
         return srpMobConfig.get(paraName).enabled;
     }
 
+    public static String getParaGroup(int paraId){
+        for (Map.Entry<String, List<Integer>> entry : SRPMobConfigProvider.mobGroupToParaIdMap.entrySet())
+            if (entry.getValue().contains(paraId)) {
+                return entry.getKey();
+            }
+        return "";
+    }
+
     public static void registerParasite(String name, int paraId){
         registerParasite(name, paraId, null, null, null);
     }
@@ -186,7 +194,7 @@ public class SRPMobConfigProvider {
     public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId){
         registerParasite(name, paraId, group, typeId, null);
     }
-    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId, @Nullable List<VariantRule.EnumVariant> variants){
+    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId, @Nullable List<VariantDisableRuleSet.EnumVariant> variants){
         mobNameToParaIdMap.put(name, paraId);
         paraIdToMobName.put(paraId, name);
         if(group != null) mobGroupToParaIdMap.computeIfAbsent(group, newGroup -> new ArrayList<>()).add(paraId);

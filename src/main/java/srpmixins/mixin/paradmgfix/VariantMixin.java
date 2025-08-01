@@ -19,7 +19,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.rules.VariantRule;
+import srpmixins.rules.rulesetholder.VariantDisableRuleSetHolder;
+import srpmixins.rules.rulesets.VariantDisableRuleSet;
 
 @Mixin(value = {
         EntityBanoAdapted.class,
@@ -66,7 +67,7 @@ public abstract class VariantMixin extends EntityParasiteBase {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;evolutionParasiteAlwaysVariant:B", remap = false)
     )
     private byte srpmixins_ignoreOriginalHandling(byte original){
-        if(VariantRule.hasNoRules()) return original; //Soft-disable mixin if no rules
+        if(VariantDisableRuleSetHolder.INSTANCE.hasNoRules()) return original; //Soft-disable mixin if no rules
         return (byte) (SRPConfigProvider.getMaxPhase() + 1);
     }
 
@@ -75,12 +76,12 @@ public abstract class VariantMixin extends EntityParasiteBase {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;variantChance:D", remap = false)
     )
     private double srpmixins_changeVariants(double original){
-        if(VariantRule.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
+        if(VariantDisableRuleSetHolder.INSTANCE.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
         if(this.canChangeVariant) return 0; //afaik just for variant staff but idk
-        if(this.phaseCreated < SRPConfigSystems.evolutionParasiteAlwaysVariant && this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0;
+        if(this.phaseCreated < SRPConfigSystems.evolutionParasiteAlwaysVariant && this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0; //normal type, no variant
 
         int paraId = this.getParasiteIDRegister();
-        VariantRule.EnumVariant chosenVariant = VariantRule.getRandomVariant(paraId, this.world.provider.getDimension(), this.phaseCreated, this.getRNG());
+        VariantDisableRuleSet.EnumVariant chosenVariant = VariantDisableRuleSetHolder.INSTANCE.getRandomVariant(paraId, this.world.provider.getDimension(), this.phaseCreated, this.getRNG());
         if(chosenVariant == null) return 0; //all variants disabled
 
         if(chosenVariant.skinId == 1) {

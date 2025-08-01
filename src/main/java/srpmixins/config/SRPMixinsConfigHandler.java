@@ -13,9 +13,13 @@ import srpmixins.config.providers.DimensionMultiConfigProvider;
 import srpmixins.config.providers.MorePhasesConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.rules.ConversionPathways;
-import srpmixins.rules.MinMaxDayPerPhaseRule;
-import srpmixins.rules.MobCapRule;
-import srpmixins.rules.VariantRule;
+import srpmixins.rules.rulesetholder.DespawnTimerRuleSetHolder;
+import srpmixins.rules.rulesetholder.MinMaxDayPerPhaseRuleSetHolder;
+import srpmixins.rules.rulesetholder.MobCapRuleSetHolder;
+import srpmixins.rules.rulesetholder.VariantDisableRuleSetHolder;
+import srpmixins.rules.rulesets.MinMaxDayPerPhaseRuleSet;
+import srpmixins.rules.rulesets.MobCapRuleSet;
+import srpmixins.rules.rulesets.VariantDisableRuleSet;
 
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
@@ -79,6 +83,10 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("Potions")
 	public static final PotionConfig potions = new PotionConfig();
 
+	@Config.Comment("Rule Options")
+	@Config.Name("Rules")
+	public static final RuleConfig rules = new RuleConfig();
+
 	@Config.Comment("Assimilated and Feral Enderman Options")
 	@Config.Name("Assimilated and Feral Endermen")
 	public static final SimmermanConfig simmermen = new SimmermanConfig();
@@ -103,7 +111,7 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("SRP Weapons")
 	public static final WeaponConfig weapons = new WeaponConfig();
 
-	@Mod.EventBusSubscriber(modid = SRPMixins.MODID)
+    @Mod.EventBusSubscriber(modid = SRPMixins.MODID)
 	private static class EventHandler{
 
 		@SubscribeEvent
@@ -116,10 +124,11 @@ public class SRPMixinsConfigHandler {
 				ChunkPhaseConfigProvider.reset();
 				DimensionMultiConfigProvider.reset();
 
-				MobCapRule.reset();
-				MinMaxDayPerPhaseRule.reset();
+				MobCapRuleSetHolder.INSTANCE.reset();
+				MinMaxDayPerPhaseRuleSetHolder.INSTANCE.reset();
+				VariantDisableRuleSetHolder.INSTANCE.reset();
+				DespawnTimerRuleSetHolder.INSTANCE.reset();
 				ConversionPathways.reset();
-				VariantRule.reset();
 
 				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length > 0) {
 					SRPMobConfigProvider.reset();
