@@ -73,6 +73,12 @@ public class VariousConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.emptywhitelistfix.json", defaultValue = true)
     public boolean fixEmptyWhitelist = true;
 
+    @Config.Comment("Some parasites have broken right click handling. When looking at them, all right click actions such as raising shields and drinking potions will get cancelled. This fixes it.")
+    @Config.Name("Fix Right Clicking Parasite Entities")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.parasiterightclickfix.json", defaultValue = true)
+    public boolean fixParasiteMobRightClick = true;
+
     @Config.Comment("Waves and Shockwaves are normal Parasite Entities and thus get lots of normal parasite behavior, for example the ability to target any mob once the phase is above phase total slaughter. This makes the wave instantly die though. This fixes it.")
     @Config.Name("Fix Wave Entities Early Death")
     @Config.RequiresMcRestart
