@@ -24,17 +24,22 @@ public class VariantDisableRuleSet extends GenericRuleSet {
 
     @Override
     protected void parseRemainingConfigEntries(List<String> remainingEntries) {
-        for(String s : remainingEntries){
-            try {
-                if (s.contains("variant"))
-                    variantsToDisable.addAll(Arrays.stream(s.replaceFirst("variant *= *", "").trim().split(" +")).map(EnumVariant::valueOf).collect(Collectors.toList()));
-            } catch (Exception e){
-                SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Rule {}", s);
-            }
+        if (remainingEntries.size() != 1) SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Disable Rule, no variant to disable");
+        String s = remainingEntries.get(0).trim();
+        if(!s.startsWith("variant")) SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Disable Rule, no variant to disable in {}", s);
+        s = s.replaceFirst("variant *=", "").trim();
+
+        try {
+            variantsToDisable = Arrays
+                    .stream(s.split(" +"))
+                    .map(EnumVariant::valueOf)
+                    .collect(Collectors.toSet());
+        } catch (Exception e) {
+            SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Rule entry {}", s);
         }
     }
 
-    private final Set<EnumVariant> variantsToDisable = new HashSet<>();
+    private Set<EnumVariant> variantsToDisable;
 
     public void disableVariants(List<EnumVariant> availableVariants, Map<String, Object> actualValues) {
         if(this.variantsToDisable.isEmpty() || availableVariants.stream().noneMatch(this.variantsToDisable::contains)) return;

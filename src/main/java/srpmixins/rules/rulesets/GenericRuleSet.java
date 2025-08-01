@@ -13,23 +13,28 @@ public abstract class GenericRuleSet {
 
     protected abstract Map<String, Function<String, ? extends GenericRule<?>>> getRuleConstructors();
 
-    public GenericRuleSet(String rule){
+    public GenericRuleSet(String rule) {
         rule = rule.replaceAll("\\[", "");
-        String[] split = rule.split("]");
+        String[] split = rule.split("[;,\\]]"); //allows to also use , or ; in config
 
         List<String> remainingEntries = new ArrayList<>();
-        for(String s : split){
-            try {
-                for(Map.Entry<String, Function<String, ? extends GenericRule<?>>> constructors : getRuleConstructors().entrySet()){
-                    if(s.contains(constructors.getKey())){
-                        rules.add(constructors.getValue().apply(s));
-                        break;
+
+        splitLoop:
+        for (String s : split) {
+            s = s.trim();
+
+            for (Map.Entry<String, Function<String, ? extends GenericRule<?>>> constructorMapEntry : getRuleConstructors().entrySet()) {
+                if (s.startsWith(constructorMapEntry.getKey())) {
+                    try {
+                        rules.add(constructorMapEntry.getValue().apply(s));
+                        continue splitLoop;
+                    } catch (Exception e) {
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse Rule {}", s);
                     }
-                    remainingEntries.add(s);
                 }
-            } catch (Exception e){
-                SRPMixins.LOGGER.warn("SRPMixins unable to parse Rule {}", s);
             }
+
+            remainingEntries.add(s);
         }
 
         parseRemainingConfigEntries(remainingEntries);
@@ -38,7 +43,7 @@ public abstract class GenericRuleSet {
     protected abstract void parseRemainingConfigEntries(List<String> remainingEntries);
 
     protected boolean anyMismatch(Map<String, Object> actualValues){
-        for(GenericRule<?> rule : rules) if(!rule.test(actualValues)) return false;
-        return true;
+        for(GenericRule<?> rule : rules) if(!rule.test(actualValues)) return true;
+        return false;
     }
 }
