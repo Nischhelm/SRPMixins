@@ -20,8 +20,8 @@ public abstract class DespawnTimer extends EntityLivingBase {
         super(worldIn);
     }
 
-    @Shadow public abstract void cannotDespawn(boolean in);
-    @Shadow public abstract int getParasiteIDRegister();
+    @Shadow(remap = false) public abstract void cannotDespawn(boolean in);
+    @Shadow(remap = false) public abstract int getParasiteIDRegister();
 
     @Unique private int srpmixins$despawnTimer = -1;
 
@@ -42,7 +42,8 @@ public abstract class DespawnTimer extends EntityLivingBase {
 
     @Inject(
             method = "cannotDespawn",
-            at = @At("TAIL")
+            at = @At("TAIL"),
+            remap = false
     )
     private void srpmixins_allowDespawnAfterCertainTime(boolean newCanDespawnFlag, CallbackInfo ci){
         if(newCanDespawnFlag) return; //no timer for mobs that can just despawn normally

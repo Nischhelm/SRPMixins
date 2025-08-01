@@ -16,7 +16,8 @@ public abstract class ScentNoClip extends Entity{
 
     @Inject(
             method = "<init>(Lnet/minecraft/world/World;)V",
-            at = @At(value = "TAIL")
+            at = @At(value = "TAIL"),
+            remap = false
     )
     private void srpmixins_scentsDontClip(World worldIn, CallbackInfo ci){
         this.noClip = true;
