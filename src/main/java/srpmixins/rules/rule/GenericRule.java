@@ -1,19 +1,19 @@
-package srpmixins.rules.rulesets;
+package srpmixins.rules.rule;
 
 import srpmixins.SRPMixins;
-import srpmixins.rules.basicrules.GenericRule;
+import srpmixins.rules.conditions.GenericCondition;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public abstract class GenericRuleSet {
-    protected final List<GenericRule<?>> rules = new ArrayList<>();
+public abstract class GenericRule {
+    protected final List<GenericCondition<?>> rules = new ArrayList<>();
 
-    protected abstract Map<String, Function<String, ? extends GenericRule<?>>> getRuleConstructors();
+    protected abstract Map<String, Function<String, ? extends GenericCondition<?>>> getRuleConstructors();
 
-    public GenericRuleSet(String rule) {
+    public GenericRule(String rule) {
         rule = rule.replaceAll("\\[", "");
         String[] split = rule.split("[;,\\]]"); //allows to also use , or ; in config
 
@@ -23,7 +23,7 @@ public abstract class GenericRuleSet {
         for (String s : split) {
             s = s.trim();
 
-            for (Map.Entry<String, Function<String, ? extends GenericRule<?>>> constructorMapEntry : getRuleConstructors().entrySet()) {
+            for (Map.Entry<String, Function<String, ? extends GenericCondition<?>>> constructorMapEntry : getRuleConstructors().entrySet()) {
                 if (s.startsWith(constructorMapEntry.getKey())) {
                     try {
                         rules.add(constructorMapEntry.getValue().apply(s));
@@ -43,7 +43,7 @@ public abstract class GenericRuleSet {
     protected abstract void parseRemainingConfigEntries(List<String> remainingEntries);
 
     protected boolean anyMismatch(Map<String, Object> actualValues){
-        for(GenericRule<?> rule : rules) if(!rule.test(actualValues)) return true;
+        for(GenericCondition<?> rule : rules) if(!rule.test(actualValues)) return true;
         return false;
     }
 }

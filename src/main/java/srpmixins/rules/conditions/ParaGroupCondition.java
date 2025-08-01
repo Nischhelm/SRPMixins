@@ -1,8 +1,8 @@
-package srpmixins.rules.basicrules;
+package srpmixins.rules.conditions;
 
-public class ParaGroupRule extends GenericRule<String> {
+public class ParaGroupCondition extends GenericCondition<String> {
 
-    public ParaGroupRule(String s){
+    public ParaGroupCondition(String s){
         super("group", s);
     }
 

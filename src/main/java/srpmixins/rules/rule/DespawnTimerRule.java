@@ -1,25 +1,25 @@
-package srpmixins.rules.rulesets;
+package srpmixins.rules.rule;
 
 import srpmixins.SRPMixins;
-import srpmixins.rules.basicrules.*;
+import srpmixins.rules.conditions.*;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class DespawnTimerRuleSet extends GenericRuleSet{
-    public DespawnTimerRuleSet(String rule) {
+public class DespawnTimerRule extends GenericRule {
+    public DespawnTimerRule(String rule) {
         super(rule);
     }
 
     @Override
-    protected Map<String, Function<String, ? extends GenericRule<?>>> getRuleConstructors() {
-        return new HashMap<String, Function<String, ? extends GenericRule<?>>>(){{
-            put("phase", PhaseRule::new);
-            put("dim", DimensionRule::new);
-            put("mob", ParaIdRule::new);
-            put("group", ParaGroupRule::new);
+    protected Map<String, Function<String, ? extends GenericCondition<?>>> getRuleConstructors() {
+        return new HashMap<String, Function<String, ? extends GenericCondition<?>>>(){{
+            put("phase", EvoPhaseCondition::new);
+            put("dim", DimensionCondition::new);
+            put("mob", ParaIdCondition::new);
+            put("group", ParaGroupCondition::new);
         }};
     }
 

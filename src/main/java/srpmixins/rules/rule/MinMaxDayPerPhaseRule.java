@@ -1,25 +1,25 @@
-package srpmixins.rules.rulesets;
+package srpmixins.rules.rule;
 
 import srpmixins.SRPMixins;
-import srpmixins.rules.basicrules.DimensionRule;
-import srpmixins.rules.basicrules.GenericRule;
-import srpmixins.rules.basicrules.PhaseRule;
+import srpmixins.rules.conditions.DimensionCondition;
+import srpmixins.rules.conditions.GenericCondition;
+import srpmixins.rules.conditions.EvoPhaseCondition;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class MinMaxDayPerPhaseRuleSet extends GenericRuleSet {
-    public MinMaxDayPerPhaseRuleSet(String rule){
+public class MinMaxDayPerPhaseRule extends GenericRule {
+    public MinMaxDayPerPhaseRule(String rule){
         super(rule);
     }
 
     @Override
-    protected Map<String, Function<String, ? extends GenericRule<?>>> getRuleConstructors() {
-        return new HashMap<String, Function<String, ? extends GenericRule<?>>>() {{
-            put("phase", PhaseRule::new);
-            put("dim", DimensionRule::new);
+    protected Map<String, Function<String, ? extends GenericCondition<?>>> getRuleConstructors() {
+        return new HashMap<String, Function<String, ? extends GenericCondition<?>>>() {{
+            put("phase", EvoPhaseCondition::new);
+            put("dim", DimensionCondition::new);
         }};
     }
 

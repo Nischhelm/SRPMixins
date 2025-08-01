@@ -5,20 +5,20 @@ import net.minecraftforge.fml.common.Loader;
 import srpmixins.SRPMixins;
 import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.rules.rulesets.VariantDisableRuleSet;
+import srpmixins.rules.rule.VariantDisableRule;
 
 import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static srpmixins.rules.rulesets.VariantDisableRuleSet.EnumVariant.*;
+import static srpmixins.rules.rule.VariantDisableRule.EnumVariant.*;
 
 public class SRPMobConfigProvider {
     public static final Map<String, Integer> mobNameToParaIdMap = new HashMap<>();
     public static final Map<String, Byte> mobNameToParaTypeMap = new HashMap<>();
     public static final Map<Integer, String> paraIdToMobName = new HashMap<>();
     public static final Map<String, List<Integer>> mobGroupToParaIdMap = new HashMap<>();
-    public static final Map<String, List<VariantDisableRuleSet.EnumVariant>> mobNameToVariantsMap = new HashMap<>();
+    public static final Map<String, List<VariantDisableRule.EnumVariant>> mobNameToVariantsMap = new HashMap<>();
 
     private static final Map<String, SRPMobConfig> srpMobConfig = new HashMap<>();
 
@@ -194,7 +194,7 @@ public class SRPMobConfigProvider {
     public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId){
         registerParasite(name, paraId, group, typeId, null);
     }
-    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId, @Nullable List<VariantDisableRuleSet.EnumVariant> variants){
+    public static void registerParasite(String name, int paraId, @Nullable String group, @Nullable Byte typeId, @Nullable List<VariantDisableRule.EnumVariant> variants){
         mobNameToParaIdMap.put(name, paraId);
         paraIdToMobName.put(paraId, name);
         if(group != null) mobGroupToParaIdMap.computeIfAbsent(group, newGroup -> new ArrayList<>()).add(paraId);

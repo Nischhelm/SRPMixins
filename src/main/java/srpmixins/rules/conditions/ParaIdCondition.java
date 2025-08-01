@@ -1,4 +1,4 @@
-package srpmixins.rules.basicrules;
+package srpmixins.rules.conditions;
 
 import srpmixins.config.providers.SRPMobConfigProvider;
 
@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class ParaIdRule extends GenericRule<Set<Integer>> {
+public class ParaIdCondition extends GenericCondition<Set<Integer>> {
 
-    public ParaIdRule(String s){
+    public ParaIdCondition(String s){
         super("mob", s);
     }
 

@@ -12,8 +12,11 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.config.providers.SRPMobConfigProvider;
-import srpmixins.rules.rulesetholder.DespawnTimerRuleSetHolder;
+import srpmixins.rules.ruleset.DespawnTimerRuleSet;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Mixin(EntityParasiteBase.class)
 public abstract class DespawnTimer extends EntityLivingBase {
@@ -48,14 +51,18 @@ public abstract class DespawnTimer extends EntityLivingBase {
     )
     private void srpmixins_allowDespawnAfterCertainTime(boolean newCanDespawnFlag, CallbackInfo ci){
         if(newCanDespawnFlag) return; //no timer for mobs that can just despawn normally
-        if(DespawnTimerRuleSetHolder.INSTANCE.hasNoRules()) return;
+        if(DespawnTimerRuleSet.INSTANCE.hasNoRules()) return;
 
         int paraId = this.getParasiteIDRegister();
-        String group = SRPMobConfigProvider.getParaGroup(paraId);
         int dimId = this.world.provider.getDimension();
-        byte phase = SRPSaveDataInterface.get(this.world, null, this.getPosition()).getEvolutionPhase(dimId);
 
-        int totalTimer = DespawnTimerRuleSetHolder.INSTANCE.getTotalTimer(dimId, phase, paraId, group);
+        Map<String, Object> actualValues = new HashMap<>();
+        actualValues.put("dim", dimId);
+        actualValues.put("phase", SRPSaveDataInterface.get(this.world, null, this.getPosition()).getEvolutionPhase(dimId));
+        actualValues.put("mob", paraId);
+        actualValues.put("group", SRPMobConfigProvider.getParaGroup(paraId));
+
+        int totalTimer = DespawnTimerRuleSet.INSTANCE.getTotalTimer(actualValues);
         if(totalTimer > 0) this.srpmixins$despawnTimer = totalTimer;
     }
 

@@ -1,27 +1,27 @@
-package srpmixins.rules.rulesets;
+package srpmixins.rules.rule;
 
 import srpmixins.SRPMixins;
-import srpmixins.rules.basicrules.BloodMoonRule;
-import srpmixins.rules.basicrules.DimensionRule;
-import srpmixins.rules.basicrules.GenericRule;
-import srpmixins.rules.basicrules.PhaseRule;
+import srpmixins.rules.conditions.BloodMoonCondition;
+import srpmixins.rules.conditions.DimensionCondition;
+import srpmixins.rules.conditions.GenericCondition;
+import srpmixins.rules.conditions.EvoPhaseCondition;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-public class MobCapRuleSet extends GenericRuleSet {
-    public MobCapRuleSet(String rule){
+public class MobCapRule extends GenericRule {
+    public MobCapRule(String rule){
         super(rule);
     }
 
     @Override
-    protected Map<String, Function<String, ? extends GenericRule<?>>> getRuleConstructors() {
-        return new HashMap<String, Function<String, ? extends GenericRule<?>>>(){{
-            put("phase", PhaseRule::new);
-            put("dim", DimensionRule::new);
-            put("bloodmoon", BloodMoonRule::new);
+    protected Map<String, Function<String, ? extends GenericCondition<?>>> getRuleConstructors() {
+        return new HashMap<String, Function<String, ? extends GenericCondition<?>>>(){{
+            put("phase", EvoPhaseCondition::new);
+            put("dim", DimensionCondition::new);
+            put("bloodmoon", BloodMoonCondition::new);
         }};
     }
 

@@ -21,7 +21,7 @@ import srpmixins.compat.CompatUtil;
 import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.event.WorldMobCapEvent;
-import srpmixins.rules.rulesetholder.MobCapRuleSetHolder;
+import srpmixins.rules.ruleset.MobCapRuleSet;
 import srpmixins.util.ParasiteCreatureType;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
@@ -42,7 +42,10 @@ public class WorldMobCapHandler {
             return;
         }
 
-        if(MobCapRuleSetHolder.INSTANCE.hasNoRules()) return; //no rules set
+        if(MobCapRuleSet.INSTANCE.hasNoRules()) return; //no rules set
+
+        Map<String, Object> actualValues = new HashMap<>();
+        actualValues.put("dim", dimId);
 
         double multi = 0;
         if (SRPMixinsConfigHandler.playerphases.enabled) {
@@ -50,25 +53,27 @@ public class WorldMobCapHandler {
             int counter = 0;
             for (EntityPlayer player : event.getWorld().playerEntities) {
                 if (player.isSpectator()) continue;
-                byte phase = SRPSaveDataInterface.get(event.getWorld(), player, null).getEvolutionPhase(dimId);
-                multi += MobCapRuleSetHolder.INSTANCE.getTotalMulti(dimId, phase);
+                actualValues.put("phase", SRPSaveDataInterface.get(event.getWorld(), player, null).getEvolutionPhase(dimId));
+                multi += MobCapRuleSet.INSTANCE.getTotalMulti(actualValues);
                 counter++;
             }
             if (counter != 0) multi /= counter;
             else multi = 1;
-        } else if (SRPMixinsConfigHandler.chunkphases.enabled) {
+        }
+        else if (SRPMixinsConfigHandler.chunkphases.enabled) {
             //Avg over all loaded chunks
             int counter = 0;
             for (ChunkPos pos : event.getEligibleChunks()) {
-                byte phase = SRPSaveDataInterface.get(event.getWorld(), null, pos.getBlock(8, 0, 8)).getEvolutionPhase(dimId);
-                multi += MobCapRuleSetHolder.INSTANCE.getTotalMulti(dimId, phase);
+                actualValues.put("phase", SRPSaveDataInterface.get(event.getWorld(), null, pos.getBlock(8, 0, 8)).getEvolutionPhase(dimId);
+                multi += MobCapRuleSet.INSTANCE.getTotalMulti(actualValues);
                 counter++;
             }
             if (counter != 0) multi /= counter;
             else multi = 1;
-        } else {
-            byte phase = SRPSaveData.get(event.getWorld()).getEvolutionPhase(dimId);
-            multi = MobCapRuleSetHolder.INSTANCE.getTotalMulti(dimId, phase);
+        }
+        else {
+            actualValues.put("phase", SRPSaveData.get(event.getWorld()).getEvolutionPhase(dimId));
+            multi = MobCapRuleSet.INSTANCE.getTotalMulti(actualValues);
         }
 
         //Set mob cap

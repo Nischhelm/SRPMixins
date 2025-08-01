@@ -1,24 +1,24 @@
-package srpmixins.rules.rulesets;
+package srpmixins.rules.rule;
 
 import srpmixins.SRPMixins;
-import srpmixins.rules.basicrules.*;
+import srpmixins.rules.conditions.*;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class VariantDisableRuleSet extends GenericRuleSet {
-    public VariantDisableRuleSet(String rule) {
+public class VariantDisableRule extends GenericRule {
+    public VariantDisableRule(String rule) {
         super(rule);
     }
 
     @Override
-    protected Map<String, Function<String, ? extends GenericRule<?>>> getRuleConstructors() {
-        return new HashMap<String, Function<String, ? extends GenericRule<?>>>(){{
-            put("phase", PhaseRule::new);
-            put("dim", DimensionRule::new);
-            put("mob", ParaIdRule::new);
-            put("group", ParaGroupRule::new);
+    protected Map<String, Function<String, ? extends GenericCondition<?>>> getRuleConstructors() {
+        return new HashMap<String, Function<String, ? extends GenericCondition<?>>>(){{
+            put("phase", EvoPhaseCondition::new);
+            put("dim", DimensionCondition::new);
+            put("mob", ParaIdCondition::new);
+            put("group", ParaGroupCondition::new);
         }};
     }
 

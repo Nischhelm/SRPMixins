@@ -1,13 +1,13 @@
-package srpmixins.rules.basicrules;
+package srpmixins.rules.conditions;
 
 import java.util.Map;
 
-public abstract class GenericRule<T> {
+public abstract class GenericCondition<T> {
 
     protected T comparisonValue;
     protected String key;
 
-    public GenericRule(String key, String s){
+    public GenericCondition(String key, String s){
         this.key = key;
         this.comparisonValue = parseConfigInput(s.replaceFirst(key, "").trim());
     }

@@ -1,4 +1,4 @@
-package srpmixins.rules.basicrules;
+package srpmixins.rules.conditions;
 
 import java.util.function.BiFunction;
 

@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.rules.rulesetholder.MinMaxDayPerPhaseRuleSetHolder;
+import srpmixins.rules.ruleset.MinMaxDayPerPhaseRuleSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -82,7 +82,7 @@ public abstract class DaysPerPhase extends WorldSavedData {
         if(!canChangePhase) return; //shouldn't happen with phase increases
         if(!plus) return; //not for force
         if(addedPoints < 0) return; //not for reduction
-        if(MinMaxDayPerPhaseRuleSetHolder.INSTANCE.hasNoRules()) return; //no rules set
+        if(MinMaxDayPerPhaseRuleSet.INSTANCE.hasNoRules()) return; //no rules set
 
         int idx = this.dimEPid.indexOf(dimId);
         if(idx == -1) return; //shouldn't happen
@@ -95,8 +95,8 @@ public abstract class DaysPerPhase extends WorldSavedData {
         actualValues.put("dim", dimId);
         actualValues.put("phase", currentPhase);
 
-        int minDays = MinMaxDayPerPhaseRuleSetHolder.INSTANCE.getTotalMin(actualValues);
-        int maxDays = MinMaxDayPerPhaseRuleSetHolder.INSTANCE.getTotalMax(actualValues);
+        int minDays = MinMaxDayPerPhaseRuleSet.INSTANCE.getTotalMin(actualValues);
+        int maxDays = MinMaxDayPerPhaseRuleSet.INSTANCE.getTotalMax(actualValues);
         if(maxDays != 0 || minDays != Integer.MAX_VALUE) { // a rule exists for the current situation
             long ticksElapsed = world.getWorldTime() - srpmixins$lastPhaseChangeTick.getOrDefault(dimId, 0L);
             int days = (int) (ticksElapsed / SRPConfig.dayTickValue);

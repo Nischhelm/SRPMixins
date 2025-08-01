@@ -19,8 +19,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPConfigProvider;
-import srpmixins.rules.rulesetholder.VariantDisableRuleSetHolder;
-import srpmixins.rules.rulesets.VariantDisableRuleSet;
+import srpmixins.config.providers.SRPMobConfigProvider;
+import srpmixins.rules.ruleset.VariantDisableRuleSet;
+import srpmixins.rules.rule.VariantDisableRule;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Mixin(value = {
         EntityBanoAdapted.class,
@@ -67,7 +73,7 @@ public abstract class VariantMixin extends EntityParasiteBase {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;evolutionParasiteAlwaysVariant:B", remap = false)
     )
     private byte srpmixins_ignoreOriginalHandling(byte original){
-        if(VariantDisableRuleSetHolder.INSTANCE.hasNoRules()) return original; //Soft-disable mixin if no rules
+        if(VariantDisableRuleSet.INSTANCE.hasNoRules()) return original; //Soft-disable mixin if no rules
         return (byte) (SRPConfigProvider.getMaxPhase() + 1);
     }
 
@@ -76,12 +82,23 @@ public abstract class VariantMixin extends EntityParasiteBase {
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;variantChance:D", remap = false)
     )
     private double srpmixins_changeVariants(double original){
-        if(VariantDisableRuleSetHolder.INSTANCE.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
+        if(VariantDisableRuleSet.INSTANCE.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
         if(this.canChangeVariant) return 0; //afaik just for variant staff but idk
         if(this.phaseCreated < SRPConfigSystems.evolutionParasiteAlwaysVariant && this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0; //normal type, no variant
 
         int paraId = this.getParasiteIDRegister();
-        VariantDisableRuleSet.EnumVariant chosenVariant = VariantDisableRuleSetHolder.INSTANCE.getRandomVariant(paraId, this.world.provider.getDimension(), this.phaseCreated, this.getRNG());
+
+        String mobName = SRPMobConfigProvider.paraIdToMobName.get(paraId);
+        List<VariantDisableRule.EnumVariant> availableVariants = new ArrayList<>(SRPMobConfigProvider.mobNameToVariantsMap.get(mobName));
+        if(availableVariants.isEmpty()) return SRPConfig.variantChance; //This shouldn't happen but if there are no registered variants, just let SRP do its thing
+
+        Map<String, Object> actualValues = new HashMap<>();
+        actualValues.put("dim", this.world.provider.getDimension());
+        actualValues.put("phase", this.phaseCreated);
+        actualValues.put("mob", paraId);
+        actualValues.put("group", SRPMobConfigProvider.getParaGroup(paraId));
+
+        VariantDisableRule.EnumVariant chosenVariant = VariantDisableRuleSet.INSTANCE.getRandomVariant(actualValues, availableVariants, this.getRNG());
         if(chosenVariant == null) return 0; //all variants disabled
 
         if(chosenVariant.skinId == 1) {

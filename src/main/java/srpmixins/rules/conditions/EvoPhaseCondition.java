@@ -1,14 +1,14 @@
-package srpmixins.rules.basicrules;
+package srpmixins.rules.conditions;
 
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 
 import java.util.Map;
 
-public class PhaseRule extends GenericRule<Byte> {
+public class EvoPhaseCondition extends GenericCondition<Byte> {
 
     private EnumOperation operation;
 
-    public PhaseRule(String s){
+    public EvoPhaseCondition(String s){
         super("phase", s);
     }
 

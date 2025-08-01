@@ -1,13 +1,13 @@
-package srpmixins.rules.basicrules;
+package srpmixins.rules.conditions;
 
 import srpmixins.compat.BloodMoonCompat;
 import srpmixins.compat.CompatUtil;
 
 import java.util.Map;
 
-public class BloodMoonRule extends GenericRule<Boolean> {
+public class BloodMoonCondition extends GenericCondition<Boolean> {
 
-    public BloodMoonRule(String s){
+    public BloodMoonCondition(String s){
         super("bloodmoon", s);
     }
 

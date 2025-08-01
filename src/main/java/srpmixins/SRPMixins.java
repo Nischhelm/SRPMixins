@@ -26,13 +26,10 @@ import srpmixins.config.providers.MorePhasesConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.*;
 import srpmixins.rules.ConversionPathways;
-import srpmixins.rules.rulesetholder.DespawnTimerRuleSetHolder;
-import srpmixins.rules.rulesetholder.MinMaxDayPerPhaseRuleSetHolder;
-import srpmixins.rules.rulesetholder.MobCapRuleSetHolder;
-import srpmixins.rules.rulesetholder.VariantDisableRuleSetHolder;
-import srpmixins.rules.rulesets.MinMaxDayPerPhaseRuleSet;
-import srpmixins.rules.rulesets.MobCapRuleSet;
-import srpmixins.rules.rulesets.VariantDisableRuleSet;
+import srpmixins.rules.ruleset.DespawnTimerRuleSet;
+import srpmixins.rules.ruleset.MinMaxDayPerPhaseRuleSet;
+import srpmixins.rules.ruleset.MobCapRuleSet;
+import srpmixins.rules.ruleset.VariantDisableRuleSet;
 
 @Mod(
         modid = SRPMixins.MODID,
@@ -58,10 +55,10 @@ public class SRPMixins {
 
         SRPMixinsConfigProvider.init();
         ConversionPathways.init();
-        MobCapRuleSetHolder.INSTANCE = new MobCapRuleSetHolder();
-        MinMaxDayPerPhaseRuleSetHolder.INSTANCE = new MinMaxDayPerPhaseRuleSetHolder();
-        VariantDisableRuleSetHolder.INSTANCE = new VariantDisableRuleSetHolder();
-        DespawnTimerRuleSetHolder.INSTANCE = new DespawnTimerRuleSetHolder();
+        MobCapRuleSet.INSTANCE = new MobCapRuleSet();
+        MinMaxDayPerPhaseRuleSet.INSTANCE = new MinMaxDayPerPhaseRuleSet();
+        VariantDisableRuleSet.INSTANCE = new VariantDisableRuleSet();
+        DespawnTimerRuleSet.INSTANCE = new DespawnTimerRuleSet();
         ChunkPhaseConfigProvider.init();
         DimensionMultiConfigProvider.init();
 

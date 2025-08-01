@@ -1,8 +1,8 @@
-package srpmixins.rules.basicrules;
+package srpmixins.rules.conditions;
 
-public class DimensionRule extends GenericRule<Integer> {
+public class DimensionCondition extends GenericCondition<Integer> {
 
-    public DimensionRule(String s){
+    public DimensionCondition(String s){
         super("dim", s);
     }
 
