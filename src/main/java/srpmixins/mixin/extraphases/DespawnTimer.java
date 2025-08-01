@@ -3,6 +3,7 @@ package srpmixins.mixin.extraphases;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -56,5 +57,23 @@ public abstract class DespawnTimer extends EntityLivingBase {
 
         int totalTimer = DespawnTimerRuleSetHolder.INSTANCE.getTotalTimer(dimId, phase, paraId, group);
         if(totalTimer > 0) this.srpmixins$despawnTimer = totalTimer;
+    }
+
+    @Inject(
+            method = "writeEntityToNBT",
+            at = @At("TAIL")
+    )
+    private void writeTimerToNBT(NBTTagCompound compound, CallbackInfo ci){
+        if(this.srpmixins$despawnTimer > 0)
+            compound.setInteger("srpmixinsDespawnTimer", this.srpmixins$despawnTimer);
+    }
+
+    @Inject(
+            method = "readEntityFromNBT",
+            at = @At("TAIL")
+    )
+    private void readTimerFromNBT(NBTTagCompound compound, CallbackInfo ci){
+        if(compound.hasKey("srpmixinsDespawnTimer"))
+            this.srpmixins$despawnTimer = compound.getInteger("srpmixinsDespawnTimer");
     }
 }

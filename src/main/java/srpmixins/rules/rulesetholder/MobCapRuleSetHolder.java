@@ -24,8 +24,8 @@ public class MobCapRuleSetHolder extends GenericRuleSetHolder<MobCapRuleSet>{
         actualValues.put("dim", dimId);
         actualValues.put("phase", phase);
 
-        double multi = 1;
-        for(MobCapRuleSet rule : allRules) multi *= rule.getMulti(actualValues);
-        return multi;
+        double totalMulti = 1;
+        for(MobCapRuleSet rule : allRules) totalMulti *= rule.getMulti(actualValues);
+        return totalMulti;
     }
 }

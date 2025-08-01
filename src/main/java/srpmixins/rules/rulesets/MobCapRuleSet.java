@@ -27,20 +27,23 @@ public class MobCapRuleSet extends GenericRuleSet {
 
     @Override
     protected void parseRemainingConfigEntries(List<String> remainingEntries) {
+        this.multi = 1;
+
         if(remainingEntries.size() != 1) SRPMixins.LOGGER.warn("SRPMixins unable to parse Mob Cap Rule, no multiplier");
         else {
             try {
-                multi = Double.parseDouble(remainingEntries.get(0).trim());
+                this.multi = Double.parseDouble(remainingEntries.get(0).trim());
             } catch (Exception e) {
                 SRPMixins.LOGGER.warn("SRPMixins unable to parse Mob Cap Rule {}", remainingEntries.get(0));
             }
         }
     }
 
-    private double multi = 1;
+    private double multi;
 
-    public double getMulti(Map<String, Object> actualValues){
+    public double getMulti(Map<String, Object> actualValues) {
+        if(this.multi == 1) return 1;
         if(anyMismatch(actualValues)) return 1;
-        return multi;
+        return this.multi;
     }
 }

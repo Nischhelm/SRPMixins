@@ -24,16 +24,24 @@ public class VariantDisableRuleSet extends GenericRuleSet {
 
     @Override
     protected void parseRemainingConfigEntries(List<String> remainingEntries) {
-        if (remainingEntries.size() != 1) SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Disable Rule, no variant to disable");
+        this.variantsToDisable = new HashSet<>();
+
+        if (remainingEntries.size() != 1){
+            SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Disable Rule, no variant to disable");
+            return;
+        }
         String s = remainingEntries.get(0).trim();
-        if(!s.startsWith("variant")) SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Disable Rule, no variant to disable in {}", s);
+        if(!s.startsWith("variant")){
+            SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Disable Rule, no variant to disable in {}", s);
+            return;
+        }
         s = s.replaceFirst("variant *=", "").trim();
 
         try {
-            variantsToDisable = Arrays
+            this.variantsToDisable.addAll(Arrays
                     .stream(s.split(" +"))
                     .map(EnumVariant::valueOf)
-                    .collect(Collectors.toSet());
+                    .collect(Collectors.toSet()));
         } catch (Exception e) {
             SRPMixins.LOGGER.warn("SRPMixins unable to parse Variant Rule entry {}", s);
         }

@@ -25,20 +25,23 @@ public class DespawnTimerRuleSet extends GenericRuleSet{
 
     @Override
     protected void parseRemainingConfigEntries(List<String> remainingEntries) {
+        this.timerAdd = 0;
+
         if(remainingEntries.size() != 1) SRPMixins.LOGGER.warn("SRPMixins unable to parse Despawn Timer Rule, no timer value");
         else {
             try {
-                timerAdd = Integer.parseInt(remainingEntries.get(0).trim());
+                this.timerAdd = Integer.parseInt(remainingEntries.get(0).trim());
             } catch (Exception e) {
                 SRPMixins.LOGGER.warn("SRPMixins unable to parse Despawn Timer Rule {}", remainingEntries.get(0));
             }
         }
     }
 
-    private int timerAdd = 0;
+    private int timerAdd;
 
     public int getTimer(Map<String, Object> actualValues){
+        if(this.timerAdd == 0) return 0;
         if(anyMismatch(actualValues)) return 0;
-        return timerAdd;
+        return this.timerAdd;
     }
 }
