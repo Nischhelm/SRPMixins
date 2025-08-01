@@ -9,9 +9,9 @@ import java.util.Map;
 import java.util.function.Function;
 
 public abstract class GenericRule {
-    protected final List<GenericCondition<?>> rules = new ArrayList<>();
+    protected final List<GenericCondition<?>> conditions = new ArrayList<>();
 
-    protected abstract Map<String, Function<String, ? extends GenericCondition<?>>> getRuleConstructors();
+    protected abstract Map<String, Function<String, ? extends GenericCondition<?>>> getConditionConstructors();
 
     public GenericRule(String rule) {
         rule = rule.replaceAll("\\[", "");
@@ -19,14 +19,16 @@ public abstract class GenericRule {
 
         List<String> remainingEntries = new ArrayList<>();
 
+        Map<String, Function<String, ? extends GenericCondition<?>>> constructorMap = getConditionConstructors();
+
         splitLoop:
         for (String s : split) {
             s = s.trim();
 
-            for (Map.Entry<String, Function<String, ? extends GenericCondition<?>>> constructorMapEntry : getRuleConstructors().entrySet()) {
+            for (Map.Entry<String, Function<String, ? extends GenericCondition<?>>> constructorMapEntry : constructorMap.entrySet()) {
                 if (s.startsWith(constructorMapEntry.getKey())) {
                     try {
-                        rules.add(constructorMapEntry.getValue().apply(s));
+                        conditions.add(constructorMapEntry.getValue().apply(s));
                         continue splitLoop;
                     } catch (Exception e) {
                         SRPMixins.LOGGER.warn("SRPMixins unable to parse Rule {}", s);
@@ -43,7 +45,7 @@ public abstract class GenericRule {
     protected abstract void parseRemainingConfigEntries(List<String> remainingEntries);
 
     protected boolean anyMismatch(Map<String, Object> actualValues){
-        for(GenericCondition<?> rule : rules) if(!rule.test(actualValues)) return true;
+        for(GenericCondition<?> rule : conditions) if(!rule.test(actualValues)) return true;
         return false;
     }
 }

@@ -17,7 +17,7 @@ public class MobCapRule extends GenericRule {
     }
 
     @Override
-    protected Map<String, Function<String, ? extends GenericCondition<?>>> getRuleConstructors() {
+    protected Map<String, Function<String, ? extends GenericCondition<?>>> getConditionConstructors() {
         return new HashMap<String, Function<String, ? extends GenericCondition<?>>>(){{
             put("phase", EvoPhaseCondition::new);
             put("dim", DimensionCondition::new);
