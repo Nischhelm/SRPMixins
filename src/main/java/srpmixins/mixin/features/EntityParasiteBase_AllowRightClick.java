@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
         EntityPMalleable.class
 })
 public abstract class EntityParasiteBase_AllowRightClick extends EntityParasiteBase {
-
     public EntityParasiteBase_AllowRightClick(World worldIn) {
         super(worldIn);
     }
@@ -28,7 +27,7 @@ public abstract class EntityParasiteBase_AllowRightClick extends EntityParasiteB
             method = "processInteract",
             at = @At(value = "RETURN", ordinal = 0)
     )
-    public boolean srpmixins_rightClickAdapted(boolean original, @Local(argsOnly = true) EntityPlayer player, @Local(argsOnly = true) EnumHand hand){
+    public boolean srpmixins_rightClickAdapted(boolean original, EntityPlayer player, EnumHand hand){
         return super.processInteract(player, hand);
     }
 }

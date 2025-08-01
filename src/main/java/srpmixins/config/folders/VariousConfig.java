@@ -73,7 +73,7 @@ public class VariousConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.emptywhitelistfix.json", defaultValue = true)
     public boolean fixEmptyWhitelist = true;
 
-    @Config.Comment("Some parasites have broken right click handling when looking at them and will cancel all right click actions such as raising shields and drinking potions. This fixes it.")
+    @Config.Comment("Some parasites have broken right click handling. When looking at them, all right click actions such as raising shields and drinking potions will get cancelled. This fixes it.")
     @Config.Name("Fix Right Clicking Parasite Entities")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.parasiterightclickfix.json", defaultValue = true)
