@@ -17,10 +17,6 @@ import srpmixins.rules.ruleset.*;
 
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
-	/*@Config.Comment("Test Map")
-	@Config.Name("Test")
-	public static MapWrapper testMap = new MapWrapper("test,1") {{}};*/
-
 	@Config.Comment("Adaptation Options")
 	@Config.Name("Adaptation")
 	public static final AdaptationConfig adaptation = new AdaptationConfig();
