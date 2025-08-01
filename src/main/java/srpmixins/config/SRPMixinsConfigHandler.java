@@ -13,10 +13,7 @@ import srpmixins.config.providers.DimensionMultiConfigProvider;
 import srpmixins.config.providers.MorePhasesConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.rules.ConversionPathways;
-import srpmixins.rules.ruleset.DespawnTimerRuleSet;
-import srpmixins.rules.ruleset.MinMaxDayPerPhaseRuleSet;
-import srpmixins.rules.ruleset.MobCapRuleSet;
-import srpmixins.rules.ruleset.VariantDisableRuleSet;
+import srpmixins.rules.ruleset.*;
 
 @Config(modid = SRPMixins.MODID)
 public class SRPMixinsConfigHandler {
@@ -125,6 +122,7 @@ public class SRPMixinsConfigHandler {
 				MinMaxDayPerPhaseRuleSet.INSTANCE.reset();
 				VariantDisableRuleSet.INSTANCE.reset();
 				DespawnTimerRuleSet.INSTANCE.reset();
+				StatIncreaseRuleSet.INSTANCE.reset();
 				ConversionPathways.reset();
 
 				if(SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length > 0) {

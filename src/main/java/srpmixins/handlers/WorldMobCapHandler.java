@@ -64,7 +64,7 @@ public class WorldMobCapHandler {
             //Avg over all loaded chunks
             int counter = 0;
             for (ChunkPos pos : event.getEligibleChunks()) {
-                actualValues.put("phase", SRPSaveDataInterface.get(event.getWorld(), null, pos.getBlock(8, 0, 8)).getEvolutionPhase(dimId);
+                actualValues.put("phase", SRPSaveDataInterface.get(event.getWorld(), null, pos.getBlock(8, 0, 8)).getEvolutionPhase(dimId));
                 multi += MobCapRuleSet.INSTANCE.getTotalMulti(actualValues);
                 counter++;
             }

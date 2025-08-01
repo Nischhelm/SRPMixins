@@ -7,18 +7,14 @@
   "minVersion": "0.8",
   "mixins": [
     "BogleMeleeFix",
-    "BogleProjFix",
-    "BombFix",
+    "WraithMeleeFix",
     "DreadnaughtMeleeFix",
     "OverlordHaunterRangedFix",
-    "OverseerProjFix",
-    "SimDragonEProjFix",
-    "SimSpiderProjFix",
-    "SpineballFix",
     "SuccorFix",
-    "VigilanteProjFix",
-    "WraithMeleeFix",
-    "WraithProjFix"
+    "statmultis.BombFix",
+    "statmultis.SpineballFix",
+    "statmultis.EntityProjFix",
+    "statmultis.EntityLivingBaseProjFix"
   ],
   "injectors": {
     "maxShiftBy": 10

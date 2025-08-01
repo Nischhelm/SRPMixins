@@ -1,8 +1,8 @@
-package srpmixins.mixin.paradmgfix;
+package srpmixins.mixin.paradmgfix.statmultis;
 
 import com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectileSpineball;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -20,9 +20,20 @@ public abstract class SpineballFix {
             at = @At(value = "TAIL"),
             remap = false
     )
-    private void srpmixins_fixProjDmg(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ, float projDamage, CallbackInfo ci, @Local(argsOnly = true) World world){
+    private void srpmixins_fixProjDmg(World worldIn, EntityLivingBase shooter, double accelX, double accelY, double accelZ, float projDamage, CallbackInfo ci){
         //Used by Prim Yelloweye, Ada Yelloweye, Herd, Vermin, Sentry
-        int dimension = world.provider.getDimension();
+        int dimension = worldIn.provider.getDimension();
+        if(shooter != null) {
+            //cheating basically
+            double baseValue = shooter.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+            if (baseValue != 0) {
+                float multi = (float) (shooter.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() / baseValue);
+                this.damage = projDamage * multi;
+                return;
+            }
+        }
+
+        //else ignore stat increase rules
         this.damage = projDamage * DimensionMultiConfigProvider.getDmgMap().getOrDefault(dimension,1F);
     }
 }

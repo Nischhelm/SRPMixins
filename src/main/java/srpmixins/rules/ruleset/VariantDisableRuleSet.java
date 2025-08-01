@@ -12,7 +12,7 @@ public class VariantDisableRuleSet extends GenericRuleSet<VariantDisableRule> {
 
     @Override
     public String[] getConfigEntry() {
-        return SRPMixinsConfigHandler.rules.variantRules;
+        return SRPMixinsConfigHandler.rules.variantDisableRules;
     }
 
     @Override

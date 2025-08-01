@@ -53,7 +53,7 @@ public class RuleConfig {
             "\t- sim_enderman has crawling variant"
     )
     @Config.Name("Variant Disable Rules")
-    public String[] variantRules = {};
+    public String[] variantDisableRules = {};
 
     @Config.Comment("Despawn timer rules in ticks. Rules can be defined per phase, dimension, parasite and parasite group.\n" +
             "Format: [dim = xxx] [phase><= xxx] [mob = x y z] [group = xxx] despawnTimer\n" +
@@ -71,7 +71,19 @@ public class RuleConfig {
             "[group = ASSIMILATED] 24000",              //20 minutes for assimilated
             "[mob = sim_bigspider] -12000",             //10 minutes for big spider instead
             "[group = CRUDE] 48000",                    //40 minutes for incomplete forms and moving flesh
-            "[group = NEXUS] 72000",                    //60 minutes for all nexus
-            "[mob = beckon_siv dispatcher_siv] -72000", //except max stage beckon/dispatcher
+    };
+
+    @Config.Comment("Same thing as the other rules, just using basically all of the possible conditions and more\n" +
+            "Available Conditions: mob (list), group, phase, dim, bloodmoon, variant\n" +
+            "(Multiple) Attribute modifiers can be listed per line as [attributename = value @operation]\n" +
+            "Where the operation is optional (default: op2 = MULT_TOTAL)\n" +
+            "Various commonly used aliases (in upper case) for vanilla stats are available, like ATK for generic.attackDamage. You can also just use the stat name itself.\n" +
+            "There are also aliases for the operations 0/1/2, like +, %, x or ADD, MULT_BASE, MULT_TOTAL.\n" +
+            "By default only lists the SRP base variant stat multis, which will not be applied if this list is cleared.")
+    @Config.Name("Stat Increase Rules")
+    public String[] statIncreaseRules = {
+            "[mob = ada_longarms] [variant = SPECIAL] [ATK = 2] [HP = 0.5]",
+            "[mob = pri_reeker thrall monarch haunter] [variant = SPECIAL] [ATK = 1.5] [HP = 0.5]",
+            "[mob = carrier_colony] [variant = SPECIAL] [ARMOR = 1.5] [SPD = 0.25]"
     };
 }

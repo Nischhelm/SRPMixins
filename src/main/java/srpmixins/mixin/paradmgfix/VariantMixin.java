@@ -101,24 +101,25 @@ public abstract class VariantMixin extends EntityParasiteBase {
         VariantDisableRule.EnumVariant chosenVariant = VariantDisableRuleSet.INSTANCE.getRandomVariant(actualValues, availableVariants, this.getRNG());
         if(chosenVariant == null) return 0; //all variants disabled
 
-        if(chosenVariant.skinId == 1) {
-            switch (paraId){
-                case 88: //carrier_colony
-                    this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("ARMORED", +0.5, 2));
-                    this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("ARMORED", -0.75, 2));
-                    break;
-                case 51: //ada_longarms
-                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("TYRANT", +1, 2));
-                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("TYRANT", -0.5, 2));
-                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
-                    break;
-                case 10: case 80: case 84: case 87: //pri_reeker, thrall, monarch, haunter
-                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("SPECIAL", +0.5, 2));
-                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("SPECIAL", -0.5, 2));
-                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
-                    break;
-            }
-        }
+        //Moved to Stat Increase Rules
+//        if(chosenVariant.skinId == 1) {
+//            switch (paraId){
+//                case 88: //carrier_colony
+//                    this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("ARMORED", +0.5, 2));
+//                    this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("ARMORED", -0.75, 2));
+//                    break;
+//                case 51: //ada_longarms
+//                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("TYRANT", +1, 2));
+//                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("TYRANT", -0.5, 2));
+//                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
+//                    break;
+//                case 10: case 80: case 84: case 87: //pri_reeker, thrall, monarch, haunter
+//                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("SPECIAL", +0.5, 2));
+//                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("SPECIAL", -0.5, 2));
+//                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
+//                    break;
+//            }
+//        }
 
         this.setSkin(chosenVariant.skinId);
         return 0; //Original code will not run

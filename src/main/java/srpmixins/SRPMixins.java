@@ -26,10 +26,7 @@ import srpmixins.config.providers.MorePhasesConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.*;
 import srpmixins.rules.ConversionPathways;
-import srpmixins.rules.ruleset.DespawnTimerRuleSet;
-import srpmixins.rules.ruleset.MinMaxDayPerPhaseRuleSet;
-import srpmixins.rules.ruleset.MobCapRuleSet;
-import srpmixins.rules.ruleset.VariantDisableRuleSet;
+import srpmixins.rules.ruleset.*;
 
 @Mod(
         modid = SRPMixins.MODID,
@@ -59,6 +56,7 @@ public class SRPMixins {
         MinMaxDayPerPhaseRuleSet.INSTANCE = new MinMaxDayPerPhaseRuleSet();
         VariantDisableRuleSet.INSTANCE = new VariantDisableRuleSet();
         DespawnTimerRuleSet.INSTANCE = new DespawnTimerRuleSet();
+        StatIncreaseRuleSet.INSTANCE = new StatIncreaseRuleSet();
         ChunkPhaseConfigProvider.init();
         DimensionMultiConfigProvider.init();
 
@@ -79,6 +77,7 @@ public class SRPMixins {
         registerEventSubscriberIf(SpawnPotentialsHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
         registerEventSubscriberIf(WorldMobCapHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
         registerEventSubscriberIf(XpPerPhaseHandler.class, SRPMixinsConfigHandler.phasepoints.xpMultis.length > 0); //TODO: maybe a toggle idk
+        registerEventSubscriberIf(StatIncreaseRuleHandler.class, SRPMixinsConfigHandler.rules.statIncreaseRules.length > 0);
     }
 
     private static void registerEventSubscriberIf(Object subscriber, boolean condition){
