@@ -1,4 +1,4 @@
-package srpmixins.mixin.crashfix;
+package srpmixins.mixin.features;
 
 import com.dhanantry.scapeandrunparasites.client.model.entity.SRPModelBiped;
 import com.dhanantry.scapeandrunparasites.client.renderer.SRPLayerBipedArmor;

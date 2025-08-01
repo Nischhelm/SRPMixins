@@ -90,4 +90,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.armorcrash.json", defaultValue = true)
     public boolean srpModelBipedRenderCrashFix = true;
+
+    @Config.Comment("Will make scent entities unable to push players and other entities.")
+    @Config.Name("Scents NoClip")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.scentsnoclip.json", defaultValue = true)
+    public boolean scentsDontClip = true;
 }

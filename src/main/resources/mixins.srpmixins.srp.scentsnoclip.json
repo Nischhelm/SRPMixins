@@ -5,8 +5,8 @@
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
-  "client": [
-    "SRPLayerBipedArmorMixin"
+  "mixins": [
+    "ScentNoClip"
   ],
   "injectors": {
     "maxShiftBy": 10
