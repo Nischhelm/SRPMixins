@@ -6,7 +6,7 @@ public class RuleConfig {
 
     @Config.Comment("Requires \"Fix Spawning Entirely\"\n" +
             "Parasite Mob Cap multipliers per phase and dimension (and bloodmoon). \n" +
-            "Format: [dim = xxx] [phase><= xxx] [bloodmoon = true/false] mobCapMulti\n" +
+            "Format: [dim = xxx] [phase><= xxx] [bloodmoon = true/false] [nodes ><= xxx] mobCapMulti\n" +
             "Where all [] entries are optional and are handled with an AND connection if multiple are present.\n" +
             "For phase the operator options are =, !=, <, >, <= and >= \n" +
             "To define a specific area of phases, you can also use the \"phase\" keyword twice\n" +
@@ -39,6 +39,7 @@ public class RuleConfig {
             "\t- mob: specific mob or spacebar-separated list of mobs\n" +
             "\t- dim: dimension id\n" +
             "\t- phase: minphase and/or maxphase using operations >,<,=,!=,<=,>=\n" +
+            "\t- nodes: count of nodes in the dimension, using the same operations\n" +
             "\t- variant: VIRULENT (green), BERSERKER (red), BREACHER (purple/dark) or SPECIAL (see below), can be multiple spacebar-separated ones" +
             "In situations where a rule is applicable, the named variant will be disabled.\n" +
             "Example: To disable all breacher parasites until phase 5 you do \"[phase <= 5] [variant = BREACHER]\"\n" +
@@ -74,7 +75,7 @@ public class RuleConfig {
     };
 
     @Config.Comment("Same thing as the other rules, just using basically all of the possible conditions and more\n" +
-            "Available Conditions: mob (list), group, phase, dim, bloodmoon, variant\n" +
+            "Available Conditions: mob (list), group, phase, dim, bloodmoon, variant, nodes\n" +
             "(Multiple) Attribute modifiers can be listed per line as [attributename = value @operation]\n" +
             "Where the operation is optional (default: op2 = MULT_TOTAL)\n" +
             "Various commonly used aliases (in upper case) for vanilla stats are available, like ATK for generic.attackDamage. You can also just use the stat name itself.\n" +

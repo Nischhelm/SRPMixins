@@ -28,6 +28,7 @@ public class StatIncreaseRule extends GenericRule {
             put("mob", ParaIdCondition::new);
             put("group", ParaGroupCondition::new);
             put("variant", VariantCondition::new);
+            put("nodes", NodeCountCondition::new);
         }};
     }
 

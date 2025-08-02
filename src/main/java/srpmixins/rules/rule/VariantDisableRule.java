@@ -19,6 +19,7 @@ public class VariantDisableRule extends GenericRule {
             put("dim", DimensionCondition::new);
             put("mob", ParaIdCondition::new);
             put("group", ParaGroupCondition::new);
+            put("nodes", NodeCountCondition::new);
         }};
     }
 

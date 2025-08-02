@@ -11,6 +11,7 @@ import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityP
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityVesta;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
+import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
+import srpmixins.rules.conditions.NodeCountCondition;
 import srpmixins.rules.ruleset.VariantDisableRuleSet;
 import srpmixins.rules.rule.VariantDisableRule;
 
@@ -97,6 +99,7 @@ public abstract class VariantMixin extends EntityParasiteBase {
         actualValues.put("phase", this.phaseCreated);
         actualValues.put("mob", paraId);
         actualValues.put("group", SRPMobConfigProvider.getParaGroup(paraId));
+        actualValues.put("nodes", SRPWorldData.get(this.world).getNodes("x").size());
 
         VariantDisableRule.EnumVariant chosenVariant = VariantDisableRuleSet.INSTANCE.getRandomVariant(actualValues, availableVariants, this.getRNG());
         if(chosenVariant == null) return 0; //all variants disabled

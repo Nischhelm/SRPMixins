@@ -10,6 +10,7 @@ import com.dhanantry.scapeandrunparasites.entity.monster.infected.head.EntityInf
 import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityLum;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.ChunkPos;
 import net.minecraft.world.World;
@@ -46,6 +47,7 @@ public class WorldMobCapHandler {
 
         Map<String, Object> actualValues = new HashMap<>();
         actualValues.put("dim", dimId);
+        actualValues.put("nodes", SRPWorldData.get(event.getWorld()).getNodes("x").size());
 
         double multi = 0;
         if (SRPMixinsConfigHandler.playerphases.enabled) {

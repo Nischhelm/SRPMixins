@@ -1,6 +1,7 @@
 package srpmixins.handlers;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
+import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.config.providers.SRPMobConfigProvider;
@@ -29,6 +30,7 @@ public class StatIncreaseRuleHandler {
             actualValues.put("mob", paraId);
             actualValues.put("group", SRPMobConfigProvider.getParaGroup(paraId));
             actualValues.put("variant", para.getSkin());
+            actualValues.put("nodes", SRPWorldData.get(event.getWorld()).getNodes("x").size());
 
             para.getAttributeMap().applyAttributeModifiers(StatIncreaseRuleSet.INSTANCE.getAllModifiers(actualValues));
         }

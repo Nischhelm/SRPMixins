@@ -1,10 +1,7 @@
 package srpmixins.rules.rule;
 
 import srpmixins.SRPMixins;
-import srpmixins.rules.conditions.BloodMoonCondition;
-import srpmixins.rules.conditions.DimensionCondition;
-import srpmixins.rules.conditions.EvoPhaseCondition;
-import srpmixins.rules.conditions.GenericCondition;
+import srpmixins.rules.conditions.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -22,6 +19,7 @@ public class MobCapRule extends GenericRule {
             put("phase", EvoPhaseCondition::new);
             put("dim", DimensionCondition::new);
             put("bloodmoon", BloodMoonCondition::new);
+            put("nodes", NodeCountCondition::new);
         }};
     }
 
