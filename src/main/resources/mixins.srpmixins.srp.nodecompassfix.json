@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.features",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "NodeCompassFix",
+    "SRPWorldDataAccessor",
+    "NodeCompassFix_Property"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}

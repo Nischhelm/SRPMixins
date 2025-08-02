@@ -34,6 +34,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.foodstealblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.minferalisations.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermantp.json");
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.nodecompassfix.json");
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.mobcapmulti.json", () -> EarlyConfigReader.getBoolean("Parasite Stat+Drop Multiplier: Global switch", SRPMixinsConfigHandler.dimension.doMultipliers) && !EarlyConfigReader.getBoolean("Fix Spawning Entirely", SRPMixinsConfigHandler.spawns.fixSpawningEntirely));
 
