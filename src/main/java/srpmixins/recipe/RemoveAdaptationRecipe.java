@@ -26,7 +26,8 @@ public class RemoveAdaptationRecipe extends IForgeRegistryEntry.Impl<IRecipe> im
         if(armor.getArmorMaterial() != SRPItems.ARMOR_LIVING && armor.getArmorMaterial() != SRPItems.ARMOR_SENTIENT) return false;
         for(int i : new int[]{0,2,6,8}) {
             ItemStack stack = inv.getStackInSlot(i);
-            if(stack.isEmpty()) return false;
+            if(stack.isEmpty() && SRPMixinsConfigHandler.adaptation.adaptationResetItemTwo.isEmpty()) continue;
+            else if(stack.isEmpty()) return false;
             ResourceLocation loc = stack.getItem().getRegistryName();
             if(loc == null) return false;
             if(!loc.toString().equals(SRPMixinsConfigHandler.adaptation.adaptationResetItemTwo)) return false;

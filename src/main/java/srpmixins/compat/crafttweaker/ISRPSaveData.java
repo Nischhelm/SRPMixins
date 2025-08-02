@@ -14,7 +14,7 @@ import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
 
 @ZenRegister
-@ZenClass(SRPMixins.MODID + "SRPSaveData")
+@ZenClass(SRPMixins.MODID + ".SRPSaveData")
 @SuppressWarnings("unused")
 public class ISRPSaveData {
     private static World getOverworld(){
