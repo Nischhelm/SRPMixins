@@ -51,4 +51,12 @@ public class AdaptationConfig {
     public String[] fireMultiDmgTypes = {
             "isBurning"
     };
+
+    @Config.Comment("SRPMixins adds a recipe to reset adaptation on Living/Sentient Armor. This needs you to surround the armor with four of the named item. To disable the recipe, clear this config and restart the game.")
+    @Config.Name("Adaptation Reset Item")
+    public String adaptationResetItem = "contenttweaker:blood_tear";
+
+    @Config.Comment("Optional item in the corner spots of the crafting table for the adaptation reset recipe")
+    @Config.Name("Adaptation Second Reset Item")
+    public String adaptationResetItemTwo = "minecraft:air";
 }
