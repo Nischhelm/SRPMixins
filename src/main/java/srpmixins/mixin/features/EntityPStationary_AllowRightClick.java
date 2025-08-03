@@ -1,11 +1,9 @@
 package srpmixins.mixin.features;
 
-import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPMalleable;
-import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
+import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationary;
 import com.dhanantry.scapeandrunparasites.entity.monster.deterrent.EntityDodT;
 import com.dhanantry.scapeandrunparasites.entity.monster.deterrent.EntityNak;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.world.World;
@@ -15,10 +13,9 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(value = {
         EntityDodT.class,
         EntityNak.class,
-        EntityPMalleable.class
 })
-public abstract class EntityParasiteBase_AllowRightClick extends EntityParasiteBase {
-    public EntityParasiteBase_AllowRightClick(World worldIn) {
+public abstract class EntityPStationary_AllowRightClick extends EntityPStationary {
+    public EntityPStationary_AllowRightClick(World worldIn) {
         super(worldIn);
     }
 
@@ -27,7 +24,7 @@ public abstract class EntityParasiteBase_AllowRightClick extends EntityParasiteB
             method = "processInteract",
             at = @At(value = "RETURN", ordinal = 0)
     )
-    public boolean srpmixins_rightClickAdapted(boolean original, EntityPlayer player, EnumHand hand){
+    public boolean srpmixins_rightClickStationary(boolean original, EntityPlayer player, EnumHand hand){
         return super.processInteract(player, hand);
     }
 }

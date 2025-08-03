@@ -6,7 +6,8 @@
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "EntityParasiteBase_AllowRightClick"
+    "EntityPMalleable_AllowRightClick",
+    "EntityPStationary_AllowRightClick"
   ],
   "injectors": {
     "maxShiftBy": 10
