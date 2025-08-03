@@ -3,6 +3,7 @@ package srpmixins.config;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import srpmixins.SRPMixins;
 import srpmixins.config.providers.SRPMobConfigProvider;
+import srpmixins.util.configparse.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -23,6 +24,7 @@ public class SRPMixinsConfigProvider {
     public static final Map<String, Integer> foodBlacklist = new HashMap<>();
     public static final Map<String, Set<Integer>> blockBreakBlacklist = new HashMap<>();
     public static final Set<String> fireMultiDmgTypes = new HashSet<>();
+    public static final Map<Integer, Integer> summonLimits = new HashMap<>();
 
     public static void init(){
         setupBiomeBlacklistMap();
@@ -32,6 +34,7 @@ public class SRPMixinsConfigProvider {
         setupFoodBlacklist();
         setupBlockBreakBlacklist();
         setupFireMultiDmgTypes();
+        setupSummonLimits();
     }
 
     public static void reset(){
@@ -42,8 +45,27 @@ public class SRPMixinsConfigProvider {
         foodBlacklist.clear();
         blockBreakBlacklist.clear();
         fireMultiDmgTypes.clear();
+        summonLimits.clear();
 
         init();
+    }
+
+    private static void setupSummonLimits() {
+        for (String s : SRPMixinsConfigHandler.spawns.summoningOverhaul) {
+            String[] split = s.split(",");
+            if (split.length != 2) SRPMixins.LOGGER.warn("SRPMixins unable to parse summoning overhaul entry {}. Expected pattern: paraname, maxpoints", s);
+            else {
+                int paraId = SRPMobConfigProvider.mobNameToParaIdMap.getOrDefault(split[0].trim(), Integer.MAX_VALUE);
+                if (paraId == Integer.MAX_VALUE) SRPMixins.LOGGER.warn("SRPMixins unable to parse summoning overhaul entry {}. Given para name not found in registry", s);
+                else {
+                    try {
+                        summonLimits.put(paraId, Integer.parseInt(split[1].trim()));
+                    } catch (Exception e) {
+                        SRPMixins.LOGGER.warn("SRPMixins unable to parse summoning overhaul entry {}. Expected integer for max points", s);
+                    }
+                }
+            }
+        }
     }
 
     private static void setupFireMultiDmgTypes() {

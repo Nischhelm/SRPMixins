@@ -31,7 +31,7 @@ public class ParaSpawnEntry {
         this.points = points;
     }
 
-    public static List<ParaSpawnEntry> parseMobList(String[] list, boolean isSpawn) {
+    public static List<ParaSpawnEntry> parseMobList(String[] list, boolean isSpawn /*is spawn, not summon */) {
         List<ParaSpawnEntry> cache = new ArrayList<>();
         for (String s : list) {
             String[] split = s.split(";");

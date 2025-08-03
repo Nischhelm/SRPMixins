@@ -24,6 +24,37 @@ public class SpawnConfig {
     @Config.Name("Parasite Spawning Biome Blacklist per dimension")
     public String[] biomeBlacklist = {};
 
+    @Config.Comment("SRP does summoning via a max point system. Both don't really work and especially don't get saved/read to NBT so just unloading/reloading a parasite will clear its summon list. This does it correctly.\n" +
+            "Pattern: paraname, maxSummonPoints\n" +
+            "Set either to -1 to ignore points.\n" +
+            "Clear the list to disable this mixin (needs restart).")
+    @Config.Name("Summoning Overhaul")
+    public String[] summoningOverhaul = {
+            "pri_summoner, 4",
+            "ada_summoner, 6",
+            "beckon_si, 4",
+            "beckon_sii, 9",
+            "beckon_siii, 12",
+            "beckon_siv, 12",
+            "dispatcher_si, 3",
+            "dispatcher_sii, 5",
+            "dispatcher_siii, 7",
+            "dispatcher_siv, 9",
+            "bomber_light, 3",
+            "grunt, 3",
+            "monarch, 3",
+            "overseer, 6",
+            "vigilante, 3",
+            "warden, 3",
+            "marauder, 3",
+            "bomber_heavy, 3",
+            "wraith, 3",
+            "bogle, 3",
+            "haunter, 3",
+            "carrier_colony, 3",
+            "architect, 6"
+    };
+
     @Config.Comment("Use Biome Blacklist as Whitelist")
     @Config.Name("Parasite Spawning Biome Blacklist per dimension is whitelist")
     public boolean biomeBlacklistIsWhitelist = false;

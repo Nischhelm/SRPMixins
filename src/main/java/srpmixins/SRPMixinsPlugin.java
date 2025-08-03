@@ -21,20 +21,23 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.oe.json", () -> Loader.isModLoaded("oe"));
 
+		//TODO: check for all of them if they should get early config reader toggles
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.biomespawnblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.deterrentlowphasedmg.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infestedgrassrarity.json");
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermantp.json");
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.minmaxphasedays.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.conversionpathways.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.variantrules.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.despawntimer.json");
 
+		//TODO: early config reader mixin toggle for all of those (via full empty)
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.blockbreakblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.foodstealblacklist.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.minferalisations.json");
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermantp.json");
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.nodecompassfix.json");
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.summoningoverhaul.json");
 
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.mobcapmulti.json", () -> EarlyConfigReader.getBoolean("Parasite Stat+Drop Multiplier: Global switch", SRPMixinsConfigHandler.dimension.doMultipliers) && !EarlyConfigReader.getBoolean("Fix Spawning Entirely", SRPMixinsConfigHandler.spawns.fixSpawningEntirely));
 
