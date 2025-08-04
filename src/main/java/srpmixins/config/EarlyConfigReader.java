@@ -4,6 +4,8 @@ import srpmixins.SRPMixins;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -14,7 +16,7 @@ public class EarlyConfigReader {
 	private static File configFile = null;
 	private static String configBooleanString = null;
 	private static String configIntString = null;
-	//private static String configStringArrayString = null; //TODO WIP
+	private static Map<String,Boolean> configArrayFilledMap = null;
 
 	public static boolean getBoolean(String name, boolean defaultValue) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
@@ -63,45 +65,26 @@ public class EarlyConfigReader {
 		//If config is not generated yet or missing entries, we use the default value that will get written into it right after this
 		else return defaultValue;
 	}
-
-	/* WIP
-	public static boolean stringListIsDisabled(String name, String[] defaultValue) {
+	
+	public static boolean isArrayFilled(String name, boolean filledByDefault) {
 		if (configFile == null) configFile = new File("config", SRPMixins.MODID + ".cfg");
 
-		if (configStringArrayString == null) {
+		if (configArrayFilledMap == null) {
+			configArrayFilledMap = new HashMap<>();
 			if (configFile.exists() && configFile.isFile()) {
 				try {
-					List<String> lines = Files.readAllLines(configFile.toPath());
-					List<String> actualLines = new ArrayList<>();
-					boolean inStringList = false;
-					for(String line : lines){
-						if(line.trim().startsWith("S:"))
-							inStringList = true;
-						if(inStringList) actualLines.add(line);
-						if(line.trim().endsWith(">"))
-							inStringList = false;
-					}
-
-					configStringArrayString = stream.map(s -> s.replace()).collect(Collectors.joining());
-					configStringArrayString = stream.filter(s -> s.trim().startsWith("S:") && s.trim().endsWith("<")).collect(Collectors.joining());
+					String allLines = Files.lines(configFile.toPath()).collect(Collectors.joining("\t")); //whitespace \s doesnt match \n here for whatever reason, otherwise i could easily use that for the config name special character
+					Matcher matcher = Pattern.compile("[SID]:\"([^\t]+)\" <([^>]*)>").matcher(allLines); //regex matches any config lines with any < ... > entry and a name allowing anything except tabspace (\t). had to use some special character no one would use in config name. idk if this one was a good one
+					while (matcher.find())
+                        configArrayFilledMap.put(matcher.group(1), !matcher.group(2).matches("\\s*")); //save config name and whether its empty (only whitespace) or not
 				} catch (Exception ex) {
 					SRPMixins.LOGGER.error("Failed to parse " + SRPMixins.NAME + " config: " + ex);
 				}
-			} else configStringArrayString = "";
-		}
-
-		if (configStringArrayString.contains("S:\"" + name + "\"=")) {
-			int index = configStringArrayString.indexOf("I:\"" + name + "\"=");
-			try {
-				Matcher matcher = Pattern.compile("(\\d+)").matcher(configIntString.substring(index));
-				matcher.find();
-				return Integer.parseInt(matcher.group(1));
-			} catch (Exception e) {
-				SRPMixins.LOGGER.error(SRPMixins.NAME + ": Failed to parse int config "+ name + ", " + e);
-				return 0;
 			}
 		}
-		//If config is not generated yet or missing entries, we use the default value that will get written into it right after this
-		else return defaultValue.length == 0;
-	}*/
+
+		SRPMixins.LOGGER.info("SRPMIXINS {} {}", name, configArrayFilledMap.getOrDefault(name, filledByDefault));
+
+        return configArrayFilledMap.getOrDefault(name, filledByDefault);
+	}
 }

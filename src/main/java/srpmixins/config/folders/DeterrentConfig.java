@@ -62,7 +62,8 @@ public class DeterrentConfig {
 
     @Config.Comment("Beckon infested area grows a lot of infested grass in it. Increase this multiplier to make it more rare (default SRP is 1, default here is 8x rarer).")
     @Config.Name("Infested Grass Rarity")
-    public float infestedGrassSpawnRateMultiplier = 8.F;
+    @Config.RangeDouble(min = 0F)
+    public float infestedGrassSpawnRateMultiplier = 8F;
 
     @Config.Comment("Beckons infest blocks in a square shaped area. This makes the area circular instead, looks better.")
     @Config.Name("Circular Infestation Area")

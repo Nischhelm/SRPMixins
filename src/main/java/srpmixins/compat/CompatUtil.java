@@ -22,10 +22,4 @@ public class CompatUtil {
             return isLoaded;
         }
     }
-
-    public static boolean areCustomPhasesEnabled() {
-        boolean playerPhases = EarlyConfigReader.getBoolean("Use Player Phases", SRPMixinsConfigHandler.playerphases.enabled);
-        boolean chunkPhases = EarlyConfigReader.getBoolean("Use Chunk Phases", SRPMixinsConfigHandler.chunkphases.enabled);
-        return (playerPhases || chunkPhases);
-    }
 }

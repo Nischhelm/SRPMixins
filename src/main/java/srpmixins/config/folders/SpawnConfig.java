@@ -24,11 +24,15 @@ public class SpawnConfig {
     @Config.Name("Parasite Spawning Biome Blacklist per dimension")
     public String[] biomeBlacklist = {};
 
+    @Config.Comment("Use Biome Blacklist as Whitelist")
+    @Config.Name("Parasite Spawning Biome Blacklist per dimension is whitelist")
+    public boolean biomeBlacklistIsWhitelist = false;
+
     @Config.Comment("SRP does summoning via a max point system. Both don't really work and especially don't get saved/read to NBT so just unloading/reloading a parasite will clear its summon list. This does it correctly.\n" +
             "Pattern: paraname, maxSummonPoints\n" +
             "Set either to -1 to ignore points.\n" +
-            "Clear the list to disable this mixin (needs restart).")
-    @Config.Name("Summoning Overhaul")
+            "Clear the list to disable this overhaul (requires restart).")
+    @Config.Name("Summoning Overhaul - Max Summon Points")
     public String[] summoningOverhaul = {
             "pri_summoner, 4",
             "ada_summoner, 6",
@@ -54,10 +58,6 @@ public class SpawnConfig {
             "carrier_colony, 3",
             "architect, 6"
     };
-
-    @Config.Comment("Use Biome Blacklist as Whitelist")
-    @Config.Name("Parasite Spawning Biome Blacklist per dimension is whitelist")
-    public boolean biomeBlacklistIsWhitelist = false;
 
     @Config.Comment("SRP disables certain parasites until a colony is created. This also happens though if colonies aren't even activated, fully locking away certain parasites (preeminents by default). This makes SRP ignore the colony lock if colonies are disabled.\n" +
             "WARNING: SRP has preeminents in the default phase spawning lists for phase 3 and beyond. If you enable this fix, you will need to change your SRP defaults. Preeminents should only spawn in parasite biomes and/or late phases like 9/10.")

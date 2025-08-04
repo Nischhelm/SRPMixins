@@ -2,6 +2,7 @@ package srpmixins.compat.overlast;
 
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
+import srpmixins.SRPMixinsPlugin;
 import srpmixins.compat.CompatUtil;
 import srpmixins.config.EarlyConfigReader;
 import srpmixins.config.SRPMixinsConfigHandler;
@@ -27,7 +28,7 @@ public class OverLastCompat {
         OverLastVersion version = getOverLastVersion();
         if(version != versionCompare) return false;
 
-        boolean customPhases = CompatUtil.areCustomPhasesEnabled();
+        boolean customPhases = SRPMixinsPlugin.areCustomPhasesEnabled();
         boolean overlastEnabled = EarlyConfigReader.getBoolean("Enable OverLast custom phases",SRPMixinsConfigHandler.modcompat.enableOverLastCustomPhases);
 
         return customPhases && overlastEnabled;

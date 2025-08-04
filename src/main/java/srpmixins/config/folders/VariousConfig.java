@@ -97,7 +97,7 @@ public class VariousConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.scentsnoclip.json", defaultValue = true)
     public boolean scentsDontClip = true;
 
-    @Config.Comment("Max distance to a node of stage 1,2,3 to be found by the node compass. Will be disabled if its not exactly three entries, so clear the list if you want to disable it.")
+    @Config.Comment("Max distance to a node of stage 1,2,3 to be found by the node compass. Will be disabled if its not exactly three entries. Clear the list if you want to disable it.")
     @Config.Name("Node Compass max distance")
     public int[] nodeCompassMaxDist = {
             Integer.MAX_VALUE,
