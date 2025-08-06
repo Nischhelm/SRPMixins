@@ -83,6 +83,6 @@ public class DeterrentConfig {
     @Config.Name("Infestation Performance Overhaul")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationoverhaul.json", defaultValue = true)
-    @MixinConfig.CompatHandling(modid = "srpcotesia", desired = false, reason = "Disable \"Infestation Performance Overhaul\"!")
+    @MixinConfig.CompatHandling(modid = "srpcotesia", desired = false, reason = "Disable \"Infestation Performance Overhaul\"!", warnIngame = false)
     public boolean infestationOverhaul = true;
 }

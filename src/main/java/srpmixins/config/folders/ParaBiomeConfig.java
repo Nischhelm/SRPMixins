@@ -13,7 +13,7 @@ public class ParaBiomeConfig {
     @Config.Name("Biome Spread Performance Overhaul")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.biomespreadoverhaul.json", defaultValue = true)
-    @MixinConfig.CompatHandling(modid = "srpcotesia", desired = false, reason = "Disable \"Biome Spread Performance Overhaul\"!")
+    @MixinConfig.CompatHandling(modid = "srpcotesia", desired = false, reason = "Disable \"Biome Spread Performance Overhaul\"!", warnIngame = false)
     public boolean biomeSpreadOverhaul = true;
 
     @Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
