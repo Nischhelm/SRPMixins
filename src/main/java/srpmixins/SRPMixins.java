@@ -32,7 +32,7 @@ import srpmixins.rules.ruleset.*;
         modid = SRPMixins.MODID,
         version = SRPMixins.VERSION,
         name = SRPMixins.NAME,
-        dependencies = "required-after:fermiumbooter@[1.3.0,);required-after:srparasites",
+        dependencies = "required-after:fermiumbooter@[1.3.2,);required-after:srparasites",
         acceptableRemoteVersions = "*"
 )
 public class SRPMixins {

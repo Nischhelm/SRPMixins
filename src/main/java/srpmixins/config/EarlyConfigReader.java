@@ -83,8 +83,6 @@ public class EarlyConfigReader {
 			}
 		}
 
-		SRPMixins.LOGGER.info("SRPMIXINS {} {}", name, configArrayFilledMap.getOrDefault(name, filledByDefault));
-
         return configArrayFilledMap.getOrDefault(name, filledByDefault);
 	}
 }

@@ -9,8 +9,8 @@ public class ModCompatConfig {
     @Config.Comment("Set to false to disable all bloodmoon related tweaks")
     @Config.Name("Enable Bloodmoon tweaks")
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.bloodmoon.json", defaultValue = false)
-    @MixinConfig.CompatHandling(modid = "bloodmoon", desired = true, reason = "Mod Compat for Bloodmoon, requires Bloodmoon")
-    @MixinConfig.CompatHandling(modid = "lostcities", desired = true, reason = "Mod Compat for Lost Cities, requires Lost Cities")
+    @MixinConfig.CompatHandling(modid = "bloodmoon", desired = true, reason = "Mod Compat for Bloodmoon, requires Bloodmoon", warnIngame = false)
+    @MixinConfig.CompatHandling(modid = "lostcities", desired = true, reason = "Mod Compat for Lost Cities, requires Lost Cities", warnIngame = false)
     @Config.RequiresMcRestart
     public boolean enableBloodmoon = false;
 
@@ -20,7 +20,8 @@ public class ModCompatConfig {
     @MixinConfig.CompatHandling(
             modid = "lostcities",
             desired = true,
-            reason = "Mod Compat for Lost Cities, requires Lost Cities"
+            reason = "Mod Compat for Lost Cities, requires Lost Cities",
+            warnIngame = false
     )
     @Config.RequiresMcRestart
     public boolean enableLostCities = false;
@@ -66,27 +67,29 @@ public class ModCompatConfig {
             "NOTE: This property works without SRPMixins as well, this just streamlines the handling a bit. \n" +
             "I kinda thought it didn't work - without actually testing it...")
     @Config.Name("Scape and Spartan: Parasites Compat - Ignore Dmg Cap")
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.swparasites.json", defaultValue = false)
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.swparasites.json", defaultValue = true)
     @MixinConfig.CompatHandling(
             modid = "swparasites",
             desired = true,
-            reason = "Mod Compat for Scape and Spartan: Parasites, requires Scape and Spartan: Parasites"
+            reason = "Mod Compat for Scape and Spartan: Parasites, requires Scape and Spartan: Parasites",
+            warnIngame = false
     )
     @Config.RequiresMcRestart
-    public boolean enableSWParasitesCompat = false;
+    public boolean enableSWParasitesCompat = true;
 
     @Config.Comment("This allows using some additional rules in InControl specifically for SRP\n" +
             "New Rules: \"srp_minphase\", \"srp_maxphase\", \"srp_minnodes\", \"srp_maxnodes\", \"srp_mincolos\", \"srp_maxcolos\"\n" +
             "All rules take a single integer number as comparison and can be used in any incontrol json.\n" +
             "Note: Nodes and Colonies are counted over all dimensions, thats just how SRP works")
     @Config.Name("In Control Compat - Add Rules")
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.incontrol.json", defaultValue = false)
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.incontrol.json", defaultValue = true)
     @MixinConfig.CompatHandling(
             modid = "incontrol",
             desired = true,
-            reason = "Mod Compat for In Control, requires In Control"
+            reason = "Mod Compat for In Control, requires In Control",
+            warnIngame = false
     )
     @Config.RequiresMcRestart
-    public boolean enableInControlCompat = false;
+    public boolean enableInControlCompat = true;
 
 }
