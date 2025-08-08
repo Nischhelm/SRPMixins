@@ -16,10 +16,10 @@ public abstract class EntityPAdaptedMixin extends Entity {
     }
 
     @Redirect(
-            method="despawnEntity",
-            at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
+            method = "despawnEntity",
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData srpmixins_getPlayerData(World world){
-        return SRPSaveDataInterface.get(world,null,this.getPosition());
+    public SRPSaveData srpmixins_getPlayerData(World world) {
+        return SRPSaveDataInterface.get(world, null, this.getPosition());
     }
 }

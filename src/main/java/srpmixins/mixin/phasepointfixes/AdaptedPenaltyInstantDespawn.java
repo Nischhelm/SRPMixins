@@ -20,7 +20,7 @@ public abstract class AdaptedPenaltyInstantDespawn extends Entity {
             method = "despawnEntity",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfigSystems;valueEvolutionDespawn:I", remap = false)
     )
-    private int srpmixins_phaseLockMixin(int original, @Local SRPSaveData data) {
+    private int srpmixins_instantDespawnFix(int original, @Local SRPSaveData data) {
         //Fix for fast penalty points from adapteds despawning instantly after spawn
         if(this.ticksExisted < 5) return 0;
 
