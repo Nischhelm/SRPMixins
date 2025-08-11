@@ -17,8 +17,7 @@ public abstract class SuccorFix extends EntityMob {
 
     @ModifyArg(
             method = "setDamageATT",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/attributes/IAttributeInstance;setBaseValue(D)V"),
-            remap = false
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/ai/attributes/IAttributeInstance;setBaseValue(D)V")
     )
     private double srpmixins_fixSuccorDamageMixin(double original) {
         if (SRPMixinsConfigHandler.dmgfix.fixSuccorDamage)
