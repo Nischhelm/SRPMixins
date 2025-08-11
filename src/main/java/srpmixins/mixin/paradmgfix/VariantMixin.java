@@ -85,6 +85,7 @@ public abstract class VariantMixin extends EntityParasiteBase {
     )
     private double srpmixins_changeVariants(double original){
         if(VariantDisableRuleSet.INSTANCE.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
+        if(this.world.isRemote) return SRPConfig.variantChance;
         if(this.canChangeVariant) return 0; //afaik just for variant staff but idk
         if(this.phaseCreated < SRPConfigSystems.evolutionParasiteAlwaysVariant && this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0; //normal type, no variant
 

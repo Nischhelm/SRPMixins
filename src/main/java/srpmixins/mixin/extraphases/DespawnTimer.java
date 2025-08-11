@@ -52,6 +52,7 @@ public abstract class DespawnTimer extends EntityLivingBase {
     private void srpmixins_allowDespawnAfterCertainTime(boolean newCanDespawnFlag, CallbackInfo ci){
         if(newCanDespawnFlag) return; //no timer for mobs that can just despawn normally
         if(DespawnTimerRuleSet.INSTANCE.hasNoRules()) return;
+        if(this.world.isRemote) return;
 
         int paraId = this.getParasiteIDRegister();
         int dimId = this.world.provider.getDimension();
