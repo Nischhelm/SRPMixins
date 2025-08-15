@@ -21,6 +21,8 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
+import srpmixins.capability.adaptation.ICapabilityAdaptation;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 import java.util.List;
@@ -46,8 +48,14 @@ public class SentientArmorEvolution extends ItemArmor {
                     compound.setInteger("srpkills", 0);
                     stack.shrink(1);
                     ItemStack newStack = new ItemStack(this.srpmixins$getNext(), 1);
-                    if (SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT)
+                    if (SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT) {
                         newStack.setTagCompound(stack.getTagCompound());
+                        if(SRPMixinsConfigHandler.adaptation.overhaulAdaptation){
+                            ICapabilityAdaptation adaCap = stack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
+                            ICapabilityAdaptation adaCapNew = newStack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
+                            if(adaCap != null && adaCapNew != null) adaCapNew.copyAdaptationsFrom(adaCap);
+                        }
+                    }
                     EntityItem entityitem = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, newStack);
                     entityitem.setDefaultPickupDelay();
                     worldIn.spawnEntity(entityitem);

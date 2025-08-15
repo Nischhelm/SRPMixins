@@ -133,4 +133,10 @@ public class CapabilityAdaptation implements ICapabilityAdaptation {
     public List<Integer> getCounts() {
         return new ArrayList<>(trackedTypes.values());
     }
+
+    @Override
+    public void copyAdaptationsFrom(ICapabilityAdaptation adaCap) {
+        for(int i=0; i<adaCap.getTrackCount(); i++)
+            this.trackedTypes.put(adaCap.getNames().get(i), adaCap.getCounts().get(i));
+    }
 }

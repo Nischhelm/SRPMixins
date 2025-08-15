@@ -19,4 +19,6 @@ public interface ICapabilityAdaptation {
 
     List<String> getNames();
     List<Integer> getCounts();
+
+    void copyAdaptationsFrom(ICapabilityAdaptation adaCap);
 }
