@@ -45,4 +45,22 @@ public class CothConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.feraliseferbears.json", defaultValue = true)
     public boolean fixFeralBearCreation = true;
+
+    @Config.Comment("If mobs have camouflage, another mob spreading COTH to nearby will not check if it can see that first mob and instead only check the camouflage chance to prevent COTH spread. This fixes it.")
+    @Config.Name("Fix Infect Nearby")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infectnearbyfix.json", defaultValue = true)
+    public boolean fixInfectNearby = true;
+
+    @Config.Comment("Camouflage has a chance to protect against COTH (default: 70%). Since a lot of effects try to apply COTH every single tick, any chance to protect against COTH will fail in less than a second.\n" +
+            "This fix makes Camouflage only check once whether it protects against COTH and then either protect or not protect for the entire duration.\n" +
+            "This will also not apply Camouflage to mobs that already have COTH, which gives a small ability to check if a mob has low stage COTH (otherwise green particles)\n" +
+            "NOTE: Camouflage only protects against COTH from some sources, not from all of them. Those sources are\n" +
+            "- getting attacked by a parasite (except rupter)\n" +
+            "- standing on gore/remain\n" +
+            "- mobs & assimilated paras spreading COTH to nearby")
+    @Config.Name("Fix Camouflage")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.camouflagefix.json", defaultValue = true)
+    public boolean fixCamouflage = true;
 }

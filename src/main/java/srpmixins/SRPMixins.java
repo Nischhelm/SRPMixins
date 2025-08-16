@@ -78,6 +78,7 @@ public class SRPMixins {
         registerEventSubscriberIf(WorldMobCapHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
         registerEventSubscriberIf(XpPerPhaseHandler.class, SRPMixinsConfigHandler.phasepoints.xpMultis.length > 0); //TODO: maybe a toggle idk
         registerEventSubscriberIf(StatIncreaseRuleHandler.class, SRPMixinsConfigHandler.rules.statIncreaseRules.length > 0);
+        registerEventSubscriberIf(CamouflageHandler.class, SRPMixinsConfigHandler.coth.fixCamouflage);
     }
 
     private static void registerEventSubscriberIf(Object subscriber, boolean condition){

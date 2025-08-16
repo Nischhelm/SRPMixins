@@ -12,7 +12,7 @@ public class PointConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.modifiedclock.json", defaultValue = true)
     public boolean modifyBloodyClock = true;
 
-    @Config.Comment("If Bloody CLock percentage is true, also show point cooldown when using the clock")
+    @Config.Comment("If Bloody Clock percentage is true, also show point cooldown when using the clock")
     @Config.Name("Bloody Clock shows cooldown")
     public boolean bloodyClockShowsCooldown = true;
 

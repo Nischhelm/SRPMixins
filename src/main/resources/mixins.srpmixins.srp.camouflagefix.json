@@ -1,0 +1,16 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.cothtweaks.camouflage",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "CamouflageOnInfectNearby",
+    "CamouflageOnAttacked",
+    "CamouflageOnEntityCollision"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}
