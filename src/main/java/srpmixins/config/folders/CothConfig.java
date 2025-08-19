@@ -52,6 +52,14 @@ public class CothConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infectnearbyfix.json", defaultValue = true)
     public boolean fixInfectNearby = true;
 
+    @Config.Comment("When mobs convert due to COTH without a parasite attacking them, vanilla onDeath is not called for the entitiy. \n" +
+            "This for example leads to dead pets not notifying their owner about their death in chat and mobs with inventories (donkeys etc) not dropping the contents of their inventories. \n" +
+            "This fix calls onDeath and cancels the normal mob drops that would result in calling onDeath.")
+    @Config.Name("Call OnDeath when converting")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.cothondeath.json", defaultValue = true)
+    public boolean fixCothOnDeath = true;
+
     @Config.Comment("Camouflage has a chance to protect against COTH (default: 70%). Since a lot of effects try to apply COTH every single tick, any chance to protect against COTH will fail in less than a second.\n" +
             "This fix makes Camouflage only check once whether it protects against COTH and then either protect or not protect for the entire duration.\n" +
             "This will also not apply Camouflage to mobs that already have COTH, which gives a small ability to check if a mob has low stage COTH (otherwise green particles)\n" +

@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.cothtweaks",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "mixins": [
+    "CothCallsOnDeath",
+    "CothCallsOnDeath_Gnat"
+  ],
+  "injectors": {
+    "maxShiftBy": 10
+  }
+}
