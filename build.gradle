@@ -3,6 +3,7 @@ plugins {
     id 'idea'
     id 'net.minecraftforge.gradle' version "${forge_gradle_version}"
     id 'org.spongepowered.mixin' version "${mixin_gradle_version}"
+    id 'wtf.gofancy.fancygradle' version "${fancy_gradle_version}"
 }
 
 version = mod_version
@@ -16,7 +17,7 @@ minecraft {
 
     runs {
         client {
-            args "--username=InDev"
+            args "--username=Nischhelm"
 
             jvmArg "-Dfml.coreMods.load=${mixin_loader_class}"
             jvmArg "-Dmixin.hotSwap=true"
@@ -51,42 +52,50 @@ repositories {
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    implementation "org.spongepowered:mixin:${mixin_version}"
+    compileOnly "org.spongepowered:mixin:${mixin_version}"
     annotationProcessor "org.spongepowered:mixin:${mixin_version}:processor"
-    implementation "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
+    compileOnly "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
     implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
     implementation fg.deobf("libs:SRParasites:${srparasites_version}") // Third party distro disabled
-    implementation fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
-    implementation fg.deobf("curse.maven:lostcity-${lostcity_version}")
-    implementation fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
+    compileOnly fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
+    compileOnly fg.deobf("curse.maven:lostcity-${lostcity_version}")
+    compileOnly fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
     implementation fg.deobf("curse.maven:parasites-addon-overlastlite-${srpoverlastlite_version}")
-    implementation fg.deobf("curse.maven:parasites-addon-overlast-${srpoverlast_version}")
-    implementation fg.deobf("curse.maven:scape-and-spartan-parasites-${swparasites_version}")
-    implementation fg.deobf("curse.maven:spartan-weaponry-${spartanweaponry_version}")
-    implementation fg.deobf("curse.maven:in-control-${incontrol_version}")
-    implementation fg.deobf("libs:mcjtytools:${mcjtytools_version}") //recompiled bc old af gradle https://github.com/McJtyMods/McJtyTools/pull/2
-
+    compileOnly fg.deobf("curse.maven:parasites-addon-overlast-${srpoverlast_version}")
+    compileOnly fg.deobf("curse.maven:scape-and-spartan-parasites-${swparasites_version}")
+    compileOnly fg.deobf("curse.maven:spartan-weaponry-${spartanweaponry_version}")
+    compileOnly fg.deobf("curse.maven:in-control-${incontrol_version}")
+    compileOnly fg.deobf("libs:mcjtytools:${mcjtytools_version}") //get from mods folder
 
     //Addons
-    implementation fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")
-    implementation fg.deobf("curse.maven:scape-and-run-parasites-extra-1140227:6765279")
-    implementation fg.deobf("curse.maven:scape-and-run-parasites-deep-sea-danger-1268838:6764503")
-    //implementation fg.deobf("curse.maven:scape-and-run-parasites-mutant-beasts-1214567:6551866")
-    //implementation fg.deobf("curse.maven:scape-and-run-parasites-quark-1174245:6548138")
-    implementation fg.deobf("curse.maven:oceanic-expanse-840576:6383148")
-    //implementation fg.deobf("curse.maven:scape-and-run-parasite-dimension-1037060:5965078")
-    //implementation fg.deobf("curse.maven:scape-and-run-parasites-meteorite-1124012:6533192")
-    //implementation fg.deobf("curse.maven:nebula-parasites-1246704:6439940")
-    //implementation fg.deobf("libs:SRRevenants:1.12.2v1.0.2")
-    //implementation fg.deobf("libs:SRMonstress:1.12.2v1.0.2")
+    compileOnly fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")
+    compileOnly fg.deobf("curse.maven:scape-and-run-parasites-extra-1140227:6765279")
+    compileOnly fg.deobf("curse.maven:scape-and-run-parasites-deep-sea-danger-1268838:6764503")
+    //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-mutant-beasts-1214567:6551866")
+    //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-quark-1174245:6548138")
+    compileOnly fg.deobf("curse.maven:oceanic-expanse-840576:6383148")
+    //compileOnly fg.deobf("curse.maven:scape-and-run-parasite-dimension-1037060:5965078")
+    //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-meteorite-1124012:6533192")
+    //compileOnly fg.deobf("curse.maven:nebula-parasites-1246704:6439940")
+    //compileOnly fg.deobf("libs:SRRevenants:1.12.2v1.0.2")
+    //compileOnly fg.deobf("libs:SRMonstress:1.12.2v1.0.2")
 
-    implementation "libs:CraftTweaker2-${ct_version}"
+    compileOnly "libs:CraftTweaker2-${ct_version}"
 }
 
 mixin {
     add sourceSets.main, "mixins.${mod_id}.refmap.json"
+}
+
+fancyGradle {
+    patches {
+        resources
+        coremods
+        asm
+        mergetool
+    }
 }
 
 processResources {
@@ -108,17 +117,37 @@ processResources {
 
 jar {
     manifest {
-        attributes([
-                "Specification-Title"     : mod_name,
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : mod_name,
-                "Implementation-Version"  : mod_version,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "FMLCorePlugin": "${mixin_loader_class}",
-                "FMLCorePluginContainsFMLMod": "true",
-                "ForceLoadAsMod": "true", //Comment out for dev enviroment, uncomment for build
-                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker"
-        ])
+        def attr = [:]
+        attr['Specification-Title']         = mod_name
+        attr['Specification-Vendor']        = mod_author
+        attr['Specification-Version']       = '1'
+        attr['Implementation-Title']        = mod_name
+        attr['Implementation-Vendor']       = mod_author
+        attr['Implementation-Version']      = mod_version
+        attr['Implementation-Timestamp']    = new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        attr['FMLCorePlugin']               = mixin_loader_class
+        attr['FMLCorePluginContainsFMLMod'] = 'true'
+        attr['TweakClass']                  = 'org.spongepowered.asm.launch.MixinTweaker'
+        attr['ForceLoadAsMod'] = "true"
+
+        def currentTasks = gradle.startParameter.taskNames
+        if (currentTasks[0] == 'build' || currentTasks[0] == 'assemble')
+            attr['ForceLoadAsMod'] = "true"
+              attributes(attr)
+    }
+}
+
+tasks.register("copyReobfJar", Copy) {
+    dependsOn("reobfJar")
+
+    from(layout.buildDirectory.file("reobfJar/output.jar"))
+    into(layout.projectDirectory.dir("run/mods"))
+    rename("output.jar", "${mod_name}-${mod_version}.jar")
+}
+
+afterEvaluate {
+    tasks.matching { it.name.startsWith("reobfJar") }.configureEach {
+        finalizedBy("copyReobfJar")
     }
 }
 
