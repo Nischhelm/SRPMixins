@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 public class CothNoDropsOnConversion {
-    public static final DamageSource COTH = new DamageSource("SRPMIXINS_COTH");
+    public static final DamageSource COTH = new DamageSource("srpmixins_coth");
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onLivingDrops(LivingDropsEvent event) {

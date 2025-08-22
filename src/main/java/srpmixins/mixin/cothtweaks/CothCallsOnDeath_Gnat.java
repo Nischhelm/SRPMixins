@@ -18,8 +18,11 @@ public abstract class CothCallsOnDeath_Gnat {
             },
             remap = false
     )
-    private boolean srpmixins_callOnDeath(boolean succeeded, @Local EntityLivingBase target){
-        if(succeeded) target.onDeath(CothNoDropsOnConversion.COTH);
+    private boolean srpmixins_callOnDeath(boolean succeeded, @Local EntityLivingBase entity){
+        if(succeeded){
+            entity.getCombatTracker().trackDamage(CothNoDropsOnConversion.COTH, entity.getHealth(), entity.getHealth());
+            entity.onDeath(CothNoDropsOnConversion.COTH);
+        }
         return succeeded;
     }
 }

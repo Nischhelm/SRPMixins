@@ -13,3 +13,6 @@ enchantment.parasite_piercer=Parasite Piercer
 enchantment.srpmixins.parasite_piercer.desc=Gives a chance to ignore Parasites Damage Cap.
 enchantment.parasite_slicer=Parasite Slicer
 enchantment.srpmixins.parasite_slicer.desc=Increases Damage against Parasites.
+
+death.attack.srpmixins_coth=%1$s was assimilated
+death.attack.cactus.player=%1$s was assimilated after getting attacked by %2$s

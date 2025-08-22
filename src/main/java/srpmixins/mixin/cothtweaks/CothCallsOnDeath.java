@@ -19,6 +19,9 @@ public abstract class CothCallsOnDeath {
             remap = false
     )
     private void srpmixins_callOnDeath(EntityLivingBase entity, int amplifier, CallbackInfo ci){
-        if(entity.isDead) entity.onDeath(CothNoDropsOnConversion.COTH);
+        if(entity.isDead){
+            entity.getCombatTracker().trackDamage(CothNoDropsOnConversion.COTH, entity.getHealth(), entity.getHealth());
+            entity.onDeath(CothNoDropsOnConversion.COTH);
+        }
     }
 }
