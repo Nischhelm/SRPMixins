@@ -231,7 +231,8 @@ public abstract class InfestationOverhaul {
                 block instanceof BlockContainer ||
                 block instanceof BlockHorizontal ||
                 block instanceof BlockTNT ||
-                block instanceof IPlantable) return true;
+                block instanceof IPlantable ||
+                block instanceof BlockMobSpawner) return true;
         else {
             if(srpmixins$listedBlocks.contains(block)) return !SRPConfigSystems.blockBListWhite;
             ResourceLocation loc = block.getRegistryName();
