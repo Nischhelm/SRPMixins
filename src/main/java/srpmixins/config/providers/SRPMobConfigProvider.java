@@ -319,30 +319,35 @@ public class SRPMobConfigProvider {
     
     public static void registerSRPExtraMobs(){
         registerParasite("hijacked_creeper", -1, "HIJACKED");
-        registerParasite("hijacked_creeper_head", -257, "HIJACKED"); //Not actually like that in code yet
+        registerParasite("hijacked_creeper_head", -257, "HIJACKED");
         registerParasite("hijacked_skeleton", -2, "HIJACKED");
-        registerParasite("hijacked_skeleton_head", -258, "HIJACKED"); //Not actually like that in code yet
+        registerParasite("hijacked_skeleton_head", -258, "HIJACKED");
         registerParasite("hijacked_skeleton_stray", -3, "HIJACKED");
         registerParasite("stalker", -4, "PRIMITIVE");
         registerParasite("sim_witch", -5, "ASSIMILATED");
-        registerParasite("sim_witch_head", -261, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("sim_witch_head", -261, "ASSIMILATED");
         registerParasite("sim_vindicator", -6, "ASSIMILATED");
-        registerParasite("sim_vindicator_head", -262, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("sim_vindicator_head", -262, "ASSIMILATED");
         registerParasite("sim_evoker", -7, "ASSIMILATED");
         registerParasite("sim_ocelot", -8, "ASSIMILATED");
-        registerParasite("sim_ocelot_head", -264, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("sim_ocelot_head", -264, "ASSIMILATED");
         registerParasite("ada_vermin", -9, "ADAPTED");
+        registerParasite("ada_tozoon", -10, "ADAPTED");
+        registerParasite("tendril_tozoon", -266);
     }
     public static void registerSRPDeepSeaDangerMobs(){
-        registerParasite("swimmer", -10, "INBORN");
-        registerParasite("leecher", -11, "INBORN");
+        registerParasite("swimmer", -21, "INBORN");
+        registerParasite("leecher", -22, "INBORN");
         registerParasite("sim_drowned", -23, "ASSIMILATED");
         registerParasite("sim_dolphin", -24, "ASSIMILATED");
-        registerParasite("sim_dolphin_head", -280, "ASSIMILATED"); //Not actually like that in code yet
+        registerParasite("sim_dolphin_head", -280, "ASSIMILATED");
+        registerParasite("fer_dolphin", -536, "FERAL");
         registerParasite("sim_fish", -25, "ASSIMILATED");
-        registerParasite("fer_dolphin", -536, "FERAL"); //Not actually like that in code yet
+        registerParasite("fer_fish", -40, "FERAL");
         registerParasite("pri_hammerhead", -26, "PRIMITIVE");
         registerParasite("ada_hammerhead", -27, "ADAPTED");
+        registerParasite("tendril_hammerhead", -283);
+        registerParasite("ada_devourer", -41, "ADAPTED");
         registerParasite("sprouter_si", -28, "NEXUS");
         registerParasite("sprouter_sii", -29, "NEXUS");
         registerParasite("sprouter_siii", -30, "NEXUS");
@@ -351,11 +356,10 @@ public class SRPMobConfigProvider {
         registerParasite("carrier_sea", -33, "INBORN");
         registerParasite("bomber_mini", -34, "INBORN");
         registerParasite("supporter", -35, "PURE");
+        //registerParasite("pri_stinger", -36, "PRIMITIVE");
+        //registerParasite("ada_stinger", -37, "ADAPTED");
         registerParasite("hi_guardian", -38, "HIJACKED");
         registerParasite("hi_elder_guardian", -39, "HIJACKED");
-        registerParasite("fer_fish", -40, "FERAL"); //Not actually like that in code yet
-        registerParasite("ada_devourer", -41, "ADAPTED"); //Not actually like that in code yet
-        registerParasite("tendril_hammerhead", -283);
     }
     public static void registerSRPQuarkMobs(){
         registerParasite("hijacked_skeleton_pirate", -71, "HIJACKED");
