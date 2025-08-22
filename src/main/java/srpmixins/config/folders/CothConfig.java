@@ -46,8 +46,9 @@ public class CothConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.feraliseferbears.json", defaultValue = true)
     public boolean fixFeralBearCreation = true;
 
-    @Config.Comment("If mobs have camouflage, another mob spreading COTH to nearby will not check if it can see that first mob and instead only check the camouflage chance to prevent COTH spread. This fixes it.")
-    @Config.Name("Fix Infect Nearby")
+    @Config.Comment("Fixes mobs not checking for visibility when trying to spread COTH onto other mobs that have camouflage.\n" +
+            "Also fixes assimilated mobs never checking for visibility when infecting nearby mobs")
+    @Config.Name("Fix Infect Nearby Visibility")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infectnearbyfix.json", defaultValue = true)
     public boolean fixInfectNearby = true;
