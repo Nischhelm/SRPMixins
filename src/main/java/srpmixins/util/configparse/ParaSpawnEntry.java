@@ -33,7 +33,8 @@ public class ParaSpawnEntry {
 
     public static List<ParaSpawnEntry> parseMobList(String[] list, boolean isSpawn /*is spawn, not summon */) {
         List<ParaSpawnEntry> cache = new ArrayList<>();
-        for (String s : list) {
+        if(list != null) for (String s : list) {
+            if(s == null) continue; //beckon spawn lists can have null entries or even null lists
             String[] split = s.split(";");
             if(split.length <= 1){
                 SRPMixins.LOGGER.warn("SRPMixins unable to parse spawn/summon entry, expected pattern is modid:mobname; int or double; optional int, provided was {}", s);

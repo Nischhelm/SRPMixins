@@ -62,7 +62,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
     compileOnly fg.deobf("curse.maven:lostcity-${lostcity_version}")
     compileOnly fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
-    implementation fg.deobf("curse.maven:parasites-addon-overlastlite-${srpoverlastlite_version}")
+    compileOnly fg.deobf("curse.maven:parasites-addon-overlastlite-${srpoverlastlite_version}")
     compileOnly fg.deobf("curse.maven:parasites-addon-overlast-${srpoverlast_version}")
     compileOnly fg.deobf("curse.maven:scape-and-spartan-parasites-${swparasites_version}")
     compileOnly fg.deobf("curse.maven:spartan-weaponry-${spartanweaponry_version}")

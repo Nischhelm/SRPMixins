@@ -18,6 +18,5 @@ public abstract class EntityProjectileBiomassMixin {
     )
     private void srpmixins_addByUUID(EntityCanSummon instance, int id, int points, Operation<Void> original, @Local EntityBiomass entitySpawned){
         ((ISummonsByUUID) instance).srpmixins$addSummon(entitySpawned.getUniqueID(), points);
-        //TODO: translate to biomass spawned mob
     }
 }
