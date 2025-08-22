@@ -9,6 +9,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import srpmixins.SRPMixins;
+import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 import stanhebben.zenscript.annotations.ZenClass;
 import stanhebben.zenscript.annotations.ZenMethod;
@@ -71,13 +72,13 @@ public class ISRPSaveData {
     }
 
     @ZenMethod("getAssimilationCount")
-    public int getAssimilationCount(int paraId){
-        return this.internal.getNumberIDDataSpawn(paraId);
+    public int getAssimilationCount(String paraName){
+        return this.internal.getNumberIDDataSpawn(SRPMobConfigProvider.mobNameToParaIdMap.get(paraName));
     }
 
     @ZenMethod("isEvoLocked")
-    public boolean isEvoLocked(int paraId){
-        return this.internal.checkParasiteID(paraId);
+    public boolean isEvoLocked(String paraName){
+        return this.internal.checkParasiteID(SRPMobConfigProvider.mobNameToParaIdMap.get(paraName));
     }
 
     // SETTERS
@@ -119,13 +120,13 @@ public class ISRPSaveData {
     }
 
     @ZenMethod("increaseAssimilationCount")
-    public void increaseAssimilationCount(int paraId){
-        this.internal.addNumberIDDataSpawn(paraId);
+    public void increaseAssimilationCount(String paraName){
+        this.internal.addNumberIDDataSpawn(SRPMobConfigProvider.mobNameToParaIdMap.get(paraName));
     }
 
     @ZenMethod("unlockEvoLockForParasite")
-    public void unlockEvoLockForParasite(int paraId){
-        this.internal.unlockParasite(paraId);
+    public void unlockEvoLockForParasite(String paraName){
+        this.internal.unlockParasite(SRPMobConfigProvider.mobNameToParaIdMap.get(paraName));
     }
 
     @ZenMethod("resetEvoLock")
