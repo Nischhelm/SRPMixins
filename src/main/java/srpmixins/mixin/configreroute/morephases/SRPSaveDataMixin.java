@@ -1,6 +1,5 @@
 package srpmixins.mixin.configreroute.morephases;
 
-import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
@@ -8,6 +7,9 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.mixin.customphases.SRPSaveDataAccessor;
+import srpmixins.network.AlertOnePlayer;
+import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 @Mixin(SRPSaveData.class)
 public abstract class SRPSaveDataMixin {
@@ -22,14 +24,14 @@ public abstract class SRPSaveDataMixin {
         //Phase up
         if(currPhase >= -1 && currPhase < SRPMixinsConfigHandler.morephases.maxEvolutionPhase && currPoints >= SRPMixinsConfigHandler.morephases.phaseKills[currPhase+1]) {
             if(setEvolutionPhase(dimId, (byte) (currPhase + 1), false, worldIn, canChangePhase)) { //will always be true if increasing
-                ParasiteEventEntity.alertAllPlayerDim(worldIn, SRPMixinsConfigHandler.morephases.phaseWarning[currPhase+1], currPhase+1);
+                AlertOnePlayer.alertOnePlayer(worldIn, ((SRPSaveDataInterface) this).srpmixins$getUUID(), SRPMixinsConfigHandler.morephases.phaseWarning[currPhase+1], currPhase+1);
                 return false;
             }
         }
         //Phase down
         else if(currPhase > 0 && currPhase <= SRPMixinsConfigHandler.morephases.maxEvolutionPhase && currPoints < SRPMixinsConfigHandler.morephases.phaseKills[currPhase]) {
             if(setEvolutionPhase(dimId, (byte) (currPhase - 1), false, worldIn, canChangePhase)) {
-                ParasiteEventEntity.alertAllPlayerDim(worldIn, "Phase decreased", -7); //TODO: localise
+                AlertOnePlayer.alertOnePlayer(worldIn, ((SRPSaveDataInterface) this).srpmixins$getUUID(), "Phase decreased", -7); //TODO: localise
                 return true;
             }
         }

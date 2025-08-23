@@ -104,4 +104,10 @@ public class VariousConfig {
             Integer.MAX_VALUE,
             Integer.MAX_VALUE
     };
+
+    @Config.Comment("Fixes SRP playing multiple phase increase warning sounds at the same time if there is multiple players in the dimension it happens in.")
+    @Config.Name("Fix Multiple Phase Warnings")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.movingsoundfix.json", defaultValue = true)
+    public boolean fixMovingSound = true;
 }

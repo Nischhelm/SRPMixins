@@ -1,16 +1,10 @@
 package srpmixins.mixin.customphases;
 
-import com.dhanantry.scapeandrunparasites.SRPMain;
-import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
-import com.dhanantry.scapeandrunparasites.init.SRPPotions;
-import com.dhanantry.scapeandrunparasites.network.SRPPacketMovingSound;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
@@ -24,6 +18,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.network.AlertOnePlayer;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 import srpmixins.util.customphasemechanics.SRPSaveDataPlayerLegacyPatch;
 
@@ -36,6 +31,9 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
     @Unique private UUID srpmixins$playerUUID;
     public void srpmixins$setUUID(UUID uuid){
         srpmixins$playerUUID = uuid;
+    }
+    public UUID srpmixins$getUUID(){
+        return srpmixins$playerUUID;
     }
 
     @Unique
@@ -168,9 +166,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             remap = false
     )
     private boolean srpmixins_sendWarningToOnePlayer(World world, String message, int warning){
-        if(!SRPMixinsConfigHandler.playerphases.enabled || this.srpmixins$playerUUID == null) return true;
-
-        srpmixins$alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
+        AlertOnePlayer.alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
         return false;
     }
 
@@ -186,19 +182,6 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
         if(player != null) player.sendMessage(new TextComponentString(message));
         return false;
     }
-
-    @Unique
-    private static void srpmixins$alertOnePlayer(World worldIn, UUID playerUUID, String message, int warning) {
-        EntityPlayer player = worldIn.getPlayerEntityByUUID(playerUUID);
-        if (player == null) return;
-        player.sendMessage(new TextComponentString(message));
-        SRPMain.network.sendTo(new SRPPacketMovingSound(warning), (EntityPlayerMP) player);
-
-        if (warning == -7 && message.equals("Phase decreased"))
-            for (EntityParasiteBase entity : worldIn.getEntities(EntityParasiteBase.class, ent -> ent.getDistanceSq(player) <= 65536))
-                entity.addPotionEffect(new PotionEffect(SRPPotions.RAGE_E, 2400, 1, false, false));
-    }
-
 
     // ---------------- LEGACY GARBAGE -----------------------
     @Unique private static final String srpmixins$legacyDontReadKey = "srpmixins_legacydata_dont_read";

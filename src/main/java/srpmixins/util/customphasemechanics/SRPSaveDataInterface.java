@@ -13,6 +13,7 @@ import java.util.UUID;
 public interface SRPSaveDataInterface {
 
     void srpmixins$setUUID(UUID uuid);
+    UUID srpmixins$getUUID();
     boolean srpmixins$getIsLegacy();
     void srpmixins$setIsLegacy();
 
