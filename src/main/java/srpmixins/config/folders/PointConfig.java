@@ -69,6 +69,14 @@ public class PointConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.fixparaunlocking.json", defaultValue = true)
     public boolean unlockOnHigherPhases = true;
 
+    @Config.Comment("Allows using the parasite name inside the unlocking message (default: \"...\"), so it can for example be \"Unlocked Assimilated Enderdragon\".\n" +
+            "Use the usual printf flags for it, so %s or %s$1.\n" +
+            "This also automatically allows using a lang key instead. Add the %s flag inside the lang key translation then.")
+    @Config.Name("Allow Parasite Name in Unlock Message")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.unlockmessagewithname.json", defaultValue = true)
+    public boolean unlockWithParaName = true;
+
     @Config.Comment("SRP has an option for parasites to stop dropping XP from a certain phase onwards. \n" +
             "To make this option a bit less intrusive, this list can be used to slowly decrease (or increase) the amount of xp dropped.\n" +
             "Starts with phase 0, can be used beyond phase 10 if \"More Phases\" is enabled.\n" +

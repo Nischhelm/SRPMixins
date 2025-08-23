@@ -3,6 +3,7 @@ package srpmixins.mixin.customphases;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.math.BlockPos;
@@ -16,9 +17,10 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.SRPMixins;
+import srpmixins.SRPMixinsPlugin;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
-import srpmixins.network.AlertOnePlayer;
+import srpmixins.network.PhaseWarningOverhaul;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 import srpmixins.util.customphasemechanics.SRPSaveDataPlayerLegacyPatch;
 
@@ -166,7 +168,7 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             remap = false
     )
     private boolean srpmixins_sendWarningToOnePlayer(World world, String message, int warning){
-        AlertOnePlayer.alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
+        PhaseWarningOverhaul.alertOnePlayer(world,this.srpmixins$playerUUID, message, warning);
         return false;
     }
 
@@ -175,11 +177,8 @@ public abstract class SRPSaveDataMixin implements SRPSaveDataInterface {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/util/ParasiteEventEntity;alertAllPlayerSer(Ljava/lang/String;Lnet/minecraft/world/World;)V"),
             remap = false
     )
-    private boolean srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world) {
-        if(!SRPMixinsConfigHandler.playerphases.enabled || srpmixins$playerUUID == null) return true;
-
-        EntityPlayer player = world.getPlayerEntityByUUID(srpmixins$playerUUID);
-        if(player != null) player.sendMessage(new TextComponentString(message));
+    private boolean srpmixins_sendParaUnlockMessageToOnePlayer(String message, World world, @Local(name = "id") int paraId) {
+        PhaseWarningOverhaul.sendUnlockMessage(world, this.srpmixins$getUUID(), message, paraId);
         return false;
     }
 

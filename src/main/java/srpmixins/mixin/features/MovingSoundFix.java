@@ -15,14 +15,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MovingSoundFix {
     @Unique private static boolean srpmixins$alreadySentMovingSound = false;
 
-    @Inject(method = "alertAllPlayerDim", at = @At(value = "HEAD"))
+    @Inject(method = "alertAllPlayerDim", at = @At(value = "HEAD"), remap = false)
     private static void srpmixins_resetFlag(World worldIn, String message, int warning, CallbackInfo ci){
         srpmixins$alreadySentMovingSound = false;
     }
 
     @WrapWithCondition(
             method = "alertAllPlayerDim",
-            at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fml/common/network/simpleimpl/SimpleNetworkWrapper;sendToDimension(Lnet/minecraftforge/fml/common/network/simpleimpl/IMessage;I)V")
+            at = @At(value = "INVOKE", target = "Lnet/minecraftforge/fml/common/network/simpleimpl/SimpleNetworkWrapper;sendToDimension(Lnet/minecraftforge/fml/common/network/simpleimpl/IMessage;I)V"),
+            remap = false
     )
     private static boolean srpmixins_onlySendOnce(SimpleNetworkWrapper instance, IMessage message, int dimensionId){
         if(srpmixins$alreadySentMovingSound) return false;
