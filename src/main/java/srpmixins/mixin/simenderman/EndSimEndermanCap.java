@@ -23,7 +23,7 @@ public abstract class EndSimEndermanCap {
         if(srpmixins$isSimmerman(entity))
             if(world.provider.getDimension() == 1) {
                 if (SRPMixinsConfigHandler.spawns.fixSpawningEntirely)
-                    if (WorldMobCapHandler.end_simmermanCount >= SRPMixinsConfigHandler.simmermen.endSimmermenCap)
+                    if (WorldMobCapHandler.end_simmermanCount >= SRPMixinsConfigHandler.simmermen.endSimmermenCap * world.playerEntities.size())
                         return false;
                     else {
                         int simmermancount = (int) world.loadedEntityList.stream().filter(EndSimEndermanCap::srpmixins$isSimmerman).count();

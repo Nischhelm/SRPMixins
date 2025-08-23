@@ -85,7 +85,7 @@ public class WorldMobCapHandler {
     public static final Map<Integer, Integer> nexusCount = new HashMap<>();
     public static final Map<Integer, Integer> waterCount = new HashMap<>();
     public static final Map<Integer, Integer> gnatCount = new HashMap<>();
-    public static final Map<Integer, Integer> scentCount = new HashMap<>();
+    public static final Map<Integer, Integer> scentCount = new HashMap<>(); //SRP doesn't add a playercount dependency so we don't either
     public static int end_simmermanCount = 0;
 
     @SubscribeEvent

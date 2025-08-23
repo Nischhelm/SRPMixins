@@ -38,6 +38,8 @@ public class SpawnPotentialsHandler {
 
     private static Map<Integer, Integer> paraIdToColoPointLock = null;
 
+    private static int playerCount = 0;
+
     public static void resetCaches(){
         phaseIdSpawns.clear();
         allPhaseSpawns.clear();
@@ -99,6 +101,7 @@ public class SpawnPotentialsHandler {
 
         SRPSaveData data = SRPSaveDataInterface.get(world, null, event.getPos());
         SRPWorldData worlddata = SRPWorldData.get(world);
+        playerCount = world.playerEntities.size();
 
         //Para Biome has its own handling independent on phase
         //Auto includes SRPMixins "Fix Parasite Biome Spawns"
@@ -137,14 +140,14 @@ public class SpawnPotentialsHandler {
     private static boolean isSubCapLocked(Class<? extends EntityLiving> entityClass, int dimId) {
         if(entityClass == EntityLum.class || entityClass == EntityInfSquid.class || CompatUtil.srpextra.isLoaded() && SRPExtraCompat.isWaterParasite(entityClass)){
             if(SRPMixinsConfigHandler.waterparas.waterParasiteCap < 0) return false;
-            return WorldMobCapHandler.waterCount.getOrDefault(dimId, 0) >= SRPMixinsConfigHandler.waterparas.waterParasiteCap;
+            return WorldMobCapHandler.waterCount.getOrDefault(dimId, 0) >= SRPMixinsConfigHandler.waterparas.waterParasiteCap * playerCount;
         }
         else if(EntityPStationaryArchitect.class.isAssignableFrom(entityClass)){
             if(SRPMixinsConfigHandler.deterrents.nexusCap < 0) return false;
-            return WorldMobCapHandler.nexusCount.getOrDefault(dimId,0) >= SRPMixinsConfigHandler.deterrents.nexusCap;
+            return WorldMobCapHandler.nexusCount.getOrDefault(dimId,0) >= SRPMixinsConfigHandler.deterrents.nexusCap * playerCount;
         }
         else if(entityClass == EntityAta.class)
-            return WorldMobCapHandler.gnatCount.getOrDefault(dimId, 0) >= SRPConfig.worldGnatCap;
+            return WorldMobCapHandler.gnatCount.getOrDefault(dimId, 0) >= SRPConfig.worldGnatCap * playerCount;
         //SRP Incomplete cap is never used for spawn checks
         //SRPMixins end simmermen cap is also only for conversions
         return false;
