@@ -4,6 +4,9 @@ import fermiumbooter.annotations.MixinConfig;
 import net.minecraftforge.common.config.Config;
 import srpmixins.SRPMixins;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @MixinConfig(name = SRPMixins.MODID)
 public class PointConfig {
     @Config.Comment("Bloody Clock also displays progress to next phase in percent")
@@ -70,12 +73,19 @@ public class PointConfig {
     public boolean unlockOnHigherPhases = true;
 
     @Config.Comment("Allows using the parasite name inside the unlocking message (default: \"...\"), so it can for example be \"Unlocked Assimilated Enderdragon\".\n" +
-            "Use the usual printf flags for it, so %s or %s$1.\n" +
+            "Use the usual printf flags for it, so %s or %1$s.\n" +
             "This also automatically allows using a lang key instead. Add the %s flag inside the lang key translation then.")
     @Config.Name("Allow Parasite Name in Unlock Message")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.unlockmessagewithname.json", defaultValue = true)
     public boolean unlockWithParaName = true;
+
+    @Config.Comment("Define custom parasite unlock messages here. These will only be used if the specified parasite is unlocked\n" +
+            "Requires \"Allow Parasite Name in Unlock Message\"")
+    @Config.Name("Custom Unlock Messages")
+    public Map<String, String> customUnlockMessages = new HashMap<String,String>() {{
+            put("sim_dragone","You hear distant wings flapping... A great beast has awoken");
+    }};
 
     @Config.Comment("SRP has an option for parasites to stop dropping XP from a certain phase onwards. \n" +
             "To make this option a bit less intrusive, this list can be used to slowly decrease (or increase) the amount of xp dropped.\n" +

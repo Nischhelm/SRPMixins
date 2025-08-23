@@ -41,12 +41,15 @@ public class PhaseWarningOverhaul {
     public static void sendUnlockMessage(World world, UUID playerUUID, String message, int paraId){
         boolean sendToAll = !SRPMixinsConfigHandler.playerphases.enabled || playerUUID == null;
 
+        String paraName = SRPMobConfigProvider.paraIdToMobName.get(paraId);
+        String customMsg = SRPMixinsConfigHandler.phasepoints.customUnlockMessages.getOrDefault(paraName, message);
+
         ITextComponent msg;
-        if(message.contains("%")) {
-            ResourceLocation loc = new ResourceLocation(SRPReference.MOD_ID, SRPMobConfigProvider.paraIdToMobName.get(paraId));
-            msg = new TextComponentTranslation(message, new TextComponentTranslation("entity." + EntityList.getTranslationName(loc) + ".name"));
+        if(customMsg.contains("%")) {
+            ResourceLocation loc = new ResourceLocation(SRPReference.MOD_ID, paraName);
+            msg = new TextComponentTranslation(customMsg, new TextComponentTranslation("entity." + EntityList.getTranslationName(loc) + ".name"));
         } else
-            msg = new TextComponentString(message);
+            msg = new TextComponentString(customMsg);
 
         if(!sendToAll) {
             EntityPlayer player = world.getPlayerEntityByUUID(playerUUID);
