@@ -5,6 +5,8 @@ import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityLum;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
@@ -42,6 +44,11 @@ public class SRPMixins {
     public static final Logger LOGGER = LogManager.getLogger();
     public static Configuration CONFIG;
     public static boolean completedLoading = false;
+
+    public static void logInWorld(World world, String text){
+        world.playerEntities.forEach(p -> p.sendMessage(new TextComponentString(text)));
+        LOGGER.info("SRPMIXINS log: {}", text);
+    }
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
