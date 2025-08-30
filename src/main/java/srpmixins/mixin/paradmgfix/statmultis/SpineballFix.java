@@ -3,12 +3,15 @@ package srpmixins.mixin.paradmgfix.statmultis;
 import com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectileSpineball;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import srpmixins.SRPMixins;
 import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(EntityProjectileSpineball.class)
@@ -24,11 +27,13 @@ public abstract class SpineballFix {
         //Used by Prim Yelloweye, Ada Yelloweye, Herd, Vermin, Sentry
         int dimension = worldIn.provider.getDimension();
         if(shooter != null) {
-            //cheating basically
-            double baseValue = shooter.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+            IAttributeInstance atkAttr = shooter.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+            double baseValue = atkAttr.getBaseValue();
             if (baseValue != 0) {
-                float multi = (float) (shooter.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() / baseValue);
-                this.damage = projDamage * multi;
+                //good old switcheroo
+                atkAttr.setBaseValue(projDamage);
+                this.damage = (float) atkAttr.getAttributeValue();
+                atkAttr.setBaseValue(baseValue);
                 return;
             }
         }

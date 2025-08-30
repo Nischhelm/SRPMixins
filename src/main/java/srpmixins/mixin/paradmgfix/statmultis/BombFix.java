@@ -7,6 +7,7 @@ import com.dhanantry.scapeandrunparasites.entity.monster.pure.EntityOmboo;
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityJinjo;
 import com.dhanantry.scapeandrunparasites.entity.projectile.EntityBomb;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -31,11 +32,13 @@ public abstract class BombFix {
 
         //These fuckers use their own bomb dmg values
         if(tntPlacedBy instanceof EntityOmboo || tntPlacedBy instanceof EntityHost || tntPlacedBy instanceof EntityHostII) {
-            //cheating basically
-            double baseValue = tntPlacedBy.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getBaseValue();
+            IAttributeInstance atkAttr = tntPlacedBy.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
+            double baseValue = atkAttr.getBaseValue();
             if (baseValue != 0) {
-                float multi = (float) (tntPlacedBy.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue() / baseValue);
-                return in * multi;
+                atkAttr.setBaseValue(in);
+                float returnValue = (float) atkAttr.getAttributeValue();
+                atkAttr.setBaseValue(baseValue);
+                return returnValue;
             } else {
                 //ignore stat rules
                 int dimension = tntPlacedBy.dimension;
