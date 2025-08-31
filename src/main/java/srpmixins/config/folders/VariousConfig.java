@@ -110,4 +110,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.movingsoundfix.json", defaultValue = true)
     public boolean fixMovingSound = true;
+
+    @Config.Comment("Fixes Parasites with Tendrils regaining them on chunk reload. Also fixes Assimilated Enderdragon regaining its head the same way.")
+    @Config.Name("Fix Paras Regaining Tendrils")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.tendrilfix.json", defaultValue = true)
+    public boolean fixTendrilRegain = true;
 }
