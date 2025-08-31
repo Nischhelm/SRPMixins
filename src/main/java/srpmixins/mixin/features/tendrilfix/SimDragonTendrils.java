@@ -1,4 +1,4 @@
-package srpmixins.mixin.tendrilfix;
+package srpmixins.mixin.features.tendrilfix;
 
 import com.dhanantry.scapeandrunparasites.entity.monster.derived.EntityHeblu;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfDragonE;

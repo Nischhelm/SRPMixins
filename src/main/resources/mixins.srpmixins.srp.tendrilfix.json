@@ -1,13 +1,13 @@
 {
   "required": true,
-  "package": "srpmixins.mixin",
+  "package": "srpmixins.mixin.features.tendrilfix",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "tendrilfix.SimDragonTendrils",
-    "tendrilfix.ParaWithLeftRightTendril"
+    "SimDragonTendrils",
+    "ParaWithLeftRightTendril"
   ],
   "injectors": {
     "maxShiftBy": 10

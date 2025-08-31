@@ -1,4 +1,4 @@
-package srpmixins.mixin.tendrilfix;
+package srpmixins.mixin.features.tendrilfix;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.entity.monster.adapted.EntityBanoAdapted;
