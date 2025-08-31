@@ -116,4 +116,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.tendrilfix.json", defaultValue = true)
     public boolean fixTendrilRegain = true;
+
+    @Config.Comment("Using RenderLib makes the head entity of Stage 4 Dispatchers not render. This fixes it.")
+    @Config.Name("Fix Dispatcher Stage IV Head")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.renderdispatcherhead.json", defaultValue = true)
+    public boolean fixDispatcher4Head = true;
 }
