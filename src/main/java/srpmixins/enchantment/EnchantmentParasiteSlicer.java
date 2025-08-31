@@ -8,6 +8,7 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.util.text.TextFormatting;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.util.ParasiteCreatureAttribute;
 
 import javax.annotation.Nonnull;
 
@@ -42,7 +43,7 @@ public class EnchantmentParasiteSlicer extends Enchantment {
 
     @Override
     public float calcDamageByCreature(int level, @Nonnull EnumCreatureAttribute creatureType) {
-        return SRPMixinsConfigHandler.enchantments.slicer.dmg * level;
+        return creatureType == ParasiteCreatureAttribute.PARASITE ? SRPMixinsConfigHandler.enchantments.slicer.dmg * level : 0;
     }
 
     @Override
