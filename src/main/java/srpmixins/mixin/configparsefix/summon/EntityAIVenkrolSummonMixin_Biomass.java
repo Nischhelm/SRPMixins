@@ -5,20 +5,15 @@ import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.entity.EntityLivingBase;
-import org.spongepowered.asm.mixin.Debug;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import srpmixins.SRPMixins;
 import srpmixins.util.configparse.ParaSpawnEntry;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
-@Debug(export = true)
 @Mixin(EntityAIVenkrolSummon.class)
 public abstract class EntityAIVenkrolSummonMixin_Biomass {
     @Unique private static final Map<Integer, List<ParaSpawnEntry>> srpmixins$spawnEntryMap = new HashMap<>();
