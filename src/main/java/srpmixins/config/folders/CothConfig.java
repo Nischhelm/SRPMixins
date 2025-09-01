@@ -72,4 +72,11 @@ public class CothConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.camouflagefix.json", defaultValue = true)
     public boolean fixCamouflage = true;
+
+    @Config.Comment("Assimilated mobs with a high enough killcount (SRP default config: 60) are supposed to turn into their feral forms, but this doesn't work in SRP. This fixes it.\n" +
+            "Note: this will still only rarely happen, as the more usual thing is the assimilated mob having enough killcount to melt with 3 other nearby Assimilateds to moving flesh.")
+    @Config.Name("Fix Assim turn to Feral")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.simturntoferalfix.json", defaultValue = true)
+    public boolean fixSimTurnToFeral = true;
 }
