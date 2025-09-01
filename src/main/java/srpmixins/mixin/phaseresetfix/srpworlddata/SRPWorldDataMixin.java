@@ -6,15 +6,20 @@ import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.WorldSavedData;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(SRPWorldData.class)
-public abstract class SRPWorldDataMixin {
+public abstract class SRPWorldDataMixin extends WorldSavedData {
+    public SRPWorldDataMixin(String name) {
+        super(name);
+    }
+
     //This data is just a default SRPWorldData object that tries to protect the server from crashing.
     // if it was just me, i would just return null and uncover all phase reset bugs but lets rather protect ppls mental health
     @Unique private static SRPWorldData srpmixins$clientSRPData = null;
@@ -52,5 +57,16 @@ public abstract class SRPWorldDataMixin {
         }
 
         cir.setReturnValue(srpmixins$clientSRPData);
+    }
+
+    @Inject(method = {"checkHeartExistance", "checkColonyExistance"}, at = @At("TAIL"), remap = false)
+    private void srpmixins_saveWhenChanged(World worldIn, CallbackInfo ci){
+        this.markDirty();
+    }
+
+    @ModifyVariable(method = {"setNode", "setColony"}, at = @At(value = "STORE", ordinal = 1), name = "canAdd", remap = false)
+    private int srpmixins_saveWhenChanged(int value){
+        this.markDirty();
+        return value;
     }
 }
