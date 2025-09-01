@@ -122,4 +122,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.renderdispatcherhead.json", defaultValue = true)
     public boolean fixDispatcher4Head = true;
+
+    @Config.Comment("Parasites can't break blocks with zero hardness (slime, tnt etc). This fixes it.")
+    @Config.Name("Fix Zero Hardness Break")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.zerohardnessbreak.json", defaultValue = true)
+    public boolean fixZeroHardness = true;
 }
