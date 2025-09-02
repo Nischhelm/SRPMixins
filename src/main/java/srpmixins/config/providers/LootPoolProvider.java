@@ -255,8 +255,8 @@ public class LootPoolProvider {
                 item,
                 1,
                 0,
-                new LootFunction[]{new SetCount(noConditions, new RandomValueRange(/*1*/maxCount, maxCount))},
-                new LootCondition[]{new RandomChance(/*chanceInHundred*/100 / 100F)},
+                new LootFunction[]{new SetCount(noConditions, new RandomValueRange(1, maxCount))},
+                new LootCondition[]{new RandomChance(chanceInHundred / 100F)},
                 "entry for 1 to " + maxCount + " of " + item.getRegistryName().toString() + ", chance " + chanceInHundred + "%"
         );
     }
