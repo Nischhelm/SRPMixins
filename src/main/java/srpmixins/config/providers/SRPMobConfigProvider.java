@@ -307,6 +307,7 @@ public class SRPMobConfigProvider {
         registerParasite("fer_bear", 306, "FERAL", (byte) 11);
         registerParasite("sim_squid", 307, "ASSIMILATED", (byte) 15, Collections.singletonList(BREACHER));
         registerParasite("worm", 308, "DETERRENT", (byte) 40);
+        registerParasite("draconite", 309, "COSMICAL", (byte) 14);
 
         if(Loader.isModLoaded("srpextra")){
             SRPExtraCompat.init();

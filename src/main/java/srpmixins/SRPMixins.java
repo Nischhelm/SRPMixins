@@ -22,10 +22,7 @@ import srpmixins.compat.*;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
-import srpmixins.config.providers.ChunkPhaseConfigProvider;
-import srpmixins.config.providers.DimensionMultiConfigProvider;
-import srpmixins.config.providers.MorePhasesConfigProvider;
-import srpmixins.config.providers.SRPMobConfigProvider;
+import srpmixins.config.providers.*;
 import srpmixins.handlers.*;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.ruleset.*;
@@ -88,6 +85,8 @@ public class SRPMixins {
         registerEventSubscriberIf(StatIncreaseRuleHandler.class, SRPMixinsConfigHandler.rules.statIncreaseRules.length > 0);
         registerEventSubscriberIf(CamouflageHandler.class, SRPMixinsConfigHandler.coth.fixCamouflage);
         registerEventSubscriberIf(TendrilSyncHandler.class, SRPMixinsConfigHandler.various.fixTendrilRegain);
+
+        if(SRPMixinsConfigHandler.loot.useLootTables) LootPoolProvider.setupLootPoolFolders(event.getModConfigurationDirectory());
     }
 
     private static void registerEventSubscriberIf(Object subscriber, boolean condition){
@@ -111,6 +110,7 @@ public class SRPMixins {
             LycanitesMobsCompat.reloadLycaniteSpawnerManager();
 
         SRPConfigProvider.postInit();
+        if(SRPMixinsConfigHandler.loot.useLootTables) LootPoolProvider.parseLootPools();
         MorePhasesConfigProvider.postInit();
 
         completedLoading = true;

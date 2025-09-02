@@ -23,7 +23,6 @@
     "ParasiteEventEntityMixin_SummonBlock",
     "SRPEventHandlerBusMixin_CamouflageItems",
     "SRPEventHandlerBusMixin_ParasiteGriefing",
-    "SRPEventHandlerBusMixin_ParasiteLoot",
     "SRPPotionsMixin",
     "spawning.EntityButholMixin",
     "spawning.EntityDorpaMixin",
