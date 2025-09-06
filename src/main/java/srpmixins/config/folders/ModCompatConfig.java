@@ -92,4 +92,16 @@ public class ModCompatConfig {
     @Config.RequiresMcRestart
     public boolean enableInControlCompat = true;
 
+    @Config.Comment("Renders custom tiles in the Antique Atlas for parasite biomes.")
+    @Config.Name("Antique Atlas Compat - Render Biome Tile")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.antiqueatlas.renderbiometile.json", defaultValue = true)
+    @MixinConfig.CompatHandling(
+            modid = "antiqueatlas",
+            desired = true,
+            reason = "Mod Compat for Antique Atlas, requires Antique Atlas",
+            warnIngame = false
+    )
+    @Config.RequiresMcRestart
+    public boolean enableAntiqueAtlasCompat = true;
+
 }

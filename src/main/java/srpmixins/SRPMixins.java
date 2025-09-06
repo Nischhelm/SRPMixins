@@ -102,6 +102,9 @@ public class SRPMixins {
             MorePhasesConfigProvider.initMorePhasesConfig();
         if (SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length == 0)
             SRPMobConfigProvider.initMobConfigs();
+
+        if(Loader.isModLoaded("antiqueatlas") && SRPMixinsConfigHandler.modcompat.enableAntiqueAtlasCompat)
+            AntiqueAtlasCompat.initTiles();
     }
 
     @Mod.EventHandler
