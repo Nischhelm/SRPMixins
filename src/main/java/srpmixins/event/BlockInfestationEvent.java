@@ -40,12 +40,8 @@ public class BlockInfestationEvent extends BlockEvent {
         this(world, pos, resultState, isParaBiome, rule.getGeneratesAbove(), rule.getGeneratesBelow(), rule.getAddsPoints());
     }
 
-    public void setResultState(IBlockState newResultState){
-        this.resultState = newResultState;
-    }
-
     @Override
     public IBlockState getState(){
-        return  this.resultState;
+        return this.resultState;
     }
 }
