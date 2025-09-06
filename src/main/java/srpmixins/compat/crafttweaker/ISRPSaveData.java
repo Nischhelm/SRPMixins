@@ -5,15 +5,19 @@ import crafttweaker.annotations.ZenDoc;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.player.IPlayer;
 import crafttweaker.api.world.IBlockPos;
+import crafttweaker.api.world.IWorld;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import srpmixins.SRPMixins;
+import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 import stanhebben.zenscript.annotations.ZenClass;
+import stanhebben.zenscript.annotations.ZenGetter;
 import stanhebben.zenscript.annotations.ZenMethod;
+import stanhebben.zenscript.annotations.ZenSetter;
 
 import java.util.List;
 
@@ -26,59 +30,68 @@ public class ISRPSaveData {
     }
     
     SRPSaveData internal;
+    int dim;
 
-    public ISRPSaveData(SRPSaveData internal){
+    public ISRPSaveData(SRPSaveData internal, int dimension){
         this.internal = internal;
+        this.dim = dimension;
     }
 
     @ZenMethod("getForPlayer")
     @ZenDoc("Returns a phase/point/cooldown container for the provided IPlayer (only useful if player phases is enabled)")
     public static ISRPSaveData getForPlayer(IPlayer iPlayer){
         EntityPlayer player = (EntityPlayer) iPlayer.getInternal();
-        return new ISRPSaveData(SRPSaveDataInterface.get(player.world, player, null));
+        return new ISRPSaveData(SRPSaveDataInterface.get(player.world, player, null), player.world.provider.getDimension());
     }
 
     @ZenMethod("getForBlockPos")
-    @ZenDoc("Returns a phase/point/cooldown container for the chunk at the provided IBlockPos or nearest player to the provided IBlockPos (only useful if chunk phases or player phases are enabled)")
-    public static ISRPSaveData getForBlockPos(IBlockPos pos){
-        return new ISRPSaveData(SRPSaveDataInterface.get(getOverworld(), null, (BlockPos) pos.getInternal()));
+    @ZenDoc("Returns a phase/point/cooldown container for the chunk in the provided world at the provided IBlockPos or nearest player to the provided IBlockPos (only useful if chunk phases or player phases are enabled)")
+    public static ISRPSaveData getForBlockPos(IWorld iworld, IBlockPos pos){
+        World world = (World) iworld.getInternal();
+        return new ISRPSaveData(SRPSaveDataInterface.get(world, null, (BlockPos) pos.getInternal()), world.provider.getDimension());
     }
 
     @ZenMethod("get")
-    @ZenDoc("Returns a global phase/point/cooldown container (only useful if player phases and chunk phases are disabled)")
-    public static ISRPSaveData getGlobal(){
-        return new ISRPSaveData(SRPSaveData.get(getOverworld()));
+    @ZenDoc("Returns a global phase/point/cooldown container for the provided world (only useful if player phases and chunk phases are disabled)")
+    public static ISRPSaveData getGlobal(IWorld iworld){
+        World world = (World) iworld.getInternal();
+        return new ISRPSaveData(SRPSaveData.get(world), world.provider.getDimension());
     }
 
     // GETTERS
 
     @ZenMethod("getPhase")
+    @ZenGetter("phase")
     @ZenDoc("Returns the current evolution phase in the provided dimension")
-    public byte getPhase(int dim){
+    public byte getPhase(){
         return this.internal.getEvolutionPhase(dim);
     }
 
     @ZenMethod("getPoints")
+    @ZenGetter("points")
     @ZenDoc("Returns the current evolution points in the provided dimension")
-    public int getPoints(int dim){
+    public int getPoints(){
         return this.internal.getTotalKills(dim);
     }
 
     @ZenMethod("getCooldown")
+    @ZenGetter("cooldown")
     @ZenDoc("Returns the current cooldown (in ticks) in the provided dimension")
-    public int getCooldown(int dim){
+    public int getCooldown(){
         return this.internal.getCooldown(getOverworld(), dim);
     }
 
     @ZenMethod("getCanLose")
+    @ZenGetter("canLose")
     @ZenDoc("Returns whether the evolution points in the provided dimension can be reduced (via carcasses for example). Note: Different than base SRP this is not inverted in meaning, so true means can reduce, false means can't reduce.")
-    public boolean getCanLose(int dim){
+    public boolean getCanLose(){
         return !this.internal.getCanLoss(dim);
     }
 
     @ZenMethod("getCanGain")
+    @ZenGetter("canGain")
     @ZenDoc("Returns whether the evolution points in the provided dimension can be increased.")
-    public boolean getCanGain(int dim){
+    public boolean getCanGain(){
         return this.internal.getCanGain(dim);
     }
 
@@ -97,45 +110,50 @@ public class ISRPSaveData {
     // SETTERS
 
     @ZenMethod("setPhase")
+    @ZenSetter("phase")
     @ZenDoc("Sets the evolution phase in the provided dimension (params: phase, dimensionId)")
-    public void setPhase(byte phase, int dim){
+    public void setPhase(byte phase){
         this.internal.setEvolutionPhase(dim, phase, true, getOverworld(), true);
     }
 
     @ZenMethod("setPoints")
+    @ZenSetter("points")
     @ZenDoc("Sets the evolution points in the provided dimension (params: points, dimensionId)")
-    public void setPoints(int points, int dim){
+    public void setPoints(int points){
         this.internal.setTotalKills(points, dim, false, getOverworld(), true);
     }
 
     @ZenMethod("addPoints")
     @ZenDoc("Adds to the current evolution points in the provided dimension (params: pointsToAdd, dimensionId)")
-    public void addPoints(int points, int dim){
+    public void addPoints(int points){
         this.internal.setTotalKills(points, dim, true, getOverworld(), true);
     }
 
     @ZenMethod("setCooldown")
+    @ZenSetter("cooldown")
     @ZenDoc("Sets the cooldown in the provided dimension (params: pointsToAdd, dimensionId)")
-    public void setCooldown(int cooldown, int dim){
+    public void setCooldown(int cooldown){
         this.internal.setCooldown(cooldown, getOverworld(), dim);
     }
 
     @ZenMethod("addCooldown")
     @ZenDoc("Adds to the cooldown in the provided dimension (params: cooldownToAdd, dimensionId)")
-    public void addCooldown(int cooldown, int dim){
+    public void addCooldown(int cooldown){
         int currCooldown = this.internal.getCooldown(getOverworld(), dim);
         this.internal.setCooldown(currCooldown + cooldown, getOverworld(), dim);
     }
 
     @ZenMethod("setCanLose")
+    @ZenSetter("canLose")
     @ZenDoc("Sets whether the provided dimension can have its evolution points reduced (params: newCanLose, dimensionId). Note: Different than base SRP this is not inverted in meaning, so true means can reduce, false means can't reduce.")
-    public void setCanLose(boolean newValue, int dim){
+    public void setCanLose(boolean newValue){
         this.internal.setLoss(!newValue, dim);
     }
 
     @ZenMethod("setCanGain")
+    @ZenSetter("canGain")
     @ZenDoc("Sets whether the provided dimension can have its evolution points increased (params: newCanGain, dimensionId).")
-    public void setCanGain(boolean newValue, int dim){
+    public void setCanGain(boolean newValue){
         this.internal.setGaining(newValue, dim);
     }
 
@@ -164,5 +182,11 @@ public class ISRPSaveData {
     @ZenDoc("Resets the evolution lock list to the SRP config defined list (see SRParasitesSystems.cfg/\"Evolution Parasite Lock List\".")
     public void resetEvoLock(){
         this.internal.resetLock();
+    }
+
+    @ZenMethod("getPointThreshold")
+    @ZenDoc("Returns how many points are required for the given phase")
+    public static int getPointThreshold(byte phase){
+        return SRPConfigProvider.getPhaseMinPoints(phase);
     }
 }

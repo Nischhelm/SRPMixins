@@ -19,6 +19,8 @@ import org.apache.logging.log4j.Logger;
 import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
 import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
 import srpmixins.compat.*;
+import srpmixins.compat.crafttweaker.CT_BlockInfestationEvent;
+import srpmixins.compat.crafttweaker.CT_BlockInfestationExpansion;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
@@ -85,6 +87,7 @@ public class SRPMixins {
         registerEventSubscriberIf(StatIncreaseRuleHandler.class, SRPMixinsConfigHandler.rules.statIncreaseRules.length > 0);
         registerEventSubscriberIf(CamouflageHandler.class, SRPMixinsConfigHandler.coth.fixCamouflage);
         registerEventSubscriberIf(TendrilSyncHandler.class, SRPMixinsConfigHandler.various.fixTendrilRegain);
+        registerEventSubscriberIf(CT_BlockInfestationEvent.CT_EventForwarder.class, Loader.isModLoaded("crafttweaker"));
 
         if(SRPMixinsConfigHandler.loot.useLootTables) LootPoolProvider.setupLootPoolFolders(event.getModConfigurationDirectory());
     }
