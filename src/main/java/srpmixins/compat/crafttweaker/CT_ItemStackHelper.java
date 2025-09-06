@@ -1,6 +1,7 @@
 package srpmixins.compat.crafttweaker;
 
 import com.dhanantry.scapeandrunparasites.init.SRPItems;
+import crafttweaker.annotations.ZenDoc;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.item.IItemStack;
 import net.minecraft.item.ItemArmor;
@@ -17,6 +18,7 @@ import stanhebben.zenscript.annotations.ZenMethod;
 @SuppressWarnings("unused")
 public class CT_ItemStackHelper {
     @ZenMethod
+    @ZenDoc("Removes all Adaptation properties from a provided ItemStack containing Living/Sentient Armor")
     private void removeAdaptation(IItemStack cstack){
         ItemStack stack = (ItemStack) cstack.getInternal();
         if(!(stack.getItem() instanceof ItemArmor)) return;
