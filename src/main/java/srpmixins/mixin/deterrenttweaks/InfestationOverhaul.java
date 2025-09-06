@@ -26,6 +26,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.EnumSkyBlock;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,6 +34,7 @@ import org.spongepowered.asm.mixin.Unique;
 import srpmixins.compat.CompatUtil;
 import srpmixins.compat.CotesiaCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.event.BlockInfestationEvent;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 import java.util.*;
@@ -125,6 +127,11 @@ public abstract class InfestationOverhaul {
 
             IBlockState newState = material == Material.ROCK ? rubble : stain;
 
+            boolean generatesAbove = false;
+            boolean generatesBelow = false;
+            boolean increasesPoints = true;
+            IBlockState resultState = null;
+
             if (block instanceof BlockBase) {
                 if (block == SRPBlocks.BiomeHeart || block == SRPBlocks.ColonyHeart) continue;
                 if (material != Material.GROUND && material != Material.ROCK) continue;
@@ -132,18 +139,25 @@ public abstract class InfestationOverhaul {
                 int storedStage = block.getMetaFromState(state);
 
                 if (beckonStage > storedStage && (material != Material.ROCK || canAffectRock))
-                    worldIn.setBlockState(blockPos, newState);
+                    resultState = newState;
+                increasesPoints = false;
             } else if(!srpmixins$blockIsBlacklistedForInfestation(worldIn, blockPos, block, state)) {
                 if (block.isWood(worldIn, blockPos)) {
-                    worldIn.setBlockState(blockPos, SRPBlocks.InfestedTrunk.getDefaultState());
-                    ++convertedCount;
+                    resultState = SRPBlocks.InfestedTrunk.getDefaultState();
                 } else if (material == Material.GROUND || material == Material.GRASS || material == Material.SAND || (material == Material.ROCK && canAffectRock)) {
-                    worldIn.setBlockState(blockPos, newState);
-                    ++convertedCount;
-                    spawnGenFeatureInfested(worldIn, blockPos.up(), rand);
-                    spawnGenRoofInfested(worldIn, blockPos.down(), rand);
+                    resultState = newState;
+                    generatesAbove = true;
+                    generatesBelow = true;
                 }
             }
+
+            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, startPos, resultState, false, generatesAbove, generatesBelow, increasesPoints);
+            if(MinecraftForge.EVENT_BUS.post(event)) continue;
+            if(event.getState() == null) continue;
+            worldIn.setBlockState(blockPos, event.getState());
+            if(event.increasesPoints) convertedCount++;
+            if(event.generatesAbove) spawnGenFeatureInfested(worldIn, blockPos.up(), rand);
+            if(event.generatesBelow) spawnGenRoofInfested(worldIn, blockPos.down(), rand);
         }
 
         if (convertedCount != 0) {

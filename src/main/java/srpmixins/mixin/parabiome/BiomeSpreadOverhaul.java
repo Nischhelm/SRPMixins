@@ -15,6 +15,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IPlantable;
+import net.minecraftforge.common.MinecraftForge;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.Unique;
 import srpmixins.compat.CompatUtil;
 import srpmixins.compat.CotesiaCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.event.BlockInfestationEvent;
 import srpmixins.rules.BlockTransformationRule;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
@@ -66,14 +68,16 @@ public abstract class BiomeSpreadOverhaul {
 
             BlockTransformationRule rule = BlockTransformationRule.getFirstApplicableRule(material, block);
             if(rule == null) continue;
-            if(rule.getResultState() == null) continue;
+            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, rule.getResultState(), true, rule);
+            if(MinecraftForge.EVENT_BUS.post(event)) continue;
+            if(event.getState() == null) continue;
 
             if(!rule.getSkipHardnessCheck() && srpmixins$blockIsBlacklistedForBiome(worldIn, blockPos, block, state)) continue;
 
-            worldIn.setBlockState(blockPos, rule.getResultState());
-            if(rule.getGeneratesAbove()) spawnGenFeatureParasite(worldIn, blockPos.up(), rand);
-            if(rule.getGeneratesBelow()) spawnGenRoofParasite(worldIn, blockPos.down(), rand);
-            if(rule.getAddsPoints()) ++convertedCount;
+            worldIn.setBlockState(blockPos, event.getState());
+            if(event.generatesAbove) spawnGenFeatureParasite(worldIn, blockPos.up(), rand);
+            if(event.generatesBelow) spawnGenRoofParasite(worldIn, blockPos.down(), rand);
+            if(event.increasesPoints) ++convertedCount;
         }
 
         if (convertedCount != 0) {
@@ -131,8 +135,12 @@ public abstract class BiomeSpreadOverhaul {
             if(lookingBlock instanceof IMetaName) continue;
 
             if (lookingBlock.isWood(worldIn, blockPos)) {
-                worldIn.setBlockState(blockPos, SRPBlocks.ParasiteTrunk.getDefaultState());
-                convertedCount++;
+                BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, SRPBlocks.ParasiteTrunk.getDefaultState(), true, false, false, true);
+                if(MinecraftForge.EVENT_BUS.post(event)) continue;
+                if(event.getState() == null) continue;
+
+                worldIn.setBlockState(blockPos, event.getState());
+                if(event.increasesPoints) ++convertedCount;
             }
         }
 
