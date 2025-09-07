@@ -10,8 +10,5 @@
   ],
   "injectors": {
     "maxShiftBy": 10
-  },
-  "mixinextras": {
-    "minVersion": "0.5.0"
   }
 }

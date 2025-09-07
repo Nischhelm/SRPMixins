@@ -6,13 +6,9 @@ import com.dhanantry.scapeandrunparasites.entity.monster.EntityWaveShock;
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.EntityOrch;
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityFlam;
 import com.dhanantry.scapeandrunparasites.entity.monster.pure.preeminent.EntityPheon;
-import com.llamalad7.mixinextras.expression.Definition;
-import com.llamalad7.mixinextras.expression.Expression;
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Mixin(value = {
         EntityPStationary.class,
@@ -23,7 +19,19 @@ import org.spongepowered.asm.mixin.injection.At;
         EntityParasiteBase.class
 })
 public abstract class BlockBreakZeroHardness {
-    @Definition(id = "bHard", local = @Local(type = float.class))
+    @ModifyVariable(
+            method = "skillBreakBlocks",
+            at = @At(value = "LOAD", ordinal = 1),
+            name = "bHard",
+            remap = false
+    )
+    private float srpmixins_alsoAllowZeroHardness(float value) {
+        if(value == 0) return Float.MIN_VALUE; //will not fail bHard > 0
+        return value;
+    }
+
+    //This would be better but won't work with MixinBooter2FermiumBooter in its current state
+    /*@Definition(id = "bHard", local = @Local(type = float.class))
     @Expression(value = "bHard > 0.0")
     @WrapOperation(
             method = "skillBreakBlocks",
@@ -32,5 +40,5 @@ public abstract class BlockBreakZeroHardness {
     )
     private boolean srpmixins_alsoAllowZeroHardness(float left, float right, Operation<Boolean> original) {
         return original.call(left, right) || left == right; //same as left >= 0.0F
-    }
+    }*/
 }
