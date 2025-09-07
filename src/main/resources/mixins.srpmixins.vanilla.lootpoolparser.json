@@ -1,13 +1,12 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.features",
+  "package": "srpmixins.mixin.vanilla",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "allowrightclick.EntityPMalleable_AllowRightClick",
-    "allowrightclick.EntityPStationary_AllowRightClick"
+    "ReadLootNameMixin"
   ],
   "injectors": {
     "maxShiftBy": 10

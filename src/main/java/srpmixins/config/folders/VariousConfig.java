@@ -128,4 +128,17 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.zerohardnessbreak.json", defaultValue = true)
     public boolean fixZeroHardness = true;
+
+    @Config.Comment("Replaces all SRP loot configs with vanilla loot table jsons that will be written into /config/srpmixins/loot_tables/some_parasite.json and can be modified there.\n" +
+            "Delete files there to make them regenerate from SRPs config system.\n" +
+            "For people wanting to add looting modifiers to SRP drops, the relevant LootingEnchantBonus/RandomChanceWithLooting modifiers are already setup with default values of \"no looting effect\"" +
+            "You can optionally use the loot condition srp_phase (member: \"phase_range\" (value: min & max or just an integer)) to vary the loot tables over evolution phase")
+    @Config.Name("Use Vanilla Loot Tables")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(
+            earlyMixin = "mixins.srpmixins.vanilla.lootpoolparser.json",
+            lateMixin = "mixins.srpmixins.srp.loottables.json",
+            defaultValue = true
+    )
+    public boolean useLootTables = true;
 }

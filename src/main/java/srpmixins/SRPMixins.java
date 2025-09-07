@@ -7,6 +7,7 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+import net.minecraft.world.storage.loot.conditions.LootConditionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
@@ -18,14 +19,17 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
 import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
-import srpmixins.compat.*;
+import srpmixins.compat.AntiqueAtlasCompat;
+import srpmixins.compat.CompatUtil;
+import srpmixins.compat.LycanitesMobsCompat;
+import srpmixins.compat.SRPDeepSeaCompat;
 import srpmixins.compat.crafttweaker.CT_BlockInfestationEvent;
-import srpmixins.compat.crafttweaker.CT_BlockInfestationExpansion;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
 import srpmixins.config.providers.*;
 import srpmixins.handlers.*;
+import srpmixins.loot.SRPPhaseLootCondition;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.ruleset.*;
 
@@ -89,7 +93,8 @@ public class SRPMixins {
         registerEventSubscriberIf(TendrilSyncHandler.class, SRPMixinsConfigHandler.various.fixTendrilRegain);
         registerEventSubscriberIf(CT_BlockInfestationEvent.CT_EventForwarder.class, Loader.isModLoaded("crafttweaker"));
 
-        if(SRPMixinsConfigHandler.loot.useLootTables) LootPoolProvider.setupLootPoolFolders(event.getModConfigurationDirectory());
+        LootConditionManager.registerCondition(new SRPPhaseLootCondition.Serializer());
+        if(SRPMixinsConfigHandler.various.useLootTables) LootPoolProvider.setupLootPoolFolders(event.getModConfigurationDirectory());
     }
 
     private static void registerEventSubscriberIf(Object subscriber, boolean condition){
@@ -116,7 +121,7 @@ public class SRPMixins {
             LycanitesMobsCompat.reloadLycaniteSpawnerManager();
 
         SRPConfigProvider.postInit();
-        if(SRPMixinsConfigHandler.loot.useLootTables) LootPoolProvider.parseLootPools();
+        if(SRPMixinsConfigHandler.various.useLootTables) LootPoolProvider.getLootPoolsFromConfigOrFile();
         MorePhasesConfigProvider.postInit();
 
         completedLoading = true;

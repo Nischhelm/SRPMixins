@@ -45,10 +45,6 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("Enchantments")
 	public static final EnchantmentConfig enchantments = new EnchantmentConfig();
 
-	@Config.Comment("Loot Options")
-	@Config.Name("Loot")
-	public static final LootConfig loot = new LootConfig();
-
 	@Config.Comment("Lure and Carcass Options")
 	@Config.Name("Lures and Carcasses")
 	public static final LureConfig lures = new LureConfig();
