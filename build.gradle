@@ -48,6 +48,7 @@ repositories {
 
     maven { url = 'https://www.cursemaven.com' }
     maven { url = "https://maven.k-4u.nl" }
+    maven { url = 'https://maven.blamejared.com' }
 }
 
 dependencies {
@@ -58,8 +59,9 @@ dependencies {
     compileOnly "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
-    implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
     implementation fg.deobf("libs:SRParasites:${srparasites_version}") // Third party distro disabled
+    implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
+
     compileOnly fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
     compileOnly fg.deobf("curse.maven:lostcity-${lostcity_version}")
     compileOnly fg.deobf("curse.maven:bloodmoon-${bloodmoon_version}")
@@ -69,7 +71,12 @@ dependencies {
     compileOnly fg.deobf("curse.maven:spartan-weaponry-${spartanweaponry_version}")
     compileOnly fg.deobf("curse.maven:in-control-${incontrol_version}")
     compileOnly fg.deobf("curse.maven:antique-atlas-${antiqueatlas_version}")
-    implementation ("com.github.mcjty:mcjtytools:${mcjtytools_version}")
+
+    compileOnly fg.deobf("CraftTweaker2:CraftTweaker2-${crafttweaker_version}")
+    compileOnly fg.deobf("CraftTweaker2:ZenScript:${zs_version}")
+    compileOnly fg.deobf("CraftTweaker2:CraftTweaker2-API:${zs_version}")
+
+    compileOnly fg.deobf("com.github.mcjty:mcjtytools:${mcjtytools_version}")
 
     //Addons
     compileOnly fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")
@@ -83,8 +90,6 @@ dependencies {
     //compileOnly fg.deobf("curse.maven:nebula-parasites-1246704:6439940")
     //compileOnly fg.deobf("libs:SRRevenants:1.12.2v1.0.2")
     //compileOnly fg.deobf("libs:SRMonstress:1.12.2v1.0.2")
-
-    compileOnly "libs:CraftTweaker2-${ct_version}"
 }
 
 mixin {

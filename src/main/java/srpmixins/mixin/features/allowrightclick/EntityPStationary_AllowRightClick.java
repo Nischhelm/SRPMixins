@@ -1,4 +1,4 @@
-package srpmixins.mixin.features;
+package srpmixins.mixin.features.allowrightclick;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationary;
 import com.dhanantry.scapeandrunparasites.entity.monster.deterrent.EntityDodT;
