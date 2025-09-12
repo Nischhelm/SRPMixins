@@ -177,6 +177,7 @@ public class SpawnPotentialsHandler {
     }
 
     private static boolean isBiomeBlacklisted(Set<String> biomeBlacklist, Biome biome){
+        if(biomeBlacklist.isEmpty()) return false; //if its empty it gets handled by isDimensionBlacklisted
         ResourceLocation biomeLoc = biome.getRegistryName();
         if(biomeLoc == null) return false;
         String biomeId = biomeLoc.toString();
