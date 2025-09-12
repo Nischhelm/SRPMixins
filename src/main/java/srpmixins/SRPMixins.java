@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import srpmixins.capability.adaptation.CapabilityAdaptationHandler;
@@ -42,7 +43,7 @@ import srpmixins.rules.ruleset.*;
 )
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.9.0";
+    public static final String VERSION = "2.9.0.1";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static Configuration CONFIG;
@@ -111,7 +112,7 @@ public class SRPMixins {
         if (SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length == 0)
             SRPMobConfigProvider.initMobConfigs();
 
-        if(Loader.isModLoaded("antiqueatlas") && SRPMixinsConfigHandler.modcompat.enableAntiqueAtlasCompat)
+        if(Loader.isModLoaded("antiqueatlas") && SRPMixinsConfigHandler.modcompat.enableAntiqueAtlasCompat && event.getSide() == Side.CLIENT)
             AntiqueAtlasCompat.initTiles();
     }
 
