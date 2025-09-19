@@ -4,18 +4,8 @@ import energon.srpextra.entity.IWaterParasite;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.world.World;
-import srpmixins.config.providers.SRPMobConfigProvider;
-import energon.srpextra.util.config.SRPEConfigMobs;
 
 public class SRPExtraCompat {
-    public static void init(){
-        if(SRPEConfigMobs.activeFeralWolf) {
-            SRPMobConfigProvider.mobNameToParaIdMap.remove("fer_wolf");
-            SRPMobConfigProvider.mobNameToParaIdMap.put("feral_wolf", 300);
-            SRPMobConfigProvider.paraIdToMobName.replace(300, "feral_wolf");
-        }
-    }
-
     public static int countWaterParasites(World world){
         return world.countEntities(IWaterParasite.class);
     }

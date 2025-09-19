@@ -23,7 +23,6 @@ import srpmixins.capability.chunkphases.CapabilityEvoPointsHandler;
 import srpmixins.compat.AntiqueAtlasCompat;
 import srpmixins.compat.CompatUtil;
 import srpmixins.compat.LycanitesMobsCompat;
-import srpmixins.compat.SRPDeepSeaCompat;
 import srpmixins.compat.crafttweaker.CT_BlockInfestationEvent;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
@@ -131,6 +130,5 @@ public class SRPMixins {
             EntitySpawnPlacementRegistry.setPlacementType(EntityInfSquid.class, EntityLiving.SpawnPlacementType.IN_WATER);
             EntitySpawnPlacementRegistry.setPlacementType(EntityLum.class, EntityLiving.SpawnPlacementType.IN_WATER);
         }
-        if(Loader.isModLoaded("srpdeepseadanger")) SRPDeepSeaCompat.setPlacementTypesToWater();
     }
 }

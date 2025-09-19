@@ -309,71 +309,79 @@ public class SRPMobConfigProvider {
         registerParasite("worm", 308, "DETERRENT", (byte) 40);
         registerParasite("draconite", 309, "COSMICAL", (byte) 14);
 
-        if(Loader.isModLoaded("srpextra")){
-            SRPExtraCompat.init();
-            registerSRPExtraMobs();
-        }
+        if(Loader.isModLoaded("srpextra")) registerSRPExtraMobs();
         if(Loader.isModLoaded("srpdeepseadanger")) registerSRPDeepSeaDangerMobs();
         if(Loader.isModLoaded("srpquark")) registerSRPQuarkMobs();
         if(Loader.isModLoaded("srpmutantbeasts")) registerSRPMutantBeastsMobs();
     }
     
     public static void registerSRPExtraMobs(){
-        registerParasite("hijacked_creeper", -1, "HIJACKED");
-        registerParasite("hijacked_creeper_head", -257, "HIJACKED");
-        registerParasite("hijacked_skeleton", -2, "HIJACKED");
-        registerParasite("hijacked_skeleton_head", -258, "HIJACKED");
-        registerParasite("hijacked_skeleton_stray", -3, "HIJACKED");
-        registerParasite("stalker", -4, "PRIMITIVE");
-        registerParasite("sim_witch", -5, "ASSIMILATED");
-        registerParasite("sim_witch_head", -261, "ASSIMILATED");
-        registerParasite("sim_vindicator", -6, "ASSIMILATED");
-        registerParasite("sim_vindicator_head", -262, "ASSIMILATED");
-        registerParasite("sim_evoker", -7, "ASSIMILATED");
-        registerParasite("sim_ocelot", -8, "ASSIMILATED");
-        registerParasite("sim_ocelot_head", -264, "ASSIMILATED");
-        registerParasite("ada_vermin", -9, "ADAPTED");
-        registerParasite("ada_tozoon", -10, "ADAPTED");
-        registerParasite("tendril_tozoon", -266);
+        registerParasite("hi_creeper", -1, "HIJACKED");
+        registerParasite("hi_creeperhead", -257, "HIJACKED");
+        registerParasite("hi_skeleton_srpe", -2, "HIJACKED");
+        registerParasite("hi_skeletonhead", -258, "HIJACKED");
+        registerParasite("hi_stray", -3, "HIJACKED");
+        registerParasite("sim_witch", -4, "ASSIMILATED");
+        registerParasite("sim_witchhead", -260, "ASSIMILATED");
+        registerParasite("sim_vindicator", -5, "ASSIMILATED");
+        registerParasite("sim_vindicatorhead", -261, "ASSIMILATED");
+        registerParasite("sim_evoker", -6, "ASSIMILATED");
+        registerParasite("sim_ocelot", -7, "ASSIMILATED");
+        registerParasite("sim_ocelothead", -263, "ASSIMILATED");
+        registerParasite("fer_ocelot", -519, "FERAL");
+        registerParasite("wendigo", -8, "CRUDE");
+
+        registerParasite("pri_stalker", -129, "PRIMITIVE");
+        registerParasite("ada_stalker", -130, "ADAPTED");
+        registerParasite("tendril_stalker", -1130);
+        registerParasite("ada_vermin", -131, "ADAPTED");
+        registerParasite("ada_tozoon", -132, "ADAPTED");
+        registerParasite("tendril_tozoon", -1132);
+        registerParasite("fer_wolf_srpe", -133, "FERAL");
+        registerParasite("swimming_flesh", -134, "CRUDE");
+        registerParasite("flying_flesh", -135, "CRUDE");
+        registerParasite("burnt_flesh", -136, "CRUDE");
+        registerParasite("fer_adventurer", -137, "FERAL");
     }
     public static void registerSRPDeepSeaDangerMobs(){
-        registerParasite("swimmer", -21, "INBORN");
-        registerParasite("leecher", -22, "INBORN");
-        registerParasite("sim_drowned", -23, "ASSIMILATED");
-        registerParasite("sim_dolphin", -24, "ASSIMILATED");
-        registerParasite("sim_dolphin_head", -280, "ASSIMILATED");
-        registerParasite("fer_dolphin", -536, "FERAL");
-        registerParasite("sim_fish", -25, "ASSIMILATED");
-        registerParasite("fer_fish", -40, "FERAL");
-        registerParasite("pri_hammerhead", -26, "PRIMITIVE");
-        registerParasite("ada_hammerhead", -27, "ADAPTED");
-        registerParasite("tendril_hammerhead", -283);
-        registerParasite("ada_devourer", -41, "ADAPTED");
-        registerParasite("sprouter_si", -28, "NEXUS");
-        registerParasite("sprouter_sii", -29, "NEXUS");
-        registerParasite("sprouter_siii", -30, "NEXUS");
-        registerParasite("sprouter_siv", -31, "NEXUS");
-        registerParasite("plankton", -32, "INBORN");
-        registerParasite("carrier_sea", -33, "INBORN");
-        registerParasite("bomber_mini", -34, "INBORN");
-        registerParasite("supporter", -35, "PURE");
-        //registerParasite("pri_stinger", -36, "PRIMITIVE");
-        //registerParasite("ada_stinger", -37, "ADAPTED");
-        registerParasite("hi_guardian", -38, "HIJACKED");
-        registerParasite("hi_elder_guardian", -39, "HIJACKED");
-    }
+        registerParasite("sim_drowned", -21, "ASSIMILATED");
+        registerParasite("sim_dolphin", -22, "ASSIMILATED");
+        registerParasite("sim_dolphin_head", -278, "ASSIMILATED");
+        registerParasite("fer_dolphin", -534, "FERAL");
+        registerParasite("sim_fish", -23, "ASSIMILATED");
+        registerParasite("fer_fish", -279, "FERAL");
+        registerParasite("hi_guardian", -24, "HIJACKED");
+        registerParasite("hi_elder_guardian", -25, "HIJACKED");
+
+        registerParasite("swimmer", -151, "INBORN");
+        registerParasite("leecher", -152, "INBORN");
+        registerParasite("pri_hammerhead", -153, "PRIMITIVE");
+        registerParasite("ada_hammerhead", -154, "ADAPTED");
+        registerParasite("tendril_hammerhead", -1154);
+        registerParasite("ada_devourer", -155, "ADAPTED");
+        registerParasite("sprouter_si", -156, "NEXUS");
+        registerParasite("sprouter_sii", -157, "NEXUS");
+        registerParasite("sprouter_siii", -158, "NEXUS");
+        registerParasite("sprouter_siv", -159, "NEXUS");
+        registerParasite("plankton", -160, "INBORN");
+        registerParasite("carrier_sea", -161, "INBORN");
+        registerParasite("bomber_mini", -162, "INBORN");
+        registerParasite("supporter", -163, "PURE");
+        registerParasite("pri_stinger", -164, "PRIMITIVE");
+        registerParasite("ada_stinger", -165, "ADAPTED");
+        }
     public static void registerSRPQuarkMobs(){
-        registerParasite("hijacked_skeleton_pirate", -71, "HIJACKED");
-        registerParasite("hijacked_skeleton_ashen", -72, "HIJACKED");
-        registerParasite("sim_dweller", -73, "ASSIMILATED");
-        registerParasite("sim_archaeologist", -74, "ASSIMILATED");
-        registerParasite("sim_stoneling", -75, "ASSIMILATED");
-        registerParasite("sim_crab", -76, "ASSIMILATED");
-        registerParasite("sim_frog", -77, "ASSIMILATED");
+        registerParasite("hijacked_skeleton_pirate", -51, "HIJACKED");
+        registerParasite("hijacked_skeleton_ashen", -52, "HIJACKED");
+        registerParasite("sim_dweller", -53, "ASSIMILATED");
+        registerParasite("sim_archaeologist", -54, "ASSIMILATED");
+        registerParasite("sim_stoneling", -55, "ASSIMILATED");
+        registerParasite("sim_crab", -56, "ASSIMILATED");
+        registerParasite("sim_frog", -57, "ASSIMILATED");
     }
     public static void registerSRPMutantBeastsMobs(){
-        registerParasite("assimilated_mutant_zombie", -81, "ASSIMILATED");
-        registerParasite("assimilated_mutant_enderman", -82, "ASSIMILATED");
-        registerParasite("hijacked_mutant_skeleton", -83, "HIJACKED");
+        registerParasite("assimilated_mutant_zombie", -71, "ASSIMILATED");
+        registerParasite("assimilated_mutant_enderman", -72, "ASSIMILATED");
+        registerParasite("hijacked_mutant_skeleton", -73, "HIJACKED");
     }
 }
