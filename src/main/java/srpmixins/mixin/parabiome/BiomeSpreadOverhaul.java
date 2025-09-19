@@ -68,7 +68,7 @@ public abstract class BiomeSpreadOverhaul {
 
             BlockTransformationRule rule = BlockTransformationRule.getFirstApplicableRule(material, block);
             if(rule == null) continue;
-            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, rule.getResultState(), true, rule);
+            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, rule.getResultState(), true, rule).setFacing(facing);
             if(MinecraftForge.EVENT_BUS.post(event)) continue;
             if(event.getState() == null) continue;
 

@@ -3,7 +3,9 @@ package srpmixins.compat.crafttweaker;
 import crafttweaker.annotations.ZenRegister;
 import crafttweaker.api.block.IBlockState;
 import crafttweaker.api.minecraft.CraftTweakerMC;
+import crafttweaker.api.world.IFacing;
 import crafttweaker.mc1120.events.handling.MCBlockEvent;
+import crafttweaker.mc1120.world.MCFacing;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import srpmixins.SRPMixins;
 import srpmixins.event.BlockInfestationEvent;
@@ -48,6 +50,13 @@ public class CT_BlockInfestationEvent extends MCBlockEvent {
         return internal.generatesAbove;
     }
 
+    @ZenGetter("facing")
+    @ZenMethod("getFacing")
+    public IFacing getFacing() {
+        if(internal.facing == null) return null;
+        return new MCFacing(internal.facing);
+    }
+
     @ZenSetter("generatesFeaturesAbove")
     public void setGeneratesAbove(boolean val) {
         internal.generatesAbove = val;
@@ -81,8 +90,8 @@ public class CT_BlockInfestationEvent extends MCBlockEvent {
     public static class CT_EventForwarder {
         @SubscribeEvent
         public static void onInfestation(BlockInfestationEvent event) {
-            if(CT_BlockInfestationExpansion.hasBlockHarvestDrops())
-                CT_BlockInfestationExpansion.publishBlockHarvestDrops(new CT_BlockInfestationEvent(event));
+            if(CT_BlockInfestationExpansion.hasBlockInfestationHandlers())
+                CT_BlockInfestationExpansion.publishBlockInfestation(new CT_BlockInfestationEvent(event));
         }
     }
 }

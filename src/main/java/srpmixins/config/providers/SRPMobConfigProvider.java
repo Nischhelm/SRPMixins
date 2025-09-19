@@ -369,7 +369,7 @@ public class SRPMobConfigProvider {
         registerParasite("supporter", -163, "PURE");
         registerParasite("pri_stinger", -164, "PRIMITIVE");
         registerParasite("ada_stinger", -165, "ADAPTED");
-        }
+    }
     public static void registerSRPQuarkMobs(){
         registerParasite("hijacked_skeleton_pirate", -51, "HIJACKED");
         registerParasite("hijacked_skeleton_ashen", -52, "HIJACKED");

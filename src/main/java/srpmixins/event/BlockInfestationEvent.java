@@ -1,18 +1,22 @@
 package srpmixins.event;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import srpmixins.rules.BlockTransformationRule;
 
+/**
+ * This event will only be fired
+ * if BiomeSpreadOverhaul is enabled (for para biome)
+ * or if InfestationOverhaul is enabled (for beckon infestation).
+ * It is not fired when reverting infestation.
+ */
 @Cancelable
-//This event will only be fired
-// - if BiomeSpreadOverhaul is enabled (for para biome)
-// - or if InfestationOverhaul is enabled (for beckon infestation).
-// It is not fired when reverting infestation.
 public class BlockInfestationEvent extends BlockEvent {
+    public EnumFacing facing = null;
     public final boolean isParaBiome;
     public IBlockState resultState;
     public boolean generatesAbove, generatesBelow, increasesPoints;
@@ -38,6 +42,11 @@ public class BlockInfestationEvent extends BlockEvent {
 
     public BlockInfestationEvent(World world, BlockPos pos, IBlockState resultState, boolean isParaBiome, BlockTransformationRule rule) {
         this(world, pos, resultState, isParaBiome, rule.getGeneratesAbove(), rule.getGeneratesBelow(), rule.getAddsPoints());
+    }
+
+    public BlockInfestationEvent setFacing(EnumFacing facing) {
+        this.facing = facing;
+        return this;
     }
 
     @Override

@@ -19,11 +19,11 @@ public class CT_BlockInfestationExpansion {
         return HANDLERS.add(ev);
     }
 
-    public static boolean hasBlockHarvestDrops() {
+    public static boolean hasBlockInfestationHandlers() {
         return HANDLERS.hasHandlers();
     }
 
-    public static void publishBlockHarvestDrops(CT_BlockInfestationEvent event) {
+    public static void publishBlockInfestation(CT_BlockInfestationEvent event) {
         HANDLERS.publish(event);
     }
 
