@@ -111,7 +111,4 @@ public abstract class ParasiteEventEntityMixin_Conversion {
 
         return srpmixins$emptyList_Convert; //will fail on next test and return
     }
-
-
-
 }

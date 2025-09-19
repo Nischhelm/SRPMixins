@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.List;
 
 public class ParaSpawnEntry {
+    public static final ParaSpawnEntry EMPTY = new ParaSpawnEntry("", 0, 0);
+
     public String mobid;
 
     public int minCount;
@@ -38,6 +40,7 @@ public class ParaSpawnEntry {
             String[] split = s.split(";");
             if(split.length <= 1){
                 SRPMixins.LOGGER.warn("SRPMixins unable to parse spawn/summon entry, expected pattern is modid:mobname; int or double; optional int, provided was {}", s);
+                cache.add(EMPTY); //for having indexing still work correctly we add an empty entry
                 continue;
             }
             String name = split[0].trim();
@@ -54,6 +57,7 @@ public class ParaSpawnEntry {
                 }
             } catch (Exception e){
                 SRPMixins.LOGGER.warn("SRPMixins unable to parse spawn/summon entry, expected number(s) after the first semicolon, provided was {}", s);
+                cache.add(EMPTY); //for having indexing still work correctly we add an empty entry
             }
         }
         return cache;

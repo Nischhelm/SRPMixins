@@ -6,6 +6,7 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,7 +23,7 @@ import java.util.Map;
 public abstract class ParasiteEventEntityMixin_Merge {
     @Unique private static Map<Integer, String> srpmixins$mergeMap = null;
     @Unique private static List<String> srpmixins$mergeList = null;
-    @Unique private static final String[] srpmixins$emptyList = {"",""};
+    @Unique @Final private static String[] srpmixins$emptyList; //Defined and initialised in ParasiteEventEntityMixin_Spawn
     @Unique private static Integer srpmixins$selectedMergeIndex = null;
     @Unique private static String srpmixins$getMergedEntity(int index, boolean fromList){
         if(srpmixins$mergeMap == null){
