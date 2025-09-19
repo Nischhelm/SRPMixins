@@ -84,7 +84,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:scape-and-run-parasites-deep-sea-danger-1268838:6764503")
     //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-mutant-beasts-1214567:6551866")
     //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-quark-1174245:6548138")
-    compileOnly fg.deobf("curse.maven:oceanic-expanse-840576:6383148")
+    compileOnly fg.deobf("curse.maven:oceanic-expanse-840576:7009970")
     //compileOnly fg.deobf("curse.maven:scape-and-run-parasite-dimension-1037060:5965078")
     //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-meteorite-1124012:6533192")
     //compileOnly fg.deobf("curse.maven:nebula-parasites-1246704:6439940")
