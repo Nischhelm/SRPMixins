@@ -152,7 +152,9 @@ public abstract class InfestationOverhaul {
             }
 
             BlockInfestationEvent event = new BlockInfestationEvent(worldIn, startPos, resultState, false, generatesAbove, generatesBelow, increasesPoints). setFacing(facing);
-            if(MinecraftForge.EVENT_BUS.post(event)) continue;
+            boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
+            if(event.isCanceledFully()) break;
+            if(isCanceled) continue;
             if(event.getState() == null) continue;
             worldIn.setBlockState(blockPos, event.getState());
             if(event.increasesPoints) convertedCount++;

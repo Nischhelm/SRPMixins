@@ -69,7 +69,9 @@ public abstract class BiomeSpreadOverhaul {
             BlockTransformationRule rule = BlockTransformationRule.getFirstApplicableRule(material, block);
             if(rule == null) continue;
             BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, rule.getResultState(), true, rule).setFacing(facing);
-            if(MinecraftForge.EVENT_BUS.post(event)) continue;
+            boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
+            if(event.isCanceledFully()) break;
+            if(isCanceled) continue;
             if(event.getState() == null) continue;
 
             if(!rule.getSkipHardnessCheck() && srpmixins$blockIsBlacklistedForBiome(worldIn, blockPos, block, state)) continue;
@@ -136,7 +138,9 @@ public abstract class BiomeSpreadOverhaul {
 
             if (lookingBlock.isWood(worldIn, blockPos)) {
                 BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, SRPBlocks.ParasiteTrunk.getDefaultState(), true, false, false, true);
-                if(MinecraftForge.EVENT_BUS.post(event)) continue;
+                boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
+                if(event.isCanceledFully()) break;
+                if(isCanceled) continue;
                 if(event.getState() == null) continue;
 
                 worldIn.setBlockState(blockPos, event.getState());

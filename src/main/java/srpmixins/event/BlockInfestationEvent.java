@@ -21,6 +21,12 @@ public class BlockInfestationEvent extends BlockEvent {
     public IBlockState resultState;
     public boolean generatesAbove, generatesBelow, increasesPoints;
 
+
+    public boolean canceledFully = false;
+    public boolean isCanceledFully(){ return canceledFully;}
+    public void cancelFully(){ this.canceledFully = true; }
+
+
     /**
      * This event is used when blocks transform due to parasite biome or beckon infestation spreading.
      * @param world the world it happens in
@@ -30,6 +36,7 @@ public class BlockInfestationEvent extends BlockEvent {
      * @param generatesAbove whether the block infestation should try to generate features (usually vegetation) above the infested block
      * @param generatesBelow whether the block infestation should try to generate features (usually vegetation) below the infested block
      * @param increasesPoints whether this infestation should increase evolution points
+     * use cancelFully to not only cancel the current infestation but the whole set of 6 (to 27) blocks currently being infested
      */
     public BlockInfestationEvent(World world, BlockPos pos, IBlockState resultState, boolean isParaBiomeInfestation, boolean generatesAbove, boolean generatesBelow, boolean increasesPoints) {
         super(world, pos, resultState);

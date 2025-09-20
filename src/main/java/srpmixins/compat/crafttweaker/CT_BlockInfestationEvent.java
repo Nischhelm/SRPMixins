@@ -87,6 +87,11 @@ public class CT_BlockInfestationEvent extends MCBlockEvent {
         internal.setCanceled(true);
     }
 
+    @ZenMethod
+    public void cancelFully() {
+        internal.cancelFully();
+    }
+
     public static class CT_EventForwarder {
         @SubscribeEvent
         public static void onInfestation(BlockInfestationEvent event) {
