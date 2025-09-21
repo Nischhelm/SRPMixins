@@ -42,7 +42,7 @@ import srpmixins.rules.ruleset.*;
 )
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.9.0.2";
+    public static final String VERSION = "2.9.1";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static Configuration CONFIG;

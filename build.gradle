@@ -80,8 +80,8 @@ dependencies {
 
     //Addons
     compileOnly fg.deobf("curse.maven:srp-addon-cotesia-glomerata-971348:6629686")
-    compileOnly fg.deobf("curse.maven:scape-and-run-parasites-extra-1140227:7009380")
-    compileOnly fg.deobf("curse.maven:scape-and-run-parasites-deep-sea-danger-1268838:7009351")
+    compileOnly fg.deobf("curse.maven:scape-and-run-parasites-extra-1140227:7012464")
+    compileOnly fg.deobf("curse.maven:scape-and-run-parasites-deep-sea-danger-1268838:7012231")
     //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-mutant-beasts-1214567:6551866")
     //compileOnly fg.deobf("curse.maven:scape-and-run-parasites-quark-1174245:6548138")
     compileOnly fg.deobf("curse.maven:oceanic-expanse-840576:7009970")
