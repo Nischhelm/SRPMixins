@@ -62,35 +62,35 @@ public class ISRPSaveData {
 
     @ZenMethod("getPhase")
     @ZenGetter("phase")
-    @ZenDoc("Returns the current evolution phase in the provided dimension")
+    @ZenDoc("Returns the current evolution phase")
     public byte getPhase(){
         return this.internal.getEvolutionPhase(dim);
     }
 
     @ZenMethod("getPoints")
     @ZenGetter("points")
-    @ZenDoc("Returns the current evolution points in the provided dimension")
+    @ZenDoc("Returns the current evolution points")
     public int getPoints(){
         return this.internal.getTotalKills(dim);
     }
 
     @ZenMethod("getCooldown")
     @ZenGetter("cooldown")
-    @ZenDoc("Returns the current cooldown (in ticks) in the provided dimension")
+    @ZenDoc("Returns the current cooldown (in ticks)")
     public int getCooldown(){
         return this.internal.getCooldown(getOverworld(), dim);
     }
 
     @ZenMethod("getCanLose")
     @ZenGetter("canLose")
-    @ZenDoc("Returns whether the evolution points in the provided dimension can be reduced (via carcasses for example). Note: Different than base SRP this is not inverted in meaning, so true means can reduce, false means can't reduce.")
+    @ZenDoc("Returns whether the evolution points can be reduced (via carcasses for example). Note: Different than base SRP this is not inverted in meaning, so true means can reduce, false means can't reduce.")
     public boolean getCanLose(){
         return !this.internal.getCanLoss(dim);
     }
 
     @ZenMethod("getCanGain")
     @ZenGetter("canGain")
-    @ZenDoc("Returns whether the evolution points in the provided dimension can be increased.")
+    @ZenDoc("Returns whether the evolution points can be increased.")
     public boolean getCanGain(){
         return this.internal.getCanGain(dim);
     }
@@ -111,33 +111,33 @@ public class ISRPSaveData {
 
     @ZenMethod("setPhase")
     @ZenSetter("phase")
-    @ZenDoc("Sets the evolution phase in the provided dimension (params: phase, dimensionId)")
+    @ZenDoc("Sets the evolution phase (params: phase)")
     public void setPhase(byte phase){
         this.internal.setEvolutionPhase(dim, phase, true, getOverworld(), true);
     }
 
     @ZenMethod("setPoints")
     @ZenSetter("points")
-    @ZenDoc("Sets the evolution points in the provided dimension (params: points, dimensionId)")
+    @ZenDoc("Sets the evolution points (params: points)")
     public void setPoints(int points){
-        this.internal.setTotalKills(points, dim, false, getOverworld(), true);
+        this.internal.setTotalKills(dim, points, false, getOverworld(), true);
     }
 
     @ZenMethod("addPoints")
-    @ZenDoc("Adds to the current evolution points in the provided dimension (params: pointsToAdd, dimensionId)")
+    @ZenDoc("Adds to the current evolution points (params: pointsToAdd)")
     public void addPoints(int points){
-        this.internal.setTotalKills(points, dim, true, getOverworld(), true);
+        this.internal.setTotalKills(dim, points, true, getOverworld(), true);
     }
 
     @ZenMethod("setCooldown")
     @ZenSetter("cooldown")
-    @ZenDoc("Sets the cooldown in the provided dimension (params: pointsToAdd, dimensionId)")
+    @ZenDoc("Sets the cooldown in seconds (params: pointsToAdd)")
     public void setCooldown(int cooldown){
         this.internal.setCooldown(cooldown, getOverworld(), dim);
     }
 
     @ZenMethod("addCooldown")
-    @ZenDoc("Adds to the cooldown in the provided dimension (params: cooldownToAdd, dimensionId)")
+    @ZenDoc("Adds seconds to the cooldown (params: cooldownToAdd)")
     public void addCooldown(int cooldown){
         int currCooldown = this.internal.getCooldown(getOverworld(), dim);
         this.internal.setCooldown(currCooldown + cooldown, getOverworld(), dim);
@@ -145,14 +145,14 @@ public class ISRPSaveData {
 
     @ZenMethod("setCanLose")
     @ZenSetter("canLose")
-    @ZenDoc("Sets whether the provided dimension can have its evolution points reduced (params: newCanLose, dimensionId). Note: Different than base SRP this is not inverted in meaning, so true means can reduce, false means can't reduce.")
+    @ZenDoc("Sets whether the SRPSaveData of the provided dimension can have its evolution points reduced (params: newCanLose). Note: Different than base SRP this is not inverted in meaning, so true means can reduce, false means can't reduce.")
     public void setCanLose(boolean newValue){
         this.internal.setLoss(!newValue, dim);
     }
 
     @ZenMethod("setCanGain")
     @ZenSetter("canGain")
-    @ZenDoc("Sets whether the provided dimension can have its evolution points increased (params: newCanGain, dimensionId).")
+    @ZenDoc("Sets whether the SRPSaveData of the provided dimension can have its evolution points increased (params: newCanGain).")
     public void setCanGain(boolean newValue){
         this.internal.setGaining(newValue, dim);
     }
