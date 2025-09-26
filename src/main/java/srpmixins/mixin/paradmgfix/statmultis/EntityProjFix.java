@@ -1,6 +1,8 @@
 package srpmixins.mixin.paradmgfix.statmultis;
 
-import com.dhanantry.scapeandrunparasites.entity.projectile.*;
+import com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectileAngedball;
+import com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectileElviaBall;
+import com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectileLenciaBall;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.projectile.EntityFireball;

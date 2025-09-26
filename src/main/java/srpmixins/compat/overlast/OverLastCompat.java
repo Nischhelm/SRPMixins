@@ -3,7 +3,6 @@ package srpmixins.compat.overlast;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 import srpmixins.SRPMixinsPlugin;
-import srpmixins.compat.CompatUtil;
 import srpmixins.config.EarlyConfigReader;
 import srpmixins.config.SRPMixinsConfigHandler;
 

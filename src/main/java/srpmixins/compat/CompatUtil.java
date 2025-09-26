@@ -1,8 +1,6 @@
 package srpmixins.compat;
 
 import net.minecraftforge.fml.common.Loader;
-import srpmixins.config.EarlyConfigReader;
-import srpmixins.config.SRPMixinsConfigHandler;
 
 public class CompatUtil {
 

@@ -1,15 +1,12 @@
 package srpmixins.mixin.cothtweaks;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPInfected;
-import com.dhanantry.scapeandrunparasites.potion.SRPEffectBase;
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.potion.PotionEffect;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Slice;
 
 @Mixin(EntityPInfected.class)
 public abstract class InfectNearbyFix_Assim {

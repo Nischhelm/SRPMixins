@@ -4,14 +4,12 @@ import com.dhanantry.scapeandrunparasites.entity.projectile.EntityProjectileSpin
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import srpmixins.SRPMixins;
 import srpmixins.config.providers.DimensionMultiConfigProvider;
 
 @Mixin(EntityProjectileSpineball.class)

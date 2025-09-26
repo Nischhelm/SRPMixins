@@ -4,7 +4,6 @@ import fermiumbooter.FermiumRegistryAPI;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 import org.spongepowered.asm.launch.MixinBootstrap;
-import srpmixins.compat.CompatUtil;
 import srpmixins.compat.overlast.OverLastCompat;
 import srpmixins.config.EarlyConfigReader;
 import srpmixins.config.SRPMixinsConfigHandler;

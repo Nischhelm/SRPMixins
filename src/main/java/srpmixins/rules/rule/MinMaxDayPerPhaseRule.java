@@ -2,8 +2,8 @@ package srpmixins.rules.rule;
 
 import srpmixins.SRPMixins;
 import srpmixins.rules.conditions.DimensionCondition;
-import srpmixins.rules.conditions.GenericCondition;
 import srpmixins.rules.conditions.EvoPhaseCondition;
+import srpmixins.rules.conditions.GenericCondition;
 
 import java.util.HashMap;
 import java.util.List;

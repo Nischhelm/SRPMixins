@@ -3,7 +3,6 @@ package srpmixins.config;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import srpmixins.SRPMixins;
 import srpmixins.config.providers.SRPMobConfigProvider;
-import srpmixins.util.configparse.Pair;
 
 import java.util.*;
 import java.util.stream.Collectors;

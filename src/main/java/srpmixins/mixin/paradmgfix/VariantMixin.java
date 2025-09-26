@@ -13,17 +13,14 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
-import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
-import srpmixins.rules.conditions.NodeCountCondition;
-import srpmixins.rules.ruleset.VariantDisableRuleSet;
 import srpmixins.rules.rule.VariantDisableRule;
+import srpmixins.rules.ruleset.VariantDisableRuleSet;
 
 import java.util.ArrayList;
 import java.util.HashMap;

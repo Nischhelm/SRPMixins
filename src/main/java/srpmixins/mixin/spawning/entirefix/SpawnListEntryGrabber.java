@@ -20,7 +20,9 @@ import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.handlers.SpawnPotentialsHandler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Mixin(SRPSpawning.class)
 public abstract class SpawnListEntryGrabber {

@@ -3,7 +3,6 @@ package srpmixins.config.providers;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigMobs;
 import net.minecraftforge.fml.common.Loader;
 import srpmixins.SRPMixins;
-import srpmixins.compat.SRPExtraCompat;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.rules.rule.VariantDisableRule;
 
