@@ -61,4 +61,12 @@ public class DamageFixConfig {
     @Config.Name("Fix Arachnida Pull - Adapted Range")
     @Config.RangeInt(min = 0)
     public float adaArachPullBallHit = 2.5F;
+
+    @Config.Comment("Green (virulent) parasites stack viral on entities when they are touching them. This config value limits this to once per x ticks. By default, SRP allows it every tick (config = 1). Set to -1 to disable.\n" +
+            "Note: this also applies to buglins stacking up COTH when touching them.\n" +
+            "Note: primitive mobs only apply viral for 2 seconds (40 ticks) so increasing this value too much will remove the stacking effect. All other mobs apply for 5 seconds (100 ticks).")
+    @Config.Name("Viral stack speed on touch")
+    @Config.RangeInt(min = -1, max = 100)
+    @Config.RequiresMcRestart
+    public int viralStackSpeedOnTouch = 10;
 }

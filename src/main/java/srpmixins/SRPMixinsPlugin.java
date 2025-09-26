@@ -41,6 +41,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 
 		//Int disables
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.adapteddespawnlock.json", () -> EarlyConfigReader.getInt("Adapted Despawn Penalty First Phase", SRPMixinsConfigHandler.phasepoints.adaptedDespawnPenaltyPhase) > -1);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.stackcollidingviralslower.json", () -> EarlyConfigReader.getInt("...", SRPMixinsConfigHandler.dmgfix.viralStackSpeedOnTouch) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infsquidcap.json", () -> EarlyConfigReader.getInt("Water Parasite Mob Cap", SRPMixinsConfigHandler.waterparas.waterParasiteCap) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.nexuscap.json", () -> EarlyConfigReader.getInt("Nexus Mob Cap", SRPMixinsConfigHandler.deterrents.nexusCap) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.nodecolonyreset.json", () -> EarlyConfigReader.getInt("Node/Colony Removal Check Frequency", SRPMixinsConfigHandler.parabiome.nodeColonyResetCheckFrequency) > -1);
