@@ -16,7 +16,7 @@ public class SRPConfigProvider {
     private static List<Integer> phaseCooldowns = null;
     public static int getPhaseCooldown(byte phase){
         if(SRPMixinsConfigHandler.morephases.enableMorePhases)
-            return SRPMixinsConfigHandler.morephases.phaseDelayTicks[phase];
+            return phase >= 0 && phase <= getMaxPhase() ? SRPMixinsConfigHandler.morephases.phaseDelayTicks[phase] : 0;
 
         if(phaseCooldowns == null){
             phaseCooldowns = Arrays.asList(
@@ -67,7 +67,7 @@ public class SRPConfigProvider {
     private static List<Double> reinforcementChancePerPhase;
     public static double getReinforcementChance(byte phase){
         if(SRPMixinsConfigHandler.morephases.enableMorePhases)
-            return SRPMixinsConfigHandler.morephases.reinforcementSystemChance[phase];
+            return phase >= 0 && phase <= getMaxPhase() ? SRPMixinsConfigHandler.morephases.reinforcementSystemChance[phase] : 0;
 
         if(reinforcementChancePerPhase == null)
             reinforcementChancePerPhase = Arrays.asList(
