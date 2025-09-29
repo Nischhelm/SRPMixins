@@ -85,4 +85,10 @@ public class DeterrentConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationoverhaul.json", defaultValue = true)
     @MixinConfig.CompatHandling(modid = "srpcotesia", desired = false, reason = "Disable \"Infestation Performance Overhaul\"!", warnIngame = false)
     public boolean infestationOverhaul = true;
+
+    @Config.Comment("Will allow quenches to turn remain blocks to air on impact.")
+    @Config.Name("Quenchs Remove Remains")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.quenchremovesremains.json", defaultValue = true)
+    public boolean quenchRemovesRemains = true;
 }
