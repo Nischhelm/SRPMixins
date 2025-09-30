@@ -24,6 +24,7 @@ import srpmixins.compat.AntiqueAtlasCompat;
 import srpmixins.compat.CompatUtil;
 import srpmixins.compat.LycanitesMobsCompat;
 import srpmixins.compat.crafttweaker.CT_BlockInfestationEvent;
+import srpmixins.compat.hordes.HordesCompat;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.config.SRPMixinsConfigProvider;
@@ -113,6 +114,8 @@ public class SRPMixins {
 
         if(Loader.isModLoaded("antiqueatlas") && SRPMixinsConfigHandler.modcompat.enableAntiqueAtlasCompat && event.getSide() == Side.CLIENT)
             AntiqueAtlasCompat.initTiles();
+
+        if(Loader.isModLoaded("hordes") && SRPMixinsConfigHandler.modcompat.enableHordesCompat) HordesCompat.init();
     }
 
     @Mod.EventHandler
