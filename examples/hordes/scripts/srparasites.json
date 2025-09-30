@@ -1,0 +1,48 @@
+[
+    {
+        "function": "hordes:set_spawntable",
+        "value": "hordes:phase0to3",
+        "conditions": [
+            {
+                "name" : "srpmixins:phase",
+                "value" : {
+                    "operation": "<=",
+                    "value": 3
+                }
+            }
+        ]
+    },
+    {
+        "function": "hordes:set_spawntable",
+        "value": "hordes:phase4to7",
+        "conditions": [
+            {
+                "name" : "srpmixins:phase",
+                "value" : {
+                    "operation": ">=",
+                    "value": 4
+                }
+            },
+            {
+                "name" : "srpmixins:phase",
+                "value" : {
+                    "operation": "<=",
+                    "value": 7
+                }
+            }
+        ]
+    },
+    {
+        "function": "hordes:set_spawntable",
+        "value": "hordes:phase8to10",
+        "conditions": [
+            {
+                "name" : "srpmixins:phase",
+                "value" : {
+                    "operation": ">=",
+                    "value": 8
+                }
+            }
+        ]
+    }
+]
