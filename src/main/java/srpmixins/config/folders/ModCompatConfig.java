@@ -104,4 +104,16 @@ public class ModCompatConfig {
     @Config.RequiresMcRestart
     public boolean enableAntiqueAtlasCompat = true;
 
+    @Config.Comment("Registers \"srparasites:phase\" and \"srparasites:kills\" conditions and valuegetters for The Hordes mod.")
+    @Config.Name("Hordes Compat - Register Phase+Points conditions")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.hordes.json", defaultValue = true)
+    @MixinConfig.CompatHandling(
+            modid = "hordes",
+            desired = true,
+            reason = "Mod Compat for The Hordes, requires The Hordes",
+            warnIngame = false
+    )
+    @Config.RequiresMcRestart
+    public boolean enableHordesCompat = true;
+
 }
