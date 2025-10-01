@@ -2,9 +2,11 @@ package srpmixins;
 
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfSquid;
 import com.dhanantry.scapeandrunparasites.entity.monster.primitive.EntityLum;
+import com.dhanantry.scapeandrunparasites.init.SRPItems;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
@@ -116,6 +118,12 @@ public class SRPMixins {
             AntiqueAtlasCompat.initTiles();
 
         if(Loader.isModLoaded("hordes") && SRPMixinsConfigHandler.modcompat.enableHordesCompat) HordesCompat.init();
+
+        if(SRPMixinsConfigHandler.weapons.repairableGear) {
+            SRPItems.MATERIAL_LIVING.setRepairItem(new ItemStack(SRPItems.infblade));
+            SRPItems.ARMOR_LIVING.setRepairItem(new ItemStack(SRPItems.vileshell));
+            SRPItems.ARMOR_SENTIENT.setRepairItem(new ItemStack(SRPItems.vileshell));
+        }
     }
 
     @Mod.EventHandler

@@ -35,4 +35,10 @@ public class WeaponConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.armorbowevo.json", defaultValue = true)
     public boolean addArmorBowEvolution = true;
+
+    @Config.Comment("Will allow living and sentient gear to be repaired by the items they are created with. Vile Shell for Armor, Infectious Blade Fragment for Weapons, Dried Tendons for Bows.")
+    @Config.Name("Repairable Gear")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.repairableweapons.json", defaultValue = true)
+    public boolean repairableGear = true;
 }
