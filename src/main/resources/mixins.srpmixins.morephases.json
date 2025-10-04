@@ -12,6 +12,7 @@
     "EntityPStationaryMixin",
     "ParasiteEventEntityMixin",
     "SRPCommandEvolutionMixin",
+    "SRPConfigMobsMixin",
     "SRPConfigSystemsMixin",
     "SRPEventHandlerBusMixin",
     "SRPSaveDataMixin",
