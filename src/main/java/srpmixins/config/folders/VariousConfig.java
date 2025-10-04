@@ -145,6 +145,6 @@ public class VariousConfig {
     @Config.Comment("Restores the behavior where rupters in low phases will not just ignore players but actively avoid them just like they avoid other mobs.")
     @Config.Name("Rupters Avoid Players")
     @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.ruptersavoidplayers.json", defaultValue = false)
-    public boolean ruptersAvoidPlayers = false;
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.ruptersavoidplayers.json", defaultValue = true)
+    public boolean ruptersAvoidPlayers = true;
 }
