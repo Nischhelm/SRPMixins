@@ -23,7 +23,7 @@ import java.util.Map;
 public abstract class ParasiteEventEntityMixin_Merge {
     @Unique private static Map<Integer, String> srpmixins$mergeMap = null;
     @Unique private static List<String> srpmixins$mergeList = null;
-    @Unique @Final private static String[] srpmixins$emptyList; //Defined and initialised in ParasiteEventEntityMixin_Spawn
+    @Unique @Final private static final String[] srpmixins$emptyList = {"","0","0"};
     @Unique private static Integer srpmixins$selectedMergeIndex = null;
     @Unique private static String srpmixins$getMergedEntity(int index, boolean fromList){
         if(srpmixins$mergeMap == null){

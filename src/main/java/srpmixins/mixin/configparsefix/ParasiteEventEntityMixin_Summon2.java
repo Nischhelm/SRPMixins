@@ -23,7 +23,7 @@ import java.util.List;
 @Mixin(ParasiteEventEntity.class)
 //This is so stupid
 public abstract class ParasiteEventEntityMixin_Summon2 {
-    @Unique @Final private static String[] srpmixins$emptyList; //Defined and initialised in ParasiteEventEntityMixin_Spawn
+    @Unique @Final private static final String[] srpmixins$emptyList = {"","0","0"};
     
     @Inject(
             method = "SummonM(Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase;[Ljava/lang/String;ILnet/minecraft/entity/EntityLivingBase;)Z",
