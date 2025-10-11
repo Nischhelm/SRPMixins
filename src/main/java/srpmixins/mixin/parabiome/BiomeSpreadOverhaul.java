@@ -137,7 +137,7 @@ public abstract class BiomeSpreadOverhaul {
             if(lookingBlock instanceof IMetaName) continue;
 
             if (lookingBlock.isWood(worldIn, blockPos)) {
-                BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, SRPBlocks.ParasiteTrunk.getDefaultState(), true, false, false, true);
+                BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, SRPBlocks.ParasiteTrunk.getDefaultState(), true, 0, false, false, true);
                 boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
                 if(event.isCanceledFully()) break;
                 if(isCanceled) continue;

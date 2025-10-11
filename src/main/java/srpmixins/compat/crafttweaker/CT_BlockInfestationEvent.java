@@ -30,6 +30,11 @@ public class CT_BlockInfestationEvent extends MCBlockEvent {
         return CraftTweakerMC.getBlockState(internal.getWorld().getBlockState(internal.getPos()));
     }
 
+    @ZenGetter("stage")
+    public int getBeckonStage(){
+        return this.internal.stage;
+    }
+
     @ZenGetter("resultState")
     public IBlockState getResultState() {
         return CraftTweakerMC.getBlockState(internal.resultState);

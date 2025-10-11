@@ -84,7 +84,7 @@ public abstract class InfestationOverhaul {
 
         AxisAlignedBB axisalignedbb = new AxisAlignedBB(startPos).grow(range+1, rangeY+1, range+1);
         List<EntityPStationaryArchitect> moblist = worldIn.getEntitiesWithinAABB(EntityPStationaryArchitect.class, axisalignedbb);
-        if (!alwaysTrue) {
+        if (alwaysTrue) {
             if (moblist.isEmpty()) {
                 srpmixins$trySpawnBeckon(worldIn, beckonStage, startPos, blockPosAbove, blockAboveStartPos);
                 return;
@@ -151,7 +151,7 @@ public abstract class InfestationOverhaul {
                 }
             }
 
-            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, startPos, resultState, false, generatesAbove, generatesBelow, increasesPoints). setFacing(facing);
+            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, startPos, resultState, false, beckonStage, generatesAbove, generatesBelow, increasesPoints). setFacing(facing);
             boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
             if(event.isCanceledFully()) break;
             if(isCanceled) continue;

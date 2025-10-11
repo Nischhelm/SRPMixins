@@ -19,6 +19,7 @@ public class BlockInfestationEvent extends BlockEvent {
     public EnumFacing facing = null;
     public final boolean isParaBiome;
     public IBlockState resultState;
+    public final int stage;
     public boolean generatesAbove, generatesBelow, increasesPoints;
 
 
@@ -38,17 +39,18 @@ public class BlockInfestationEvent extends BlockEvent {
      * @param increasesPoints whether this infestation should increase evolution points
      * use cancelFully to not only cancel the current infestation but the whole set of 6 (to 27) blocks currently being infested
      */
-    public BlockInfestationEvent(World world, BlockPos pos, IBlockState resultState, boolean isParaBiomeInfestation, boolean generatesAbove, boolean generatesBelow, boolean increasesPoints) {
+    public BlockInfestationEvent(World world, BlockPos pos, IBlockState resultState, boolean isParaBiomeInfestation, int stage, boolean generatesAbove, boolean generatesBelow, boolean increasesPoints) {
         super(world, pos, resultState);
         this.resultState = resultState;
         this.isParaBiome = isParaBiomeInfestation;
+        this.stage = stage;
         this.generatesAbove = generatesAbove;
         this.generatesBelow = generatesBelow;
         this.increasesPoints = increasesPoints;
     }
 
     public BlockInfestationEvent(World world, BlockPos pos, IBlockState resultState, boolean isParaBiome, BlockTransformationRule rule) {
-        this(world, pos, resultState, isParaBiome, rule.getGeneratesAbove(), rule.getGeneratesBelow(), rule.getAddsPoints());
+        this(world, pos, resultState, isParaBiome, 0, rule.getGeneratesAbove(), rule.getGeneratesBelow(), rule.getAddsPoints());
     }
 
     public BlockInfestationEvent setFacing(EnumFacing facing) {
