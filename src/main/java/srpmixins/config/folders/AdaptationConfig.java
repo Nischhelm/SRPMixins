@@ -60,4 +60,10 @@ public class AdaptationConfig {
     @Config.Comment("Optional item in the corner spots of the crafting table for the adaptation reset recipe. Keep empty for air/empty")
     @Config.Name("Adaptation Second Reset Item")
     public String adaptationResetItemTwo = "";
+
+    @Config.Comment("Overrides what damage types should be counted as what other damage types. Use NONE to not adapt to it.")
+    @Config.Name("Adaptation Type Overrides")
+    public String[] adaptationTypeOverrides = {
+            "srparasites:homming, thrown"
+    };
 }

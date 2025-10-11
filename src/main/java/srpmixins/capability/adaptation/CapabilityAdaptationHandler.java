@@ -121,6 +121,9 @@ public class CapabilityAdaptationHandler {
                 }
             }
 
+            damageTypeName = SRPMixinsConfigProvider.adaptationOverrides.getOrDefault(damageTypeName, damageTypeName);
+            if(damageTypeName.equals("NONE")) return;
+
             for (ItemStack stack : player.inventory.armorInventory) {
                 if (!(stack.getItem() instanceof WeaponToolArmorBase)) continue;
                 ICapabilityAdaptation adaCap = stack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);

@@ -24,6 +24,7 @@ public class SRPMixinsConfigProvider {
     public static final Map<String, Set<Integer>> blockBreakBlacklist = new HashMap<>();
     public static final Set<String> fireMultiDmgTypes = new HashSet<>();
     public static final Map<Integer, Integer> summonLimits = new HashMap<>();
+    public static final Map<String, String> adaptationOverrides = new HashMap<>();
 
     public static void init(){
         setupBiomeBlacklistMap();
@@ -34,6 +35,7 @@ public class SRPMixinsConfigProvider {
         setupBlockBreakBlacklist();
         setupFireMultiDmgTypes();
         setupSummonLimits();
+        setupAdaptationOverrides();
     }
 
     public static void reset(){
@@ -45,8 +47,20 @@ public class SRPMixinsConfigProvider {
         blockBreakBlacklist.clear();
         fireMultiDmgTypes.clear();
         summonLimits.clear();
+        adaptationOverrides.clear();
 
         init();
+    }
+
+    private static void setupAdaptationOverrides() {
+        for(String s : SRPMixinsConfigHandler.adaptation.adaptationTypeOverrides){
+            String[] split = s.split(",");
+            if(split.length != 2){
+                SRPMixins.LOGGER.warn("SRPMixins unable to parse adaptation override, expected two strings, got {}", s);
+                continue;
+            }
+            adaptationOverrides.put(split[0].trim(), split[1].trim());
+        }
     }
 
     private static void setupSummonLimits() {
