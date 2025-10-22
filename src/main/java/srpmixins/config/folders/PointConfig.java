@@ -35,7 +35,7 @@ public class PointConfig {
 
     @Config.Comment("Players can only get point penalty from beckon infestation spreading from this phase on (disable with -1, needs MC restart for full disable)")
     @Config.Name("Infestation Penalty First Phase")
-    public byte infestationPenaltyPhase = 5;
+    public byte infestationPenaltyPhase = 4;
 
     @Config.Comment("Send logs when phase or nodes would get accidentally reset (gets prevented by SRPMixins, but should still be fixed directly)")
     @Config.Name("Phases reset debug mode")
