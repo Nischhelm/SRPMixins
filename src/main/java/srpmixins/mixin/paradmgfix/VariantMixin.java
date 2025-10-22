@@ -13,13 +13,18 @@ import com.dhanantry.scapeandrunparasites.util.config.SRPConfig;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigSystems;
 import com.dhanantry.scapeandrunparasites.world.SRPWorldData;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Cancellable;
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.rules.rule.VariantDisableRule;
+import srpmixins.rules.ruleset.StatIncreaseRuleSet;
 import srpmixins.rules.ruleset.VariantDisableRuleSet;
 
 import java.util.ArrayList;
@@ -80,8 +85,8 @@ public abstract class VariantMixin extends EntityParasiteBase {
             method = "onInitialSpawn",
             at = @At(value = "FIELD", target = "Lcom/dhanantry/scapeandrunparasites/util/config/SRPConfig;variantChance:D", remap = false)
     )
-    private double srpmixins_changeVariants(double original){
-        if(VariantDisableRuleSet.INSTANCE.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
+    private double srpmixins_changeVariants(double original, @Cancellable CallbackInfoReturnable<IEntityLivingData> cir, @Local(name = "floo") IEntityLivingData livingData){
+        if(VariantDisableRuleSet.INSTANCE.hasNoRules() && StatIncreaseRuleSet.INSTANCE.hasNoRules()) return SRPConfig.variantChance; //Soft-disable mixin if no rules
         if(this.world.isRemote) return SRPConfig.variantChance;
         if(this.canChangeVariant) return 0; //afaik just for variant staff but idk
         if(this.phaseCreated < SRPConfigSystems.evolutionParasiteAlwaysVariant && this.getRNG().nextFloat() >= SRPConfig.variantChance) return 0; //normal type, no variant
@@ -90,7 +95,7 @@ public abstract class VariantMixin extends EntityParasiteBase {
 
         String mobName = SRPMobConfigProvider.paraIdToMobName.get(paraId);
         List<VariantDisableRule.EnumVariant> availableVariants = new ArrayList<>(SRPMobConfigProvider.mobNameToVariantsMap.get(mobName));
-        if(availableVariants.isEmpty()) return SRPConfig.variantChance; //This shouldn't happen but if there are no registered variants, just let SRP do its thing
+        if(availableVariants.isEmpty()) return SRPConfig.variantChance; //This shouldn't happen (as we only target classes with variants) but if there are no registered variants, just let SRP do its thing
 
         Map<String, Object> actualValues = new HashMap<>();
         actualValues.put("dim", this.world.provider.getDimension());
@@ -100,29 +105,10 @@ public abstract class VariantMixin extends EntityParasiteBase {
         actualValues.put("nodes", SRPWorldData.get(this.world).getNodes("x").size());
 
         VariantDisableRule.EnumVariant chosenVariant = VariantDisableRuleSet.INSTANCE.getRandomVariant(actualValues, availableVariants, this.getRNG());
-        if(chosenVariant == null) return 0; //all variants disabled
+        if(chosenVariant != null) //null = all variants disabled
+            this.setSkin(chosenVariant.skinId);
 
-        //Moved to Stat Increase Rules
-//        if(chosenVariant.skinId == 1) {
-//            switch (paraId){
-//                case 88: //carrier_colony
-//                    this.getEntityAttribute(SharedMonsterAttributes.ARMOR).applyModifier(new AttributeModifier("ARMORED", +0.5, 2));
-//                    this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).applyModifier(new AttributeModifier("ARMORED", -0.75, 2));
-//                    break;
-//                case 51: //ada_longarms
-//                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("TYRANT", +1, 2));
-//                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("TYRANT", -0.5, 2));
-//                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
-//                    break;
-//                case 10: case 80: case 84: case 87: //pri_reeker, thrall, monarch, haunter
-//                    this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).applyModifier(new AttributeModifier("SPECIAL", +0.5, 2));
-//                    this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(new AttributeModifier("SPECIAL", -0.5, 2));
-//                    this.setHealth((float)this.getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).getAttributeValue());
-//                    break;
-//            }
-//        }
-
-        this.setSkin(chosenVariant.skinId);
-        return 0; //Original code will not run
+        cir.setReturnValue(livingData); //Original code will not run
+        return 0;
     }
 }
