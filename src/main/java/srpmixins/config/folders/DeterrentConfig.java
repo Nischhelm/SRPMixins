@@ -91,4 +91,9 @@ public class DeterrentConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.quenchremovesremains.json", defaultValue = true)
     public boolean quenchRemovesRemains = true;
+
+    @Config.Comment("Beckons spawned when there is infested blocks with no beckons around are normally able to despawn. Set to true to make those beckons persistent just like other beckons are.\n" +
+            "Only works if Infestation Overhaul is enabled")
+    @Config.Name("Stop Infested Block Beckon Despawn")
+    public boolean stopRemainBeckonDespawn = false;
 }

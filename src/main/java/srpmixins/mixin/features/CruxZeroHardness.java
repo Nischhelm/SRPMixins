@@ -12,7 +12,7 @@ public abstract class CruxZeroHardness {
             at = @At(value = "INVOKE", target = "Lnet/minecraft/block/state/IBlockState;getBlockHardness(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)F")
     )
     private float srpmixins_alsoAllowZeroHardness(float value) {
-        if(value == 0) return Float.MIN_VALUE; //will not fail bHard > 0
+        if(value == 0) return Float.MIN_VALUE; //will fail bHard <= 0
         return value;
     }
 }

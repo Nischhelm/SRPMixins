@@ -231,7 +231,7 @@ public abstract class InfestationOverhaul {
         EntityVenkrol newBeckon = new EntityVenkrol(worldIn);
         newBeckon.setLocationAndAngles(startPos.getX(), startPos.getY() + 1, startPos.getZ(), 0.0F, 0.0F);
         worldIn.spawnEntity(newBeckon);
-        newBeckon.cannotDespawn(true);
+        newBeckon.cannotDespawn(!SRPMixinsConfigHandler.deterrents.stopRemainBeckonDespawn);
         if(CompatUtil.cotesia.isLoaded()) CotesiaCompat.handleSpawnedBeckon(worldIn, true, newBeckon);
     }
 
