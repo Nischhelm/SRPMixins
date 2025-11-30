@@ -41,4 +41,18 @@ public class WeaponConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.repairableweapons.json", defaultValue = true)
     public boolean repairableGear = true;
+
+    @Config.Comment("Change how living armor evolves to sentient. \n" +
+            "DEAL_DAMAGE: gets points when players kill mobs, depending how much health they have, same as living weapons. \n" +
+            "TAKE_DAMAGE: gets points when players take damage.")
+    @Config.Name("Armor Evolution System")
+    public EnumArmorEvolution armorEvoType = EnumArmorEvolution.DEAL_DAMAGE;
+
+    @Config.Comment("If enabled, living gear will only get points when interacting (killing/taking dmg from) parasites, not just any mob.")
+    @Config.Name("Evolution Only From Parasites")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.weaponevoonlyonparas.json", defaultValue = false)
+    public boolean onlyParasites = false;
+
+    public enum EnumArmorEvolution{DEAL_DAMAGE, TAKE_DAMAGE}
 }

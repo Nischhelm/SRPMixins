@@ -86,7 +86,7 @@ public class SRPMixins {
         registerEventSubscriberIf(NexusSpawnSounds.class, SRPMixinsConfigHandler.deterrents.playsounds);
         registerEventSubscriberIf(ParasiteDropChance.class, SRPMixinsConfigHandler.dimension.doMultipliers && SRPMixinsConfigHandler.dimension.dimensionDropMultipliers.length > 0);
         registerEventSubscriberIf(CothNoDropsOnConversion.class, SRPMixinsConfigHandler.coth.fixCothOnDeath);
-        registerEventSubscriberIf(SRPArmorBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addArmorBowEvolution);
+        registerEventSubscriberIf(SRPArmorBowEvolutionHandler.class, SRPMixinsConfigHandler.weapons.addArmorBowEvolution && !SRPMixinsConfigHandler.weapons.disableSentientEvolution);
         registerEventSubscriberIf(ConversionPathways.class, SRPMixinsConfigHandler.spawns.autoFillConversionRules);
         registerEventSubscriberIf(SpawnPotentialsHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
         registerEventSubscriberIf(WorldMobCapHandler.class, SRPMixinsConfigHandler.spawns.fixSpawningEntirely);
