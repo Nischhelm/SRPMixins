@@ -151,12 +151,12 @@ public abstract class InfestationOverhaul {
                 }
             }
 
-            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, startPos, resultState, false, beckonStage, generatesAbove, generatesBelow, increasesPoints). setFacing(facing);
+            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, startPos, state, resultState, false, beckonStage, generatesAbove, generatesBelow, increasesPoints). setFacing(facing);
             boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
             if(event.isCanceledFully()) break;
             if(isCanceled) continue;
-            if(event.getState() == null) continue;
-            worldIn.setBlockState(blockPos, event.getState());
+            if(event.getResultState() == null) continue;
+            worldIn.setBlockState(blockPos, event.getResultState());
             if(event.increasesPoints) convertedCount++;
             if(event.generatesAbove) spawnGenFeatureInfested(worldIn, blockPos.up(), rand);
             if(event.generatesBelow) spawnGenRoofInfested(worldIn, blockPos.down(), rand);

@@ -68,15 +68,15 @@ public abstract class BiomeSpreadOverhaul {
 
             BlockTransformationRule rule = BlockTransformationRule.getFirstApplicableRule(material, block);
             if(rule == null) continue;
-            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, rule.getResultState(), true, rule).setFacing(facing);
+            BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, state, rule.getResultState(), true, rule).setFacing(facing);
             boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
             if(event.isCanceledFully()) break;
             if(isCanceled) continue;
-            if(event.getState() == null) continue;
+            if(event.getResultState() == null) continue;
 
             if(!rule.getSkipHardnessCheck() && srpmixins$blockIsBlacklistedForBiome(worldIn, blockPos, block, state)) continue;
 
-            worldIn.setBlockState(blockPos, event.getState());
+            worldIn.setBlockState(blockPos, event.getResultState());
             if(event.generatesAbove) spawnGenFeatureParasite(worldIn, blockPos.up(), rand);
             if(event.generatesBelow) spawnGenRoofParasite(worldIn, blockPos.down(), rand);
             if(event.increasesPoints) ++convertedCount;
@@ -137,13 +137,13 @@ public abstract class BiomeSpreadOverhaul {
             if(lookingBlock instanceof IMetaName) continue;
 
             if (lookingBlock.isWood(worldIn, blockPos)) {
-                BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, SRPBlocks.ParasiteTrunk.getDefaultState(), true, 0, false, false, true);
+                BlockInfestationEvent event = new BlockInfestationEvent(worldIn, blockPos, lookingState, SRPBlocks.ParasiteTrunk.getDefaultState(), true, 0, false, false, true);
                 boolean isCanceled = MinecraftForge.EVENT_BUS.post(event);
                 if(event.isCanceledFully()) break;
                 if(isCanceled) continue;
-                if(event.getState() == null) continue;
+                if(event.getResultState() == null) continue;
 
-                worldIn.setBlockState(blockPos, event.getState());
+                worldIn.setBlockState(blockPos, event.getResultState());
                 if(event.increasesPoints) ++convertedCount;
             }
         }

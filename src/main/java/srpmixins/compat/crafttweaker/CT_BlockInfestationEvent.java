@@ -27,7 +27,7 @@ public class CT_BlockInfestationEvent extends MCBlockEvent {
 
     @ZenGetter("currentState")
     public IBlockState getCurrentState() {
-        return CraftTweakerMC.getBlockState(internal.getWorld().getBlockState(internal.getPos()));
+        return CraftTweakerMC.getBlockState(internal.getState());
     }
 
     @ZenGetter("stage")
