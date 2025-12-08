@@ -1,12 +1,13 @@
 {
   "required": true,
-  "package": "srpmixins.mixin.features",
+  "package": "srpmixins.mixin",
   "refmap": "mixins.srpmixins.refmap.json",
   "compatibilityLevel": "JAVA_8",
   "target": "@env(DEFAULT)",
   "minVersion": "0.8",
   "mixins": [
-    "ScentPerformance_CheckIfAlone"
+    "WoldGenParasiteTreeMixin",
+    "features.ScentPerformance_CheckIfAlone"
   ],
   "injectors": {
     "maxShiftBy": 10

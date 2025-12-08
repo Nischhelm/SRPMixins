@@ -8,8 +8,10 @@ import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.DimensionType;
 import net.minecraft.world.World;
 import net.minecraft.world.storage.loot.conditions.LootConditionManager;
+import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Loader;
@@ -35,6 +37,7 @@ import srpmixins.handlers.*;
 import srpmixins.loot.SRPPhaseLootCondition;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.ruleset.*;
+import srpmixins.world.SRPWorldProvider;
 
 @Mod(
         modid = SRPMixins.MODID,
@@ -107,6 +110,9 @@ public class SRPMixins {
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
         SRPConfigProvider.init();
+
+        DimensionType.register("The Source", "_srpsource", SRPWorldProvider.DIMENSION_ID, SRPWorldProvider.class, false);
+        DimensionManager.registerDimension(SRPWorldProvider.DIMENSION_ID, DimensionType.getById(SRPWorldProvider.DIMENSION_ID));
 
         //These only run once on the first startup when ppl enabled more phases or mob config
         if(SRPMixinsConfigHandler.morephases.enableMorePhases && SRPMixinsConfigHandler.morephases.phaseKills.length == 0)
