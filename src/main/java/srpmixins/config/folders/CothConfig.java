@@ -79,4 +79,12 @@ public class CothConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.simturntoferalfix.json", defaultValue = true)
     public boolean fixSimTurnToFeral = true;
+
+    @Config.Comment("Assimilated mobs only spawn naturally once enough of them have been created through assimilation. \n" +
+            "Assimilated Adventurers are created by players dying with COTH. \n" +
+            "However, this doesn't increase the number of total assimilations for Assimilated Adventurers, leading to them being unable to spawn naturally if their config min assimilation value is not 0.")
+    @Config.Name("Fix Sim Adventurer Points")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.assimplayerfix.json", defaultValue = true)
+    public boolean fixSimPlayerCount = true;
 }
