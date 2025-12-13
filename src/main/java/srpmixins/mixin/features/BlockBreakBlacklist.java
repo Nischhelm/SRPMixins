@@ -3,6 +3,8 @@ package srpmixins.mixin.features;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
+import net.minecraft.block.state.IBlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.config.SRPMixinsConfigProvider;
@@ -17,11 +19,17 @@ public abstract class BlockBreakBlacklist {
             at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityParasiteBase;blockException(Ljava/lang/String;)Z"),
             remap = false
     )
-    private boolean srpmixins_blacklistBlockByParasite(EntityParasiteBase parasite, String blockId, Operation<Boolean> original) {
+    private boolean srpmixins_blacklistBlockByParasite(EntityParasiteBase parasite, String blockId, Operation<Boolean> original, @Local(name = "iblockstate") IBlockState state) {
         int paraId = parasite.getParasiteIDRegister();
+
         Set<Integer> listedParaIds = SRPMixinsConfigProvider.blockBreakBlacklist.getOrDefault(blockId, Collections.emptySet());
         //fail test if block is blacklisted for this parasite
         if(listedParaIds.contains(paraId)) return true;
+
+        listedParaIds = SRPMixinsConfigProvider.blockBreakBlacklist.getOrDefault(blockId + ":" + state.getBlock().getMetaFromState(state), Collections.emptySet());
+        //fail test if block is blacklisted with this metadata for this parasite
+        if(listedParaIds.contains(paraId)) return true;
+
         return original.call(parasite, blockId);
     }
 }

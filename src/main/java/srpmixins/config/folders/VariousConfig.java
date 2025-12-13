@@ -51,7 +51,8 @@ public class VariousConfig {
     @Config.Comment("Parasites regularly break blocks. Use this list to blacklist some blocks for certain parasites or parasite groups.\n" +
             "Special group names: PRIMITIVE, ADAPTED, PURE, PREEMINENT, ANCIENT, NEXUS, DETERRENT, ASSIMILATED, FERAL, INBORN, HIJACKED, CRUDE\n" +
             "For specific parasites use their ingame mobid so for example ada_longarms\n" +
-            "Expected pattern: modid:blockname, list of parasite mobids and parasite groups separated by comma")
+            "Expected pattern: modid:blockname, list of parasite mobids and parasite groups separated by comma\n" +
+            "Use modid:blockname:metadata for it to only target blocks with specific metadata (0-15)")
     @Config.Name("Block Break Blacklist")
     public String[] blockBreakBlacklist = {};
 
