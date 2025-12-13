@@ -57,4 +57,10 @@ public class LureConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.blockluresuntilphase.json", defaultValue = false)
     public boolean blockLureUntilRespPhase = false;
+
+    @Config.Comment("If enabled, carcasses can maximally decrease the phase by 1. At max they can reduce from some phase at 99% to the phase one lower at 0%, so max the span of two entire phases. Need to use multiple carcasses to decrease by more than one phase.")
+    @Config.Name("Carcasses decrease max one phase")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.luresmaxdecreaseonephase.json", defaultValue = false)
+    public boolean decreaseMaxOnePhase = false;
 }
