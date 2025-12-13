@@ -51,4 +51,10 @@ public class LureConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.lureoverflowfix.json", defaultValue = true)
     public boolean fixCooldownOverflow = true;
+
+    @Config.Comment("If enabled, disallows using lures and carcasses until the current phase at least matches their inherent phase")
+    @Config.Name("Block Lures until respective phase")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.blockluresuntilphase.json", defaultValue = false)
+    public boolean blockLureUntilRespPhase = false;
 }
