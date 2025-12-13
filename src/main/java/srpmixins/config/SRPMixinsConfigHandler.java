@@ -101,6 +101,10 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("SRP Weapons")
 	public static final WeaponConfig weapons = new WeaponConfig();
 
+	@Config.Comment("Source Dimension Options")
+	@Config.Name("Source Dim")
+	public static final SourceDimConfig sourcedim = new SourceDimConfig();
+
     @Mod.EventBusSubscriber(modid = SRPMixins.MODID)
 	private static class EventHandler{
 

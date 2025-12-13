@@ -111,8 +111,10 @@ public class SRPMixins {
     public void init(FMLInitializationEvent event) {
         SRPConfigProvider.init();
 
-        DimensionType.register("The Source", "_srpsource", SRPWorldProvider.DIMENSION_ID, SRPWorldProvider.class, false);
-        DimensionManager.registerDimension(SRPWorldProvider.DIMENSION_ID, DimensionType.getById(SRPWorldProvider.DIMENSION_ID));
+        if(SRPMixinsConfigHandler.sourcedim.isEnabled) {
+            DimensionType.register("The Source", "_srpsource", SRPWorldProvider.DIMENSION_ID, SRPWorldProvider.class, false);
+            DimensionManager.registerDimension(SRPWorldProvider.DIMENSION_ID, DimensionType.getById(SRPWorldProvider.DIMENSION_ID));
+        }
 
         //These only run once on the first startup when ppl enabled more phases or mob config
         if(SRPMixinsConfigHandler.morephases.enableMorePhases && SRPMixinsConfigHandler.morephases.phaseKills.length == 0)
