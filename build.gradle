@@ -72,6 +72,7 @@ dependencies {
     compileOnly fg.deobf("curse.maven:in-control-${incontrol_version}")
     compileOnly fg.deobf("curse.maven:antique-atlas-${antiqueatlas_version}")
     compileOnly fg.deobf("curse.maven:the-hordes-${hordes_version}")
+    compileOnly fg.deobf("curse.maven:atlas-lib-${atlaslib_version}")
 
     compileOnly fg.deobf("CraftTweaker2:CraftTweaker2-${crafttweaker_version}")
     compileOnly fg.deobf("CraftTweaker2:ZenScript:${zs_version}")
