@@ -105,6 +105,10 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("Source Dim")
 	public static final SourceDimConfig sourcedim = new SourceDimConfig();
 
+	@Config.Comment("Debug Logging Options")
+	@Config.Name("Debug Logs")
+	public static final LogConfig logs = new LogConfig();
+
     @Mod.EventBusSubscriber(modid = SRPMixins.MODID)
 	private static class EventHandler{
 

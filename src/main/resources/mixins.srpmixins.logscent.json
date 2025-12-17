@@ -1,0 +1,10 @@
+{
+  "required": false,
+  "package": "srpmixins.mixin.logging",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "EntityParasiticScentMixin_Log",
+    "EntityRofMixin_Log"
+  ]
+}

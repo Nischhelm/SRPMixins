@@ -1,0 +1,9 @@
+{
+  "required": false,
+  "package": "srpmixins.mixin.logging",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "mixins": [
+    "EntityPDispatcherMixin_LogStore"
+  ]
+}
