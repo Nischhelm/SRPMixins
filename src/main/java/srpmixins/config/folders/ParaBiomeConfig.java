@@ -18,7 +18,7 @@ public class ParaBiomeConfig {
 
     @Config.Comment("SRParasites.cfg has two options for para biome spreading speed (cooldown+block limit), but those don't get applied. Set to true to fix that")
     @Config.Name("Fix Parasitic Biome spreading limit")
-    public boolean fixBiomeSpreadingLimit = true;
+    public boolean fixBiomeSpreadingLimit = false;
 
     @Config.Comment("SRP keeps a single fog density value for all players at the same time. " +
             "In Multiplayer this leads to desyncs with no fog appearing inside the biome, or fog appearing outside of the biome. " +
