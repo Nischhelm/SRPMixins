@@ -1,0 +1,11 @@
+{
+  "required": false,
+  "package": "srpmixins.mixin.morescents",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "srpmixins.refmap.json",
+  "mixins": [
+    "EntityParasiteBaseMixin_DeathValue",
+    "EntityParasiticScentMixin_MoreScents",
+    "EntityRofMixin_MoreScents"
+  ]
+}

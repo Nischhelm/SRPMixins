@@ -63,4 +63,10 @@ public class LureConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.luresmaxdecreaseonephase.json", defaultValue = false)
     public boolean decreaseMaxOnePhase = false;
+
+    @Config.Comment("Carcasses spawn scents with a certain level dependent on their own level. These scents will fall back to lvl 0 once they get updated once. This fixes it.")
+    @Config.Name("Fix Carcass Scent Level")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.carcassscentlvlfix.json", defaultValue = true)
+    public boolean fixCarcassScentLvl = true;
 }

@@ -15,6 +15,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.SRPMixins;
 import srpmixins.config.SRPMixinsConfigHandler;
+import srpmixins.config.providers.MorePhasesConfigProvider;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,29 +53,9 @@ public abstract class SRPSpawningMixin {
                 continue;
             }
 
-            //Pattern: [0 - 2; 4; 10; ...]
-            String phasesToSpawnIn = split[0].trim().replace("[","").replace("]","");
-            String[] split2 = phasesToSpawnIn.split(",");
-            List<Byte> spawnPhases = new ArrayList<>();
+            List<Byte> spawnPhases = MorePhasesConfigProvider.parsePhaseList(split[0]);
 
             try {
-                for(String s2 : split2){
-                    //Pattern: min - max
-                    if(s2.contains("-")){
-                        String[] split3 = s2.split("-");
-                        if(split3.length < 2){
-                            SRPMixins.LOGGER.warn("SRPMixins unable to parse \"More Phases\" Spawn List entry, phase list pattern incorrect, expected minPhase - maxPhase, provided was: {}", s2);
-                            continue;
-                        }
-                        byte minPhase = Byte.parseByte(split3[0].trim());
-                        byte maxPhase = Byte.parseByte(split3[1].trim());
-                        for(byte i = minPhase; i <= maxPhase; i++)
-                            spawnPhases.add(i);
-                    //Pattern: specificPhase
-                    } else
-                        spawnPhases.add(Byte.parseByte(s2.trim()));
-                }
-
                 int minGroup = Integer.parseInt(split[2].trim());
                 int maxGroup = Integer.parseInt(split[3].trim());
                 int weight = Integer.parseInt(split[4].trim());

@@ -11,6 +11,7 @@ import srpmixins.config.folders.*;
 import srpmixins.config.providers.ChunkPhaseConfigProvider;
 import srpmixins.config.providers.DimensionMultiConfigProvider;
 import srpmixins.config.providers.MorePhasesConfigProvider;
+import srpmixins.config.providers.MoreScentsConfigProvider;
 import srpmixins.config.providers.SRPMobConfigProvider;
 import srpmixins.rules.ConversionPathways;
 import srpmixins.rules.ruleset.*;
@@ -105,9 +106,30 @@ public class SRPMixinsConfigHandler {
 	@Config.Name("Source Dim")
 	public static final SourceDimConfig sourcedim = new SourceDimConfig();
 
-	@Config.Comment("Debug Logging Options")
-	@Config.Name("Debug Logs")
-	public static final LogConfig logs = new LogConfig();
+//	@Config.Comment("Debug Logging Options")
+//	@Config.Name("Debug Logs")
+//	public static final LogConfig logs = new LogConfig();
+
+	@Config.Comment({
+			"SRP Scent configs for quick access and increase/decrease of scent lvl count",
+			"",
+			"--- A note about Scent behavior ---",
+			"Scents have four relevant states that modifies their behavior. This state changes over time:",
+			"- Scents start in Observer state, where they will make nearby (160x160x160 around the scent) parasites in darkness target their own target entity",
+			"- They turn Tactical after a few seconds, solely depending on phase dependent \"Scent Reaction Bonus\" property, measured in seconds (Msg: \"Scent is active\")",
+			"- When Tactical, once SRPSystems config \"Scent Wave Point\" seconds have elapsed, they turn to Aggressive",
+			"(Meaning both Observer and Tactical states are just waiting until their time comes)",
+			"- When Aggressive, if there are less than 6 parasites in an 160x160x160 area around them, they will turn to Builder state",
+			"- Builders then finally create Worms which spit out parasites taken from the \"Wave Spawn List\" depending on the scents level",
+			"",
+			"The scents level on the other hand depends on the phase it was created in and increases with parasites dying around it",
+			"Similar to phases the scent level uses an underlying point system with thresholds set in level dependent \"Points Required\" config",
+			"- Scents created by the death of parasites start with a point value using the phase dependent \"Scent Bonus\" (Msg: \"Scent was deployed\")",
+			"- While the starting level of Scents spawned by carcasses is fully dependent on the \"Lure Scent Level Desploy\" config value.",
+			"- When parasites nearby die and a new scent would have spawned, the existing one instead gets more points depending on the parasite types \"Scent Death Value\" set in base SRP config (Msg: \"Closest scent was notified\")"
+	})
+	@Config.Name("More Scents")
+	public static final MoreScentsConfig morescents = new MoreScentsConfig();
 
     @Mod.EventBusSubscriber(modid = SRPMixins.MODID)
 	private static class EventHandler{
@@ -121,6 +143,7 @@ public class SRPMixinsConfigHandler {
 				MorePhasesConfigProvider.reset();
 				ChunkPhaseConfigProvider.reset();
 				DimensionMultiConfigProvider.reset();
+				MoreScentsConfigProvider.reset();
 
 				MobCapRuleSet.INSTANCE.reset();
 				MinMaxDayPerPhaseRuleSet.INSTANCE.reset();

@@ -122,6 +122,13 @@ public class SRPMixins {
         if (SRPMixinsConfigHandler.mobConfig.enableMobConfig && SRPMixinsConfigHandler.mobConfig.mobConfig.length == 0)
             SRPMobConfigProvider.initMobConfigs();
 
+        if(SRPMixinsConfigHandler.morescents.enableMoreScents) {
+            if(SRPMixinsConfigHandler.morescents.pointsRequired.length == 0)
+                //This only runs once on the first startup when ppl enabled more scents
+                MoreScentsConfigProvider.initMoreScentsConfig();
+            MoreScentsConfigProvider.init();
+        }
+
         if(Loader.isModLoaded("antiqueatlas") && SRPMixinsConfigHandler.modcompat.enableAntiqueAtlasCompat && event.getSide() == Side.CLIENT)
             AntiqueAtlasCompat.initTiles();
 
