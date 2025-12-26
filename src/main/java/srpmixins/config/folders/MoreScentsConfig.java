@@ -15,11 +15,12 @@ public class MoreScentsConfig {
     @Config.Comment({
             "Enable config overrides for Scent behavior.",
             "To have it all in one spot, or to modify the amount of scent levels (default: 0-8)",
-            "When enabled and \"Points Required\" list is empty on first startup, SRPMixins will copy current SRP(System) configs into the lists."
+            "When enabled and \"Points Required\" list is empty on first startup, SRPMixins will copy current SRP(System) configs into the lists.",
+            "If you want to modify the \"Max Scent Level\" count your best workflow is to enable this first, start the game, close it, then change max scent lvl and modify the then filled lists."
     })
     @Config.Name("Enable More Scents")
     @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.morescents.json", defaultValue = false)
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.morescents.json", defaultValue = false)
     public boolean enableMoreScents = false;
 
     @Config.Comment({
