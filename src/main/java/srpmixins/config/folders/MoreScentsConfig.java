@@ -12,6 +12,8 @@ public class MoreScentsConfig {
     //TODO: change less than how many paras need to be around the scent for it to start spawning (rn <=6)
     //TODO: remove mob cap check for scent placeWaves or at least make it a bit more lenient (+10)
 
+    //TODO: max scent level per phase
+
     @Config.Comment({
             "Enable config overrides for Scent behavior.",
             "To have it all in one spot, or to modify the amount of scent levels (default: 0-8)",
