@@ -40,6 +40,10 @@ public class CothConfig {
     @Config.Name("Sim Big Spider Min Assimilations")
     public int assimBigSpiderMinAssimilations = 1;
 
+    @Config.Comment("SRP has the min assimilation value for sim adventurer use the sim human value. This overwrites it. Requires \"Fix Sim Adventurer Points\"")
+    @Config.Name("Sim Adventurer Min Assimilations")
+    public int assimPlayerMinAssimilations = 1;
+
     @Config.Comment("Feral Bears couldn't get created from assimilated ones upgrading or from gnats. This fixes it.")
     @Config.Name("Fix Feral Bear Creation")
     @Config.RequiresMcRestart
