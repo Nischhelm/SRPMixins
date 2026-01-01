@@ -24,4 +24,9 @@ public class WaterParaConfig {
     @Config.Name("Water Parasite Mob Cap")
     @Config.RangeInt(min = -1)
     public int waterParasiteCap = 10;
+
+    @Config.Comment("How many blocks away Assimilated Squid can attack targets from. Set to -1 to disable fully, requires restart.")
+    @Config.Name("Assimilated Squid Attack Range")
+    @Config.RangeInt(min = -1, max = 100)
+    public double infSquidAttackRange = 3.0;
 }

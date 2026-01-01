@@ -49,6 +49,9 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.simmermancap.json", () -> EarlyConfigReader.getInt("End Simmermen Conversion Cap", SRPMixinsConfigHandler.simmermen.endSimmermenCap) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.spawninglight.json", () -> EarlyConfigReader.getInt("Min Blocklight Threshold", SRPMixinsConfigHandler.spawns.blockLightThresholdTwo) != 7);
 
+		//Double disables
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infsquidreach.json", () -> EarlyConfigReader.getDouble("Assimilated Squid Attack Range", SRPMixinsConfigHandler.waterparas.infSquidAttackRange) >= 0);
+
 		//Mod Compat
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast.json", () -> Loader.isModLoaded("overlast"));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast_customphases.json", () -> OverLastCompat.shouldEnqueueOverLastMixins(OverLastCompat.OverLastVersion.FULL));
