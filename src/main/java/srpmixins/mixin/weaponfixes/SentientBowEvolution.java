@@ -7,6 +7,8 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
@@ -40,13 +42,29 @@ public class SentientBowEvolution extends ItemBow {
 
                 if (srpkills > SRPConfig.weapon_livingSentient_HP_needed) {
                     compound.setInteger("srpkills", 0);
-                    stack.shrink(1);
                     ItemStack newStack = new ItemStack(this.srpmixins$getNext(), 1);
                     if (SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT)
-                        newStack.setTagCompound(stack.getTagCompound());
-                    EntityItem entityitem = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, newStack);
-                    entityitem.setDefaultPickupDelay();
-                    worldIn.spawnEntity(entityitem);
+                        newStack.setTagCompound(stack.getTagCompound().copy());
+
+                    if(!SRPMixinsConfigHandler.weapons.keepEvolvedGear || stack.getCount() > 1) { //default behavior
+                        stack.shrink(1);
+                        EntityItem entityitem = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, newStack);
+                        entityitem.setDefaultPickupDelay();
+                        worldIn.spawnEntity(entityitem);
+                    } else {
+                        EntityEquipmentSlot thisSlot = null;
+                        if(entityIn instanceof EntityPlayer){ //This should always be the case except if some mod modifies it
+                            EntityPlayer player = (EntityPlayer) entityIn;
+                            boolean isMainhand = player.getHeldItemMainhand() == stack;
+                            boolean isOffhand = player.getHeldItemOffhand() == stack;
+                            if(isMainhand) thisSlot = EntityEquipmentSlot.MAINHAND;
+                            else if(isOffhand) thisSlot = EntityEquipmentSlot.OFFHAND;
+                        }
+                        if(thisSlot != null) {
+                            stack.shrink(1);
+                            entityIn.setItemStackToSlot(thisSlot, newStack);
+                        }
+                    }
                     if (SRPConfig.thunderEnable)
                         worldIn.addWeatherEffect(new EntityLightningBolt(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, true));
                 }

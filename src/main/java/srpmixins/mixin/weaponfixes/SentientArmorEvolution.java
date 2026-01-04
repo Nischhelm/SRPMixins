@@ -7,6 +7,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
@@ -37,28 +38,42 @@ public class SentientArmorEvolution extends ItemArmor {
             method = "onUpdate",
             at = @At("TAIL")
     )
-    public void srpmixins_countKillsOnArmor(ItemStack stack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected, CallbackInfo ci) {
+    public void srpmixins_countKillsOnArmor(ItemStack oldStack, World worldIn, Entity entityIn, int itemSlot, boolean isSelected, CallbackInfo ci) {
         if (SRPMixinsConfigHandler.weapons.disableSentientEvolution) return;
         if (!worldIn.isRemote && entityIn.ticksExisted % 80 == 0) {
-            NBTTagCompound compound = stack.getTagCompound();
+            NBTTagCompound compound = oldStack.getTagCompound();
             if (compound != null && this.getArmorMaterial() == SRPItems.ARMOR_LIVING) {
                 int srpkills = compound.getInteger("srpkills");
 
                 if (srpkills > SRPConfig.weapon_livingSentient_HP_needed) {
                     compound.setInteger("srpkills", 0);
-                    stack.shrink(1);
                     ItemStack newStack = new ItemStack(this.srpmixins$getNext(), 1);
                     if (SRPMixinsConfigHandler.weapons.fixSentientEvolutionNBT) {
-                        newStack.setTagCompound(stack.getTagCompound());
+                        newStack.setTagCompound(oldStack.getTagCompound().copy());
                         if(SRPMixinsConfigHandler.adaptation.overhaulAdaptation){
-                            ICapabilityAdaptation adaCap = stack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
+                            ICapabilityAdaptation adaCap = oldStack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
                             ICapabilityAdaptation adaCapNew = newStack.getCapability(CapabilityAdaptationHandler.CAP_ADAPTATION, null);
                             if(adaCap != null && adaCapNew != null) adaCapNew.copyAdaptationsFrom(adaCap);
                         }
                     }
-                    EntityItem entityitem = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, newStack);
-                    entityitem.setDefaultPickupDelay();
-                    worldIn.spawnEntity(entityitem);
+                    if(!SRPMixinsConfigHandler.weapons.keepEvolvedGear || oldStack.getCount() > 1 || !(entityIn instanceof EntityPlayer)) { //default behavior
+                        oldStack.shrink(1);
+                        EntityItem entityitem = new EntityItem(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, newStack);
+                        entityitem.setDefaultPickupDelay();
+                        worldIn.spawnEntity(entityitem);
+                    } else {
+                        EntityEquipmentSlot thisSlot = null;
+                        switch (itemSlot) {
+                            case 3: thisSlot = EntityEquipmentSlot.HEAD; break;
+                            case 2: thisSlot = EntityEquipmentSlot.CHEST; break;
+                            case 1: thisSlot = EntityEquipmentSlot.LEGS; break;
+                            case 0: thisSlot = EntityEquipmentSlot.FEET; break;
+                        }
+                        if(thisSlot != null && ((EntityPlayer) entityIn).getItemStackFromSlot(thisSlot) == oldStack) {
+                            oldStack.shrink(1);
+                            entityIn.setItemStackToSlot(thisSlot, newStack);
+                        }
+                    }
                     if (SRPConfig.thunderEnable)
                         worldIn.addWeatherEffect(new EntityLightningBolt(worldIn, entityIn.posX, entityIn.posY, entityIn.posZ, true));
                 }

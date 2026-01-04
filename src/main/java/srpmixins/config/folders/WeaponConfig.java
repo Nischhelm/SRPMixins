@@ -36,6 +36,16 @@ public class WeaponConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.armorbowevo.json", defaultValue = true)
     public boolean addArmorBowEvolution = true;
 
+    @Config.Comment({
+            "When living gear evolves to sentient, by default that gear is dropped on the ground. Set to true to keep in inventory.",
+            "(If for whatever reason the stack has more than one item, it will always drop the evolved gear)",
+            "Note: for armor and bow this only applies if \"Sentient Armor+Bow Evolution\" is enabled"
+    })
+    @Config.Name("Keep Evolved Gear")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.keepevolvedgear.json", defaultValue = false)
+    public boolean keepEvolvedGear = false;
+
     @Config.Comment("Will allow living and sentient gear to be repaired by the items they are created with. Vile Shell for Armor, Infectious Blade Fragment for Weapons, Dried Tendons for Bows.")
     @Config.Name("Repairable Gear")
     @Config.RequiresMcRestart
