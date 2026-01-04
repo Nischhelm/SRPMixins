@@ -2,6 +2,7 @@ package srpmixins.handlers;
 
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolArmorBase;
+import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolMeleeBase;
 import com.dhanantry.scapeandrunparasites.item.tool.WeaponToolRangeBase;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,6 +28,13 @@ public class SRPArmorBowEvolutionHandler {
         if(!(source.getTrueSource() instanceof EntityPlayer)) return;
 
         addPointsToEquipment((EntityPlayer) source.getTrueSource(), (int) victim.getMaxHealth(), SRPMixinsConfigHandler.weapons.armorEvoType == WeaponConfig.EnumArmorEvolution.DEAL_DAMAGE, true);
+
+        ItemStack offhandStack = ((EntityPlayer) source.getTrueSource()).getHeldItemOffhand();
+        if(offhandStack.getItem() instanceof WeaponToolMeleeBase){ //by default, only mainhand weapons get points
+            NBTTagCompound compound = offhandStack.hasTagCompound() ? offhandStack.getTagCompound() : new NBTTagCompound();
+            compound.setInteger("srpkills", compound.getInteger("srpkills") + (int) victim.getMaxHealth());
+            offhandStack.setTagCompound(compound);
+        }
     }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
