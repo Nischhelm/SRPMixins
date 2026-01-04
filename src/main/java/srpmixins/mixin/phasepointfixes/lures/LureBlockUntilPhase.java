@@ -19,12 +19,14 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import org.spongepowered.asm.mixin.*;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
-@Debug(export = true)
 @Mixin(BlockEvolutionLure.class)
 public abstract class LureBlockUntilPhase extends Block {
     public LureBlockUntilPhase(Material blockMaterialIn, MapColor blockMapColorIn) {
