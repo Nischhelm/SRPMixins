@@ -75,11 +75,10 @@ public class DeterrentConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationreversiontoggle.json", defaultValue = false)
     public boolean infestationReversionToggle = false;
 
-    @Config.Comment("Fully overhauls the beckon infestation spread logic to make it more performant. If there are other mods that use mixins with the infestation system, there will be incompatibilities.\n" +
-            "Since there are also specific mixins into that logic from SRPMixins itself, you'll have to disable those.\n" +
-            "\t- Circular Infestation Area\n" +
-            "\t- Fix Block Infestation Limit\n" +
-            "Incompatible with Cotesia Glomerata")
+    @Config.Comment({
+            "Fully overhauls the beckon infestation spread logic to make it more performant. If there are other mods that use mixins with the infestation system, there will be incompatibilities.",
+            "Incompatible with Cotesia Glomerata"
+    })
     @Config.Name("Infestation Performance Overhaul")
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infestationoverhaul.json", defaultValue = true)
@@ -97,7 +96,5 @@ public class DeterrentConfig {
             "Set to true to make those beckons persistent just like other beckons are."
     })
     @Config.Name("Stop Infested Block Beckon Despawn")
-    @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.stopinfestedbeckondespawn.json", defaultValue = false)
     public boolean stopRemainBeckonDespawn = false;
 }

@@ -68,6 +68,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infestationpenalty.json", () -> !isInfestationOverhaulEnabled() && EarlyConfigReader.getInt("Infestation Penalty First Phase", SRPMixinsConfigHandler.phasepoints.infestationPenaltyPhase) > -1);
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.beckoninfestationlimit.json", () -> !isInfestationOverhaulEnabled() && EarlyConfigReader.getBoolean("Fix Block Infestation Limit", SRPMixinsConfigHandler.deterrents.fixInfestedBlockLimit));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.circularinfestationarea.json", () -> !isInfestationOverhaulEnabled() && EarlyConfigReader.getBoolean("Circular Infestation Area", SRPMixinsConfigHandler.deterrents.infestationAreaIsCircular));
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.stopinfestedbeckondespawn.json", () -> !isInfestationOverhaulEnabled() && EarlyConfigReader.getBoolean("Stop Infested Block Beckon Despawn", SRPMixinsConfigHandler.deterrents.stopRemainBeckonDespawn));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.customphasesnoinfestationoverhaul.json", () -> !isInfestationOverhaulEnabled() && areCustomPhasesEnabled());
 
 		//Incompat with my own shit - biome spread overhaul
