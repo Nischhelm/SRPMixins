@@ -148,4 +148,13 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.ruptersavoidplayers.json", defaultValue = true)
     public boolean ruptersAvoidPlayers = true;
+
+    @Config.Comment({
+            "Bit hard to explain but basically when Gnats die after 1 minute they call some serverside methods on the clientside which can lead to crashes on multiplayer servers.",
+            "This fixes it by just calling the relevant code on the serverside."
+    })
+    @Config.Name("Fix Gnat Client Crash")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.gnatclientfix.json", defaultValue = true)
+    public boolean gnatClientFix = true;
 }
