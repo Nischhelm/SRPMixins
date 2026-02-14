@@ -43,12 +43,12 @@ import srpmixins.world.SRPWorldProvider;
         modid = SRPMixins.MODID,
         version = SRPMixins.VERSION,
         name = SRPMixins.NAME,
-        dependencies = "required-after:fermiumbooter@[1.3.2,);required-after:srparasites",
+        dependencies = "required-after:fermiumbooter@[1.3.2,);required-after:srparasites@[1.9.21]",
         acceptableRemoteVersions = "*"
 )
 public class SRPMixins {
     public static final String MODID = "srpmixins";
-    public static final String VERSION = "2.9.4.1";
+    public static final String VERSION = "2.9.4.2";
     public static final String NAME = "SRPMixins";
     public static final Logger LOGGER = LogManager.getLogger();
     public static Configuration CONFIG;
