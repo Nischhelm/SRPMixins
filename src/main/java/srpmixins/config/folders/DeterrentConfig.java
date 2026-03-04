@@ -91,6 +91,12 @@ public class DeterrentConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.quenchremovesremains.json", defaultValue = true)
     public boolean quenchRemovesRemains = true;
 
+    @Config.Comment("If Dispatcher Nidus blocks are removed by unusual ways, the tile entity stays behind and will keep spawning a new dispatcher every second, or increase points massively if there already is a dispatcher nearby. This fix removes the tile entity correctly.")
+    @Config.Name("Fix Infinite Dispatchers")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.infinitedispatcherfix.json", defaultValue = true)
+    public boolean fixInfiniteDispatchers = true;
+
     @Config.Comment({
             "Beckons spawned when there is infested blocks with no beckons around are normally able to despawn.",
             "Set to true to make those beckons persistent just like other beckons are."
