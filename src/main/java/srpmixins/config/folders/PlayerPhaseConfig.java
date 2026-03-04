@@ -22,4 +22,10 @@ public class PlayerPhaseConfig {
             "In an existing world it's enough to enter all dimensions once to have the patch be fully applied and allowing to disable this patch.")
     @Config.Name("Player Phases Legacy Patch")
     public boolean playerPhaseLegacyPatch = true;
+
+    @Config.Comment("Allows to define dimension and targeted player name in all /srpevolution subcommands. Usage: /srpevolution xyz [optional:dimid] [optional:playername]")
+    @Config.Name("Modify srpevolution Command")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.extendedevocommand.json", defaultValue = true)
+    public boolean extendedEvoCommand = true;
 }

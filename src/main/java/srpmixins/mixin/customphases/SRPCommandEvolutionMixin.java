@@ -2,6 +2,8 @@ package srpmixins.mixin.customphases;
 
 import com.dhanantry.scapeandrunparasites.network.SRPCommandEvolution;
 import com.dhanantry.scapeandrunparasites.world.SRPSaveData;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -13,11 +15,11 @@ import srpmixins.util.customphasemechanics.SRPSaveDataInterface;
 
 @Mixin(SRPCommandEvolution.class)
 public abstract class SRPCommandEvolutionMixin {
-    @Redirect(
+    @WrapOperation(
             method="execute",
             at=@At(value="INVOKE",target = "Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;get(Lnet/minecraft/world/World;)Lcom/dhanantry/scapeandrunparasites/world/SRPSaveData;", remap = false)
     )
-    public SRPSaveData srpmixins_getPlayerData(World world, @Local(argsOnly = true) ICommandSender sender){
+    public SRPSaveData srpmixins_getPlayerData(World world, Operation<SRPSaveData> original, @Local(argsOnly = true) ICommandSender sender){
         return SRPSaveDataInterface.get(world,(EntityPlayer) sender.getCommandSenderEntity(),null);
     }
 }
