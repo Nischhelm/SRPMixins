@@ -93,6 +93,8 @@ dependencies {
     //compileOnly fg.deobf("curse.maven:nebula-parasites-1246704:6439940")
     //compileOnly fg.deobf("libs:SRRevenants:1.12.2v1.0.2")
     //compileOnly fg.deobf("libs:SRMonstress:1.12.2v1.0.2")
+
+    compileOnly fg.deobf("curse.maven:simple-voice-chat-416089:7613963")
 }
 
 mixin {
