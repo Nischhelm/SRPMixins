@@ -117,4 +117,28 @@ public class ModCompatConfig {
     @Config.RequiresMcRestart
     public boolean enableHordesCompat = true;
 
+    @Config.Comment("Registers a Simple Voice Chat Plugin that makes parasites hear players.")
+    @Config.Name("Simple Voice Chat Compat")
+    @Config.RequiresMcRestart
+    public boolean enableVoiceChatCompat = true;
+
+    @Config.Comment("If Sound Volume (in db) is higher than this, parasites will hear players")
+    @Config.Name("Simple Voice Chat Compat - Volume Threshold")
+    @Config.RangeDouble(min = -100, max = 0)
+    @Config.SlidingOption
+    public double voiceChatThreshold = -10.;
+
+    @Config.Comment("Parasites farther away than this distance (in blocks) will never hear players")
+    @Config.Name("Simple Voice Chat Compat - Max Distance")
+    @Config.RequiresMcRestart
+    @Config.RangeInt(min = 1, max = 100)
+    @Config.SlidingOption
+    public int voiceChatMaxDistance = 50;
+
+    @Config.Comment({
+            "If enabled, will write a status message \"They can hear you\" when parasites hear the player through Simple Voice Chat. ",
+            "WIP, i kinda want this to be less intrusive"
+    })
+    @Config.Name("Simple Voice Chat Compat - Notify Player")
+    public boolean voiceChatNotify = true;
 }
