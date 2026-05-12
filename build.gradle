@@ -61,7 +61,8 @@ dependencies {
     annotationProcessor "io.github.llamalad7:mixinextras-common:${mixin_extras_version}"
 
     compileOnly fg.deobf("libs:SRParasites:${srparasites_version}") // Third party distro disabled
-    implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
+    implementation fg.deobf("libs:FermiumBooter:1.5.0-indev")
+    //implementation fg.deobf("curse.maven:fermiumbooter-${fermiumbooter_version}")
 
     compileOnly fg.deobf("curse.maven:lycanitesmobs-${lycanites_version}")
     compileOnly fg.deobf("curse.maven:lostcity-${lostcity_version}")
@@ -140,26 +141,8 @@ jar {
         attr['FMLCorePlugin']               = mixin_loader_class
         attr['FMLCorePluginContainsFMLMod'] = 'true'
         attr['TweakClass']                  = 'org.spongepowered.asm.launch.MixinTweaker'
-        attr['ForceLoadAsMod'] = "true"
-
-        def currentTasks = gradle.startParameter.taskNames
-        if (currentTasks[0] == 'build' || currentTasks[0] == 'assemble')
-            attr['ForceLoadAsMod'] = "true"
-              attributes(attr)
-    }
-}
-
-tasks.register("copyReobfJar", Copy) {
-    dependsOn("reobfJar")
-
-    from(layout.buildDirectory.file("reobfJar/output.jar"))
-    into(layout.projectDirectory.dir("run/mods"))
-    rename("output.jar", "${mod_name}-${mod_version}.jar")
-}
-
-afterEvaluate {
-    tasks.matching { it.name.startsWith("reobfJar") }.configureEach {
-        finalizedBy("copyReobfJar")
+        attr['ForceLoadAsMod'] = gradle.startParameter.taskNames[0] != 'runClient' && gradle.startParameter.taskNames[0] != 'runServer'
+        attributes(attr)
     }
 }
 
