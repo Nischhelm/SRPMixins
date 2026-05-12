@@ -32,4 +32,15 @@ public class PotionConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.potionuuidfix.json", defaultValue = true)
     public boolean fixPotionUUIDs = true;
+
+    @Config.Comment({
+            "Base SRP Foster effect (only given by Colony Carriers) is op.",
+            "It makes adaptable parasites increase their resistances by one step about once every second (more exactly: 25 ticks)",
+            "That might feel a bit much. You can set a chance here for this to succeed.",
+            "Set to a negative value to disable the mixin."
+    })
+    @Config.Name("Foster Chance")
+    @Config.RequiresMcRestart
+    @Config.RangeDouble(min = -0.01, max = 1)
+    public float fosterChance = 0.02F;
 }

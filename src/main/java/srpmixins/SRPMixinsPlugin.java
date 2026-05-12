@@ -51,6 +51,7 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 
 		//Double disables
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.infsquidreach.json", () -> EarlyConfigReader.getDouble("Assimilated Squid Attack Range", SRPMixinsConfigHandler.waterparas.infSquidAttackRange) >= 0);
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.fosternerf.json", () -> EarlyConfigReader.getDouble("Foster Chance", SRPMixinsConfigHandler.potions.fosterChance) >= 0);
 
 		//Mod Compat
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.overlast.json", () -> Loader.isModLoaded("overlast"));
