@@ -11,7 +11,8 @@ import srpmixins.config.SRPMixinsConfigHandler;
 public abstract class FosterNerf {
     @WrapWithCondition(
             method = "effectFoster",
-            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable;increaseAllResistances()V")
+            at = @At(value = "INVOKE", target = "Lcom/dhanantry/scapeandrunparasites/entity/ai/misc/EntityPMalleable;increaseAllResistances()V"),
+            remap = false
     )
     private boolean srpmixins_nerfFoster(EntityPMalleable instance){
         return SRPMixinsConfigHandler.potions.fosterChance < 0 || instance.getRNG().nextFloat() < SRPMixinsConfigHandler.potions.fosterChance;
