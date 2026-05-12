@@ -1,5 +1,6 @@
 package srpmixins.mixin.simenderman;
 
+import com.dhanantry.scapeandrunparasites.entity.monster.feral.EntityFerEnderman;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnderman;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.head.EntityInfEndermanHead;
 import com.dhanantry.scapeandrunparasites.util.ParasiteEventEntity;
@@ -35,6 +36,6 @@ public abstract class EndSimEndermanCap {
 
     @Unique
     private static boolean srpmixins$isSimmerman(Entity entity){
-        return entity instanceof EntityInfEnderman || entity instanceof EntityInfEndermanHead;
+        return entity instanceof EntityInfEnderman || entity instanceof EntityInfEndermanHead || entity instanceof EntityFerEnderman;
     }
 }

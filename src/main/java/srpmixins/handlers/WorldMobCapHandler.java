@@ -3,6 +3,7 @@ package srpmixins.handlers;
 import com.dhanantry.scapeandrunparasites.entity.EntityParasiticScent;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityPStationaryArchitect;
 import com.dhanantry.scapeandrunparasites.entity.ai.misc.EntityParasiteBase;
+import com.dhanantry.scapeandrunparasites.entity.monster.feral.EntityFerEnderman;
 import com.dhanantry.scapeandrunparasites.entity.monster.inborn.EntityAta;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfEnderman;
 import com.dhanantry.scapeandrunparasites.entity.monster.infected.EntityInfSquid;
@@ -107,7 +108,7 @@ public class WorldMobCapHandler {
         scentCount.put(dimId, event.world.countEntities(EntityParasiticScent.class));
 
         if(SRPMixinsConfigHandler.simmermen.endSimmermenCap > 0 && dimId == 1)
-            end_simmermanCount = event.world.countEntities(EntityInfEnderman.class) + event.world.countEntities(EntityInfEndermanHead.class);
+            end_simmermanCount = event.world.countEntities(EntityInfEnderman.class) + event.world.countEntities(EntityInfEndermanHead.class) + event.world.countEntities(EntityFerEnderman.class);
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
