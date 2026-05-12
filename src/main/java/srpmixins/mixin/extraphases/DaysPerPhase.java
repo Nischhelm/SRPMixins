@@ -35,16 +35,9 @@ public abstract class DaysPerPhase extends WorldSavedData {
     //Map<dimId, ticks>
     @Unique private final Map<Integer, Long> srpmixins$lastPhaseChangeTick = new HashMap<>();
     @Unique private final Map<Integer, Long> srpmixins$lastPhaseChangePlayerTick = new HashMap<>(); //for individual player tick, not world
-    @Unique private World srpmixins$world_daysPerPhase = null;
 
     public DaysPerPhase(String name) {
         super(name);
-    }
-
-    @ModifyReturnValue(method = "get", at = @At("RETURN"), remap = false)
-    private static SRPSaveData srpmixins_keepWorld(SRPSaveData original, World world){
-        ((DaysPerPhase)(Object)original).srpmixins$world_daysPerPhase = world;
-        return original;
     }
 
     @ModifyReturnValue(method = "writeToNBT", at = @At("TAIL"))
@@ -67,7 +60,6 @@ public abstract class DaysPerPhase extends WorldSavedData {
                 list.appendTag(nbt);
             }
             original.setTag("srpmixins_phasePlayerTicks", list);
-            original.setLong("srpmixins_playerTickDistance", srpmixins$world_daysPerPhase.getTotalWorldTime() - ((IIsTicking) this).srpmixins$getTick());
         }
 
         return original;
