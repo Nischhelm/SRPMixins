@@ -19,7 +19,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import srpmixins.config.SRPConfigProvider;
+import srpmixins.config.SRPMixinsConfigHandler;
 import srpmixins.rules.ruleset.MinMaxDayPerPhaseRuleSet;
+import srpmixins.util.IIsTicking;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,16 +34,21 @@ public abstract class DaysPerPhase extends WorldSavedData {
     @Shadow(remap = false) private ArrayList<Integer> dimEPtotalKills;
     //Map<dimId, ticks>
     @Unique private final Map<Integer, Long> srpmixins$lastPhaseChangeTick = new HashMap<>();
+    @Unique private final Map<Integer, Long> srpmixins$lastPhaseChangePlayerTick = new HashMap<>(); //for individual player tick, not world
+    @Unique private World srpmixins$world_daysPerPhase = null;
 
     public DaysPerPhase(String name) {
         super(name);
     }
 
-    @ModifyReturnValue(
-            method = "writeToNBT",
-            at = @At("TAIL")
-    )
-    private NBTTagCompound writeTicks(NBTTagCompound original){
+    @ModifyReturnValue(method = "get", at = @At("RETURN"))
+    private static SRPSaveData srpmixins_keepWorld(SRPSaveData original, World world){
+        ((DaysPerPhase)(Object)original).srpmixins$world_daysPerPhase = world;
+        return original;
+    }
+
+    @ModifyReturnValue(method = "writeToNBT", at = @At("TAIL"))
+    private NBTTagCompound srpmixins_writeTicks(NBTTagCompound original){
         NBTTagList list = new NBTTagList();
         for(Map.Entry<Integer, Long> entry : srpmixins$lastPhaseChangeTick.entrySet()){
             NBTTagCompound nbt = new NBTTagCompound();
@@ -50,21 +57,43 @@ public abstract class DaysPerPhase extends WorldSavedData {
             list.appendTag(nbt);
         }
         original.setTag("srpmixins_phaseTicks", list);
+
+        if(SRPMixinsConfigHandler.playerphases.enabled && SRPMixinsConfigHandler.playerphases.individualTicks) {
+            list = new NBTTagList();
+            for(Map.Entry<Integer, Long> entry : srpmixins$lastPhaseChangePlayerTick.entrySet()){
+                NBTTagCompound nbt = new NBTTagCompound();
+                nbt.setInteger("dimId", entry.getKey());
+                nbt.setLong("ticks", entry.getValue());
+                list.appendTag(nbt);
+            }
+            original.setTag("srpmixins_phasePlayerTicks", list);
+            original.setLong("srpmixins_playerTickDistance", srpmixins$world_daysPerPhase.getTotalWorldTime() - ((IIsTicking) this).srpmixins$getTick());
+        }
+
         return original;
     }
 
-    @Inject(
-            method = "readFromNBT",
-            at = @At("TAIL")
-    )
-    private void readTicks(NBTTagCompound compound, CallbackInfo ci){
-        if(!compound.hasKey("srpmixins_phaseTicks")) return;
-        NBTTagList list = compound.getTagList("srpmixins_phaseTicks", 10);
-        for(NBTBase nbt : list){
-            NBTTagCompound cmp = (NBTTagCompound) nbt;
-            int dim = cmp.getInteger("dimId");
-            long ticks = cmp.getLong("ticks");
-            srpmixins$lastPhaseChangeTick.put(dim, ticks);
+    @Inject(method = "readFromNBT", at = @At("TAIL"))
+    private void srpmixins_readTicks(NBTTagCompound compound, CallbackInfo ci){
+        if(compound.hasKey("srpmixins_phaseTicks")) {
+            NBTTagList list = compound.getTagList("srpmixins_phaseTicks", 10);
+            for (NBTBase nbt : list) {
+                NBTTagCompound cmp = (NBTTagCompound) nbt;
+                int dim = cmp.getInteger("dimId");
+                long ticks = cmp.getLong("ticks");
+
+                srpmixins$lastPhaseChangeTick.put(dim, ticks);
+            }
+        }
+
+        if(compound.hasKey("srpmixins_phasePlayerTicks")) {
+            NBTTagList list = compound.getTagList("srpmixins_phasePlayerTicks", 10);
+            for (NBTBase nbt : list) {
+                NBTTagCompound cmp = (NBTTagCompound) nbt;
+                int dim = cmp.getInteger("dimId");
+                long ticks = cmp.getLong("ticks");
+                srpmixins$lastPhaseChangePlayerTick.put(dim, ticks);
+            }
         }
     }
 
@@ -98,18 +127,24 @@ public abstract class DaysPerPhase extends WorldSavedData {
         int minDays = MinMaxDayPerPhaseRuleSet.INSTANCE.getTotalMin(actualValues);
         int maxDays = MinMaxDayPerPhaseRuleSet.INSTANCE.getTotalMax(actualValues);
         if(maxDays != 0 || minDays != Integer.MAX_VALUE) { // a rule exists for the current situation
-            long ticksElapsed = world.getWorldTime() - srpmixins$lastPhaseChangeTick.getOrDefault(dimId, 0L);
-            int days = (int) (ticksElapsed / SRPConfig.dayTickValue);
+            int days;
+            if(SRPMixinsConfigHandler.playerphases.individualTicks) {
+                long ticksElapsed = ((IIsTicking) this).srpmixins$getTick() - srpmixins$lastPhaseChangePlayerTick.getOrDefault(dimId, 0L);
+                days = (int) (ticksElapsed / SRPConfig.dayTickValue);
+            } else {
+                long ticksElapsed = world.getWorldTime() - srpmixins$lastPhaseChangeTick.getOrDefault(dimId, 0L);
+                days = (int) (ticksElapsed / SRPConfig.dayTickValue);
+            }
 
             int newPoints = SRPConfigProvider.getPhaseMinPoints((byte) (currentPhase + 1));
 
-            if (minDays != Integer.MAX_VALUE && days < minDays && pointsRef.get() >= newPoints) {
+            if (minDays != Integer.MAX_VALUE && days < minDays && pointsRef.get() >= newPoints) { // below min days
                 canChangeRef.set(false);
                 //Set points back to below limit
                 pointsRef.set(newPoints - 1);
                 this.dimEPtotalKills.set(idx, newPoints -1);
             }
-            else if (maxDays != 0 && days >= maxDays) {
+            else if (maxDays != 0 && days >= maxDays) { // above max days
                 pointsRef.set(newPoints + 1);
                 this.dimEPtotalKills.set(idx, newPoints + 1);
             }
@@ -123,5 +158,8 @@ public abstract class DaysPerPhase extends WorldSavedData {
     )
     private void srpmixins_resetDays(int id, byte in, boolean override, World worldIn, boolean canChangePhase, CallbackInfoReturnable<Boolean> cir){
         srpmixins$lastPhaseChangeTick.put(id, worldIn.getWorldTime());
+
+        if(SRPMixinsConfigHandler.playerphases.enabled && SRPMixinsConfigHandler.playerphases.individualTicks)
+            srpmixins$lastPhaseChangePlayerTick.put(id, ((IIsTicking) this).srpmixins$getTick());
     }
 }

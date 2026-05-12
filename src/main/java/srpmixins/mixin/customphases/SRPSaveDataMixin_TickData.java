@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Mixin(SRPSaveData.class)
 public abstract class SRPSaveDataMixin_TickData implements IIsTicking {
-    //This class overwrites the original cooldown handling (which was skethy AF) to use a ticking system instead
+    //This class overwrites the original cooldown handling (which was sketchy AF) to use a ticking system instead
 
     @Inject(method = "writeToNBT", at = @At("TAIL"))
     private void srpmixins_writeTick(NBTTagCompound compound, CallbackInfoReturnable<NBTTagCompound> cir){
