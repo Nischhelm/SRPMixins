@@ -28,4 +28,13 @@ public class PlayerPhaseConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.extendedevocommand.json", defaultValue = true)
     public boolean extendedEvoCommand = true;
+
+    @Config.Comment({
+            "Makes timers like evolution cooldown and min/max phase use the player specific playtime instead of the global worldtime.",
+            "Enabling this will make players on servers stop losing cooldown etc while they are not online."
+    })
+    @Config.Name("Tick cooldowns individually")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.individualtick.json", defaultValue = true)
+    public boolean individualTicks = true;
 }

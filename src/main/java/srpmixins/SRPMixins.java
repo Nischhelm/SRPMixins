@@ -97,6 +97,7 @@ public class SRPMixins {
         registerEventSubscriberIf(StatIncreaseRuleHandler.class, SRPMixinsConfigHandler.rules.statIncreaseRules.length > 0);
         registerEventSubscriberIf(CamouflageHandler.class, SRPMixinsConfigHandler.coth.fixCamouflage);
         registerEventSubscriberIf(TendrilSyncHandler.class, SRPMixinsConfigHandler.various.fixTendrilRegain);
+        registerEventSubscriberIf(TickSRPDataHandler.class, SRPMixinsConfigHandler.playerphases.enabled && SRPMixinsConfigHandler.playerphases.individualTicks);
         registerEventSubscriberIf(CT_BlockInfestationEvent.CT_EventForwarder.class, Loader.isModLoaded("crafttweaker"));
 
         LootConditionManager.registerCondition(new SRPPhaseLootCondition.Serializer());
