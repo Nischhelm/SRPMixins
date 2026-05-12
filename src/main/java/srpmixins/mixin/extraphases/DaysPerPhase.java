@@ -41,7 +41,7 @@ public abstract class DaysPerPhase extends WorldSavedData {
         super(name);
     }
 
-    @ModifyReturnValue(method = "get", at = @At("RETURN"))
+    @ModifyReturnValue(method = "get", at = @At("RETURN"), remap = false)
     private static SRPSaveData srpmixins_keepWorld(SRPSaveData original, World world){
         ((DaysPerPhase)(Object)original).srpmixins$world_daysPerPhase = world;
         return original;
