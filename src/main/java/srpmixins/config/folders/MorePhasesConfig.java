@@ -26,7 +26,7 @@ public class MorePhasesConfig {
     @Config.Name("Phase Points")
     public int[] phaseKills = {};
 
-    @Config.Comment("Each second the killcount will go up by this amount for each phase (first entry for phase 0)")
+    @Config.Comment("Each second the killcount of each parasite will go up by this amount for each phase (first entry for phase 0)")
     @Config.Name("Phase Killcount Plus")
     public double[] phaseKillCountPlus = {};
 
