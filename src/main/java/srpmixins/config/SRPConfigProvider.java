@@ -16,7 +16,7 @@ public class SRPConfigProvider {
     private static List<Integer> phaseCooldowns = null;
     public static int getPhaseCooldown(byte phase){
         if(SRPMixinsConfigHandler.morephases.enableMorePhases)
-            return phase >= 0 && phase <= getMaxPhase() ? SRPMixinsConfigHandler.morephases.phaseDelayTicks[phase] : 0;
+            return phase >= 0 && phase <= getMaxPhase() ? SRPMixinsConfigHandler.morephases.cooldownSeconds[phase] : 0;
 
         if(phaseCooldowns == null){
             phaseCooldowns = Arrays.asList(

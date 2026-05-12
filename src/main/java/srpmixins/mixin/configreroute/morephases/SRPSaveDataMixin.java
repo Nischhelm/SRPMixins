@@ -51,6 +51,6 @@ public abstract class SRPSaveDataMixin {
     @WrapMethod(method = "getDelay", remap = false)
     private int srpmixins_getDelay(byte phase, Operation<Integer> original) {
         if(phase < 0 || phase > SRPMixinsConfigHandler.morephases.maxEvolutionPhase) return 0;
-        return SRPMixinsConfigHandler.morephases.phaseDelayTicks[phase];
+        return SRPMixinsConfigHandler.morephases.cooldownSeconds[phase];
     }
 }

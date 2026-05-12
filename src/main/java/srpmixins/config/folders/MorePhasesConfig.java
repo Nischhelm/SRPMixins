@@ -34,9 +34,9 @@ public class MorePhasesConfig {
     @Config.Name("Phase Warning Message")
     public String[] phaseWarning = {};
 
-    @Config.Comment("Parasites will not be able to earn points until this time (seconds) has passed after a phase has started (first entry for phase 0)")
+    @Config.Comment("Parasites will not be able to earn points until this time (seconds) has passed after a phase has started, working like a lure cooldown (first entry for phase 0)")
     @Config.Name("Phase Delay")
-    public int[] phaseDelayTicks = {};
+    public int[] cooldownSeconds = {};
 
     @Config.Comment("Number of points gained when skipping the night (first entry for phase 0)")
     @Config.Name("Sleep Penalty")
