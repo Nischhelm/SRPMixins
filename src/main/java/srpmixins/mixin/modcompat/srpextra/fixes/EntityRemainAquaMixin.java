@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class EntityRemainAquaMixin {
     @Redirect(
             method = "onUpdate",
-            at = @At(value = "FIELD", target = "Lenergon/srpextra/entity/tile/EntityRemainAqua;damageAni:I")
+            at = @At(value = "FIELD", target = "Lenergon/srpextra/entity/tile/EntityRemainAqua;damageAni:I", remap = false)
     )
     private int srpmixins_fixServerSideCrash(int original){
         return 0;
