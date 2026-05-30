@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "srpmixins.mixin.modcompat.srpextra.fixes",
+  "refmap": "mixins.srpmixins.refmap.json",
+  "compatibilityLevel": "JAVA_8",
+  "target": "@env(DEFAULT)",
+  "minVersion": "0.8",
+  "server": [
+    "EntityRemainAquaMixin"
+  ]
+}

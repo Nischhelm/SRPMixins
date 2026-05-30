@@ -117,6 +117,23 @@ public class ModCompatConfig {
     @Config.RequiresMcRestart
     public boolean enableHordesCompat = true;
 
+    @Config.Comment({
+            "The issue here is Aqua Remains using a clientside field crashing them.",
+            "This is caught but makes them not spawn, and spams the server log",
+            "For SRPExtra 0.6.2, will probably crash in other versions"
+    })
+    @Config.Name("SRPExtra Compat - Fix serverside damageAni issues")
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srpextra_damageanifix.json", defaultValue = false)
+    @MixinConfig.CompatHandling(
+            modid = "srpextra",
+            desired = true,
+            reason = "Mod Compat for SRPExtra, requires SRPExtra",
+            warnIngame = false
+            //, targetVersionRange = "[0.6.2]"
+    )
+    @Config.RequiresMcRestart
+    public boolean enableSRPExtraFixes = false;
+
     @Config.Comment("Registers a Simple Voice Chat Plugin that makes parasites hear players.")
     @Config.Name("Simple Voice Chat Compat")
     @Config.RequiresMcRestart
