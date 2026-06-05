@@ -16,3 +16,18 @@ enchantment.srpmixins.parasite_slicer.desc=Increases Damage against Parasites.
 
 death.attack.srpmixins_coth=%1$s was assimilated
 death.attack.cactus.player=%1$s was assimilated after getting attacked by %2$s
+
+item.srpmixins.evolution_bed.0.name=Evolution Bed (§4Weakened§f)
+item.srpmixins.evolution_bed.1.name=Evolution Bed (§cFaint§f)
+item.srpmixins.evolution_bed.2.name=Evolution Bed (§6Slender§f)
+item.srpmixins.evolution_bed.3.name=Evolution Bed (§eStable§f)
+item.srpmixins.evolution_bed.4.name=Evolution Bed (§2Substantial§f)
+item.srpmixins.evolution_bed.5.name=Evolution Bed (§aConcentrated§f)
+item.srpmixins.evolution_bed.6.name=Evolution Bed (§bConcentrated+§f)
+item.srpmixins.evolution_bed.7.name=Evolution Bed (§dConcentrated++§f)
+item.srpmixins.evolution_bed.8.name=Evolution Bed (§5Overloaded§f)
+item.srpmixins.evolution_bed.9.name=Evolution Bed (§9Anomalous§f)
+tooltip.tile.srpmixins.evolution_bed=Will set evolution phase to %s
+
+tile.srpmixins.evolution_bed.increasePhase=You will wake up in phase %s
+tile.srpmixins.evolution_bed.decreasePhase=The current evolution phase is too high

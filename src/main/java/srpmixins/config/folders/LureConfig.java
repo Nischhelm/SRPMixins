@@ -69,4 +69,24 @@ public class LureConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.carcassscentlvlfix.json", defaultValue = true)
     public boolean fixCarcassScentLvl = true;
+
+    @Config.Comment({
+            "If enabled, Evolution Beds will be registered.",
+            "Evolution Beds are the opposite of Lures/Carcasses, they increase the current Evolution Phase.",
+            "Can be slept in at anytime and are able to be used in any dimension.",
+            "Can NOT be used if the phase is set to -2.",
+            "Can NOT be used if the current phase is equal to or higher than the destination phase.",
+            "There are no default recipes, so you must add them yourself."
+    })
+    @Config.Name("Evolution Beds")
+    @Config.RequiresMcRestart
+    public boolean registerEvolutionBeds = false;
+
+    @Config.Comment("If enabled, Evolution Beds can only be used if the current phase matches their inherent phase")
+    @Config.Name("Block Evolution Beds until respective phase")
+    public boolean blockBedUntilRespPhase = false;
+
+    @Config.Comment("This number + respective phase is the destination phase after using an Evolution Bed")
+    @Config.Name("Evolution Beds Phase Increase")
+    public int evolutionBedPhaseIncrease = 1;
 }
