@@ -120,7 +120,7 @@ public class ModCompatConfig {
     @Config.Comment({
             "The issue here is Aqua Remains using a clientside field crashing them.",
             "This is caught but makes them not spawn, and spams the server log",
-            "For SRPExtra 0.6.2, will probably crash in other versions"
+            "For SRPExtra 0.6.x, will probably crash in other versions"
     })
     @Config.Name("SRPExtra Compat - Fix serverside damageAni issues")
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srpextra_damageanifix.json", defaultValue = false)

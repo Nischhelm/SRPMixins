@@ -92,4 +92,10 @@ public class CothConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.assimplayerfix.json", defaultValue = true)
     public boolean fixSimPlayerCount = true;
+
+    @Config.Comment("Makes bosses not be affected by COTH removing drops")
+    @Config.Name("Boss loot ignores COTH")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.cothbossdrops.json", defaultValue = true)
+    public boolean fixCOTHBossDrops = true;
 }
