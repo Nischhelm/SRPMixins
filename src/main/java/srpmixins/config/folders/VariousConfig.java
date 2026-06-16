@@ -139,9 +139,9 @@ public class VariousConfig {
     @MixinConfig.MixinToggle(
             earlyMixin = "mixins.srpmixins.vanilla.lootpoolparser.json",
             lateMixin = "mixins.srpmixins.srp.loottables.json",
-            defaultValue = true
+            defaultValue = false
     )
-    public boolean useLootTables = true;
+    public boolean useLootTables = false;
 
     @Config.Comment("Restores the behavior where rupters in low phases will not just ignore players but actively avoid them just like they avoid other mobs.")
     @Config.Name("Rupters Avoid Players")
