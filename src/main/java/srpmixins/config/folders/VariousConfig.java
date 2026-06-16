@@ -157,4 +157,10 @@ public class VariousConfig {
     @Config.RequiresMcRestart
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.gnatclientfix.json", defaultValue = true)
     public boolean gnatClientFix = true;
+
+    @Config.Comment("Plays randomly overlayered different pitches of the phase sound (and occasionally some others) which according to this features author Iqury sounds more scary.")
+    @Config.Name("Alt Phase Sounds")
+    @Config.RequiresMcRestart
+    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.altphasesounds.json", defaultValue = false)
+    public boolean altPhaseSounds = false;
 }
