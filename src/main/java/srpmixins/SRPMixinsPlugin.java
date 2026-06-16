@@ -18,7 +18,6 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 
 		//Temporary
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.scentperformance.json"); //TODO: overhaul scents and make toggles
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.oe.json", () -> Loader.isModLoaded("oe"));
 
 		//Blacklists with no toggle
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.biomespawnblacklist.json"); //Empty whitelist doesn't really make sense here but we still won't use EarlyConfigReader for toggle mixin
