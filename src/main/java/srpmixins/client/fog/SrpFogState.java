@@ -7,6 +7,7 @@ import java.lang.ref.WeakReference;
 public final class SrpFogState {
     private static WeakReference<Object> connection = new WeakReference<>(null);
     private static SrpFogTransition transition = new SrpFogTransition();
+    private static double pendingFogFrame = Double.NaN;
 
     private SrpFogState() {
     }
@@ -27,5 +28,19 @@ public final class SrpFogState {
     public static float density() {
         checkConnection();
         return transition.sample(System.nanoTime());
+    }
+
+    public static void prepareFogFrame(double frame) {
+        pendingFogFrame = frame;
+    }
+
+    public static void clearFogFrame() {
+        pendingFogFrame = Double.NaN;
+    }
+
+    public static boolean consumeFogFrame(double frame) {
+        boolean pending = pendingFogFrame == frame;
+        pendingFogFrame = Double.NaN;
+        return pending;
     }
 }

@@ -7,7 +7,8 @@
   "minVersion": "0.8",
   "client": [
     "SRPFogMixin",
-    "SRPFogPacketMixin"
+    "SRPFogPacketMixin",
+    "compat.DynamicSurroundingsFogMixin"
   ],
   "injectors": {
     "defaultRequire": 1

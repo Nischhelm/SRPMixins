@@ -8,6 +8,7 @@ import srpmixins.client.fog.SrpFogTransition;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.MobEffects;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -20,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(value = SRPEventHandlerBus.class, remap = false, priority = 900)
 public abstract class SRPFogMixin {
     @Unique
-    private double srpmixins$pendingFogFrame = Double.NaN;
+    private static final boolean srpmixins$dynamicSurroundingsLoaded = Loader.isModLoaded("dsurround");
 
     @Unique
     private static boolean srpmixins$canApplyFog(EntityViewRenderEvent event) {
@@ -44,22 +45,24 @@ public abstract class SRPFogMixin {
     @Inject(method = "onEvent(Lnet/minecraftforge/client/event/EntityViewRenderEvent$FogDensity;)V",
             at = @At("HEAD"), cancellable = true)
     private void srpmixins$keepNormalFogSetup(EntityViewRenderEvent.FogDensity event, CallbackInfo ci) {
-        srpmixins$pendingFogFrame = !event.isCanceled() && srpmixins$canApplyFog(event)
-                ? event.getEntity().ticksExisted + event.getRenderPartialTicks() : Double.NaN;
+        if (!event.isCanceled() && srpmixins$canApplyFog(event)) {
+            SrpFogState.prepareFogFrame(event.getEntity().ticksExisted + event.getRenderPartialTicks());
+        } else {
+            SrpFogState.clearFogFrame();
+        }
         ci.cancel();
     }
 
     @SubscribeEvent
     public void srpmixins$beginFogFrame(TickEvent.RenderTickEvent event) {
-        if (event.phase == TickEvent.Phase.START) srpmixins$pendingFogFrame = Double.NaN;
+        if (event.phase == TickEvent.Phase.START) SrpFogState.clearFogFrame();
     }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public void srpmixins$applyFogRange(EntityViewRenderEvent.RenderFogEvent event) {
+        if (srpmixins$dynamicSurroundingsLoaded) return;
         double frame = event.getEntity().ticksExisted + event.getRenderPartialTicks();
-        boolean pending = srpmixins$pendingFogFrame == frame;
-        srpmixins$pendingFogFrame = Double.NaN;
-        if (!pending || !srpmixins$canApplyFog(event)) return;
+        if (!SrpFogState.consumeFogFrame(frame) || !srpmixins$canApplyFog(event)) return;
         float density = SrpFogState.density();
         if (density <= 0.0F) return;
         SrpFogRange.apply(density);
