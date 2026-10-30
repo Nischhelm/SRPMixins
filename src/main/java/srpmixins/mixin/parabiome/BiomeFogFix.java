@@ -13,19 +13,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import srpmixins.handlers.FogDensityHandler;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 @Mixin(SRPEventHandlerBus.class)
 public abstract class BiomeFogFix {
     @Shadow(remap = false) public static float fog;
-    @Unique private static final Map<UUID, Float> srpmixins$playerFogDensities = new HashMap<>();
 
     @WrapWithCondition(
             method = "playerTick",
@@ -43,19 +40,19 @@ public abstract class BiomeFogFix {
     )
     private int srpmixins_handleBiomeFogPerPlayer(int original, @Local boolean isParaBiome, @Local EntityPlayer player){
         UUID playerUUID = player.getUniqueID();
-        float playerFog = srpmixins$playerFogDensities.getOrDefault(playerUUID, 0.0F);
+        float playerFog = FogDensityHandler.getDensity(playerUUID);
         if (original < 1 && !isParaBiome) {
             //Reduce fog down to 0
             if (playerFog > 0.0F) {
                 playerFog = Math.max(playerFog - SRPConfigWorld.biomeFogDensity / 75, 0.0F);
                 SRPMain.network.sendTo(new SRPPacketFog(playerFog), (EntityPlayerMP)player);
-                srpmixins$playerFogDensities.put(playerUUID, playerFog);
+                FogDensityHandler.setDensity(playerUUID, playerFog);
             }
         } else if (playerFog < SRPConfigWorld.biomeFogDensity) {
             //increase fog up to biomeFogDensity
             playerFog = Math.min(playerFog + SRPConfigWorld.biomeFogDensity / 128, SRPConfigWorld.biomeFogDensity);
             SRPMain.network.sendTo(new SRPPacketFog(playerFog), (EntityPlayerMP) player);
-            srpmixins$playerFogDensities.put(playerUUID, playerFog);
+            FogDensityHandler.setDensity(playerUUID, playerFog);
         }
 
         return original;
