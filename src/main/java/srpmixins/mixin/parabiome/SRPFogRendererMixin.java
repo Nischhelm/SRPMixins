@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import srpmixins.client.FogRendererAccess;
 import srpmixins.client.SRPFog;
-import srpmixins.config.SRPMixinsConfigHandler;
 
 @Mixin(EntityRenderer.class)
 public abstract class SRPFogRendererMixin implements FogRendererAccess {
@@ -27,7 +26,7 @@ public abstract class SRPFogRendererMixin implements FogRendererAccess {
 
     @Inject(method = "setupFog", at = @At("RETURN"))
     private void srpmixins$composeAmbientFog(int startCoords, float partialTicks, CallbackInfo ci) {
-        if (!srpmixins$ambientFog || !SRPMixinsConfigHandler.parabiome.smoothBiomeFog || !SRPFog.terrainFogEnabled()) return;
+        if (!srpmixins$ambientFog || !SRPFog.terrainFogEnabled()) return;
         float density = SRPFog.State.density();
         if (density > 0.0F) SRPFog.applyAmbientFog(density);
     }

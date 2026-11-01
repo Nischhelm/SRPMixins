@@ -5,7 +5,6 @@ import com.dhanantry.scapeandrunparasites.util.handlers.SRPEventHandlerBus;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import srpmixins.client.SRPFog;
-import srpmixins.config.SRPMixinsConfigHandler;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import org.spongepowered.asm.mixin.Mixin;
 
@@ -15,10 +14,6 @@ public abstract class SRPFogMixin {
     @WrapMethod(method = "onEvent(Lnet/minecraftforge/client/event/EntityViewRenderEvent$FogColors;)V", remap = false)
     private void srpmixins$blendFogColor(EntityViewRenderEvent.FogColors event, Operation<Void> original) {
         if (!SRPFog.terrainFogEnabled()) return;
-        if (!SRPMixinsConfigHandler.parabiome.smoothBiomeFog) {
-            original.call(event);
-            return;
-        }
         if (SRPFog.canApplyFog(event.getEntity(), event.getState())) {
             float weight = SRPFog.Transition.colorWeight(SRPFog.State.density(), SRPConfigWorld.biomeFogDensity);
             event.setRed(event.getRed() + (SRPConfigWorld.biomeFogRed / 255.0F - event.getRed()) * weight);
@@ -30,8 +25,7 @@ public abstract class SRPFogMixin {
 
     @WrapMethod(method = "onEvent(Lnet/minecraftforge/client/event/EntityViewRenderEvent$FogDensity;)V", remap = false)
     private void srpmixins$useAmbientDensity(EntityViewRenderEvent.FogDensity event, Operation<Void> original) {
-        if (!SRPFog.terrainFogEnabled()) return;
-        if (!SRPMixinsConfigHandler.parabiome.smoothBiomeFog) original.call(event);
+        //don't run original
     }
 
 }
