@@ -26,8 +26,8 @@ public abstract class SRPFogRendererMixin implements FogRendererAccess {
 
     @Inject(method = "setupFog", at = @At("RETURN"))
     private void srpmixins$composeAmbientFog(int startCoords, float partialTicks, CallbackInfo ci) {
-        if (!srpmixins$ambientFog || !SRPFog.terrainFogEnabled()) return;
+        if (!srpmixins$ambientFog) return;
         float density = SRPFog.State.density();
-        if (density > 0.0F) SRPFog.applyAmbientFog(density);
+        if (density > 0.0F) SRPFog.applyAmbientFog((EntityRenderer) (Object) this, density);
     }
 }

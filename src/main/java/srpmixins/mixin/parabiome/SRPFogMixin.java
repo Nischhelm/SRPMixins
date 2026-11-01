@@ -13,7 +13,6 @@ public abstract class SRPFogMixin {
     //SRP hard-switches to the parasite fog color above 20% density. Instead, gradually blend from the current fog color (vanilla or other mods) to the parasite color as density rises
     @WrapMethod(method = "onEvent(Lnet/minecraftforge/client/event/EntityViewRenderEvent$FogColors;)V", remap = false)
     private void srpmixins$blendFogColor(EntityViewRenderEvent.FogColors event, Operation<Void> original) {
-        if (!SRPFog.terrainFogEnabled()) return;
         if (SRPFog.canApplyFog(event.getEntity(), event.getState())) {
             float weight = SRPFog.Transition.colorWeight(SRPFog.State.density(), SRPConfigWorld.biomeFogDensity);
             event.setRed(event.getRed() + (SRPConfigWorld.biomeFogRed / 255.0F - event.getRed()) * weight);

@@ -3,6 +3,8 @@ package srpmixins.client;
 import net.minecraft.block.state.IBlockState;
 import com.dhanantry.scapeandrunparasites.util.config.SRPConfigWorld;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -14,30 +16,30 @@ import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 
 public class SRPFog {
-    public static boolean terrainFogEnabled() {
-        return Settings.options.enabled(Minecraft.getMinecraft().gameSettings);
-    }
-
-    private static final class Settings {
-        private static final FogSettings options = new FogSettings(
-                Minecraft.getMinecraft().gameSettings.getClass(), FogSettings.celeritasQuality());
-    }
-
     public static boolean canApplyFog(Entity entity, IBlockState state) {
         return !state.getMaterial().isLiquid()
                 && !(entity instanceof EntityLivingBase && ((EntityLivingBase) entity).isPotionActive(MobEffects.BLINDNESS));
     }
 
-    public static void applyAmbientFog(float density) {
-        Ambient.apply(density);
+    public static void applyAmbientFog(EntityRenderer renderer, float density) {
+        Ambient.apply(renderer, density);
     }
 
+    /**
+     * Narrows the linear fog range that vanilla and other mods set up. If the player turned fog off (OptiFine, Voxtavium),
+     * fog is turned back on and composed from a far away range, so SRP fog fades in from the distance instead of from the render distance.
+     */
     private static final class Ambient {
+        private static final float DISABLED_FOG_END = 4096.0F;
+
         private static final Object state = state();
+        private static final Object fog = fieldValue(state, "fog", "field_179049_a");
+        private static final Field fogEnabled = ReflectionHelper.findField(fog.getClass(), "currentState", "field_179201_b");
         private static final Field mode = ReflectionHelper.findField(state.getClass(), "mode", "field_179047_b");
         private static final Field start = ReflectionHelper.findField(state.getClass(), "start", "field_179045_d");
         private static final Field end = ReflectionHelper.findField(state.getClass(), "end", "field_179046_e");
         private static final FogRange range = new FogRange();
+        private static final OptiFineFog optiFine = new OptiFineFog(GameSettings.class, EntityRenderer.class);
 
         private static Object state() {
             try {
@@ -47,15 +49,32 @@ public class SRPFog {
             }
         }
 
-        private static void apply(float density) {
+        private static Object fieldValue(Object owner, String name, String srgName) {
+            try {
+                return ReflectionHelper.findField(owner.getClass(), name, srgName).get(owner);
+            } catch (IllegalAccessException exception) {
+                throw new IllegalStateException("Cannot access ambient fog state", exception);
+            }
+        }
+
+        private static void apply(EntityRenderer renderer, float density) {
             try {
                 if (mode.getInt(state) != GL11.GL_LINEAR) return;
                 float ambientStart = start.getFloat(state);
                 float ambientEnd = end.getFloat(state);
                 if (!Float.isFinite(ambientStart) || !Float.isFinite(ambientEnd) || ambientEnd <= 0.0F || ambientStart >= ambientEnd) return;
+                boolean fogDisabled = !fogEnabled.getBoolean(fog) || optiFine.disablesFog(Minecraft.getMinecraft().gameSettings, renderer);
+                if (fogDisabled) {
+                    ambientStart = DISABLED_FOG_END * ambientStart / ambientEnd;
+                    ambientEnd = DISABLED_FOG_END;
+                }
                 range.compose(ambientStart, ambientEnd, density, SRPConfigWorld.biomeFogDensity);
                 GlStateManager.setFogStart(range.getStart());
                 GlStateManager.setFogEnd(range.getEnd());
+                if (fogDisabled) {
+                    GlStateManager.enableFog();
+                    optiFine.keepFog(renderer);
+                }
             } catch (IllegalAccessException exception) {
                 throw new IllegalStateException("Cannot read ambient fog range", exception);
             }
