@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import srpmixins.client.FogRendererAccess;
 import srpmixins.client.SRPFog;
 
-@Mixin(value = ForgeHooksClient.class, remap = false)
+@Mixin(ForgeHooksClient.class)
 public abstract class SRPFogContextMixin {
-    @ModifyReturnValue(method = "getFogDensity", at = @At("RETURN"))
+    @ModifyReturnValue(method = "getFogDensity", at = @At("RETURN"), remap = false)
     private static float srpmixins$captureFogContext(float original, EntityRenderer renderer, Entity entity, IBlockState state, float partialTicks, float density) {
         ((FogRendererAccess) renderer).srpmixins$setAmbientFog(original < 0.0F && SRPFog.canApplyFog(entity, state));
         return original;
