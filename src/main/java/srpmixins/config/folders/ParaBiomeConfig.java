@@ -31,7 +31,7 @@ public class ParaBiomeConfig {
     @Config.Comment("Smooths client fog color and density updates and prevents unrelated world loads from clearing rendered fog.") //by landon and claude i don't understand shit about this but it works well enough now
     @Config.Name("Smooth Parasitic Biome Fog")
     @Config.RequiresMcRestart
-    @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.srp.smoothfog.json", defaultValue = true)
+    @MixinConfig.MixinToggle(earlyMixin = "mixins.srpmixins.vanilla.smoothfog.json", lateMixin = "mixins.srpmixins.srp.smoothfog.json", defaultValue = true)
     public boolean smoothBiomeFog = true;
 
     @Config.Comment("Parasite Bush and Vines will force load chunks when a parasite biome is growing. This stops the force loading. Moved from RLMixins (thanks fonny!)")
