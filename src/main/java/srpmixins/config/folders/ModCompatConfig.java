@@ -110,6 +110,7 @@ public class ModCompatConfig {
     @MixinConfig.MixinToggle(lateMixin = "mixins.srpmixins.incontrol.json", defaultValue = true)
     @MixinConfig.CompatHandling(
             modid = "incontrol",
+            modName = "InControl",
             desired = true,
             reason = "Mod Compat for In Control, requires In Control",
             warnIngame = false
@@ -153,8 +154,8 @@ public class ModCompatConfig {
             modid = "srpextra",
             desired = true,
             reason = "Mod Compat for SRPExtra, requires SRPExtra",
-            warnIngame = false
-            //, targetVersionRange = "[0.6.2]"
+            warnIngame = false,
+            targetVersionRange = "[0.6.2]"
     )
     @Config.RequiresMcRestart
     public boolean enableSRPExtraFixes = false;
