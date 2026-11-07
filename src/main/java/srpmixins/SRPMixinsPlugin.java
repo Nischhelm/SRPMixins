@@ -32,7 +32,8 @@ public class SRPMixinsPlugin implements IFMLLoadingPlugin {
 		//List disables
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.minmaxphasedays.json", () -> EarlyConfigReader.isArrayFilled("Min/Max Days per Phase/Dimension",SRPMixinsConfigHandler.rules.minMaxDaysPerPhase.length != 0));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.conversionpathways.json", () -> EarlyConfigReader.isArrayFilled("Conversion Phase Lock Rules",SRPMixinsConfigHandler.spawns.conversionRules.length != 0));
-		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.variantrules.json", () -> EarlyConfigReader.isArrayFilled("Variant Disable Rules",SRPMixinsConfigHandler.rules.variantDisableRules.length != 0));
+		//VariantMixin also stops SRP from applying its own variant stats, so it's needed whenever Stat Increase Rules are used too (otherwise those stats get applied twice)
+		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.variantrules.json", () -> EarlyConfigReader.isArrayFilled("Variant Disable Rules",SRPMixinsConfigHandler.rules.variantDisableRules.length != 0) || EarlyConfigReader.isArrayFilled("Stat Increase Rules",SRPMixinsConfigHandler.rules.statIncreaseRules.length != 0));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.despawntimer.json", () -> EarlyConfigReader.isArrayFilled("Despawn Timer Rules",SRPMixinsConfigHandler.rules.despawnTimerRules.length != 0));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.blockbreakblacklist.json", () -> EarlyConfigReader.isArrayFilled("Block Break Blacklist", SRPMixinsConfigHandler.various.blockBreakBlacklist.length != 0));
 		FermiumRegistryAPI.enqueueMixin(true, "mixins.srpmixins.srp.foodstealblacklist.json", () -> EarlyConfigReader.isArrayFilled("Food Steal Item Blacklist", SRPMixinsConfigHandler.various.foodBlacklist.length != 0));
