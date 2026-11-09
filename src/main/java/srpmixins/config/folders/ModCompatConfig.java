@@ -86,7 +86,7 @@ public class ModCompatConfig {
             warnIngame = false
     )
     @Config.RequiresMcRestart
-    public boolean overlastHUDPointChanges = true;
+    public boolean overlastHUDPointChanges = false;
 
     @Config.Comment("Set to true to make \"Scape and Spartan: Parasites\" weapons with the Uncapped property ignore parasite damage caps.\n" +
             "NOTE: This property works without SRPMixins as well, this just streamlines the handling a bit. \n" +
